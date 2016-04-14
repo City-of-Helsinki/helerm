@@ -8,7 +8,10 @@
 -e git+https://github.com/City-of-Helsinki/django-helusers.git#egg=django-helusers
 click==6.6                # via pip-tools
 Django==1.9.5
+et-xmlfile==1.0.1         # via openpyxl
 first==2.0.1              # via pip-tools
+jdcal==1.2                # via openpyxl
+openpyxl==2.3.5
 pip-tools==1.6.1
 psycopg2==2.6.1
 pytz==2016.3
