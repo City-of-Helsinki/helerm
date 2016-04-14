@@ -30,6 +30,12 @@ sudo -u postgres createdb -Ohelerm helerm
 python manage.py migrate
 ```
 
+- To enable Finnish translations, run
+
+```
+python manage.py compilemessages
+```
+
 - You will probably need a superuser as well
 
 ```

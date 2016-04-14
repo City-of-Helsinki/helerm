@@ -1,0 +1,161 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-14 13:12+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: helerm/settings.py:112
+msgid "Finnish"
+msgstr "suomi"
+
+#: helerm/settings.py:113
+msgid "English"
+msgstr "englanti"
+
+#: metarecord/models/action.py:9 metarecord/models/phase.py:13
+msgid "phase"
+msgstr "käsittelyvaihe"
+
+#: metarecord/models/action.py:10 metarecord/models/function.py:10
+#: metarecord/models/phase.py:10
+msgid "name"
+msgstr "nimi"
+
+#: metarecord/models/action.py:13 metarecord/models/record.py:9
+msgid "action"
+msgstr "toimenpide"
+
+#: metarecord/models/action.py:14
+msgid "actions"
+msgstr "toimenpiteet"
+
+#: metarecord/models/attributes.py:9 metarecord/models/attributes.py:20
+msgid "value"
+msgstr "arvo"
+
+#: metarecord/models/attributes.py:31 metarecord/models/attributes.py:80
+msgid "publicity class"
+msgstr "julkisuusluokka"
+
+#: metarecord/models/attributes.py:32
+msgid "publicity classes"
+msgstr "julkisuusluokat"
+
+#: metarecord/models/attributes.py:37 metarecord/models/attributes.py:82
+msgid "security period"
+msgstr "salassapitoaika"
+
+#: metarecord/models/attributes.py:38
+msgid "security periods"
+msgstr "salassapitoajat"
+
+#: metarecord/models/attributes.py:43 metarecord/models/attributes.py:44
+msgid "security reasons"
+msgstr "salassapitoperuste"
+
+#: metarecord/models/attributes.py:49 metarecord/models/attributes.py:50
+#: metarecord/models/attributes.py:86
+msgid "personal data"
+msgstr "henkilötietoluonteet"
+
+#: metarecord/models/attributes.py:55 metarecord/models/attributes.py:88
+msgid "social security number"
+msgstr "henkilötunnus"
+
+#: metarecord/models/attributes.py:56
+msgid "social security numbers"
+msgstr "henkilötunnukset"
+
+#: metarecord/models/attributes.py:61 metarecord/models/attributes.py:90
+msgid "retention period"
+msgstr "säilytysaika"
+
+#: metarecord/models/attributes.py:62
+msgid "retention periods"
+msgstr "säilytysajat"
+
+#: metarecord/models/attributes.py:67 metarecord/models/attributes.py:92
+msgid "retention reason"
+msgstr "säilytysperuste"
+
+#: metarecord/models/attributes.py:68
+msgid "retention reasons"
+msgstr "säilytysperusteet"
+
+#: metarecord/models/attributes.py:73 metarecord/models/attributes.py:94
+msgid "protection class"
+msgstr "suojeluluokka"
+
+#: metarecord/models/attributes.py:74
+msgid "protection classes"
+msgstr "suojeluluokat"
+
+#: metarecord/models/attributes.py:84
+msgid "security reason"
+msgstr "salassapitoperuste"
+
+#: metarecord/models/base.py:12
+msgid "time of creation"
+msgstr "lisäysaika"
+
+#: metarecord/models/base.py:13
+msgid "created by"
+msgstr "lisääjä"
+
+#: metarecord/models/base.py:15
+msgid "time of modification"
+msgstr "muokkausaika"
+
+#: metarecord/models/base.py:16
+msgid "modified by"
+msgstr "muokkaaja"
+
+#: metarecord/models/function.py:8
+msgid "function ID"
+msgstr "tehtäväluokkatunniste"
+
+#: metarecord/models/function.py:9
+msgid "parent"
+msgstr "vanhempi"
+
+#: metarecord/models/function.py:13 metarecord/models/phase.py:9
+msgid "function"
+msgstr "tehtäväluokka"
+
+#: metarecord/models/function.py:14
+msgid "functions"
+msgstr "tehtäväluokat"
+
+#: metarecord/models/phase.py:14
+msgid "phases"
+msgstr "käsittelyvaiheet"
+
+#: metarecord/models/record.py:10
+msgid "type"
+msgstr "tyyppi"
+
+#: metarecord/models/record.py:11
+msgid "type specifier"
+msgstr "tyypin tarkenne"
+
+#: metarecord/models/record.py:14
+msgid "record"
+msgstr "asiakirja"
+
+#: metarecord/models/record.py:15
+msgid "records"
+msgstr "asiakirjat"
