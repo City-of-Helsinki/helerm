@@ -4,26 +4,35 @@ from django.utils.translation import ugettext_lazy as _
 from .base import BaseModel
 
 
-class AttributeValueString(BaseModel):
+class BaseAttributeValue(BaseModel):
+    @classmethod
+    def get_referencing_field_name(self, model):
+        for field in model._meta.get_fields():
+            if field.related_model == self:
+                return field.name
+        return None
+
+    def __str__(self):
+        return str(self.value)
+
+    class Meta:
+        abstract = True
+
+
+class AttributeValueString(BaseAttributeValue):
     """Base class for attribute values of type string."""
     value = models.CharField(verbose_name=_('value'), max_length=256)
 
     class Meta:
         abstract = True
 
-    def __str__(self):
-        return self.value
 
-
-class AttributeValueInteger(BaseModel):
+class AttributeValueInteger(BaseAttributeValue):
     """Base class for attribute values of type integer."""
     value = models.IntegerField(verbose_name=_('value'))
 
     class Meta:
         abstract = True
-
-    def __str__(self):
-        return str(self.value)
 
 
 class PublicityClass(AttributeValueString):
