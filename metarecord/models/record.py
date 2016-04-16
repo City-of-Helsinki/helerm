@@ -15,4 +15,4 @@ class Record(AllAttributesModel):
         verbose_name_plural = _('records')
 
     def __str__(self):
-        return '%s/%s' % (self.action, self.name)
+        return '%s/%s' % (self.action, self.type)
