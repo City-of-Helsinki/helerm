@@ -3,7 +3,7 @@ import re
 from openpyxl import load_workbook
 
 from metarecord.models import (PersonalData, ProtectionClass, PublicityClass, RetentionPeriod, RetentionReason,
-                               SecurityPeriod, SecurityReason, SocialSecurityNumber)
+                               SecurityPeriod, SecurityReason, SocialSecurityNumber, Function)
 from metarecord.models.attributes import AttributeValueInteger
 
 
@@ -64,5 +64,54 @@ class TOSImporter:
 
                 info_str = 'Created' if created else 'Already exist'
                 print('    %s: %s' % (info_str, val))
+
+        print('\nDone.')
+
+    def _get_function_data(self, sheet):
+
+        # get all four function id hierarchy levels
+        # for example ['5', '05 01', '05 01 03', None]
+        function_ids = [sheet.cell(row=row, column=1).value for row in range(2, 6)]
+
+        # find the last index before none (or the last one in the list if none doesn't exist)
+        # that is the index of this function's id
+        index = len(function_ids) - 1
+        while function_ids[index] is None and index > 0:
+            index -= 1
+
+        # get id, name and parent matching the index
+        function_data = dict(
+            function_id=str(function_ids[index]),
+            name=sheet.cell(row=2+index, column=2).value,
+            parent_function_id=function_ids[index - 1] if index > 2 else None
+        )
+
+        return function_data
+
+    def import_data(self):
+        print('Importing data...')
+
+        for sheet in self.wb:
+            print()
+            print('Processing sheet %s' % sheet.title)
+            if sheet.cell('A1').value != 'Tehtäväluokka':
+                print('Skipping')
+                continue
+
+            print(' '*4 + 'Processing function')
+
+            function_data = self._get_function_data(sheet)
+            parent_id = function_data.pop('parent_function_id')
+            if parent_id:
+                try:
+                    function_data['parent'] = Function.objects.get(function_id=parent_id)
+                except Function.DoesNotExist:
+                    print(' '*8 + '!!!! Cannot set parent, function %s does not exist.' % parent_id)
+                    # TODO ignoring missing parent for now
+
+            function, created = Function.objects.get_or_create(function_id=function_data['function_id'],
+                                                               defaults=function_data)
+            info_str = 'Created' if created else 'Already exist'
+            print(' '*8 + '%s function %s %s' % (info_str, function.function_id, function))
 
         print('\nDone.')
