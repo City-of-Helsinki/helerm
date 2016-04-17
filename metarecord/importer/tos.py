@@ -4,7 +4,8 @@ from collections import OrderedDict
 from openpyxl import load_workbook
 
 from metarecord.models import (Action, Function, PersonalData, Phase, ProtectionClass, PublicityClass, Record,
-                               RetentionPeriod, RetentionReason, SecurityPeriod, SecurityReason, SocialSecurityNumber)
+                               RetentionPeriod, RetentionReason, SecurityPeriod, SecurityReason, SocialSecurityNumber,
+                               RecordType)
 from metarecord.models.attributes import AttributeValueInteger
 
 
@@ -19,12 +20,23 @@ class TOSImporter:
         'Säilytysajan peruste': RetentionReason,
         'Suojeluluokka': ProtectionClass,
         'Henkilötunnus': SocialSecurityNumber,
+        'Asiakirjan tyyppi': RecordType,
+        'Säilytysajan laskentaperuste': None,
+        'Paperiasiakirjojen säilytysjärjestys': None,
+        'Rekisteröinti/ Tietojärjestelmä': None,
+        'Paperiasiakirjojen säilytysaika arkistossa': None,
+        'Paperiasiakirjojen säilytysaika työpisteessä': None,
+        'Salassapitoajan laskentaperuste': None,
+        'Paperiasiakirjojen säilytyspaikka': None,
+        'Paperiasiakirjojen säilytyksen vastuuhenkilö': None,
+        'Lisätietoja': None,
     }
     MODEL_MAPPING = OrderedDict([
-        ('Tehtäväluokka', Function),
+        ('Asian metatiedot', Function),
         ('Käsittelyvaiheen metatiedot', Phase),
         ('Toimenpiteen metatiedot', Action),
         ('Asiakirjan metatiedot', Record),
+        ('Asiakirjan liitteen metatiedot', None),  # FIXME: Implement attachment?
     ])
     MODEL_HIERARCHY = list(MODEL_MAPPING.values())
 
@@ -46,7 +58,8 @@ class TOSImporter:
 
         for col, attr in enumerate(attr_names):
             print()
-
+            if attr == 'Asiakirjatyypit':
+                attr = 'Asiakirjan tyyppi'
             model = self.ATTRIBUTE_MAPPING.get(attr)
             if not model:
                 print('Unknown attribute %s' % attr)
@@ -124,42 +137,43 @@ class TOSImporter:
         s = re.sub(r' \(.+\)', '', s)
         # convert multiple spaces into one
         s = re.sub(r' {2,}', ' ', s)
+        # if there's a '=' in the header, remove the last part
+        s = s.split('=')[0].strip()
         return s
 
-    def _import_data_object(self, model, parent, attributes):
-        if not model:
-            return
+    def _save_data_object(self, model, parent, data, order):
         model_attributes = {}
+        attributes = data['attributes']
         for attribute, value in attributes.items():
-            attribute_class = self.ATTRIBUTE_MAPPING.get(attribute)
-            if not attribute_class:
-                #print('Invalid attribute %s' % attribute)
+            if attribute not in self.ATTRIBUTE_MAPPING:
+                self._emit_error('Invalid attribute %s' % attribute)
                 continue
+            attribute_class = self.ATTRIBUTE_MAPPING[attribute]
+            if not attribute_class:
+                # Skipping known unknowns
+                continue
+
             value_object = None
             try:
                 value_object = attribute_class.objects.get(value=value)
             except (attribute_class.DoesNotExist, ValueError):
-                print(' '*12 + 'Invalid value %s' % value)
+                self._emit_error('Invalid value for %s: %s' % (attribute_class._meta.verbose_name, value))
             if value_object:
                 field_name = attribute_class.get_referencing_field_name(model)
                 model_attributes[field_name] = value_object
 
         if model == Phase:
             parent_field_name = 'function'
-            name = {'name': attributes.get('Käsittelyvaihe')}
         elif model == Action:
             parent_field_name = 'phase'
-            name = {'name': attributes.get('Toimenpide')}
-        else:
+        elif model == Record:
             parent_field_name = 'action'
-            t = attributes.get('Asiakirjan tyyppi')
-            if not t:
-                print(' '*12 + 'type missing')
-                t = 'not available'
-            name = {'type': t}
-
-        model_attributes.update(name)
+        else:
+            raise Exception('Attachments not supported yet')
         model_attributes[parent_field_name] = parent
+
+        model_attributes['name'] = data['name']
+        model_attributes['order'] = order
 
         new_obj = model.objects.create(**model_attributes)
         return new_obj
@@ -206,13 +220,104 @@ class TOSImporter:
                 break
         return index
 
+    def _emit_error(self, text):
+        print(text)
+        self.current_function['error_count'] = self.current_function.get('error_count', 0) + 1
+
+    def _save_function(self, sheet, function):
+        function_obj = function['obj']
+
+        # Make sure children are nuked
+        function_obj.phases.all().delete()
+
+        # FIXME: Update attributes for function ('Asian metatiedot')
+
+        for idx, phase in enumerate(function['phases']):
+            phase_obj = self._save_data_object(Phase, function_obj, phase, idx)
+            for idx, action in enumerate(phase['actions']):
+                action_obj = self._save_data_object(Action, phase_obj, action, idx)
+                for idx, record in enumerate(action['records']):
+                    record_obj = self._save_data_object(Record, action_obj, record, idx)
+
+        function_obj.error_count = function.get('error_count', 0)
+        function_obj.save()
+
+    def _process_data(self, sheet, function_obj):
+        data = self._get_data(sheet)
+
+        # Parse data with a state machine
+        function = {'phases': []}
+        target = function
+        self.current_function = function
+        phase = action = None
+        for row in data:
+            name = None
+            child_list = []
+
+            if not row:
+                continue
+            # from pprint import pprint
+            # pprint(row)
+            type_info = row.pop('Tehtäväluokka').strip()
+            if type_info == 'Asian metatiedot':
+                target['obj'] = function_obj
+                name = function_obj.name
+                # Must be the first row
+                assert phase is None and action is None
+            elif type_info.startswith('Asiakirjallisen tiedon käsittely'):
+                assert phase is None and action is None
+                # Skip row
+                continue
+            elif type_info == 'Käsittelyvaiheen metatiedot':
+                phase = {}
+                child_list = function['phases']
+                phase['actions'] = []
+                action = None
+                target = phase
+                name = row.pop('Käsittelyvaihe', None)
+                assert name
+            elif type_info == 'Toimenpiteen metatiedot':
+                action = {}
+                child_list = phase['actions']
+                action['records'] = []
+                target = action
+                name = row.pop('Toimenpide', None)
+            elif type_info == 'Asiakirjan metatiedot':
+                record = {}
+                child_list = action['records']
+                target = record
+                name = row.pop('Asiakirjatyypin tarkenne', None)
+                # FIXME: Attachments?
+
+            if type_info not in self.MODEL_MAPPING:
+                self._emit_error('Skipping row with type %s' % type_info)
+                continue
+            target_model = self.MODEL_MAPPING[type_info]
+            if not target_model:
+                continue
+
+            if not name or len(name) <= 2:
+                self._emit_error('No name for %s' % target_model._meta.verbose_name)
+                continue
+
+            target['name'] = name
+            # Clean some attributes
+            s = row.get('Säilytysaika')
+            if isinstance(s, str) and s.startswith('-1'):
+                row['Säilytysaika'] = '-1'
+
+            target['attributes'] = row
+            child_list.append(target)
+
+        self._save_function(sheet, function)
+
+
     def import_data(self):
         print('Importing data...')
 
         for sheet in self.wb:
-            print()
             print('Processing sheet %s' % sheet.title)
-            if sheet.cell('A1').value != 'Tehtäväluokka':
+            if sheet.max_column <= 2 or sheet.max_row <= 2 or sheet.cell('A1').value != 'Tehtäväluokka':
                 print('Skipping')
                 continue
 
@@ -220,7 +325,7 @@ class TOSImporter:
             function = self._import_function(sheet)
 
             print(' '*4 + 'Processing data')
-            data = self._get_data(sheet)
-            self._import_data_recursive(data, 0, 0, function)
+            self._process_data(sheet, function)
+            # self._import_data_recursive(data, 0, 0, function)
 
         print('\nDone.')

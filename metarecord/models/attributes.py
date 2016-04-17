@@ -83,8 +83,16 @@ class ProtectionClass(AttributeValueString):
         verbose_name_plural = _('protection classes')
 
 
+class RecordType(AttributeValueString):
+    class Meta:
+        verbose_name = _('record type')
+        verbose_name_plural = _('record type')
+
+
 class AllAttributesModel(BaseModel):
     """Base class containing all the attributes."""
+
+    order = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
 
     publicity_class = models.ForeignKey(PublicityClass, verbose_name=_('publicity class'), related_name='%(class)ss',
                                         blank=True, null=True)
@@ -113,3 +121,4 @@ class AllAttributesModel(BaseModel):
 
     class Meta:
         abstract = True
+        ordering = ['order']

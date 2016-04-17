@@ -2,13 +2,13 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from .action import Action
-from .attributes import AllAttributesModel
+from .attributes import AllAttributesModel, RecordType
 
 
 class Record(AllAttributesModel):
     action = models.ForeignKey(Action, verbose_name=_('action'), related_name='records')
-    type = models.CharField(verbose_name=_('type'), max_length=64)
-    type_specifier = models.CharField(verbose_name=_('type specifier'), max_length=256, blank=True)
+    name = models.CharField(verbose_name=_('type'), max_length=256)
+    type = models.ForeignKey(RecordType)
 
     class Meta:
         verbose_name = _('record')
