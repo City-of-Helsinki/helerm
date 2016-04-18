@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('metarecord', 'function_id_unique_and_db_index'),
+        ('metarecord', '0002_function_id_unique_and_db_index'),
     ]
 
     operations = [
