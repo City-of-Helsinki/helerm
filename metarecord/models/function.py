@@ -15,4 +15,4 @@ class Function(CommonAttributesModel):
         verbose_name_plural = _('functions')
 
     def __str__(self):
-        return self.name
+        return '%s %s' % (self.function_id, self.name)
