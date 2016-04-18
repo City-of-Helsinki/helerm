@@ -142,7 +142,7 @@ class TOSImporter:
         s = s.split('=')[0].strip()
         return s
 
-    def _save_data_object(self, model, parent, data, order):
+    def _get_model_attributes(self, model, data):
         model_attributes = {}
         attributes = data['attributes']
         for attribute, value in attributes.items():
@@ -162,6 +162,10 @@ class TOSImporter:
             if value_object:
                 field_name = attribute_class.get_referencing_field_name(model)
                 model_attributes[field_name] = value_object
+        return model_attributes
+
+    def _save_data_object(self, model, parent, data, order):
+        model_attributes = self._get_model_attributes(model, data)
 
         if model == Phase:
             parent_field_name = 'function'
@@ -231,7 +235,9 @@ class TOSImporter:
         # Make sure children are nuked
         function_obj.phases.all().delete()
 
-        # FIXME: Update attributes for function ('Asian metatiedot')
+        function_attributes = self._get_model_attributes(Function, function)
+        for attribute, value in function_attributes.items():
+            setattr(function_obj, attribute, value)
 
         for idx, phase in enumerate(function['phases']):
             phase_obj = self._save_data_object(Phase, function_obj, phase, idx)
