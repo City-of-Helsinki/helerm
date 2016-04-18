@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from .attributes import AllAttributesModel
+from .attributes import CommonAttributesModel
 
 
-class Function(AllAttributesModel):
+class Function(CommonAttributesModel):
     function_id = models.CharField(verbose_name=_('function ID'), max_length=16, unique=True, db_index=True)
     parent = models.ForeignKey('self', verbose_name=_('parent'), blank=True, null=True)
     name = models.CharField(verbose_name=_('name'), max_length=256)

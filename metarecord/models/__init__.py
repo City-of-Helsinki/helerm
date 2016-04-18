@@ -3,4 +3,7 @@ from .record import Record
 from .function import Function
 from .phase import Phase
 from .attributes import (PublicityClass, SecurityPeriod, SecurityReason, PersonalData, SocialSecurityNumber,
-                         RetentionPeriod, RetentionReason, ProtectionClass, RecordType)
+                         RetentionPeriod, RetentionReason, ProtectionClass, RecordType, RetentionCalculationBasis,
+                         PaperRecordRetentionOrder, InformationSystem, PaperRecordArchiveRetentionPeriod,
+                         PaperRecordWorkplaceRetentionPeriod, SecurityPeriodCalculationBasis,
+                         PaperRecordRetentionLocation, PaperRecordRetentionResponsiblePerson, AdditionalInformation)

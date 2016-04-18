@@ -89,8 +89,62 @@ class RecordType(AttributeValueString):
         verbose_name_plural = _('record type')
 
 
-class AllAttributesModel(BaseModel):
-    """Base class containing all the attributes."""
+class RetentionCalculationBasis(AttributeValueString):
+    class Meta:
+        verbose_name = _('retention calculation basis')
+        verbose_name_plural = _('retention calculation bases')
+
+
+class PaperRecordRetentionOrder(AttributeValueString):
+    class Meta:
+        verbose_name = _('paper record retention order')
+        verbose_name_plural = _('paper record retention orders')
+
+
+class InformationSystem(AttributeValueString):
+    class Meta:
+        verbose_name = _('information system')
+        verbose_name_plural = _('information systems')
+
+
+class PaperRecordArchiveRetentionPeriod(AttributeValueString):
+    class Meta:
+        verbose_name = _('paper record archive retention period')
+        verbose_name_plural = _('paper record archive retention periods')
+
+
+class PaperRecordWorkplaceRetentionPeriod(AttributeValueString):
+    class Meta:
+        verbose_name = _('paper record workplace retention period')
+        verbose_name_plural = _('paper record workplace retention periods')
+
+
+class SecurityPeriodCalculationBasis(AttributeValueString):
+    class Meta:
+        verbose_name = _('security period calculation basis')
+        verbose_name_plural = _('security period calculation bases')
+
+
+class PaperRecordRetentionLocation(AttributeValueString):
+    class Meta:
+        verbose_name = _('paper record retention location')
+        verbose_name_plural = _('paper record retention locations')
+
+
+class PaperRecordRetentionResponsiblePerson(AttributeValueString):
+    class Meta:
+        verbose_name = _('paper record retention responsible person')
+        verbose_name_plural = _('paper record retention responsible persons')
+
+
+class AdditionalInformation(AttributeValueString):
+    class Meta:
+        verbose_name = _('additional information')
+        verbose_name_plural = _('additional information')
+
+
+class CommonAttributesModel(BaseModel):
+    """Base class containing all common attributes."""
 
     order = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
 
@@ -110,14 +164,16 @@ class AllAttributesModel(BaseModel):
                                          blank=True, null=True)
     protection_class = models.ForeignKey(ProtectionClass, verbose_name=_('protection class'), related_name='%(class)ss',
                                          blank=True, null=True)
-    # TODO Salassapitoajan laskentaperuste
-    # TODO Säilytysajan laskentaperuste
-    # TODO Lisätietoja
-    # TODO Paperiasiakirjojen säilytysjärjestys
-    # TODO Paperiasiakirjojen säilytysaika työpisteessä
-    # TODO Paperiasiakirjojen säilytysaika arkistossa = paperiasiakirjojen kokonaissäilytysaika
-    # TODO Paperiasiakirjojen säilytyspaikka
-    # TODO Paperiasiakirjojen säilytyksen vastuuhenkilö (työntekijän nimike)
+    retention_calculation_basis = models.ForeignKey(RetentionCalculationBasis,
+                                                    verbose_name=_('retention calculation basis'),
+                                                    related_name='%(class)ss', blank=True, null=True)
+    information_system = models.ForeignKey(InformationSystem, verbose_name=_('information system'),
+                                           related_name='%(class)ss', blank=True, null=True)
+    security_period_calculation_basis = models.ForeignKey(SecurityPeriodCalculationBasis,
+                                                          verbose_name=_('security period calculation basis'),
+                                                          related_name='%(class)ss', blank=True, null=True)
+    additional_information = models.ForeignKey(AdditionalInformation, verbose_name=_('additional information'),
+                                               related_name='%(class)ss', blank=True, null=True)
 
     class Meta:
         abstract = True

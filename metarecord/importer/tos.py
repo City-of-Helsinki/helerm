@@ -3,9 +3,13 @@ from collections import OrderedDict
 
 from openpyxl import load_workbook
 
-from metarecord.models import (Action, Function, PersonalData, Phase, ProtectionClass, PublicityClass, Record,
-                               RetentionPeriod, RetentionReason, SecurityPeriod, SecurityReason, SocialSecurityNumber,
-                               RecordType)
+from metarecord.models import (Action, AdditionalInformation, Function, InformationSystem,
+                               PaperRecordArchiveRetentionPeriod, PaperRecordRetentionLocation,
+                               PaperRecordRetentionOrder, PaperRecordRetentionResponsiblePerson,
+                               PaperRecordWorkplaceRetentionPeriod, PersonalData, Phase, ProtectionClass,
+                               PublicityClass, Record, RecordType, RetentionCalculationBasis, RetentionPeriod,
+                               RetentionReason, SecurityPeriod, SecurityPeriodCalculationBasis, SecurityReason,
+                               SocialSecurityNumber)
 from metarecord.models.attributes import AttributeValueInteger
 
 
@@ -21,16 +25,19 @@ class TOSImporter:
         'Suojeluluokka': ProtectionClass,
         'Henkilötunnus': SocialSecurityNumber,
         'Asiakirjan tyyppi': RecordType,
-
         'Säilytysajan laskentaperuste': RetentionCalculationBasis,
         'Paperiasiakirjojen säilytysjärjestys': PaperRecordRetentionOrder,
         'Rekisteröinti/ Tietojärjestelmä': InformationSystem,
-        'Paperiasiakirjojen säilytysaika arkistossa': PaperRecordArchiveRetentionPeriod,
-        'Paperiasiakirjojen säilytysaika työpisteessä': PaperRecordWorkplaceRetentionPeriod,
+        'Paperiasiakirjojen säilytysaika arkistossa = kokonaissäilytysaika': PaperRecordArchiveRetentionPeriod,
+        'Paperiasiakirjojen säilytysaika työpisteeessä': PaperRecordWorkplaceRetentionPeriod,
         'Salassapitoajan laskentaperuste': SecurityPeriodCalculationBasis,
         'Paperiasiakirjojen säilytyspaikka': PaperRecordRetentionLocation,
         'Paperiasiakirjojen säilytyksen vastuuhenkilö': PaperRecordRetentionResponsiblePerson,
         'Lisätietoja': AdditionalInformation,
+
+        # different names between data and codesets
+        'Paperiasiakirjojen säilytysaika arkistossa': PaperRecordArchiveRetentionPeriod,
+        'Paperiasiakirjojen säilytysaika työpisteessä': PaperRecordWorkplaceRetentionPeriod,
     }
     MODEL_MAPPING = OrderedDict([
         ('Asian metatiedot', Function),
