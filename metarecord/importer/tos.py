@@ -3,9 +3,7 @@ from collections import OrderedDict
 
 from openpyxl import load_workbook
 
-from metarecord.models import (Action, AdditionalInformation, Function, InformationSystem,
-                               PaperRecordArchiveRetentionPeriod, PaperRecordRetentionLocation,
-                               PaperRecordRetentionOrder, PaperRecordRetentionResponsiblePerson,
+from metarecord.models import (Action, Function, PaperRecordArchiveRetentionPeriod, PaperRecordRetentionOrder,
                                PaperRecordWorkplaceRetentionPeriod, PersonalData, Phase, ProtectionClass,
                                PublicityClass, Record, RecordType, RetentionCalculationBasis, RetentionPeriod,
                                RetentionReason, SecurityPeriod, SecurityPeriodCalculationBasis, SecurityReason,
@@ -27,17 +25,20 @@ class TOSImporter:
         'Asiakirjan tyyppi': RecordType,
         'Säilytysajan laskentaperuste': RetentionCalculationBasis,
         'Paperiasiakirjojen säilytysjärjestys': PaperRecordRetentionOrder,
-        'Rekisteröinti/ Tietojärjestelmä': InformationSystem,
         'Paperiasiakirjojen säilytysaika arkistossa = kokonaissäilytysaika': PaperRecordArchiveRetentionPeriod,
         'Paperiasiakirjojen säilytysaika työpisteeessä': PaperRecordWorkplaceRetentionPeriod,
         'Salassapitoajan laskentaperuste': SecurityPeriodCalculationBasis,
-        'Paperiasiakirjojen säilytyspaikka': PaperRecordRetentionLocation,
-        'Paperiasiakirjojen säilytyksen vastuuhenkilö': PaperRecordRetentionResponsiblePerson,
-        'Lisätietoja': AdditionalInformation,
 
         # different names between data and codesets
         'Paperiasiakirjojen säilytysaika arkistossa': PaperRecordArchiveRetentionPeriod,
         'Paperiasiakirjojen säilytysaika työpisteessä': PaperRecordWorkplaceRetentionPeriod,
+    }
+    # freetext attributes and their field names on the models
+    FREETEXT_ATTRIBUTES = {
+        'Lisätietoja': 'additional_information',
+        'Rekisteröinti/ Tietojärjestelmä': 'information_system',
+        'Paperiasiakirjojen säilytyspaikka': 'paper_record_retention_location',
+        'Paperiasiakirjojen säilytyksen vastuuhenkilö': 'paper_record_retention_responsible_person',
     }
     MODEL_MAPPING = OrderedDict([
         ('Asian metatiedot', Function),
@@ -153,6 +154,14 @@ class TOSImporter:
         model_attributes = {}
         attributes = data['attributes']
         for attribute, value in attributes.items():
+
+            # handle freetext attributes
+            field_name = self.FREETEXT_ATTRIBUTES.get(attribute)
+            if field_name:
+                model_attributes[field_name] = value
+                continue
+
+            # handle foreignkey attributes
             if attribute not in self.ATTRIBUTE_MAPPING:
                 self._emit_error('Invalid attribute %s' % attribute)
                 continue
@@ -160,7 +169,6 @@ class TOSImporter:
             if not attribute_class:
                 # Skipping known unknowns
                 continue
-
             value_object = None
             try:
                 value_object = attribute_class.objects.get(value=value)

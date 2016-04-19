@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import (Action, AdditionalInformation, Function, InformationSystem, PaperRecordArchiveRetentionPeriod,
-                     PaperRecordRetentionLocation, PaperRecordRetentionOrder, PaperRecordRetentionResponsiblePerson,
+from .models import (Action, Function, PaperRecordArchiveRetentionPeriod, PaperRecordRetentionOrder,
                      PaperRecordWorkplaceRetentionPeriod, PersonalData, Phase, ProtectionClass, PublicityClass, Record,
                      RetentionCalculationBasis, RetentionPeriod, RetentionReason, SecurityPeriod,
                      SecurityPeriodCalculationBasis, SecurityReason, SocialSecurityNumber)
@@ -20,13 +19,9 @@ admin.site.register(RetentionReason)
 admin.site.register(ProtectionClass)
 admin.site.register(RetentionCalculationBasis)
 admin.site.register(PaperRecordRetentionOrder)
-admin.site.register(InformationSystem)
 admin.site.register(PaperRecordArchiveRetentionPeriod)
 admin.site.register(PaperRecordWorkplaceRetentionPeriod)
 admin.site.register(SecurityPeriodCalculationBasis)
-admin.site.register(PaperRecordRetentionLocation)
-admin.site.register(PaperRecordRetentionResponsiblePerson)
-admin.site.register(AdditionalInformation)
 
 
 class FunctionAdmin(admin.ModelAdmin):

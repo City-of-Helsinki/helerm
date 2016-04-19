@@ -125,24 +125,6 @@ class SecurityPeriodCalculationBasis(AttributeValueString):
         verbose_name_plural = _('security period calculation bases')
 
 
-class PaperRecordRetentionLocation(AttributeValueString):
-    class Meta:
-        verbose_name = _('paper record retention location')
-        verbose_name_plural = _('paper record retention locations')
-
-
-class PaperRecordRetentionResponsiblePerson(AttributeValueString):
-    class Meta:
-        verbose_name = _('paper record retention responsible person')
-        verbose_name_plural = _('paper record retention responsible persons')
-
-
-class AdditionalInformation(AttributeValueString):
-    class Meta:
-        verbose_name = _('additional information')
-        verbose_name_plural = _('additional information')
-
-
 class CommonAttributesModel(BaseModel):
     """Base class containing all common attributes."""
 
@@ -167,13 +149,11 @@ class CommonAttributesModel(BaseModel):
     retention_calculation_basis = models.ForeignKey(RetentionCalculationBasis,
                                                     verbose_name=_('retention calculation basis'),
                                                     related_name='%(class)ss', blank=True, null=True)
-    information_system = models.ForeignKey(InformationSystem, verbose_name=_('information system'),
-                                           related_name='%(class)ss', blank=True, null=True)
+    information_system = models.CharField(verbose_name=_('information system'), max_length=256, blank=True, null=True)
     security_period_calculation_basis = models.ForeignKey(SecurityPeriodCalculationBasis,
                                                           verbose_name=_('security period calculation basis'),
                                                           related_name='%(class)ss', blank=True, null=True)
-    additional_information = models.ForeignKey(AdditionalInformation, verbose_name=_('additional information'),
-                                               related_name='%(class)ss', blank=True, null=True)
+    additional_information = models.TextField(verbose_name=_('additional information'), blank=True, null=True)
 
     class Meta:
         abstract = True
