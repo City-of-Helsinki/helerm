@@ -205,40 +205,12 @@ class TOSImporter:
             try:
                 function_data['parent'] = Function.objects.get(function_id=parent_id)
             except Function.DoesNotExist:
-                print(' '*8 + '!!!! Cannot set parent, function %s does not exist.' % parent_id)
+                print('!!!! Cannot set parent, function %s does not exist.' % parent_id)
                 # TODO ignoring missing parent for now
 
         function, created = Function.objects.get_or_create(function_id=function_data['function_id'],
                                                            defaults=function_data)
-        info_str = 'Created' if created else 'Already exist'
-        print(' '*8 + '%s function %s %s' % (info_str, function.function_id, function))
         return function
-
-    def _import_data_recursive(self, data, index, level, parent):
-        model = self.MODEL_HIERARCHY[level]
-        latest_obj = parent
-        while index < len(data) - 1:
-            print(' '*8 + 'Processing row %d' % index)
-            datum = data[index]
-            if not datum:
-                index += 1
-                continue
-            try:
-                new_model = self.MODEL_MAPPING.get(datum['Tehtäväluokka'])
-                new_level = self.MODEL_HIERARCHY.index(new_model)
-            except ValueError:
-                print(' '*12 + 'skipping')
-                index += 1
-                continue
-            if new_level == level:
-                latest_obj = self._import_data_object(model, parent, datum)
-                index += 1
-            elif new_level > level:
-                index = self._import_data_recursive(data, index, new_level, latest_obj)
-                continue
-            else:
-                break
-        return index
 
     def _emit_error(self, text):
         print(text)
@@ -333,7 +305,6 @@ class TOSImporter:
 
         self._save_function(sheet, function)
 
-
     def import_data(self):
         print('Importing data...')
 
@@ -343,11 +314,10 @@ class TOSImporter:
                 print('Skipping')
                 continue
 
-            print(' '*4 + 'Processing function')
+            # process function
             function = self._import_function(sheet)
 
-            print(' '*4 + 'Processing data')
+            # process data
             self._process_data(sheet, function)
-            # self._import_data_recursive(data, 0, 0, function)
 
         print('\nDone.')
