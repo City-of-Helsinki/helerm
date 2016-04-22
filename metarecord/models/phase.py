@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from .attributes import CommonAttributesModel
+from .base import StructuralElement
 from .function import Function
 
 
-class Phase(CommonAttributesModel):
+class Phase(StructuralElement):
     function = models.ForeignKey(Function, verbose_name=_('function'), related_name='phases')
     name = models.CharField(verbose_name=_('name'), max_length=256)
 

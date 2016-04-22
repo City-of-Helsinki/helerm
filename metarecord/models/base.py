@@ -18,3 +18,41 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class Attribute(BaseModel):
+    identifier = models.CharField(verbose_name=_('identifier'), max_length=64, unique=True, db_index=True)
+    name = models.CharField(verbose_name=_('name'), max_length=256)
+
+    class Meta:
+        verbose_name = _('attribute')
+        verbose_name_plural = _('attributes')
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.identifier:
+            self.identifier = self.pk
+        super().save(*args, **kwargs)
+
+
+class AttributeValue(BaseModel):
+    attribute = models.ForeignKey(Attribute, verbose_name=_('attribute'), related_name='values')
+    value = models.CharField(verbose_name=_('value'), max_length=256)
+
+    class Meta:
+        verbose_name = _('attribute value')
+        verbose_name_plural = _('attribute values')
+
+    def __str__(self):
+        return '%s: %s' % (self.attribute, self.value)
+
+
+class StructuralElement(BaseModel):
+    order = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
+    attribute_values = models.ManyToManyField(AttributeValue, verbose_name=_('attribute values'))
+
+    class Meta:
+        abstract = True
+        ordering = ['order']
