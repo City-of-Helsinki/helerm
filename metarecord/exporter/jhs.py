@@ -128,7 +128,7 @@ class JHSExporter:
                 func.toDOM()  # validates
                 functions.append(func)
             except Exception as e:
-                self.msg('ERROR: %s' % e)
+                self.msg('ERROR validating the function, details:\n%s' % e.details())
 
         self.msg('creating the actual XML...')
 
