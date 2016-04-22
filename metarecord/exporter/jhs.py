@@ -142,10 +142,9 @@ class JHSExporter:
 
     def export_data(self, filename):
         self.msg('exporting data...')
+        xml = self.create_xml()
 
         with open(filename, 'wb') as f:
-            xml = self.create_xml()
-
             self.msg('writing to the file...')
             f.write(xml)
 
