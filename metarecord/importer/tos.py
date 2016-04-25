@@ -3,36 +3,28 @@ from collections import OrderedDict
 
 from openpyxl import load_workbook
 
-from metarecord.models import (Action, Function, PaperRecordArchiveRetentionPeriod, PaperRecordRetentionOrder,
-                               PaperRecordWorkplaceRetentionPeriod, PersonalData, Phase, ProtectionClass,
-                               PublicityClass, Record, RecordType, RetentionCalculationBasis, RetentionPeriod,
-                               RetentionReason, SecurityPeriod, SecurityPeriodCalculationBasis, SecurityReason,
-                               SocialSecurityNumber)
-from metarecord.models.attributes import AttributeValueInteger
+from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
 
 
 class TOSImporter:
 
-    ATTRIBUTE_MAPPING = {
-        'Julkisuusluokka': PublicityClass,
-        'Salassapitoaika': SecurityPeriod,
-        'Salassapitoperuste': SecurityReason,
-        'Henkilötietoluonne': PersonalData,
-        'Säilytysaika': RetentionPeriod,
-        'Säilytysajan peruste': RetentionReason,
-        'Suojeluluokka': ProtectionClass,
-        'Henkilötunnus': SocialSecurityNumber,
-        'Asiakirjan tyyppi': RecordType,
-        'Säilytysajan laskentaperuste': RetentionCalculationBasis,
-        'Paperiasiakirjojen säilytysjärjestys': PaperRecordRetentionOrder,
-        'Paperiasiakirjojen säilytysaika arkistossa = kokonaissäilytysaika': PaperRecordArchiveRetentionPeriod,
-        'Paperiasiakirjojen säilytysaika työpisteeessä': PaperRecordWorkplaceRetentionPeriod,
-        'Salassapitoajan laskentaperuste': SecurityPeriodCalculationBasis,
-
-        # different names between data and codesets
-        'Paperiasiakirjojen säilytysaika arkistossa': PaperRecordArchiveRetentionPeriod,
-        'Paperiasiakirjojen säilytysaika työpisteessä': PaperRecordWorkplaceRetentionPeriod,
+    VALID_ATTRIBUTES = {
+        'Julkisuusluokka',
+        'Salassapitoaika',
+        'Salassapitoperuste',
+        'Henkilötietoluonne',
+        'Säilytysaika',
+        'Säilytysajan peruste',
+        'Suojeluluokka',
+        'Henkilötunnus',
+        'Asiakirjatyypit',
+        'Säilytysajan laskentaperuste',
+        'Paperiasiakirjojen säilytysjärjestys',
+        'Paperiasiakirjojen säilytysaika arkistossa',
+        'Paperiasiakirjojen säilytysaika työpisteessä',
+        'Salassapitoajan laskentaperuste',
     }
+
     # freetext attributes and their field names on the models
     FREETEXT_ATTRIBUTES = {
         'Lisätietoja': 'additional_information',
@@ -52,50 +44,72 @@ class TOSImporter:
     def __init__(self, fname):
         self.wb = load_workbook(fname, read_only=True)
 
-    def import_codesets(self):
-        print('Importing codesets...')
-        try:
-            sheet = self.wb['Koodistot']
-        except KeyError:
-            print('Cannot import codesets, the workbook does not contain sheet "Koodistot".')
-            return
+    def _emit_error(self, text):
+        print(text)
+        self.current_function['error_count'] = self.current_function.get('error_count', 0) + 1
+
+    def _clean_header(self, s):
+        if not s:
+            return s
+        # strip leading numeric ids
+        s = re.sub(r'^[0-9. ]+', '', s)
+        # strip stuff within parentheses
+        s = re.sub(r' \(.+\)', '', s)
+        # convert multiple spaces into one
+        s = re.sub(r' {2,}', ' ', s)
+        # if there's a '=' in the header, remove the last part
+        s = s.split('=')[0].strip()
+        return s
+
+    def _get_codesets(self, sheet):
         HEADER_ROW = 5
         VALUE_ROW = 5 + 1
 
         max_col = sheet.max_column + 1
         attr_names = [sheet.cell(row=HEADER_ROW, column=x).value for x in range(1, max_col)]
 
-        for col, attr in enumerate(attr_names):
-            print()
-            if attr == 'Asiakirjatyypit':
-                attr = 'Asiakirjan tyyppi'
-            model = self.ATTRIBUTE_MAPPING.get(attr)
-            if not model:
-                print('Unknown attribute %s' % attr)
-                continue
+        codesets = {}
 
-            print('Processing attribute %s' % attr)
+        for col, attr in enumerate(attr_names):
+            attr = self._clean_header(attr)
+
+            # fix a typo in header name in codesets
+            if attr == 'Paperiasiakirjojen säilytysaika työpisteeessä':
+                attr = 'Paperiasiakirjojen säilytysaika työpisteessä'
+
             for row in range(VALUE_ROW, sheet.max_row + 1):
                 val = sheet.cell(row=row, column=col + 1).value
                 if val is None:
-                    if row == VALUE_ROW:
-                        print('    No values')
                     break
-                if issubclass(model, AttributeValueInteger):
-                    # strip stuff within parentheses
-                    val = re.sub(r' \(.+\)', '', str(val))
 
-                try:
-                    obj, created = model.objects.get_or_create(value=val)
-                except ValueError as e:
-                    # TODO just printing errors and continuing here for now
-                    print('    !!!! Cannot create value: %s' % e)
-                    continue
+                # strip stuff within parentheses from value
+                val = re.sub(r' \(.+\)', '', str(val))
 
-                info_str = 'Created' if created else 'Already exist'
-                print('    %s: %s' % (info_str, val))
+                if attr in codesets:
+                    codesets[attr].append(val)
+                else:
+                    codesets[attr] = [val]
 
-        print('\nDone.')
+        return codesets
+
+    def _get_data(self, sheet):
+        DATA_ROW = 6
+
+        max_col = sheet.max_column + 1
+        headers = [sheet.cell(row=1, column=x).value for x in range(1, max_col)]
+        headers = [self._clean_header(s) for s in headers if s]
+        data = []
+        cells = sheet.get_squared_range(1, DATA_ROW, max_col, sheet.max_row + 1)
+        for row in cells:
+            attrs = {}
+            for col, attr in enumerate(headers):
+                val = row[col].value
+                if col == 0 and not val:
+                    break
+                if val is not None:
+                    attrs[attr] = val
+            data.append(attrs)
+        return data
 
     def _get_function_data(self, sheet):
 
@@ -118,75 +132,63 @@ class TOSImporter:
 
         return function_data
 
-    def _get_data(self, sheet):
-        DATA_ROW = 6
+    def _import_function(self, sheet):
+        function_data = self._get_function_data(sheet)
+        parent_id = function_data.pop('parent_function_id')
+        if parent_id:
+            try:
+                function_data['parent'] = Function.objects.get(function_id=parent_id.strip())
+            except Function.DoesNotExist:
+                print('!!!! Cannot set parent, function %s does not exist.' % parent_id)
+                # TODO ignoring missing parent for now
 
-        max_col = sheet.max_column + 1
-        headers = [sheet.cell(row=1, column=x).value for x in range(1, max_col)]
-        headers = [self._clean_header(s) for s in headers if s]
-        data = []
-        cells = sheet.get_squared_range(1, DATA_ROW, max_col, sheet.max_row + 1)
-        for row in cells:
-            attrs = {}
-            for col, attr in enumerate(headers):
-                val = row[col].value
-                if col == 0 and not val:
-                    break
-                if val is not None:
-                    attrs[attr] = val
-            data.append(attrs)
-        return data
+        function, created = Function.objects.get_or_create(function_id=function_data['function_id'],
+                                                           defaults=function_data)
+        return function
 
-    def _clean_header(self, s):
-        if not s:
-            return s
-        # strip leading numeric ids
-        s = re.sub(r'^[0-9. ]+', '', s)
-        # strip stuff within parentheses
-        s = re.sub(r' \(.+\)', '', s)
-        # convert multiple spaces into one
-        s = re.sub(r' {2,}', ' ', s)
-        # if there's a '=' in the header, remove the last part
-        s = s.split('=')[0].strip()
-        return s
-
-    def _get_model_attributes(self, model, data):
-        model_attributes = {}
+    def _get_common_attribute_values(self, data):
         attributes = data['attributes']
-        for attribute, value in attributes.items():
+        attribute_values = []
+        for attribute_name, value in attributes.items():
 
             # handle freetext attributes
-            field_name = self.FREETEXT_ATTRIBUTES.get(attribute)
+            field_name = self.FREETEXT_ATTRIBUTES.get(attribute_name)
             if field_name:
-                model_attributes[field_name] = value
                 continue
 
-            # handle foreignkey attributes
-            if attribute not in self.ATTRIBUTE_MAPPING:
-                self._emit_error('Invalid attribute %s' % attribute)
-                continue
-            attribute_class = self.ATTRIBUTE_MAPPING[attribute]
-            if not attribute_class:
-                # Skipping known unknowns
-                continue
-            value_object = None
             try:
-                value_object = attribute_class.objects.get(value=value)
-            except (attribute_class.DoesNotExist, ValueError):
-                self._emit_error('Invalid value for %s: %s' % (attribute_class._meta.verbose_name, value))
-            if value_object:
-                field_name = attribute_class.get_referencing_field_name(model)
-                model_attributes[field_name] = value_object
-        return model_attributes
+                attribute = Attribute.objects.get(name=attribute_name)
+            except Attribute.DoesNotExist:
+                self._emit_error('Invalid attribute %s' % attribute_name)
+                continue
+            try:
+                attribute_value = AttributeValue.objects.get(attribute=attribute, value=value)
+            except AttributeValue.DoesNotExist:
+                self._emit_error('Invalid value %s for attribute %s' % (value, attribute_name))
+                continue
+            attribute_values.append(attribute_value)
 
-    def _save_data_object(self, model, parent, data, order):
-        model_attributes = self._get_model_attributes(model, data)
+        return attribute_values
+
+    def _save_structural_element(self, model, parent, data, order):
+        record_type = data['attributes'].pop('Asiakirjan tyyppi', None)
+        paper_record_archive_retention_period = data['attributes'].pop(
+            'Paperiasiakirjojen säilytysaika arkistossa', None)
+        paper_record_workplace_retention_period = data['attributes'].pop(
+            'Paperiasiakirjojen säilytysaika työpisteessä', None)
+
+        model_attributes = {}  # model specific attributes
+        attribute_values = self._get_common_attribute_values(data)
 
         if model == Phase:
             parent_field_name = 'function'
         elif model == Action:
             parent_field_name = 'phase'
         elif model == Record:
+            if not record_type:
+                self._emit_error('Record type missing')
+                return
+            model_attributes['type'] = RecordType.objects.get(value=record_type)
             parent_field_name = 'action'
         else:
             raise Exception('Attachments not supported yet')
@@ -196,42 +198,27 @@ class TOSImporter:
         model_attributes['order'] = order
 
         new_obj = model.objects.create(**model_attributes)
+        for attribute_value in attribute_values:
+            new_obj.attribute_values.add(attribute_value)
         return new_obj
 
-    def _import_function(self, sheet):
-        function_data = self._get_function_data(sheet)
-        parent_id = function_data.pop('parent_function_id')
-        if parent_id:
-            try:
-                function_data['parent'] = Function.objects.get(function_id=parent_id)
-            except Function.DoesNotExist:
-                print('!!!! Cannot set parent, function %s does not exist.' % parent_id)
-                # TODO ignoring missing parent for now
-
-        function, created = Function.objects.get_or_create(function_id=function_data['function_id'],
-                                                           defaults=function_data)
-        return function
-
-    def _emit_error(self, text):
-        print(text)
-        self.current_function['error_count'] = self.current_function.get('error_count', 0) + 1
-
-    def _save_function(self, sheet, function):
+    def _save_function(self, function):
         function_obj = function['obj']
 
-        # Make sure children are nuked
+        # Make sure children and attribute values are nuked
         function_obj.phases.all().delete()
+        function_obj.attribute_values.remove()
 
-        function_attributes = self._get_model_attributes(Function, function)
-        for attribute, value in function_attributes.items():
-            setattr(function_obj, attribute, value)
+        attribute_values = self._get_common_attribute_values(function)
+        for attribute_value in attribute_values:
+            function_obj.attribute_values.add(attribute_value)
 
         for idx, phase in enumerate(function['phases']):
-            phase_obj = self._save_data_object(Phase, function_obj, phase, idx)
+            phase_obj = self._save_structural_element(Phase, function_obj, phase, idx)
             for idx, action in enumerate(phase['actions']):
-                action_obj = self._save_data_object(Action, phase_obj, action, idx)
+                action_obj = self._save_structural_element(Action, phase_obj, action, idx)
                 for idx, record in enumerate(action['records']):
-                    record_obj = self._save_data_object(Record, action_obj, record, idx)
+                    record_obj = self._save_structural_element(Record, action_obj, record, idx)
 
         function_obj.error_count = function.get('error_count', 0)
         function_obj.save()
@@ -303,7 +290,51 @@ class TOSImporter:
             target['attributes'] = row
             child_list.append(target)
 
-        self._save_function(sheet, function)
+        self._save_function(function)
+
+    def import_codesets(self):
+        print('Importing codesets...')
+
+        try:
+            sheet = self.wb['Koodistot']
+        except KeyError:
+            print('Cannot import codesets, the workbook does not contain sheet "Koodistot".')
+            return
+
+        codesets = self._get_codesets(sheet)
+
+        for attr, values in codesets.items():
+            print('\nProcessing %s' % attr)
+
+            if attr == 'Asiakirjatyypit':
+                for value in values:
+                    obj, created = RecordType.objects.get_or_create(value=value)
+                    info_str = 'Created' if created else 'Already exist'
+                    print('    %s: %s' % (info_str, value))
+                continue
+
+            if attr not in self.VALID_ATTRIBUTES:
+                print('    skipping ')
+                continue
+
+            try:
+                attribute_obj, created = Attribute.objects.get_or_create(name=attr)
+            except ValueError as e:
+                print('    !!!! Cannot create attribute: %s' % e)
+                continue
+
+            for value in values:
+                try:
+                    obj, created = AttributeValue.objects.get_or_create(attribute=attribute_obj, value=value)
+                except ValueError as e:
+                    # TODO just printing errors and continuing here for now
+                    print('    !!!! Cannot create attribute value: %s' % e)
+                    continue
+
+                info_str = 'Created' if created else 'Already exist'
+                print('    %s: %s' % (info_str, value))
+
+        print('\nDone.')
 
     def import_data(self):
         print('Importing data...')
