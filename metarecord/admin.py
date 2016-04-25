@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin
+from django.db import transaction
 
 from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
 
@@ -23,34 +24,55 @@ class StructuralElementAdmin(admin.ModelAdmin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Add dynamic attributes as ChoiceFields to the form.
+        # Add dynamic attributes as ChoiceFields or CharFields to the form.
         # One known caveat in this method is that a restart is required for new fields to show
         # because this is run only at app startup.
         new_fields = []
-        for name in Attribute.objects.values_list('name', flat=True):
-            new_fields.append((
-                name,
-                forms.ModelChoiceField(
-                    queryset=AttributeValue.objects.filter(attribute__name=name),
-                    required=False)
+        for name, is_free_text in Attribute.objects.values_list('name', 'is_free_text'):
+            if is_free_text:
+                new_field = (
+                    name,
+                    forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 4, 'cols': 80}))
                 )
-            )
+            else:
+                new_field = (
+                    name,
+                    forms.ModelChoiceField(
+                        queryset=AttributeValue.objects.filter(attribute__name=name),
+                        required=False
+                    )
+                )
+            new_fields.append(new_field)
         self.form.base_fields.update(new_fields)
 
+    @transaction.atomic
     def save_model(self, request, obj, form, change):
         obj.save()
 
-        # Handle dynamic ManyToMany attributes
-        for name in Attribute.objects.values_list('name', flat=True):
+        # handle dynamic ManyToMany attribute saving
+        for name, is_free_text in Attribute.objects.values_list('name', 'is_free_text'):
             value = form.cleaned_data.get(name)
+            attribute = Attribute.objects.get(name=name)
+
+            # handle free text attributes
+            if is_free_text:
+                attribute = Attribute.objects.get(name=name)
+                if value:
+                    try:
+                        attribute_value = obj.attribute_values.get(attribute=attribute)
+                        attribute_value.value = value
+                        attribute_value.save(update_fields=('value',))
+                    except AttributeValue.DoesNotExist:
+                        attribute_value = AttributeValue.objects.create(attribute=attribute, value=value)
+                        obj.attribute_values.add(attribute_value)
+                else:
+                    obj.attribute_values.filter(attribute=attribute).delete()
+                continue
+
+            # handle choice attributes
+            obj.attribute_values.filter(attribute=attribute).delete()
             if value:
                 obj.attribute_values.add(form.cleaned_data.get(name))
-            else:
-                try:
-                    attribute_value = obj.attribute_values.get(attribute__name=name)
-                    obj.attribute_values.remove(attribute_value)
-                except AttributeValue.DoesNotExist:
-                    pass
 
 
 class FunctionAdmin(StructuralElementAdmin):

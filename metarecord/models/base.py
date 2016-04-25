@@ -23,6 +23,7 @@ class BaseModel(models.Model):
 class Attribute(BaseModel):
     identifier = models.CharField(verbose_name=_('identifier'), max_length=64, unique=True, db_index=True)
     name = models.CharField(verbose_name=_('name'), max_length=256)
+    is_free_text = models.BooleanField(verbose_name=_('is free text'), default=False)
 
     class Meta:
         verbose_name = _('attribute')

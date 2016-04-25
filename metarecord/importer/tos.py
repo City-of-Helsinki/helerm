@@ -8,7 +8,7 @@ from metarecord.models import Action, Attribute, AttributeValue, Function, Phase
 
 class TOSImporter:
 
-    VALID_ATTRIBUTES = {
+    CHOICE_ATTRIBUTES = {
         'Julkisuusluokka',
         'Salassapitoaika',
         'Salassapitoperuste',
@@ -25,13 +25,13 @@ class TOSImporter:
         'Salassapitoajan laskentaperuste',
     }
 
-    # freetext attributes and their field names on the models
-    FREETEXT_ATTRIBUTES = {
-        'Lisätietoja': 'additional_information',
-        'Rekisteröinti/ Tietojärjestelmä': 'information_system',
-        'Paperiasiakirjojen säilytyspaikka': 'paper_record_retention_location',
-        'Paperiasiakirjojen säilytyksen vastuuhenkilö': 'paper_record_retention_responsible_person',
+    FREE_TEXT_ATTRIBUTES = {
+        'Lisätietoja',
+        'Rekisteröinti/ Tietojärjestelmä',
+        'Paperiasiakirjojen säilytyspaikka',
+        'Paperiasiakirjojen säilytyksen vastuuhenkilö',
     }
+
     MODEL_MAPPING = OrderedDict([
         ('Asian metatiedot', Function),
         ('Käsittelyvaiheen metatiedot', Phase),
@@ -73,10 +73,13 @@ class TOSImporter:
         for col, attr in enumerate(attr_names):
             attr = self._clean_header(attr)
 
-            # fix a typo in header name in codesets
+            # fix inconsistencies in headers between codesets and the actual data
             if attr == 'Paperiasiakirjojen säilytysaika työpisteeessä':
                 attr = 'Paperiasiakirjojen säilytysaika työpisteessä'
+            elif attr == 'Rekisteröinti/tietojärjestelmä':
+                attr = 'Rekisteröinti/ Tietojärjestelmä'
 
+            codesets[attr] = []
             for row in range(VALUE_ROW, sheet.max_row + 1):
                 val = sheet.cell(row=row, column=col + 1).value
                 if val is None:
@@ -85,10 +88,7 @@ class TOSImporter:
                 # strip stuff within parentheses from value
                 val = re.sub(r' \(.+\)', '', str(val))
 
-                if attr in codesets:
-                    codesets[attr].append(val)
-                else:
-                    codesets[attr] = [val]
+                codesets[attr].append(val)
 
         return codesets
 
@@ -150,22 +150,21 @@ class TOSImporter:
         attributes = data['attributes']
         attribute_values = []
         for attribute_name, value in attributes.items():
-
-            # handle freetext attributes
-            field_name = self.FREETEXT_ATTRIBUTES.get(attribute_name)
-            if field_name:
-                continue
-
             try:
                 attribute = Attribute.objects.get(name=attribute_name)
             except Attribute.DoesNotExist:
                 self._emit_error('Invalid attribute %s' % attribute_name)
                 continue
-            try:
-                attribute_value = AttributeValue.objects.get(attribute=attribute, value=value)
-            except AttributeValue.DoesNotExist:
-                self._emit_error('Invalid value %s for attribute %s' % (value, attribute_name))
-                continue
+
+            # handle free_text attributes
+            if attribute_name in self.FREE_TEXT_ATTRIBUTES:
+                attribute_value = AttributeValue.objects.create(attribute=attribute, value=value)
+            else:
+                try:
+                    attribute_value = AttributeValue.objects.get(attribute=attribute, value=value)
+                except AttributeValue.DoesNotExist:
+                    self._emit_error('Invalid value %s for attribute %s' % (value, attribute_name))
+                    continue
             attribute_values.append(attribute_value)
 
         return attribute_values
@@ -313,14 +312,21 @@ class TOSImporter:
                     print('    %s: %s' % (info_str, value))
                 continue
 
-            if attr not in self.VALID_ATTRIBUTES:
+            valid_attributes = self.CHOICE_ATTRIBUTES | self.FREE_TEXT_ATTRIBUTES
+            if attr not in valid_attributes:
                 print('    skipping ')
                 continue
 
+            is_free_text = attr in self.FREE_TEXT_ATTRIBUTES
+
             try:
-                attribute_obj, created = Attribute.objects.get_or_create(name=attr)
+                attribute_obj, created = Attribute.objects.get_or_create(name=attr, is_free_text=is_free_text)
             except ValueError as e:
                 print('    !!!! Cannot create attribute: %s' % e)
+                continue
+
+            if is_free_text:
+                print('    free text attribute')
                 continue
 
             for value in values:
