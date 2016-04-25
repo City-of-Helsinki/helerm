@@ -46,7 +46,7 @@ class AttributeValue(BaseModel):
         verbose_name_plural = _('attribute values')
 
     def __str__(self):
-        return '%s: %s' % (self.attribute, self.value)
+        return self.value
 
 
 class StructuralElement(BaseModel):

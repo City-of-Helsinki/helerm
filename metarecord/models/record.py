@@ -12,6 +12,9 @@ class RecordType(BaseModel):
         verbose_name = _('record type')
         verbose_name_plural = _('record type')
 
+    def __str__(self):
+        return self.value
+
 
 class Record(StructuralElement):
     action = models.ForeignKey(Action, verbose_name=_('action'), related_name='records')
