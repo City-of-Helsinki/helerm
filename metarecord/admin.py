@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.db import transaction
+from django.db.utils import OperationalError
 
 from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
 
@@ -24,11 +25,19 @@ class StructuralElementAdmin(admin.ModelAdmin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Add dynamic attributes as ChoiceFields or CharFields to the form.
-        # One known caveat in this method is that a restart is required for new fields to show
-        # because this is run only at app startup.
+        # Because Django executes ModelAdmin.__init__ when running manage.py migrate,
+        # we need this check or else migrate fails if Attribute table hasn't been
+        # created yet (empty db the most common case).
+        try:
+            attribute_list = list(Attribute.objects.values_list('name', 'is_free_text'))
+        except OperationalError:
+            return
+
+        # Add dynamic attributes as ChoiceFields and CharFields to the form.
+        # One known caveat in this method is that a restart is required for new
+        # fields to show because this is run only at app startup.
         new_fields = []
-        for name, is_free_text in Attribute.objects.values_list('name', 'is_free_text'):
+        for name, is_free_text in attribute_list:
             if is_free_text:
                 new_field = (
                     name,
