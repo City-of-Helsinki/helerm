@@ -49,7 +49,7 @@ class Attribute(BaseModel):
 
 class AttributeValue(BaseModel):
     attribute = models.ForeignKey(Attribute, verbose_name=_('attribute'), related_name='values')
-    value = models.CharField(verbose_name=_('value'), max_length=256)
+    value = models.CharField(verbose_name=_('value'), max_length=1024)
 
     class Meta:
         verbose_name = _('attribute value')
