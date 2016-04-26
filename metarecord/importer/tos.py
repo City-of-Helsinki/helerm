@@ -300,6 +300,7 @@ class TOSImporter:
             return
 
         codesets = self._get_codesets(sheet)
+        handled_attrs = set()
 
         for attr, values in codesets.items():
             print('\nProcessing %s' % attr)
@@ -326,6 +327,7 @@ class TOSImporter:
             except ValueError as e:
                 print('    !!!! Cannot create attribute: %s' % e)
                 continue
+            handled_attrs.add(all_attributes.get(attr))
 
             if is_free_text:
                 print('    free text attribute')
@@ -341,6 +343,14 @@ class TOSImporter:
 
                 info_str = 'Created' if created else 'Already exist'
                 print('    %s: %s' % (info_str, value))
+
+        # add also free text attributes that don't exist in the codesets sheet
+        for name, identifier in self.FREE_TEXT_ATTRIBUTES.items():
+            if identifier not in handled_attrs:
+                attribute_obj, created = Attribute.objects.get_or_create(name=name, is_free_text=True,
+                                                                         identifier=identifier)
+                info_str = 'Created' if created else 'Already exist'
+                print("\n%s: free text attribute %s that doesn't exist in the sheet" % (info_str, name))
 
         print('\nDone.')
 
