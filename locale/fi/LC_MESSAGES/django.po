@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-19 15:01+0300\n"
+"POT-Creation-Date: 2016-04-26 14:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,139 +30,19 @@ msgstr "englanti"
 msgid "phase"
 msgstr "käsittelyvaihe"
 
-#: metarecord/models/action.py:10 metarecord/models/function.py:10
-#: metarecord/models/phase.py:10
+#: metarecord/models/action.py:10 metarecord/models/base.py:25
+#: metarecord/models/function.py:10 metarecord/models/phase.py:10
+#: metarecord/models/record.py:9
 msgid "name"
 msgstr "nimi"
 
-#: metarecord/models/action.py:13 metarecord/models/record.py:10
+#: metarecord/models/action.py:13 metarecord/models/record.py:20
 msgid "action"
 msgstr "toimenpide"
 
 #: metarecord/models/action.py:14
 msgid "actions"
 msgstr "toimenpiteet"
-
-#: metarecord/models/attributes.py:24 metarecord/models/attributes.py:32
-msgid "value"
-msgstr "arvo"
-
-#: metarecord/models/attributes.py:40 metarecord/models/attributes.py:133
-msgid "publicity class"
-msgstr "julkisuusluokka"
-
-#: metarecord/models/attributes.py:41
-msgid "publicity classes"
-msgstr "julkisuusluokat"
-
-#: metarecord/models/attributes.py:46 metarecord/models/attributes.py:135
-msgid "security period"
-msgstr "salassapitoaika"
-
-#: metarecord/models/attributes.py:47
-msgid "security periods"
-msgstr "salassapitoajat"
-
-#: metarecord/models/attributes.py:52 metarecord/models/attributes.py:53
-msgid "security reasons"
-msgstr "salassapitoperuste"
-
-#: metarecord/models/attributes.py:58 metarecord/models/attributes.py:59
-#: metarecord/models/attributes.py:139
-msgid "personal data"
-msgstr "henkilötietoluonteet"
-
-#: metarecord/models/attributes.py:64 metarecord/models/attributes.py:141
-msgid "social security number"
-msgstr "henkilötunnus"
-
-#: metarecord/models/attributes.py:65
-msgid "social security numbers"
-msgstr "henkilötunnukset"
-
-#: metarecord/models/attributes.py:70 metarecord/models/attributes.py:143
-msgid "retention period"
-msgstr "säilytysaika"
-
-#: metarecord/models/attributes.py:71
-msgid "retention periods"
-msgstr "säilytysajat"
-
-#: metarecord/models/attributes.py:76 metarecord/models/attributes.py:145
-msgid "retention reason"
-msgstr "säilytysperuste"
-
-#: metarecord/models/attributes.py:77
-msgid "retention reasons"
-msgstr "säilytysperusteet"
-
-#: metarecord/models/attributes.py:82 metarecord/models/attributes.py:147
-msgid "protection class"
-msgstr "suojeluluokka"
-
-#: metarecord/models/attributes.py:83
-msgid "protection classes"
-msgstr "suojeluluokat"
-
-#: metarecord/models/attributes.py:88 metarecord/models/attributes.py:89
-msgid "record type"
-msgstr "asiakirjan tyyppi"
-
-#: metarecord/models/attributes.py:94 metarecord/models/attributes.py:150
-msgid "retention calculation basis"
-msgstr "säilytysajan laskentaperuste"
-
-#: metarecord/models/attributes.py:95
-msgid "retention calculation bases"
-msgstr "säilytysajan laskentaperusteet"
-
-#: metarecord/models/attributes.py:100 metarecord/models/record.py:16
-msgid "paper record retention order"
-msgstr "paperiasiakirjojen säilytysjärjestys"
-
-#: metarecord/models/attributes.py:101
-msgid "paper record retention orders"
-msgstr "paperiasiakirjojen säilytysjärjestykset"
-
-#: metarecord/models/attributes.py:106 metarecord/models/attributes.py:152
-msgid "information system"
-msgstr "tietojärjestelmä"
-
-#: metarecord/models/attributes.py:107
-msgid "information systems"
-msgstr "tietojärjestelmät"
-
-#: metarecord/models/attributes.py:112 metarecord/models/record.py:22
-msgid "paper record archive retention period"
-msgstr "paperiasiakirjojen säilytysaika arkistossa"
-
-#: metarecord/models/attributes.py:113
-msgid "paper record archive retention periods"
-msgstr "paperiasiakirjojen säilytysajat arkistoissa"
-
-#: metarecord/models/attributes.py:118 metarecord/models/record.py:28
-msgid "paper record workplace retention period"
-msgstr "paperiasiakirjojen säilytysaika työpisteessä"
-
-#: metarecord/models/attributes.py:119
-msgid "paper record workplace retention periods"
-msgstr "paperiasiakirjojen säilytysajat työpisteissä"
-
-#: metarecord/models/attributes.py:124 metarecord/models/attributes.py:154
-msgid "security period calculation basis"
-msgstr "salassapitoajan laskentaperuste"
-
-#: metarecord/models/attributes.py:125
-msgid "security period calculation bases"
-msgstr "salassapitoaikojen laskentaperusteet"
-
-#: metarecord/models/attributes.py:137
-msgid "security reason"
-msgstr "salassapitoperuste"
-
-#: metarecord/models/attributes.py:156
-msgid "additional information"
-msgstr "lisätietoja"
 
 #: metarecord/models/base.py:12
 msgid "time of creation"
@@ -179,6 +59,34 @@ msgstr "muokkausaika"
 #: metarecord/models/base.py:16
 msgid "modified by"
 msgstr "muokkaaja"
+
+#: metarecord/models/base.py:24
+msgid "identifier"
+msgstr "tunniste"
+
+#: metarecord/models/base.py:26
+msgid "is free text"
+msgstr "teksti vapaa"
+
+#: metarecord/models/base.py:29 metarecord/models/base.py:51
+msgid "attribute"
+msgstr "attribuutti"
+
+#: metarecord/models/base.py:30
+msgid "attributes"
+msgstr "attribuutit"
+
+#: metarecord/models/base.py:52
+msgid "value"
+msgstr "arvo"
+
+#: metarecord/models/base.py:55
+msgid "attribute value"
+msgstr "attribuutin arvo"
+
+#: metarecord/models/base.py:56 metarecord/models/base.py:64
+msgid "attribute values"
+msgstr "attribuuttien arvot"
 
 #: metarecord/models/function.py:8
 msgid "function ID"
@@ -200,26 +108,22 @@ msgstr "tehtäväluokat"
 msgid "phases"
 msgstr "käsittelyvaiheet"
 
-#: metarecord/models/record.py:11
+#: metarecord/models/record.py:12 metarecord/models/record.py:13
+msgid "record type"
+msgstr "asiakirjan tyyppi"
+
+#: metarecord/models/record.py:21
 msgid "type specifier"
 msgstr "tyypin tarkenne"
 
-#: metarecord/models/record.py:12
+#: metarecord/models/record.py:22
 msgid "type"
 msgstr "tyyppi"
 
-#: metarecord/models/record.py:32
-msgid "paper record retention location"
-msgstr "paperiasiakirjojen säilytyspaikka"
-
-#: metarecord/models/record.py:35
-msgid "paper record retention responsible person"
-msgstr "paperiasiakirjojen säilytyksen vastuuhenkilö"
-
-#: metarecord/models/record.py:40
+#: metarecord/models/record.py:25
 msgid "record"
 msgstr "asiakirja"
 
-#: metarecord/models/record.py:41
+#: metarecord/models/record.py:26
 msgid "records"
 msgstr "asiakirjat"
