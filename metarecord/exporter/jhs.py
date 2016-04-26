@@ -3,7 +3,7 @@ import uuid
 import pyxb
 
 from metarecord.binding import jhs
-from metarecord.models import Function
+from metarecord.models import Attribute, AttributeValue, Function
 
 
 class JHSExporter:
@@ -31,59 +31,60 @@ class JHSExporter:
         if self.output:
             print(text)
 
-    def _get_value(self, obj, field_name):
-        value = getattr(obj, field_name)
+    def _get_attribute_value(self, obj, attribute_identifier):
+        value = obj.get_attribute_value(attribute_identifier)
         if value is None:
             return None
-        value = str(value)
-        jhs_mapping = self.JHS_MAPPING.get(field_name)
+
+        jhs_mapping = self.JHS_MAPPING.get(attribute_identifier)
         if jhs_mapping:
             value = jhs_mapping[value]
+
         return value
 
     def _create_restriction_info(self, obj):
         return jhs.Kayttorajoitustiedot(
-            JulkisuusluokkaKoodi=self._get_value(obj, 'publicity_class'),
-            HenkilotietoluonneKoodi=self._get_value(obj, 'personal_data'),
-            SalassapitoAikaArvo=self._get_value(obj, 'security_period'),
-            SalassapitoPerusteTeksti=self._get_value(obj, 'security_reason'),
-            SalassapidonLaskentaperusteTeksti=self._get_value(obj, 'security_period_calculation_basis')
+            JulkisuusluokkaKoodi=self._get_attribute_value(obj, 'publicity_class'),
+            HenkilotietoluonneKoodi=self._get_attribute_value(obj, 'personal_data'),
+            SalassapitoAikaArvo=self._get_attribute_value(obj, 'security_period'),
+            SalassapitoPerusteTeksti=self._get_attribute_value(obj, 'security_reason'),
+            SalassapidonLaskentaperusteTeksti=self._get_attribute_value(obj, 'security_period_calculation_basis')
         )
 
     def _create_retention_info(self, obj):
         return jhs.Sailytysaikatiedot(
-            SailytysajanPituusArvo=self._get_value(obj, 'retention_period'),
-            SailytysajanPerusteTeksti=self._get_value(obj, 'retention_reason')
+            SailytysajanPituusArvo=self._get_attribute_value(obj, 'retention_period'),
+            SailytysajanPerusteTeksti=self._get_attribute_value(obj, 'retention_reason')
         )
 
     def _handle_record(self, record):
-        information_system = self._get_value(record, 'information_system')
+        information_system = self._get_attribute_value(record, 'information_system')
 
         return jhs.Asiakirjatieto(
-            id=self._get_value(record, 'id'),
+            id=record.id,
             Kayttorajoitustiedot=self._create_restriction_info(record),
             Sailytysaikatiedot=self._create_retention_info(record),
-            AsiakirjaluokkaTeksti=jhs.AsiakirjaluokkaTeksti(self._get_value(record, 'type')),
-            AsiakirjaluokkaTarkenneTeksti=jhs.AsiakirjaluokkaTarkenneTeksti(self._get_value(record, 'name')),
+            AsiakirjaluokkaTeksti=jhs.AsiakirjaluokkaTeksti(str(record.type.value)),
+            AsiakirjaluokkaTarkenneTeksti=jhs.AsiakirjaluokkaTarkenneTeksti(record.name),
             TietojarjestelmaNimi=jhs.TietojarjestelmaNimi(information_system) if information_system else None
         )
 
     def _handle_action(self, action, records):
         return jhs.Toimenpidetiedot(
-            id=self._get_value(action, 'id'),
-            ToimenpideluokkaTeksti=self._get_value(action, 'name'),
+            id=action.id,
+            ToimenpideluokkaTeksti=action.name,
             Asiakirjatieto=records
         )
 
     def _handle_phase(self, phase, actions):
         return jhs.Toimenpidetiedot(
-            id=self._get_value(phase, 'id'),
-            ToimenpideluokkaTeksti=self._get_value(phase, 'name'),
+            id=phase.id,
+            ToimenpideluokkaTeksti=phase.name,
             Toimenpidetiedot=actions
         )
 
     def _handle_function(self, function, phases):
-        information_system = self._get_value(function, 'information_system')
+        information_system = self._get_attribute_value(function, 'information_system')
         handling_process_info = jhs.KasittelyprosessiTiedot(
             id=uuid.uuid4(),
             Kayttorajoitustiedot=self._create_restriction_info(function),
@@ -92,9 +93,9 @@ class JHSExporter:
             Toimenpidetiedot=phases
         )
         return jhs.Luokka(
-            id=self._get_value(function, 'id'),
-            Luokitustunnus=self._get_value(function, 'function_id'),
-            Nimeke=jhs.Nimeke(jhs.NimekeKielella(self._get_value(function, 'name'), kieliKoodi='fi')),
+            id=function.id,
+            Luokitustunnus=function.function_id,
+            Nimeke=jhs.Nimeke(jhs.NimekeKielella(function.name, kieliKoodi='fi')),
             KasittelyprosessiTiedot=handling_process_info
         )
 
@@ -104,7 +105,7 @@ class JHSExporter:
         tos_info = jhs.TosTiedot(
             id=uuid.uuid4(),
             Nimeke=jhs.Nimeke(jhs.NimekeKielella('TOS dokumentti', kieliKoodi='fi')),
-            YhteyshenkiloNimi='John Doe',
+            YhteyshenkiloNimi='John Doe',  # TODO
             TosVersio=self.TOS_VERSION
         )
 
@@ -127,7 +128,7 @@ class JHSExporter:
                 func = self._handle_function(function, phases)
                 func.toDOM()  # validates
                 functions.append(func)
-            except Exception as e:
+            except pyxb.PyXBException as e:
                 self.msg('ERROR validating the function, details:\n%s' % e.details())
 
         self.msg('creating the actual XML...')
