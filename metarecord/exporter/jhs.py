@@ -3,7 +3,7 @@ import uuid
 import pyxb
 
 from metarecord.binding import jhs
-from metarecord.models import Attribute, AttributeValue, Function
+from metarecord.models import Function
 
 
 class JHSExporter:
@@ -11,13 +11,13 @@ class JHSExporter:
     TOS_VERSION = '1'
 
     JHS_MAPPING = {
-        'publicity_class': {
+        'PublicityClass': {
             'Julkinen': '1',
             'Osittain salassapidettävä': '2',
             'Salassa pidettävä': '3',
             'Ei-julkinen': '4'
         },
-        'personal_data': {
+        'PersonalData': {
             'Ei sisällä henkilötietoja': '1',
             'Sisältää henkilötietoja': '2',
             'Sisältää arkaluonteisia henkilötietoja': '3'
@@ -44,21 +44,21 @@ class JHSExporter:
 
     def _create_restriction_info(self, obj):
         return jhs.Kayttorajoitustiedot(
-            JulkisuusluokkaKoodi=self._get_attribute_value(obj, 'publicity_class'),
-            HenkilotietoluonneKoodi=self._get_attribute_value(obj, 'personal_data'),
-            SalassapitoAikaArvo=self._get_attribute_value(obj, 'security_period'),
-            SalassapitoPerusteTeksti=self._get_attribute_value(obj, 'security_reason'),
-            SalassapidonLaskentaperusteTeksti=self._get_attribute_value(obj, 'security_period_calculation_basis')
+            JulkisuusluokkaKoodi=self._get_attribute_value(obj, 'PublicityClass'),
+            HenkilotietoluonneKoodi=self._get_attribute_value(obj, 'PersonalData'),
+            SalassapitoAikaArvo=self._get_attribute_value(obj, 'SecurityPeriod'),
+            SalassapitoPerusteTeksti=self._get_attribute_value(obj, 'SecurityReason'),
+            SalassapidonLaskentaperusteTeksti=self._get_attribute_value(obj, 'Restriction.SecurityPeriodStart')
         )
 
     def _create_retention_info(self, obj):
         return jhs.Sailytysaikatiedot(
-            SailytysajanPituusArvo=self._get_attribute_value(obj, 'retention_period'),
-            SailytysajanPerusteTeksti=self._get_attribute_value(obj, 'retention_reason')
+            SailytysajanPituusArvo=self._get_attribute_value(obj, 'RetentionPeriod'),
+            SailytysajanPerusteTeksti=self._get_attribute_value(obj, 'RetentionReason')
         )
 
     def _handle_record(self, record):
-        information_system = self._get_attribute_value(record, 'information_system')
+        information_system = self._get_attribute_value(record, 'InformationSystem')
 
         return jhs.Asiakirjatieto(
             id=record.id,
@@ -84,7 +84,7 @@ class JHSExporter:
         )
 
     def _handle_function(self, function, phases):
-        information_system = self._get_attribute_value(function, 'information_system')
+        information_system = self._get_attribute_value(function, 'InformationSystem')
         handling_process_info = jhs.KasittelyprosessiTiedot(
             id=uuid.uuid4(),
             Kayttorajoitustiedot=self._create_restriction_info(function),

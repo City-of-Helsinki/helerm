@@ -10,25 +10,25 @@ class TOSImporter:
 
     # valid attributes and their identifiers
     CHOICE_ATTRIBUTES = {
-        'Julkisuusluokka': 'publicity_class',
-        'Salassapitoaika': 'security_period',
-        'Salassapitoperuste': 'security_reason',
-        'Henkilötietoluonne': 'personal_data',
-        'Säilytysaika': 'retention_period',
-        'Säilytysajan peruste': 'retention_reason',
-        'Suojeluluokka': 'protection_class',
-        'Henkilötunnus': 'social_security_number',
-        'Säilytysajan laskentaperuste': 'retention_calculation_basis',
-        'Paperiasiakirjojen säilytysjärjestys': 'paper_record_retention_order',
-        'Paperiasiakirjojen säilytysaika arkistossa': 'paper_record_archive_retention_period',
-        'Paperiasiakirjojen säilytysaika työpisteessä': 'paper_record_workplace_retention_period',
-        'Salassapitoajan laskentaperuste': 'security_period_calculation_basis',
+        'Julkisuusluokka': 'PublicityClass',
+        'Salassapitoaika': 'SecurityPeriod',
+        'Salassapitoperuste': 'SecurityReason',
+        'Henkilötietoluonne': 'PersonalData',
+        'Säilytysaika': 'RetentionPeriod',
+        'Säilytysajan peruste': 'RetentionReason',
+        'Suojeluluokka': 'ProtectionClass',
+        'Henkilötunnus': 'SocialSecurityNumber',
+        'Säilytysajan laskentaperuste': 'RetentionPeriodStart',
+        'Paperiasiakirjojen säilytysjärjestys': 'StorageOrder',
+        'Paperiasiakirjojen säilytysaika arkistossa': 'RetentionPeriodTotal',
+        'Paperiasiakirjojen säilytysaika työpisteessä': 'RetentionPeriodOffice',
+        'Salassapitoajan laskentaperuste': 'Restriction.SecurityPeriodStart',
     }
     FREE_TEXT_ATTRIBUTES = {
-        'Lisätietoja': 'additional_information',
-        'Rekisteröinti/ Tietojärjestelmä': 'information_system',
-        'Paperiasiakirjojen säilytyspaikka': 'paper_record_retention_location',
-        'Paperiasiakirjojen säilytyksen vastuuhenkilö': 'paper_record_retention_responsible_person',
+        'Lisätietoja': 'AdditionalInformation',
+        'Rekisteröinti/ Tietojärjestelmä': 'InformationSystem',
+        'Paperiasiakirjojen säilytyspaikka': 'StorageLocation',
+        'Paperiasiakirjojen säilytyksen vastuuhenkilö': 'StorageAccountable',
     }
 
     MODEL_MAPPING = OrderedDict([
