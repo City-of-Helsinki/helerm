@@ -1,7 +1,7 @@
 import uuid
 
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -37,6 +37,15 @@ class Attribute(BaseModel):
             self.identifier = self.pk
         super().save(*args, **kwargs)
 
+    @staticmethod
+    def get_attribute_obj(attribute):
+        if isinstance(attribute, Attribute):
+            return attribute
+        try:
+            return Attribute.objects.get(identifier=attribute)
+        except Attribute.DoesNotExist:
+            raise Exception('Attribute %s does not exist.' % attribute)
+
 
 class AttributeValue(BaseModel):
     attribute = models.ForeignKey(Attribute, verbose_name=_('attribute'), related_name='values')
@@ -57,3 +66,57 @@ class StructuralElement(BaseModel):
     class Meta:
         abstract = True
         ordering = ['order']
+
+    @transaction.atomic
+    def set_attribute_value(self, attribute, value):
+        """
+        Set a ManyToMany attribute's value.
+
+        :param attribute: Attribute object or identifier
+        :type attribute: Attribute or str
+        :type value: str
+        """
+        print('set attr value attr %s value %s' % (attribute, value))
+        attribute_obj = Attribute.get_attribute_obj(attribute)
+        self.remove_attribute_value(attribute)
+
+        if attribute_obj.is_free_text:
+            value_obj = AttributeValue.objects.create(attribute=attribute_obj, value=value)
+        else:
+            value_obj = AttributeValue.objects.get(attribute=attribute_obj, value=value)
+        print('value obj %s' % value_obj)
+        self.attribute_values.add(value_obj)
+
+    def remove_attribute_value(self, attribute):
+        """
+        Remove a ManyToMany attribute's value.
+
+        :param attribute: Attribute object or identifier
+        :type attribute: Attribute or str
+        """
+        attribute_obj = Attribute.get_attribute_obj(attribute)
+        try:
+            attribute_value = self.attribute_values.get(attribute=attribute_obj)
+        except AttributeValue.DoesNotExist:
+            return
+
+        if attribute_obj.is_free_text:
+            attribute_value.delete()
+        else:
+            self.attribute_values.remove(attribute_value)
+
+    def get_attribute_value(self, attribute):
+        """
+        Get a ManyToMany attribute's value.
+
+        :param attribute: Attribute object or identifier
+        :type attribute: Attribute or str
+        :rtype: str
+        """
+        attribute_obj = Attribute.get_attribute_obj(attribute)
+        try:
+            value_obj = self.attribute_values.get(attribute=attribute_obj)
+        except AttributeValue.DoesNotExist:
+            value_obj = None
+
+        return value_obj.value if value_obj else None

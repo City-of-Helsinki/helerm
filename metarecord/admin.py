@@ -11,9 +11,9 @@ class ModelFormWithAttributes(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         # set initial values for the attribute fields
-        for name in Attribute.objects.values_list('name', flat=True):
+        for attribute in Attribute.objects.all():
             try:
-                self.fields[name].initial = self.instance.attribute_values.get(attribute__name=name)
+                self.fields[attribute.name].initial = self.instance.attribute_values.get(attribute=attribute)
             except AttributeValue.DoesNotExist:
                 pass
 
@@ -59,29 +59,15 @@ class StructuralElementAdmin(admin.ModelAdmin):
         obj.save()
 
         # handle dynamic ManyToMany attribute saving
-        for name, is_free_text in Attribute.objects.values_list('name', 'is_free_text'):
-            value = form.cleaned_data.get(name)
-            attribute = Attribute.objects.get(name=name)
-
-            # handle free text attributes
-            if is_free_text:
-                attribute = Attribute.objects.get(name=name)
-                if value:
-                    try:
-                        attribute_value = obj.attribute_values.get(attribute=attribute)
-                        attribute_value.value = value
-                        attribute_value.save(update_fields=('value',))
-                    except AttributeValue.DoesNotExist:
-                        attribute_value = AttributeValue.objects.create(attribute=attribute, value=value)
-                        obj.attribute_values.add(attribute_value)
-                else:
-                    obj.attribute_values.filter(attribute=attribute).delete()
+        for attribute in Attribute.objects.all():
+            if attribute.name not in form.cleaned_data:
                 continue
 
-            # handle choice attributes
-            obj.attribute_values.filter(attribute=attribute).delete()
+            value = form.cleaned_data.get(attribute.name)
             if value:
-                obj.attribute_values.add(form.cleaned_data.get(name))
+                obj.set_attribute_value(attribute, value)
+            else:
+                obj.remove_attribute_value(attribute)
 
 
 class FunctionAdmin(StructuralElementAdmin):
