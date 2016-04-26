@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from openpyxl import load_workbook
 
-from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
+from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType, RecordAttachment
 
 
 class TOSImporter:
@@ -36,7 +36,7 @@ class TOSImporter:
         ('Käsittelyvaiheen metatiedot', Phase),
         ('Toimenpiteen metatiedot', Action),
         ('Asiakirjan metatiedot', Record),
-        ('Asiakirjan liitteen metatiedot', None),  # FIXME: Implement attachment?
+        ('Asiakirjan liitteen metatiedot', RecordAttachment),
     ])
     MODEL_HIERARCHY = list(MODEL_MAPPING.values())
 
@@ -168,12 +168,8 @@ class TOSImporter:
 
         return attribute_values
 
-    def _save_structural_element(self, model, parent, data, order):
+    def _save_structural_element(self, model, parent, data, order, attachment=False):
         record_type = data['attributes'].pop('Asiakirjan tyyppi', None)
-        paper_record_archive_retention_period = data['attributes'].pop(
-            'Paperiasiakirjojen säilytysaika arkistossa', None)
-        paper_record_workplace_retention_period = data['attributes'].pop(
-            'Paperiasiakirjojen säilytysaika työpisteessä', None)
 
         model_attributes = {}  # model specific attributes
         attribute_values = self._get_common_attribute_values(data)
@@ -188,8 +184,8 @@ class TOSImporter:
                 return
             model_attributes['type'] = RecordType.objects.get(value=record_type)
             parent_field_name = 'action'
-        else:
-            raise Exception('Attachments not supported yet')
+        else:  # attachment
+            parent_field_name = 'record'
         model_attributes[parent_field_name] = parent
 
         model_attributes['name'] = data['name']
@@ -217,6 +213,8 @@ class TOSImporter:
                 action_obj = self._save_structural_element(Action, phase_obj, action, idx)
                 for idx, record in enumerate(action['records']):
                     record_obj = self._save_structural_element(Record, action_obj, record, idx)
+                    for idx, attachment in enumerate(record['attachments']):
+                        self._save_structural_element(RecordAttachment, record_obj, attachment, idx, True)
 
         function_obj.error_count = function.get('error_count', 0)
         function_obj.save()
@@ -264,9 +262,15 @@ class TOSImporter:
             elif type_info == 'Asiakirjan metatiedot':
                 record = {}
                 child_list = action['records']
+                record['attachments'] = []
                 target = record
                 name = row.pop('Asiakirjatyypin tarkenne', None)
-                # FIXME: Attachments?
+            elif type_info == 'Asiakirjan liitteen metatiedot':
+                attachment = {}
+                child_list = record['attachments']
+                target = attachment
+                name = row.pop('Asiakirjan liitteet', '---')
+                row.pop('Asiakirjatyypin tarkenne', None)
 
             if type_info not in self.MODEL_MAPPING:
                 self._emit_error('Skipping row with type %s' % type_info)
@@ -322,8 +326,9 @@ class TOSImporter:
             is_free_text = attr in self.FREE_TEXT_ATTRIBUTES
 
             try:
-                attribute_obj, created = Attribute.objects.get_or_create(name=attr, is_free_text=is_free_text,
-                                                                         identifier=all_attributes.get(attr))
+                attribute_obj, created = Attribute.objects.update_or_create(
+                    identifier=all_attributes.get(attr), defaults={'name': attr, 'is_free_text': is_free_text}
+                )
             except ValueError as e:
                 print('    !!!! Cannot create attribute: %s' % e)
                 continue
@@ -347,8 +352,9 @@ class TOSImporter:
         # add also free text attributes that don't exist in the codesets sheet
         for name, identifier in self.FREE_TEXT_ATTRIBUTES.items():
             if identifier not in handled_attrs:
-                attribute_obj, created = Attribute.objects.get_or_create(name=name, is_free_text=True,
-                                                                         identifier=identifier)
+                attribute_obj, created = Attribute.objects.update_or_create(
+                    identifier=identifier, defaults={'name': name, 'is_free_text': True}
+                )
                 info_str = 'Created' if created else 'Already exist'
                 print("\n%s: free text attribute %s that doesn't exist in the sheet" % (info_str, name))
 

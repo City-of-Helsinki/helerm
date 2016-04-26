@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-26 23:29+0300\n"
+"POT-Creation-Date: 2016-04-27 01:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,7 +116,7 @@ msgstr "asiakirjan tyyppi"
 msgid "record types"
 msgstr "asiakirjojen tyypit"
 
-#: metarecord/models/record.py:21
+#: metarecord/models/record.py:21 metarecord/models/record.py:34
 msgid "type specifier"
 msgstr "tyypin tarkenne"
 
@@ -124,10 +124,18 @@ msgstr "tyypin tarkenne"
 msgid "type"
 msgstr "tyyppi"
 
-#: metarecord/models/record.py:25
+#: metarecord/models/record.py:25 metarecord/models/record.py:33
 msgid "record"
 msgstr "asiakirja"
 
 #: metarecord/models/record.py:26
 msgid "records"
 msgstr "asiakirjat"
+
+#: metarecord/models/record.py:37
+msgid "record attachment"
+msgstr "asiakirjan liite"
+
+#: metarecord/models/record.py:38
+msgid "record attachments"
+msgstr "asiakirjojen liitteet"

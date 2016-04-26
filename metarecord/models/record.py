@@ -27,3 +27,15 @@ class Record(StructuralElement):
 
     def __str__(self):
         return '%s/%s' % (self.action, self.type)
+
+
+class RecordAttachment(StructuralElement):
+    record = models.ForeignKey(Record, verbose_name=_('record'), related_name='attachments')
+    name = models.CharField(verbose_name=_('type specifier'), max_length=256)
+
+    class Meta:
+        verbose_name = _('record attachment')
+        verbose_name_plural = _('record attachments')
+
+    def __str__(self):
+        return '%s | %s' % (self.record, self.name)

@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.db import transaction
 from django.db.utils import OperationalError
 
-from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
+from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType, RecordAttachment
 
 
 class ModelFormWithAttributes(forms.ModelForm):
@@ -77,15 +77,19 @@ class FunctionAdmin(StructuralElementAdmin):
 
 
 class PhaseAdmin(StructuralElementAdmin):
-    pass
+    ordering = ('function__function_id', 'order')
 
 
 class ActionAdmin(StructuralElementAdmin):
-    pass
+    ordering = ('phase__function__function_id', 'order')
 
 
 class RecordAdmin(StructuralElementAdmin):
-    pass
+    ordering = ('action__phase__function__function_id', 'order')
+
+
+class RecordAttachmentAdmin(StructuralElementAdmin):
+    ordering = ('record__action__phase__function__function_id', 'order')
 
 
 class AttributeValueInline(admin.StackedInline):
@@ -107,4 +111,5 @@ admin.site.register(Phase, PhaseAdmin)
 admin.site.register(Action, ActionAdmin)
 admin.site.register(Record, RecordAdmin)
 admin.site.register(RecordType)
+admin.site.register(RecordAttachment, RecordAttachmentAdmin)
 admin.site.register(Attribute, AttributeAdmin)

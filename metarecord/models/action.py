@@ -14,4 +14,4 @@ class Action(StructuralElement):
         verbose_name_plural = _('actions')
 
     def __str__(self):
-        return '%s/%s' % (self.phase, self.name)
+        return '%s | %s' % (self.phase, self.name)

@@ -14,4 +14,4 @@ class Phase(StructuralElement):
         verbose_name_plural = _('phases')
 
     def __str__(self):
-        return '%s/%s' % (self.function, self.name)
+        return '%s | %s' % (self.function, self.name)
