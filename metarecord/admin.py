@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.db import transaction
-from django.db.utils import OperationalError
+from django.db.utils import OperationalError, ProgrammingError
 
 from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType, RecordAttachment
 
@@ -26,11 +26,12 @@ class StructuralElementAdmin(admin.ModelAdmin):
         super().__init__(*args, **kwargs)
 
         # Because Django executes ModelAdmin.__init__ when running manage.py migrate,
-        # we need this check or else migrate fails if Attribute table hasn't been
-        # created yet (empty db the most common case).
+        # we need this stupid hack or else migrate fails if Attribute table hasn't been
+        # created yet (empty db the most common case). SQLite throws OperationalError,
+        # PostgreSQL ProrammingError, not tested on other dbs.
         try:
             attribute_list = list(Attribute.objects.values_list('name', 'is_free_text'))
-        except OperationalError:
+        except (OperationalError, ProgrammingError):
             return
 
         # Add dynamic attributes as ChoiceFields and CharFields to the form.
