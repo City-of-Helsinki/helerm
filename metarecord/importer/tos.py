@@ -8,28 +8,27 @@ from metarecord.models import Action, Attribute, AttributeValue, Function, Phase
 
 class TOSImporter:
 
+    # valid attributes and their identifiers
     CHOICE_ATTRIBUTES = {
-        'Julkisuusluokka',
-        'Salassapitoaika',
-        'Salassapitoperuste',
-        'Henkilötietoluonne',
-        'Säilytysaika',
-        'Säilytysajan peruste',
-        'Suojeluluokka',
-        'Henkilötunnus',
-        'Asiakirjatyypit',
-        'Säilytysajan laskentaperuste',
-        'Paperiasiakirjojen säilytysjärjestys',
-        'Paperiasiakirjojen säilytysaika arkistossa',
-        'Paperiasiakirjojen säilytysaika työpisteessä',
-        'Salassapitoajan laskentaperuste',
+        'Julkisuusluokka': 'publicity_class',
+        'Salassapitoaika': 'security_period',
+        'Salassapitoperuste': 'security_reason',
+        'Henkilötietoluonne': 'personal_data',
+        'Säilytysaika': 'retention_period',
+        'Säilytysajan peruste': 'retention_reason',
+        'Suojeluluokka': 'protection_class',
+        'Henkilötunnus': 'social_security_number',
+        'Säilytysajan laskentaperuste': 'retention_calculation_basis',
+        'Paperiasiakirjojen säilytysjärjestys': 'paper_record_retention_order',
+        'Paperiasiakirjojen säilytysaika arkistossa': 'paper_record_archive_retention_period',
+        'Paperiasiakirjojen säilytysaika työpisteessä': 'paper_record_workplace_retention_period',
+        'Salassapitoajan laskentaperuste': 'security_period_calculation_basis',
     }
-
     FREE_TEXT_ATTRIBUTES = {
-        'Lisätietoja',
-        'Rekisteröinti/ Tietojärjestelmä',
-        'Paperiasiakirjojen säilytyspaikka',
-        'Paperiasiakirjojen säilytyksen vastuuhenkilö',
+        'Lisätietoja': 'additional_information',
+        'Rekisteröinti/ Tietojärjestelmä': 'information_system',
+        'Paperiasiakirjojen säilytyspaikka': 'paper_record_retention_location',
+        'Paperiasiakirjojen säilytyksen vastuuhenkilö': 'paper_record_retention_responsible_person',
     }
 
     MODEL_MAPPING = OrderedDict([
@@ -312,15 +311,18 @@ class TOSImporter:
                     print('    %s: %s' % (info_str, value))
                 continue
 
-            valid_attributes = self.CHOICE_ATTRIBUTES | self.FREE_TEXT_ATTRIBUTES
-            if attr not in valid_attributes:
+            all_attributes = self.CHOICE_ATTRIBUTES.copy()
+            all_attributes.update(self.FREE_TEXT_ATTRIBUTES)
+
+            if attr not in all_attributes:
                 print('    skipping ')
                 continue
 
             is_free_text = attr in self.FREE_TEXT_ATTRIBUTES
 
             try:
-                attribute_obj, created = Attribute.objects.get_or_create(name=attr, is_free_text=is_free_text)
+                attribute_obj, created = Attribute.objects.get_or_create(name=attr, is_free_text=is_free_text,
+                                                                         identifier=all_attributes.get(attr))
             except ValueError as e:
                 print('    !!!! Cannot create attribute: %s' % e)
                 continue
