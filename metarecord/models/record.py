@@ -10,7 +10,7 @@ class RecordType(BaseModel):
 
     class Meta:
         verbose_name = _('record type')
-        verbose_name_plural = _('record type')
+        verbose_name_plural = _('record types')
 
     def __str__(self):
         return self.value
@@ -19,7 +19,7 @@ class RecordType(BaseModel):
 class Record(StructuralElement):
     action = models.ForeignKey(Action, verbose_name=_('action'), related_name='records')
     name = models.CharField(verbose_name=_('type specifier'), max_length=256)
-    type = models.ForeignKey(RecordType, verbose_name=_('type'))
+    type = models.ForeignKey(RecordType, verbose_name=_('type'), related_name='records')
 
     class Meta:
         verbose_name = _('record')
