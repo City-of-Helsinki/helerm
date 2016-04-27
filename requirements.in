@@ -5,3 +5,4 @@ pytz
 psycopg2
 openpyxl
 pyxb
+djangorestframework

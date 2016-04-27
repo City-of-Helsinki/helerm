@@ -13,9 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import include, url
 from django.contrib import admin
 
+from metarecord import urls_v1
+
 urlpatterns = [
+    url(r'^v1/', include(urls_v1)),
     url(r'^admin/', admin.site.urls),
 ]
