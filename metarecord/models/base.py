@@ -76,7 +76,6 @@ class StructuralElement(BaseModel):
         :type attribute: Attribute or str
         :type value: str
         """
-        print('set attr value attr %s value %s' % (attribute, value))
         attribute_obj = Attribute.get_attribute_obj(attribute)
         self.remove_attribute_value(attribute)
 
@@ -84,7 +83,6 @@ class StructuralElement(BaseModel):
             value_obj = AttributeValue.objects.create(attribute=attribute_obj, value=value)
         else:
             value_obj = AttributeValue.objects.get(attribute=attribute_obj, value=value)
-        print('value obj %s' % value_obj)
         self.attribute_values.add(value_obj)
 
     def remove_attribute_value(self, attribute):
