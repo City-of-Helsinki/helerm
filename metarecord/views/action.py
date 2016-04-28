@@ -1,14 +1,25 @@
-from rest_framework import viewsets
+from rest_framework import serializers, viewsets
 
 from metarecord.models import Action
-from .base import StructuralElementSerializer
+from .base import DetailSerializerMixin, StructuralElementSerializer
+from .record import RecordDetailSerializer
 
 
-class ActionSerializer(StructuralElementSerializer):
+class ActionListSerializer(StructuralElementSerializer):
     class Meta(StructuralElementSerializer.Meta):
         model = Action
 
+    records = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
-class ActionViewSet(viewsets.ReadOnlyModelViewSet):
+
+class ActionDetailSerializer(StructuralElementSerializer):
+    class Meta(StructuralElementSerializer.Meta):
+        model = Action
+
+    records = RecordDetailSerializer(many=True, read_only=True)
+
+
+class ActionViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Action.objects.all()
-    serializer_class = ActionSerializer
+    serializer_class = ActionListSerializer
+    serializer_class_detail = ActionDetailSerializer

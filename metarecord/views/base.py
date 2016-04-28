@@ -16,3 +16,14 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         exclude = ('attribute_values', 'order')
 
     attributes = AttributeValueFieldSerializer(source='attribute_values', many=True)
+
+
+class DetailSerializerMixin:
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            try:
+                return self.serializer_class_detail
+            except AttributeError:
+                pass
+
+        return super().get_serializer_class()
