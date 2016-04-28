@@ -41,10 +41,8 @@ class Attribute(BaseModel):
     def get_attribute_obj(attribute):
         if isinstance(attribute, Attribute):
             return attribute
-        try:
-            return Attribute.objects.get(identifier=attribute)
-        except Attribute.DoesNotExist:
-            raise Exception('Attribute %s does not exist.' % attribute)
+
+        return Attribute.objects.get(identifier=attribute)
 
 
 class AttributeValue(BaseModel):
