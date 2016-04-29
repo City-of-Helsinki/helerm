@@ -168,7 +168,7 @@ class TOSImporter:
 
         return attribute_values
 
-    def _save_structural_element(self, model, parent, data, order, attachment=False):
+    def _save_structural_element(self, model, parent, data, order):
         record_type = data['attributes'].pop('Asiakirjan tyyppi', None)
 
         model_attributes = {}  # model specific attributes
@@ -214,7 +214,7 @@ class TOSImporter:
                 for idx, record in enumerate(action['records']):
                     record_obj = self._save_structural_element(Record, action_obj, record, idx)
                     for idx, attachment in enumerate(record['attachments']):
-                        self._save_structural_element(RecordAttachment, record_obj, attachment, idx, True)
+                        self._save_structural_element(RecordAttachment, record_obj, attachment, idx)
 
         function_obj.error_count = function.get('error_count', 0)
         function_obj.save()
@@ -280,14 +280,17 @@ class TOSImporter:
                 continue
 
             if not name or len(name) <= 2:
-                self._emit_error('No name for %s' % target_model._meta.verbose_name)
+                if row:
+                    self._emit_error('No name for %s, data %s' % (target_model._meta.verbose_name, row))
                 continue
 
             target['name'] = name
+
             # Clean some attributes
-            s = row.get('Säilytysaika')
-            if isinstance(s, str) and s.startswith('-1'):
-                row['Säilytysaika'] = '-1'
+            for name in ('Säilytysaika', 'Paperiasiakirjojen säilytysaika arkistossa'):
+                s = row.get(name)
+                if isinstance(s, str) and s.startswith('-1'):
+                    row[name] = '-1'
 
             target['attributes'] = row
             child_list.append(target)
