@@ -1,5 +1,4 @@
 import pytest
-
 from rest_framework.reverse import reverse
 
 
@@ -14,10 +13,11 @@ def attribute(choice_attribute):
     'action',
     'record',
     'record_attachment',
-    'attribute'
+    'attribute',
+    'record_type'
 ])
 @pytest.mark.django_db
-def test_get(client, resource, function, phase, action, record, record_attachment, attribute):
+def test_get(client, resource, function, phase, action, record, record_attachment, attribute, record_type):
     """
     Test GET to every resource's list and detail endpoint.
     """

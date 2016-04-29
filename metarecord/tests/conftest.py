@@ -1,6 +1,6 @@
 import pytest
 
-from metarecord.models import Attribute, AttributeValue, Function, Phase, Action, Record, RecordAttachment, RecordType
+from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordAttachment, RecordType
 
 
 @pytest.fixture

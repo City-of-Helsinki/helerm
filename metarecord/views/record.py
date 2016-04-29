@@ -1,6 +1,6 @@
 from rest_framework import serializers, viewsets
 
-from metarecord.models import Record, RecordAttachment
+from metarecord.models import Record, RecordAttachment, RecordType
 from .base import DetailSerializerMixin, StructuralElementSerializer
 
 
@@ -12,6 +12,16 @@ class RecordAttachmentSerializer(StructuralElementSerializer):
 class RecordAttachmentViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = RecordAttachment.objects.all()
     serializer_class = RecordAttachmentSerializer
+
+
+class RecordTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecordType
+
+
+class RecordTypeViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = RecordType.objects.all()
+    serializer_class = RecordTypeSerializer
 
 
 class RecordListSerializer(StructuralElementSerializer):
