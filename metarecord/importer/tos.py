@@ -128,7 +128,12 @@ class TOSImporter:
 
         # get all four function id hierarchy levels
         # for example ['5', '05 01', '05 01 03', None]
-        function_ids = [sheet.cell(row=row, column=1).value for row in range(2, first_data_row)]
+        function_ids = []
+        for row in range(2, first_data_row):
+            value = sheet.cell(row=row, column=1).value
+            if value:
+                value = value.strip()
+            function_ids.append(value)
 
         # find the last index before none (or the last one in the list if none doesn't exist)
         # that is the index of this function's id
@@ -153,9 +158,9 @@ class TOSImporter:
         parent_id = function_data.pop('parent_function_id')
         if parent_id:
             try:
-                function_data['parent'] = Function.objects.get(function_id=parent_id.strip())
+                function_data['parent'] = Function.objects.get(function_id=parent_id)
             except Function.DoesNotExist:
-                print('!!!! Cannot set parent, function %s does not exist.' % parent_id)
+                print('Cannot set parent, function %s does not exist' % parent_id)
                 # TODO ignoring missing parent for now
 
         function, created = Function.objects.get_or_create(function_id=function_data['function_id'],
@@ -172,7 +177,6 @@ class TOSImporter:
                 self._emit_error('Invalid attribute %s' % attribute_name)
                 continue
 
-            # handle free_text attributes
             if attribute_name in self.FREE_TEXT_ATTRIBUTES:
                 attribute_value = AttributeValue.objects.create(attribute=attribute, value=value)
             else:
@@ -244,6 +248,7 @@ class TOSImporter:
         target = function
         self.current_function = function
         phase = action = None
+        previous = None
         for row in data:
             name = None
             child_list = []
@@ -258,11 +263,15 @@ class TOSImporter:
                 name = function_obj.name
                 # Must be the first row
                 assert phase is None and action is None
+                previous = Function
             elif type_info.startswith('Asiakirjallisen tiedon käsittely'):
                 assert phase is None and action is None
                 # Skip row
                 continue
             elif type_info == 'Käsittelyvaiheen metatiedot':
+                if previous is None:
+                    print('Parent of phase %s missing' % row.get('Käsittelyvaihe'))
+                    continue
                 phase = {}
                 child_list = function['phases']
                 phase['actions'] = []
@@ -270,19 +279,30 @@ class TOSImporter:
                 target = phase
                 name = row.pop('Käsittelyvaihe', None)
                 assert name
+                previous = Phase
             elif type_info == 'Toimenpiteen metatiedot':
+                if previous == Function:
+                    print('Parent of action %s missing' % row.get('Toimenpide'))
+                    continue
                 action = {}
                 child_list = phase['actions']
                 action['records'] = []
                 target = action
                 name = row.pop('Toimenpide', None)
+                previous = Action
             elif type_info == 'Asiakirjan metatiedot':
+                if previous in (Function, Phase):
+                    print('Parent of record %s missing' % row.get('Asiakirjatyypin tarkenne'))
+                    continue
                 record = {}
                 child_list = action['records']
                 record['attachments'] = []
                 target = record
                 name = row.pop('Asiakirjatyypin tarkenne', None)
+                previous = Record
             elif type_info == 'Asiakirjan liitteen metatiedot':
+                if previous in (Function, Phase, Action):
+                    print('Parent of attachment %s missing' % row.get('Asiakirjan liitteet'))
                 attachment = {}
                 child_list = record['attachments']
                 target = attachment
@@ -298,7 +318,7 @@ class TOSImporter:
 
             if not name or len(name) <= 2:
                 if row:
-                    self._emit_error('No name for %s, data %s' % (target_model._meta.verbose_name, row))
+                    self._emit_error('No name for %s, data: %s' % (target_model._meta.verbose_name, row))
                 continue
 
             target['name'] = name
@@ -385,7 +405,8 @@ class TOSImporter:
 
         for sheet in self.wb:
             print('Processing sheet %s' % sheet.title)
-            if sheet.max_column <= 2 or sheet.max_row <= 2 or sheet.cell('A1').value != 'Tehtäväluokka':
+            if (sheet.max_column <= 2 or sheet.max_row <= 2 or sheet.cell('A1').value != 'Tehtäväluokka' or
+                    sheet.cell('A2').value == 'Kaikki Ahjo-luokat'):
                 print('Skipping')
                 continue
 
@@ -396,4 +417,4 @@ class TOSImporter:
             if function:
                 self._process_data(sheet, function)
 
-        print('\nDone.')
+        print('Done.')
