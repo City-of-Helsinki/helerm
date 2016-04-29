@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from openpyxl import load_workbook
 
-from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType, RecordAttachment
+from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordAttachment, RecordType
 
 
 class TOSImporter:
@@ -91,14 +91,25 @@ class TOSImporter:
 
         return codesets
 
+    def _get_first_data_row(self, sheet):
+        data_row = 1
+        while sheet.cell(row=data_row, column=1).value != 'Asian metatiedot':
+            data_row += 1
+            if data_row > sheet.max_row:
+                print('Cannot find first data row')
+                return None
+        return data_row
+
     def _get_data(self, sheet):
-        DATA_ROW = 6
+        data_row = self._get_first_data_row(sheet)
+        if not data_row:
+            return None
 
         max_col = sheet.max_column + 1
         headers = [sheet.cell(row=1, column=x).value for x in range(1, max_col)]
         headers = [self._clean_header(s) for s in headers if s]
         data = []
-        cells = sheet.get_squared_range(1, DATA_ROW, max_col, sheet.max_row + 1)
+        cells = sheet.get_squared_range(1, data_row, max_col, sheet.max_row + 1)
         for row in cells:
             attrs = {}
             for col, attr in enumerate(headers):
@@ -111,10 +122,13 @@ class TOSImporter:
         return data
 
     def _get_function_data(self, sheet):
+        first_data_row = self._get_first_data_row(sheet)
+        if not first_data_row:
+            return None
 
         # get all four function id hierarchy levels
         # for example ['5', '05 01', '05 01 03', None]
-        function_ids = [sheet.cell(row=row, column=1).value for row in range(2, 6)]
+        function_ids = [sheet.cell(row=row, column=1).value for row in range(2, first_data_row)]
 
         # find the last index before none (or the last one in the list if none doesn't exist)
         # that is the index of this function's id
@@ -133,6 +147,9 @@ class TOSImporter:
 
     def _import_function(self, sheet):
         function_data = self._get_function_data(sheet)
+        if not function_data:
+            return
+
         parent_id = function_data.pop('parent_function_id')
         if parent_id:
             try:
@@ -376,6 +393,7 @@ class TOSImporter:
             function = self._import_function(sheet)
 
             # process data
-            self._process_data(sheet, function)
+            if function:
+                self._process_data(sheet, function)
 
         print('\nDone.')
