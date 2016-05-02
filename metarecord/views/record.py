@@ -1,7 +1,8 @@
 from rest_framework import serializers, viewsets
 
 from metarecord.models import Record, RecordAttachment, RecordType
-from .base import DetailSerializerMixin, StructuralElementSerializer
+
+from .base import AttributeFilter, DetailSerializerMixin, StructuralElementSerializer
 
 
 class RecordAttachmentSerializer(StructuralElementSerializer):
@@ -12,6 +13,7 @@ class RecordAttachmentSerializer(StructuralElementSerializer):
 class RecordAttachmentViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = RecordAttachment.objects.all()
     serializer_class = RecordAttachmentSerializer
+    filter_backends = (AttributeFilter,)
 
 
 class RecordTypeSerializer(serializers.ModelSerializer):
@@ -42,3 +44,4 @@ class RecordViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Record.objects.all()
     serializer_class = RecordListSerializer
     serializer_class_detail = RecordDetailSerializer
+    filter_backends = (AttributeFilter,)

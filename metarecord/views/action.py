@@ -1,7 +1,8 @@
 from rest_framework import serializers, viewsets
 
 from metarecord.models import Action
-from .base import DetailSerializerMixin, StructuralElementSerializer
+
+from .base import AttributeFilter, DetailSerializerMixin, StructuralElementSerializer
 from .record import RecordDetailSerializer
 
 
@@ -23,3 +24,4 @@ class ActionViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Action.objects.all()
     serializer_class = ActionListSerializer
     serializer_class_detail = ActionDetailSerializer
+    filter_backends = (AttributeFilter,)
