@@ -132,7 +132,7 @@ class TOSImporter:
         for row in range(2, first_data_row):
             value = sheet.cell(row=row, column=1).value
             if value:
-                value = value.strip()
+                value = str(value).strip()
             function_ids.append(value)
 
         # find the last index before none (or the last one in the list if none doesn't exist)
