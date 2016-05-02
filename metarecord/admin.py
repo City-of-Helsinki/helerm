@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.db import transaction
 from django.db.utils import OperationalError, ProgrammingError
 
-from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType, RecordAttachment
+from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordAttachment, RecordType
 
 
 class ModelFormWithAttributes(forms.ModelForm):
