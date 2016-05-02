@@ -56,6 +56,22 @@ class AttributeValue(BaseModel):
     def __str__(self):
         return self.value
 
+    @classmethod
+    def remove_obsolete(cls):
+        """
+        Deletes all free text values that are no longer linked to any StructuralElement.
+        """
+        fields = [field for field in cls._meta.get_fields() if field.many_to_many]
+        filters = {'%s__isnull' % field.name: True for field in fields}
+        cls.objects.filter(attribute__is_free_text=True, **filters).delete()
+
+
+class StructuralElementQuerySet(models.QuerySet):
+    @transaction.atomic
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        AttributeValue.remove_obsolete()
+
 
 class StructuralElement(BaseModel):
     order = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
@@ -116,3 +132,15 @@ class StructuralElement(BaseModel):
             value_obj = None
 
         return value_obj.value if value_obj else None
+
+    @transaction.atomic()
+    def remove_all_attribute_values(self):
+        self.attribute_values.filter(attribute__is_free_text=True).delete()
+        self.attribute_values.clear()
+
+    @transaction.atomic()
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        AttributeValue.remove_obsolete()
+
+    objects = StructuralElementQuerySet.as_manager()

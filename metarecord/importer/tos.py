@@ -222,7 +222,7 @@ class TOSImporter:
 
         # Make sure children and attribute values are nuked
         function_obj.phases.all().delete()
-        function_obj.attribute_values.remove()
+        function_obj.remove_all_attribute_values()
 
         attribute_values = self._get_common_attribute_values(function)
         for attribute_value in attribute_values:

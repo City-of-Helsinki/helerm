@@ -105,3 +105,5 @@ def test_remove_free_text_attribute_value(function, second_function, free_text_a
     # remove non existing value
     function.remove_attribute_value('FreeTextAttr')
     assert free_text_attribute.values.count() == 1
+
+# TODO test free text attributes with StructuralElement object and bulk delete
