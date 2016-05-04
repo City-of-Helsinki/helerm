@@ -56,3 +56,31 @@ pip-sync requirements.txt dev-requirements.txt
 ```
 python manage.py runserver 127.0.0.1:8000
 ```
+
+Admin ui will be located at http://127.0.0.1:8000/admin/
+
+API root will be located at http://127.0.0.1:8000/v1/
+
+## Import
+
+- First you need to import functions and attributes. An excel file containing the attributes is needed.
+
+```
+python manage.py import_functions data/helsinki-functions.csv
+python manage.py import_attributes <excel file>
+```
+
+- Actual data can then be imported by running
+
+```
+python manage.py import_data <data excel file>
+```
+
+
+## Export
+ 
+- All data can be exported to a XML file by running
+
+```
+python manage.py export_data <xml file>
+```
