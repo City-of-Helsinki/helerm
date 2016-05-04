@@ -5,7 +5,7 @@ from metarecord.importer.tos import TOSImporter
 
 
 class Command(BaseCommand):
-    help = "Import codesets from Excel file"
+    help = "Import attributes from Excel file"
 
     def __init__(self):
         super().__init__()
@@ -22,4 +22,4 @@ class Command(BaseCommand):
             return
 
         with transaction.atomic():
-            tos_importer.import_codesets()
+            tos_importer.import_attributes()

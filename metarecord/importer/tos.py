@@ -334,13 +334,13 @@ class TOSImporter:
 
         self._save_function(function)
 
-    def import_codesets(self):
-        print('Importing codesets...')
+    def import_attributes(self):
+        print('Importing attributes...')
 
         try:
             sheet = self.wb['Koodistot']
         except KeyError:
-            print('Cannot import codesets, the workbook does not contain sheet "Koodistot".')
+            print('Cannot import attributes, the workbook does not contain sheet "Koodistot".')
             return
 
         codesets = self._get_codesets(sheet)
