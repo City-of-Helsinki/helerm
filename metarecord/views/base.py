@@ -29,7 +29,8 @@ class AttributeFilter(filters.BaseFilterBackend):
 
 class StructuralElementSerializer(serializers.ModelSerializer):
     class Meta:
-        exclude = ('attribute_values', 'index')
+        exclude = ('attribute_values',)
+        ordering = ('index',)
 
     attributes = serializers.SerializerMethodField()
 
