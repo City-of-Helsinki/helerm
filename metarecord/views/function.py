@@ -10,8 +10,10 @@ class FunctionListSerializer(StructuralElementSerializer):
     class Meta(StructuralElementSerializer.Meta):
         model = Function
 
-    phases = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    children = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    phases = serializers.PrimaryKeyRelatedField(many=True, read_only=True,
+                                                pk_field=serializers.UUIDField(format='hex'))
+    children = serializers.PrimaryKeyRelatedField(many=True, read_only=True,
+                                                  pk_field=serializers.UUIDField(format='hex'))
 
 
 class FunctionDetailSerializer(FunctionListSerializer):

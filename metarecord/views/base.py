@@ -27,7 +27,11 @@ class AttributeFilter(filters.BaseFilterBackend):
         return queryset
 
 
-class StructuralElementSerializer(serializers.ModelSerializer):
+class BaseModelSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True, format='hex')
+
+
+class StructuralElementSerializer(BaseModelSerializer):
     class Meta:
         exclude = ('attribute_values',)
         ordering = ('index',)

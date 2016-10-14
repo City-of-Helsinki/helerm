@@ -10,7 +10,8 @@ class ActionListSerializer(StructuralElementSerializer):
     class Meta(StructuralElementSerializer.Meta):
         model = Action
 
-    records = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    records = serializers.PrimaryKeyRelatedField(many=True, read_only=True,
+                                                 pk_field=serializers.UUIDField(format='hex'))
 
 
 class ActionDetailSerializer(StructuralElementSerializer):
