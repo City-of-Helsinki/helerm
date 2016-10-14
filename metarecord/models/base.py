@@ -74,12 +74,12 @@ class StructuralElementQuerySet(models.QuerySet):
 
 
 class StructuralElement(BaseModel):
-    order = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
+    index = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
     attribute_values = models.ManyToManyField(AttributeValue, verbose_name=_('attribute values'))
 
     class Meta:
         abstract = True
-        ordering = ['order']
+        ordering = ('index',)
 
     @transaction.atomic
     def set_attribute_value(self, attribute, value):

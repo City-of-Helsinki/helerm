@@ -189,7 +189,7 @@ class TOSImporter:
 
         return attribute_values
 
-    def _save_structural_element(self, model, parent, data, order):
+    def _save_structural_element(self, model, parent, data, index):
         record_type = data['attributes'].pop('Asiakirjan tyyppi', None)
 
         model_attributes = {}  # model specific attributes
@@ -210,7 +210,7 @@ class TOSImporter:
         model_attributes[parent_field_name] = parent
 
         model_attributes['name'] = data['name']
-        model_attributes['order'] = order
+        model_attributes['index'] = index
 
         new_obj = model.objects.create(**model_attributes)
         for attribute_value in attribute_values:

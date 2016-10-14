@@ -78,19 +78,19 @@ class FunctionAdmin(StructuralElementAdmin):
 
 
 class PhaseAdmin(StructuralElementAdmin):
-    ordering = ('function__function_id', 'order')
+    ordering = ('function__function_id', 'index')
 
 
 class ActionAdmin(StructuralElementAdmin):
-    ordering = ('phase__function__function_id', 'order')
+    ordering = ('phase__function__function_id', 'index')
 
 
 class RecordAdmin(StructuralElementAdmin):
-    ordering = ('action__phase__function__function_id', 'order')
+    ordering = ('action__phase__function__function_id', 'index')
 
 
 class RecordAttachmentAdmin(StructuralElementAdmin):
-    ordering = ('record__action__phase__function__function_id', 'order')
+    ordering = ('record__action__phase__function__function_id', 'index')
 
 
 class AttributeValueInline(admin.StackedInline):
