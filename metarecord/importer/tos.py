@@ -228,13 +228,13 @@ class TOSImporter:
         for attribute_value in attribute_values:
             function_obj.attribute_values.add(attribute_value)
 
-        for idx, phase in enumerate(function['phases']):
+        for idx, phase in enumerate(function['phases'], 1):
             phase_obj = self._save_structural_element(Phase, function_obj, phase, idx)
-            for idx, action in enumerate(phase['actions']):
+            for idx, action in enumerate(phase['actions'], 1):
                 action_obj = self._save_structural_element(Action, phase_obj, action, idx)
-                for idx, record in enumerate(action['records']):
+                for idx, record in enumerate(action['records'], 1):
                     record_obj = self._save_structural_element(Record, action_obj, record, idx)
-                    for idx, attachment in enumerate(record['attachments']):
+                    for idx, attachment in enumerate(record['attachments'], 1):
                         self._save_structural_element(RecordAttachment, record_obj, attachment, idx)
 
         function_obj.error_count = function.get('error_count', 0)
