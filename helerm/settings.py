@@ -139,7 +139,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
-    'PAGE_SIZE': 20
+    'DEFAULT_PAGINATION_CLASS': 'metarecord.pagination.MetaRecordPagination',
 }
 
 
