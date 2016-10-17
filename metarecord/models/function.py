@@ -13,6 +13,7 @@ class Function(StructuralElement):
     class Meta:
         verbose_name = _('function')
         verbose_name_plural = _('functions')
+        ordering = ('function_id',)
 
     def __str__(self):
         return '%s %s' % (self.function_id, self.name)
