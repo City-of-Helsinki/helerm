@@ -3,14 +3,6 @@ from rest_framework import filters, serializers
 from metarecord.models import Attribute, AttributeValue
 
 
-class AttributeValueFieldSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AttributeValue
-
-    def to_representation(self, instance):
-        return {instance.attribute.identifier: instance.value}
-
-
 class AttributeFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         valid_attributes = {}
@@ -35,11 +27,19 @@ class AttributeFilter(filters.BaseFilterBackend):
         return queryset
 
 
-class StructuralElementSerializer(serializers.ModelSerializer):
-    class Meta:
-        exclude = ('attribute_values', 'order')
+class BaseModelSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True, format='hex')
 
-    attributes = AttributeValueFieldSerializer(source='attribute_values', many=True)
+
+class StructuralElementSerializer(BaseModelSerializer):
+    class Meta:
+        exclude = ('attribute_values',)
+        ordering = ('index',)
+
+    attributes = serializers.SerializerMethodField()
+
+    def get_attributes(self, instance):
+        return {attr_val.attribute.identifier: attr_val.value for attr_val in instance.attribute_values.all()}
 
 
 class DetailSerializerMixin:

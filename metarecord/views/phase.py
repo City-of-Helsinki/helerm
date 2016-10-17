@@ -10,7 +10,8 @@ class PhaseListSerializer(StructuralElementSerializer):
     class Meta(StructuralElementSerializer.Meta):
         model = Phase
 
-    actions = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    actions = serializers.PrimaryKeyRelatedField(many=True, read_only=True,
+                                                 pk_field=serializers.UUIDField(format='hex'))
 
 
 class PhaseDetailSerializer(PhaseListSerializer):
