@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from openpyxl import load_workbook
 
-from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordAttachment, RecordType
+from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
 
 
 class TOSImporter:
@@ -36,9 +36,11 @@ class TOSImporter:
         ('Käsittelyvaiheen metatiedot', Phase),
         ('Toimenpiteen metatiedot', Action),
         ('Asiakirjan metatiedot', Record),
-        ('Asiakirjan liitteen metatiedot', RecordAttachment),
+        ('Asiakirjan liitteen metatiedot', Record),
     ])
     MODEL_HIERARCHY = list(MODEL_MAPPING.values())
+
+    ATTACHMENT_RECORD_TYPE_NAME = 'liite'
 
     def __init__(self, fname):
         self.wb = load_workbook(fname, read_only=True)
@@ -189,7 +191,7 @@ class TOSImporter:
 
         return attribute_values
 
-    def _save_structural_element(self, model, parent, data, index):
+    def _save_structural_element(self, model, parent, data, index, parent_record=None):
         record_type = data['attributes'].pop('Asiakirjan tyyppi', None)
 
         model_attributes = {}  # model specific attributes
@@ -199,14 +201,17 @@ class TOSImporter:
             parent_field_name = 'function'
         elif model == Action:
             parent_field_name = 'phase'
-        elif model == Record:
+        elif model == Record and parent_record is None:
             if not record_type:
                 self._emit_error('Record type missing')
                 return
             model_attributes['type'] = RecordType.objects.get(value=record_type)
             parent_field_name = 'action'
         else:  # attachment
-            parent_field_name = 'record'
+            model_attributes['type'] = RecordType.objects.get(value=self.ATTACHMENT_RECORD_TYPE_NAME)
+            parent_field_name = 'action'
+            model_attributes['parent'] = parent_record
+
         model_attributes[parent_field_name] = parent
 
         model_attributes['name'] = data['name']
@@ -232,10 +237,13 @@ class TOSImporter:
             phase_obj = self._save_structural_element(Phase, function_obj, phase, idx)
             for idx, action in enumerate(phase['actions'], 1):
                 action_obj = self._save_structural_element(Action, phase_obj, action, idx)
-                for idx, record in enumerate(action['records'], 1):
-                    record_obj = self._save_structural_element(Record, action_obj, record, idx)
-                    for idx, attachment in enumerate(record['attachments'], 1):
-                        self._save_structural_element(RecordAttachment, record_obj, attachment, idx)
+                record_idx = 0
+                for record in action['records']:
+                    record_idx += 1
+                    record_obj = self._save_structural_element(Record, action_obj, record, record_idx)
+                    for attachment in record['attachments']:
+                        record_idx += 1
+                        self._save_structural_element(Record, action_obj, attachment, record_idx, record_obj)
 
         function_obj.error_count = function.get('error_count', 0)
         function_obj.save()
