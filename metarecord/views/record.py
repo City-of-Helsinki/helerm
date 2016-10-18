@@ -42,7 +42,8 @@ class RecordDetailSerializer(RecordListSerializer):
 
 
 class RecordViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Record.objects.all()
+    queryset = Record.objects.select_related('action', 'type')
+    queryset = queryset.prefetch_related('attachments', 'attribute_values', 'attribute_values__attribute')
     serializer_class = RecordListSerializer
     serializer_class_detail = RecordDetailSerializer
     filter_backends = (AttributeFilter,)

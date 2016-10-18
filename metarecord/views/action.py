@@ -19,7 +19,7 @@ class ActionDetailSerializer(ActionListSerializer):
 
 
 class ActionViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Action.objects.all()
+    queryset = Action.objects.prefetch_related('records', 'attribute_values', 'attribute_values__attribute')
     serializer_class = ActionListSerializer
     serializer_class_detail = ActionDetailSerializer
     filter_backends = (AttributeFilter,)

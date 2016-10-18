@@ -19,7 +19,7 @@ class PhaseDetailSerializer(PhaseListSerializer):
 
 
 class PhaseViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Phase.objects.all()
+    queryset = Phase.objects.prefetch_related('actions', 'attribute_values', 'attribute_values__attribute')
     serializer_class = PhaseListSerializer
     serializer_class_detail = PhaseDetailSerializer
     filter_backends = (AttributeFilter,)

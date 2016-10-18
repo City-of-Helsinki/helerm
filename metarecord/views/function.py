@@ -19,7 +19,7 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Function.objects.all()
+    queryset = Function.objects.prefetch_related('phases', 'attribute_values', 'attribute_values__attribute')
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
     filter_backends = (AttributeFilter,)
