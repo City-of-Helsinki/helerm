@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.db import transaction
 from django.db.utils import OperationalError, ProgrammingError
 
-from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordAttachment, RecordType
+from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
 
 
 class ModelFormWithAttributes(forms.ModelForm):
@@ -89,10 +89,6 @@ class RecordAdmin(StructuralElementAdmin):
     ordering = ('action__phase__function__function_id', 'index')
 
 
-class RecordAttachmentAdmin(StructuralElementAdmin):
-    ordering = ('record__action__phase__function__function_id', 'index')
-
-
 class AttributeValueInline(admin.StackedInline):
     model = AttributeValue
     extra = 0
@@ -112,5 +108,4 @@ admin.site.register(Phase, PhaseAdmin)
 admin.site.register(Action, ActionAdmin)
 admin.site.register(Record, RecordAdmin)
 admin.site.register(RecordType)
-admin.site.register(RecordAttachment, RecordAttachmentAdmin)
 admin.site.register(Attribute, AttributeAdmin)
