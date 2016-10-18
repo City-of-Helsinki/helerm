@@ -1,8 +1,8 @@
-from rest_framework import serializers, viewsets
+from rest_framework import viewsets
 
 from metarecord.models import Action
 
-from .base import AttributeFilter, DetailSerializerMixin, StructuralElementSerializer
+from .base import AttributeFilter, DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
 from .record import RecordDetailSerializer
 
 
@@ -10,14 +10,11 @@ class ActionListSerializer(StructuralElementSerializer):
     class Meta(StructuralElementSerializer.Meta):
         model = Action
 
-    records = serializers.PrimaryKeyRelatedField(many=True, read_only=True,
-                                                 pk_field=serializers.UUIDField(format='hex'))
+    phase = HexPrimaryKeyRelatedField(read_only=True, source='phase_id')
+    records = HexPrimaryKeyRelatedField(many=True, read_only=True)
 
 
-class ActionDetailSerializer(StructuralElementSerializer):
-    class Meta(StructuralElementSerializer.Meta):
-        model = Action
-
+class ActionDetailSerializer(ActionListSerializer):
     records = RecordDetailSerializer(many=True, read_only=True)
 
 

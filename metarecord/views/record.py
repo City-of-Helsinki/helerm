@@ -2,10 +2,12 @@ from rest_framework import serializers, viewsets
 
 from metarecord.models import Record, RecordAttachment, RecordType
 
-from .base import AttributeFilter, DetailSerializerMixin, StructuralElementSerializer
+from .base import AttributeFilter, DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
 
 
 class RecordAttachmentSerializer(StructuralElementSerializer):
+    record = HexPrimaryKeyRelatedField(read_only=True, source='record_id')
+
     class Meta(StructuralElementSerializer.Meta):
         model = RecordAttachment
 
@@ -30,13 +32,12 @@ class RecordListSerializer(StructuralElementSerializer):
     class Meta(StructuralElementSerializer.Meta):
         model = Record
 
-    attachments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    action = HexPrimaryKeyRelatedField(read_only=True, source='action_id')
+    type = HexPrimaryKeyRelatedField(read_only=True, source='type_id')
+    attachments = HexPrimaryKeyRelatedField(many=True, read_only=True)
 
 
-class RecordDetailSerializer(StructuralElementSerializer):
-    class Meta(StructuralElementSerializer.Meta):
-        model = Record
-
+class RecordDetailSerializer(RecordListSerializer):
     attachments = RecordAttachmentSerializer(many=True, read_only=True)
 
 
