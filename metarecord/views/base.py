@@ -51,3 +51,9 @@ class DetailSerializerMixin:
                 pass
 
         return super().get_serializer_class()
+
+
+class HexPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('pk_field', serializers.UUIDField(format='hex'))
+        super().__init__(*args, **kwargs)
