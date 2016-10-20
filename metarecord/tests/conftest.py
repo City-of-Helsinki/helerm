@@ -1,6 +1,6 @@
 import pytest
 
-from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordAttachment, RecordType
+from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
 
 
 @pytest.fixture
@@ -31,11 +31,6 @@ def record_type():
 @pytest.fixture
 def record(action, record_type):
     return Record.objects.create(name='test record', action=action, type=record_type)
-
-
-@pytest.fixture
-def record_attachment(record):
-    return RecordAttachment.objects.create(name='test record attachment', record=record)
 
 
 @pytest.fixture
