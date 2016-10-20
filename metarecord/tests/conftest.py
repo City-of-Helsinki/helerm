@@ -40,7 +40,7 @@ def choice_attribute():
 
 @pytest.fixture
 def free_text_attribute():
-    return Attribute.objects.create(name='test free text attribute', identifier='FreeTextAttr', is_free_text=True)
+    return Attribute.objects.create(name='test free text attribute', identifier='FreeTextAttr')
 
 
 @pytest.fixture

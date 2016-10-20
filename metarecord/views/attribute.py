@@ -1,20 +1,24 @@
 from rest_framework import serializers, viewsets
 
-from metarecord.models import Attribute
+from metarecord.models import Attribute, AttributeValue
+
+
+class AttributeValueSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True, format='hex')
+
+    class Meta:
+        model = AttributeValue
+        exclude = ('attribute',)
 
 
 class AttributeSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True, format='hex')
+    values = AttributeValueSerializer(read_only=True, many=True)
+
     class Meta:
         model = Attribute
 
-    values = serializers.SerializerMethodField()
-
-    def get_values(self, obj):
-        if obj.is_free_text:
-            return None
-        return obj.values.all().values_list('value', flat=True)
-
 
 class AttributeViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Attribute.objects.all()
+    queryset = Attribute.objects.prefetch_related('values')
     serializer_class = AttributeSerializer

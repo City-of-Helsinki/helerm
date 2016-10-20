@@ -32,7 +32,7 @@ class JHSExporter:
             print(text)
 
     def _get_attribute_value(self, obj, attribute_identifier):
-        value = obj.get_attribute_value(attribute_identifier)
+        value = obj.attributes.get(attribute_identifier)
         if value is None:
             return None
 

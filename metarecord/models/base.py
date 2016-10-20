@@ -1,9 +1,10 @@
 import uuid
 
 from django.conf import settings
-from django.db import models, transaction
+from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django_hstore import hstore
 
 
 class BaseModel(models.Model):
@@ -20,127 +21,10 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class Attribute(BaseModel):
-    identifier = models.CharField(verbose_name=_('identifier'), max_length=64, unique=True, db_index=True)
-    name = models.CharField(verbose_name=_('name'), max_length=256)
-    is_free_text = models.BooleanField(verbose_name=_('is free text'), default=False)
-
-    class Meta:
-        verbose_name = _('attribute')
-        verbose_name_plural = _('attributes')
-
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        if not self.identifier:
-            self.identifier = self.pk
-        super().save(*args, **kwargs)
-
-    @staticmethod
-    def get_attribute_obj(attribute):
-        if isinstance(attribute, Attribute):
-            return attribute
-
-        return Attribute.objects.get(identifier=attribute)
-
-
-class AttributeValue(BaseModel):
-    attribute = models.ForeignKey(Attribute, verbose_name=_('attribute'), related_name='values')
-    value = models.CharField(verbose_name=_('value'), max_length=1024)
-
-    class Meta:
-        verbose_name = _('attribute value')
-        verbose_name_plural = _('attribute values')
-
-    def __str__(self):
-        return self.value
-
-    @classmethod
-    def remove_obsolete(cls):
-        """
-        Deletes all free text values that are no longer linked to any StructuralElement.
-        """
-        fields = [field for field in cls._meta.get_fields() if field.many_to_many]
-        filters = {'%s__isnull' % field.name: True for field in fields}
-        cls.objects.filter(attribute__is_free_text=True, **filters).delete()
-
-
-class StructuralElementQuerySet(models.QuerySet):
-    @transaction.atomic
-    def delete(self, *args, **kwargs):
-        super().delete(*args, **kwargs)
-        AttributeValue.remove_obsolete()
-
-
 class StructuralElement(BaseModel):
     index = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
-    attribute_values = models.ManyToManyField(AttributeValue, verbose_name=_('attribute values'))
+    attributes = hstore.DictionaryField(blank=True, null=True)
 
     class Meta:
         abstract = True
         ordering = ('index',)
-
-    @transaction.atomic
-    def set_attribute_value(self, attribute, value):
-        """
-        Set a ManyToMany attribute's value.
-
-        :param attribute: Attribute object or identifier
-        :type attribute: Attribute or str
-        :type value: str
-        """
-        attribute_obj = Attribute.get_attribute_obj(attribute)
-        self.remove_attribute_value(attribute)
-
-        if attribute_obj.is_free_text:
-            value_obj = AttributeValue.objects.create(attribute=attribute_obj, value=value)
-        else:
-            value_obj = AttributeValue.objects.get(attribute=attribute_obj, value=value)
-        self.attribute_values.add(value_obj)
-
-    def remove_attribute_value(self, attribute):
-        """
-        Remove a ManyToMany attribute's value.
-
-        :param attribute: Attribute object or identifier
-        :type attribute: Attribute or str
-        """
-        attribute_obj = Attribute.get_attribute_obj(attribute)
-        try:
-            attribute_value = self.attribute_values.get(attribute=attribute_obj)
-        except AttributeValue.DoesNotExist:
-            return
-
-        if attribute_obj.is_free_text:
-            attribute_value.delete()
-        else:
-            self.attribute_values.remove(attribute_value)
-
-    def get_attribute_value(self, attribute):
-        """
-        Get a ManyToMany attribute's value.
-
-        :param attribute: Attribute object or identifier
-        :type attribute: Attribute or str
-        :rtype: str
-        """
-        attribute_obj = Attribute.get_attribute_obj(attribute)
-        try:
-            value_obj = self.attribute_values.get(attribute=attribute_obj)
-        except AttributeValue.DoesNotExist:
-            value_obj = None
-
-        return value_obj.value if value_obj else None
-
-    @transaction.atomic()
-    def remove_all_attribute_values(self):
-        self.attribute_values.filter(attribute__is_free_text=True).delete()
-        self.attribute_values.clear()
-
-    @transaction.atomic()
-    def delete(self, *args, **kwargs):
-        super().delete(*args, **kwargs)
-        AttributeValue.remove_obsolete()
-
-    objects = StructuralElementQuerySet.as_manager()

@@ -2,7 +2,7 @@ from rest_framework import viewsets
 
 from metarecord.models import Action
 
-from .base import AttributeFilter, DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
+from .base import DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
 from .record import RecordDetailSerializer
 
 
@@ -19,7 +19,6 @@ class ActionDetailSerializer(ActionListSerializer):
 
 
 class ActionViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Action.objects.prefetch_related('records', 'attribute_values', 'attribute_values__attribute')
+    queryset = Action.objects.prefetch_related('records')
     serializer_class = ActionListSerializer
     serializer_class_detail = ActionDetailSerializer
-    filter_backends = (AttributeFilter,)

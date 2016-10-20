@@ -2,7 +2,7 @@ from rest_framework import viewsets
 
 from metarecord.models import Function
 
-from .base import AttributeFilter, DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
+from .base import DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
 from .phase import PhaseDetailSerializer
 
 
@@ -19,7 +19,6 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Function.objects.prefetch_related('phases', 'attribute_values', 'attribute_values__attribute')
+    queryset = Function.objects.prefetch_related('phases')
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
-    filter_backends = (AttributeFilter,)

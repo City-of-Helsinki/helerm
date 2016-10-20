@@ -7,3 +7,4 @@ openpyxl
 pyxb
 djangorestframework
 pytest-django
+django-hstore
