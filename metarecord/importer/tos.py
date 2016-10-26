@@ -1,9 +1,11 @@
 import re
 from collections import OrderedDict
 
+from django.core.exceptions import ValidationError
 from openpyxl import load_workbook
 
 from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
+from metarecord.models.attribute import reload_attribute_schema
 
 
 class TOSImporter:
@@ -169,33 +171,22 @@ class TOSImporter:
                                                            defaults=function_data)
         return function
 
-    def _get_common_attribute_values(self, data):
-        attributes = data['attributes']
-        attribute_values = []
-        for attribute_name, value in attributes.items():
-            try:
-                attribute = Attribute.objects.get(name=attribute_name)
-            except Attribute.DoesNotExist:
-                self._emit_error('Invalid attribute %s' % attribute_name)
+    def _get_attributes(self, data):
+        all_attributes = dict(self.CHOICE_ATTRIBUTES, **self.FREE_TEXT_ATTRIBUTES)
+
+        attributes = {}
+        for attribute_name, attribute_value in data['attributes'].items():
+            if attribute_name not in all_attributes:
+                print('Illegal attribute: %s' % attribute_name)
                 continue
+            attributes[all_attributes[attribute_name]] = str(attribute_value)
 
-            if attribute_name in self.FREE_TEXT_ATTRIBUTES:
-                attribute_value = AttributeValue.objects.create(attribute=attribute, value=value)
-            else:
-                try:
-                    attribute_value = AttributeValue.objects.get(attribute=attribute, value=value)
-                except AttributeValue.DoesNotExist:
-                    self._emit_error('Invalid value %s for attribute %s' % (value, attribute_name))
-                    continue
-            attribute_values.append(attribute_value)
-
-        return attribute_values
+        return attributes
 
     def _save_structural_element(self, model, parent, data, index, parent_record=None):
         record_type = data['attributes'].pop('Asiakirjan tyyppi', None)
 
         model_attributes = {}  # model specific attributes
-        attribute_values = self._get_common_attribute_values(data)
 
         if model == Phase:
             parent_field_name = 'function'
@@ -217,21 +208,22 @@ class TOSImporter:
         model_attributes['name'] = data['name']
         model_attributes['index'] = index
 
-        new_obj = model.objects.create(**model_attributes)
-        for attribute_value in attribute_values:
-            new_obj.attribute_values.add(attribute_value)
+        new_obj = model(**model_attributes)
+        new_obj.attributes = self._get_attributes(data)
+
+        try:
+            new_obj.full_clean()
+        except ValidationError as e:
+            print('ValidationError: %s' % e)
+
+        new_obj.save()
         return new_obj
 
     def _save_function(self, function):
         function_obj = function['obj']
 
-        # Make sure children and attribute values are nuked
+        # Make sure children are nuked
         function_obj.phases.all().delete()
-        function_obj.remove_all_attribute_values()
-
-        attribute_values = self._get_common_attribute_values(function)
-        for attribute_value in attribute_values:
-            function_obj.attribute_values.add(attribute_value)
 
         for idx, phase in enumerate(function['phases'], 1):
             phase_obj = self._save_structural_element(Phase, function_obj, phase, idx)
@@ -245,6 +237,7 @@ class TOSImporter:
                         record_idx += 1
                         self._save_structural_element(Record, action_obj, attachment, record_idx, record_obj)
 
+        function_obj.attributes = self._get_attributes(function)
         function_obj.error_count = function.get('error_count', 0)
         function_obj.save()
 
@@ -371,18 +364,16 @@ class TOSImporter:
                 print('    skipping ')
                 continue
 
-            is_free_text = attr in self.FREE_TEXT_ATTRIBUTES
-
             try:
                 attribute_obj, created = Attribute.objects.update_or_create(
-                    identifier=all_attributes.get(attr), defaults={'name': attr, 'is_free_text': is_free_text}
+                    identifier=all_attributes.get(attr), defaults={'name': attr}
                 )
             except ValueError as e:
                 print('    !!!! Cannot create attribute: %s' % e)
                 continue
             handled_attrs.add(all_attributes.get(attr))
 
-            if is_free_text:
+            if attr in self.FREE_TEXT_ATTRIBUTES:
                 print('    free text attribute')
                 continue
 
@@ -401,7 +392,7 @@ class TOSImporter:
         for name, identifier in self.FREE_TEXT_ATTRIBUTES.items():
             if identifier not in handled_attrs:
                 attribute_obj, created = Attribute.objects.update_or_create(
-                    identifier=identifier, defaults={'name': name, 'is_free_text': True}
+                    identifier=identifier, defaults={'name': name}
                 )
                 info_str = 'Created' if created else 'Already exist'
                 print("\n%s: free text attribute %s that doesn't exist in the sheet" % (info_str, name))
@@ -410,6 +401,8 @@ class TOSImporter:
 
     def import_data(self):
         print('Importing data...')
+
+        reload_attribute_schema()
 
         for sheet in self.wb:
             print('Processing sheet %s' % sheet.title)

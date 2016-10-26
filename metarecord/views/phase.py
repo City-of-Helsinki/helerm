@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from metarecord.models import Phase
 
 from .action import ActionDetailSerializer
-from .base import AttributeFilter, DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
+from .base import DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
 
 
 class PhaseListSerializer(StructuralElementSerializer):
@@ -19,7 +19,6 @@ class PhaseDetailSerializer(PhaseListSerializer):
 
 
 class PhaseViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Phase.objects.prefetch_related('actions', 'attribute_values', 'attribute_values__attribute')
+    queryset = Phase.objects.prefetch_related('actions')
     serializer_class = PhaseListSerializer
     serializer_class_detail = PhaseDetailSerializer
-    filter_backends = (AttributeFilter,)

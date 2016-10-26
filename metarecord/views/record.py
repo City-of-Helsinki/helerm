@@ -2,7 +2,7 @@ from rest_framework import serializers, viewsets
 
 from metarecord.models import Record, RecordType
 
-from .base import AttributeFilter, DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
+from .base import DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
 
 
 class RecordTypeSerializer(serializers.ModelSerializer):
@@ -29,7 +29,5 @@ class RecordDetailSerializer(RecordListSerializer):
 
 class RecordViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Record.objects.select_related('action', 'type')
-    queryset = queryset.prefetch_related('attribute_values', 'attribute_values__attribute')
     serializer_class = RecordListSerializer
     serializer_class_detail = RecordDetailSerializer
-    filter_backends = (AttributeFilter,)
