@@ -29,3 +29,13 @@ def test_get(client, resource, function, phase, action, record, attribute, recor
     response = client.get(detail_url)
     assert response.status_code == 200
     assert response.data
+
+
+@pytest.mark.django_db
+def test_get_attribute_schemas(client):
+    url = '{}schemas/'.format(reverse('v1:attribute-list'))
+    response = client.get(url)
+    assert response.status_code == 200
+
+    for element in ('function', 'phase', 'action', 'record'):
+        assert len(response.data.get(element))

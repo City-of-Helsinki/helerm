@@ -1,7 +1,7 @@
 import pytest
 from django.core.exceptions import ValidationError
 
-from metarecord.models.attribute import reload_attribute_schema
+from metarecord.models.structural_element import reload_attribute_schema
 
 
 @pytest.mark.django_db
