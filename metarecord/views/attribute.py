@@ -1,7 +1,9 @@
 import django_filters
 from rest_framework import serializers, viewsets
+from rest_framework.decorators import list_route
+from rest_framework.response import Response
 
-from metarecord.models import Attribute, AttributeValue
+from metarecord.models import Attribute, AttributeValue, StructuralElement
 
 
 class AttributeValueSerializer(serializers.ModelSerializer):
@@ -32,3 +34,10 @@ class AttributeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Attribute.objects.prefetch_related('values')
     serializer_class = AttributeSerializer
     filter_class = AttributeFilterSet
+
+    @list_route()
+    def schemas(self, request):
+        response = {}
+        for cls in StructuralElement.__subclasses__():
+            response[cls.__name__.lower()] = cls.get_attribute_json_schema()
+        return Response(response)

@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from openpyxl import load_workbook
 
 from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
-from metarecord.models.attribute import reload_attribute_schema
+from metarecord.models.structural_element import reload_attribute_schema
 
 
 class TOSImporter:

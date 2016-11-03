@@ -4,7 +4,6 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django_hstore import hstore
 
 
 class BaseModel(models.Model):
@@ -19,12 +18,3 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
-
-
-class StructuralElement(BaseModel):
-    index = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
-    attributes = hstore.DictionaryField(blank=True, null=True)
-
-    class Meta:
-        abstract = True
-        ordering = ('index',)
