@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
-from .models.attribute import reload_attribute_schema
+from .models.structural_element import reload_attribute_schema
 
 
 class StructuralElementAdmin(admin.ModelAdmin):

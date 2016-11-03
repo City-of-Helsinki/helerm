@@ -2,7 +2,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from .action import Action
-from .base import BaseModel, StructuralElement
+from .base import BaseModel
+from .structural_element import StructuralElement
 
 
 class RecordType(BaseModel):
@@ -21,6 +22,22 @@ class Record(StructuralElement):
     name = models.CharField(verbose_name=_('type specifier'), max_length=256)
     type = models.ForeignKey(RecordType, verbose_name=_('type'), related_name='records')
     parent = models.ForeignKey('self', verbose_name=_('parent'), related_name='children', null=True, blank=True)
+
+    # Record attribute validation rules, hardcoded at least for now
+    _attribute_validations = {
+        'allowed': ['PersonalData', 'PublicityClass', 'SecurityPeriod', 'Restriction.SecurityPeriodStart',
+                    'SecurityReason', 'RetentionPeriod', 'RetentionReason', 'RetentionPeriodStart',
+                    'AdditionalInformation', 'RetentionPeriodTotal', 'RetentionPeriodOffice', 'InformationSystem',
+                    'SocialSecurityNumber', 'StorageAccountable', 'StorageLocation', 'StorageOrder',
+                    'ProtectionClass', 'AdditionalInformation'],
+        'required': ['PersonalData', 'PublicityClass', 'SecurityPeriod', 'Restriction.SecurityPeriodStart',
+                     'SecurityReason', 'RetentionPeriod', 'RetentionReason', 'RetentionPeriodStart'],
+        'conditionally_required': {
+            'SecurityPeriod': {'PublicityClass': 'Salassa pidettävä'},
+            'Restriction.SecurityPeriodStart': {'PublicityClass': 'Salassa pidettävä'},
+            'SecurityReason': {'PublicityClass': 'Salassa pidettävä'}
+        }
+    }
 
     class Meta:
         verbose_name = _('record')

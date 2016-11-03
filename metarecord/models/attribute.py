@@ -1,34 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from .base import BaseModel, StructuralElement
-
-
-def reload_attribute_schema():
-    whole_schema = []
-
-    for attribute in Attribute.objects.prefetch_related('values'):
-        attribute_schema = {
-            'name': attribute.identifier,
-            'class': 'CharField',
-            'kwargs': {
-                'max_length': 1024,
-                'blank': True,
-                'null': True,
-                'verbose_name': attribute.name,
-            }
-        }
-
-        values = attribute.values.all()
-        if len(values):
-            choices = [(value.value, value.value) for value in values]
-            attribute_schema['kwargs']['choices'] = choices
-
-        whole_schema.append(attribute_schema)
-
-    for model in StructuralElement.__subclasses__():
-        data_field = model._meta.get_field('attributes')
-        data_field.reload_schema(whole_schema)
+from .base import BaseModel
 
 
 class Attribute(BaseModel):
