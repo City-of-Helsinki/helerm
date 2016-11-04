@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
 from .models.structural_element import reload_attribute_schema
@@ -13,9 +14,13 @@ class StructuralElementAdmin(admin.ModelAdmin):
 
 
 class FunctionAdmin(StructuralElementAdmin):
-    list_display = ('function_id', 'name')
-    ordering = ('function_id',)
+    list_display = ('get_function_id', 'name')
+    ordering = ('function_id', 'name')
     exclude = ('attribute_values',)
+
+    def get_function_id(self, obj):
+        return obj.function_id if not obj.is_template else '* %s *' % _('template').upper()
+    get_function_id.short_description = _('function ID')
 
 
 class PhaseAdmin(StructuralElementAdmin):

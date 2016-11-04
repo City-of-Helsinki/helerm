@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-27 01:07+0300\n"
+"POT-Creation-Date: 2016-11-05 23:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: helerm/settings.py:112
+#: helerm/settings.py:116
 msgid "Finnish"
 msgstr "suomi"
 
-#: helerm/settings.py:113
+#: helerm/settings.py:117
 msgid "English"
 msgstr "englanti"
 
-#: metarecord/models/action.py:9 metarecord/models/phase.py:13
+#: metarecord/admin.py:22 metarecord/models/function.py:35
+msgid "template"
+msgstr "malli"
+
+#: metarecord/admin.py:23 metarecord/models/function.py:8
+msgid "function ID"
+msgstr "tehtäväluokkatunniste"
+
+#: metarecord/models/action.py:9 metarecord/models/phase.py:18
 msgid "phase"
 msgstr "käsittelyvaihe"
 
-#: metarecord/models/action.py:10 metarecord/models/base.py:25
+#: metarecord/models/action.py:10 metarecord/models/attribute.py:9
 #: metarecord/models/function.py:10 metarecord/models/phase.py:10
-#: metarecord/models/record.py:9
+#: metarecord/models/record.py:10
 msgid "name"
 msgstr "nimi"
 
-#: metarecord/models/action.py:13 metarecord/models/record.py:20
+#: metarecord/models/action.py:18 metarecord/models/record.py:21
 msgid "action"
 msgstr "toimenpide"
 
-#: metarecord/models/action.py:14
+#: metarecord/models/action.py:19
 msgid "actions"
 msgstr "toimenpiteet"
+
+#: metarecord/models/attribute.py:8
+msgid "identifier"
+msgstr "tunniste"
+
+#: metarecord/models/attribute.py:12 metarecord/models/attribute.py:28
+msgid "attribute"
+msgstr "attribuutti"
+
+#: metarecord/models/attribute.py:13
+msgid "attributes"
+msgstr "attribuutit"
+
+#: metarecord/models/attribute.py:29
+msgid "value"
+msgstr "arvo"
+
+#: metarecord/models/attribute.py:32
+msgid "attribute value"
+msgstr "attribuutin arvo"
+
+#: metarecord/models/attribute.py:33
+msgid "attribute values"
+msgstr "attribuuttien arvot"
 
 #: metarecord/models/base.py:12
 msgid "time of creation"
@@ -60,82 +92,46 @@ msgstr "muokkausaika"
 msgid "modified by"
 msgstr "muokkaaja"
 
-#: metarecord/models/base.py:24
-msgid "identifier"
-msgstr "tunniste"
-
-#: metarecord/models/base.py:26
-msgid "is free text"
-msgstr "teksti vapaa"
-
-#: metarecord/models/base.py:29 metarecord/models/base.py:51
-msgid "attribute"
-msgstr "attribuutti"
-
-#: metarecord/models/base.py:30
-msgid "attributes"
-msgstr "attribuutit"
-
-#: metarecord/models/base.py:52
-msgid "value"
-msgstr "arvo"
-
-#: metarecord/models/base.py:55
-msgid "attribute value"
-msgstr "attribuutin arvo"
-
-#: metarecord/models/base.py:56 metarecord/models/base.py:64
-msgid "attribute values"
-msgstr "attribuuttien arvot"
-
-#: metarecord/models/function.py:8
-msgid "function ID"
-msgstr "tehtäväluokkatunniste"
-
-#: metarecord/models/function.py:9
+#: metarecord/models/function.py:9 metarecord/models/record.py:24
 msgid "parent"
 msgstr "vanhempi"
 
-#: metarecord/models/function.py:14 metarecord/models/phase.py:9
+#: metarecord/models/function.py:12
+msgid "is template"
+msgstr "malli"
+
+#: metarecord/models/function.py:29 metarecord/models/phase.py:9
 msgid "function"
 msgstr "tehtäväluokka"
 
-#: metarecord/models/function.py:15
+#: metarecord/models/function.py:30
 msgid "functions"
 msgstr "tehtäväluokat"
 
-#: metarecord/models/phase.py:14
+#: metarecord/models/phase.py:19
 msgid "phases"
 msgstr "käsittelyvaiheet"
 
-#: metarecord/models/record.py:12
+#: metarecord/models/record.py:13
 msgid "record type"
 msgstr "asiakirjan tyyppi"
 
-#: metarecord/models/record.py:13
+#: metarecord/models/record.py:14
 msgid "record types"
 msgstr "asiakirjojen tyypit"
 
-#: metarecord/models/record.py:21 metarecord/models/record.py:34
+#: metarecord/models/record.py:22
 msgid "type specifier"
 msgstr "tyypin tarkenne"
 
-#: metarecord/models/record.py:22
+#: metarecord/models/record.py:23
 msgid "type"
 msgstr "tyyppi"
 
-#: metarecord/models/record.py:25 metarecord/models/record.py:33
+#: metarecord/models/record.py:43
 msgid "record"
 msgstr "asiakirja"
 
-#: metarecord/models/record.py:26
+#: metarecord/models/record.py:44
 msgid "records"
 msgstr "asiakirjat"
-
-#: metarecord/models/record.py:37
-msgid "record attachment"
-msgstr "asiakirjan liite"
-
-#: metarecord/models/record.py:38
-msgid "record attachments"
-msgstr "asiakirjojen liitteet"

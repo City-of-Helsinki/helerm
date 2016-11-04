@@ -317,7 +317,7 @@ class TOSImporter:
             if not target_model:
                 continue
 
-            if not name or len(name) <= 2:
+            if target_model != Function and (not name or len(name) <= 2):
                 if row:
                     self._emit_error('No name for %s, data: %s' % (target_model._meta.verbose_name, row))
                 continue
@@ -417,5 +417,24 @@ class TOSImporter:
             # process data
             if function:
                 self._process_data(sheet, function)
+
+        print('Done.')
+
+    def import_template(self, sheet_name, template_name):
+        print('Importing template...')
+
+        reload_attribute_schema()
+
+        sheet = self.wb.get_sheet_by_name(sheet_name)
+        template_name = template_name or sheet_name
+
+        function, created = Function.objects.get_or_create(name=template_name, is_template=True)
+
+        if created:
+            print('Creating new template %s' % template_name)
+        else:
+            print('Updating template %s' % template_name)
+
+        self._process_data(sheet, function)
 
         print('Done.')

@@ -61,3 +61,8 @@ def free_text_value_1(free_text_attribute):
 @pytest.fixture
 def free_text_value_2(free_text_attribute):
     return AttributeValue.objects.create(value='test free text value 2', attribute=free_text_attribute)
+
+
+@pytest.fixture
+def template():
+    return Function.objects.create(name='test template', is_template=True)

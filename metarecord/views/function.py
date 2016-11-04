@@ -9,6 +9,7 @@ from .phase import PhaseDetailSerializer
 class FunctionListSerializer(StructuralElementSerializer):
     class Meta(StructuralElementSerializer.Meta):
         model = Function
+        exclude = ('index', 'is_template',)
 
     parent = HexPrimaryKeyRelatedField(read_only=True, source='parent_id')
     phases = HexPrimaryKeyRelatedField(many=True, read_only=True)
@@ -19,6 +20,6 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Function.objects.prefetch_related('phases')
+    queryset = Function.objects.filter(is_template=False).prefetch_related('phases').order_by('function_id')
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
