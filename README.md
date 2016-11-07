@@ -76,6 +76,11 @@ python manage.py import_attributes <excel file>
 python manage.py import_data <data excel file>
 ```
 
+- To import a function template run
+
+```
+python manage.py import_template <data excel file> <sheet name> [template name]
+```
 
 ## Export
  
