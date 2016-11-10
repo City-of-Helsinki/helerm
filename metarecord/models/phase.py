@@ -17,6 +17,7 @@ class Phase(StructuralElement):
     class Meta:
         verbose_name = _('phase')
         verbose_name_plural = _('phases')
+        ordering = ('function', 'index')
 
     def __str__(self):
         return '%s | %s' % (self.function, self.name)

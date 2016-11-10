@@ -42,6 +42,7 @@ class Record(StructuralElement):
     class Meta:
         verbose_name = _('record')
         verbose_name_plural = _('records')
+        ordering = ('action', 'index')
 
     def __str__(self):
         return '%s/%s' % (self.action, self.type)
