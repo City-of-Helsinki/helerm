@@ -17,6 +17,7 @@ class Action(StructuralElement):
     class Meta:
         verbose_name = _('action')
         verbose_name_plural = _('actions')
+        ordering = ('phase', 'index')
 
     def __str__(self):
         return '%s | %s' % (self.phase, self.name)
