@@ -26,7 +26,9 @@ def test_get(client, resource, function, phase, action, record, attribute, recor
     assert response.status_code == 200
     assert len(response.data['results'])
 
-    detail_url = reverse('v1:%s-detail' % resource.replace('_', ''), kwargs={'pk': locals().get(resource).id})
+    id_field = 'pk' if resource in ('attribute', 'record_type') else 'uuid'
+    id_value = getattr(locals().get(resource), id_field)
+    detail_url = reverse('v1:%s-detail' % resource.replace('_', ''), kwargs={id_field: id_value})
     response = client.get(detail_url)
     assert response.status_code == 200
     assert response.data
