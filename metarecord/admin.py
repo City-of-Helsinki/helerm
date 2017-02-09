@@ -14,9 +14,9 @@ class StructuralElementAdmin(admin.ModelAdmin):
 
 
 class FunctionAdmin(StructuralElementAdmin):
-    list_display = ('get_function_id', 'name')
-    ordering = ('function_id', 'name')
-    exclude = ('attribute_values',)
+    list_display = ('get_function_id', 'name', 'state', 'version')
+    ordering = ('function_id', 'version')
+    exclude = ('attribute_values', 'version')
 
     def get_function_id(self, obj):
         return obj.function_id if not obj.is_template else '* %s *' % _('template').upper()

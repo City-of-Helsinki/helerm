@@ -1,4 +1,4 @@
-from rest_framework import serializers, viewsets
+from rest_framework import viewsets
 
 from metarecord.models import Function
 
@@ -20,7 +20,13 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Function.objects.filter(is_template=False).prefetch_related('phases').order_by('function_id')
+    queryset = Function.objects.filter(is_template=False).prefetch_related('phases')
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
     lookup_field = 'uuid'
+
+    def get_queryset(self):
+        state = self.request.query_params.get('state')
+        if state == 'approved':
+            return self.queryset.latest_approved()
+        return self.queryset.latest_version()
