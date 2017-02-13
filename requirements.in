@@ -10,3 +10,4 @@ pytest-django
 django-cors-headers
 django-hstore
 django-filter
+django-allauth
