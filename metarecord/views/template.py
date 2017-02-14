@@ -2,7 +2,7 @@ from rest_framework import viewsets
 
 from metarecord.models import Function
 
-from .base import DetailSerializerMixin, HexPrimaryKeyRelatedField, StructuralElementSerializer
+from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
 from .phase import PhaseDetailSerializer
 
 
@@ -11,7 +11,7 @@ class TemplateListSerializer(StructuralElementSerializer):
         model = Function
         exclude = ('is_template', 'index', 'parent', 'function_id')
 
-    phases = HexPrimaryKeyRelatedField(many=True, read_only=True)
+    phases = HexRelatedField(many=True, read_only=True)
 
 
 class TemplateDetailSerializer(TemplateListSerializer):
@@ -22,3 +22,4 @@ class TemplateViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Function.objects.filter(is_template=True).prefetch_related('phases').order_by('name')
     serializer_class = TemplateListSerializer
     serializer_class_detail = TemplateDetailSerializer
+    lookup_field = 'uuid'

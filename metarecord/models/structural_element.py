@@ -1,11 +1,19 @@
+import uuid
+from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django_hstore import hstore
 
 from .attribute import Attribute
-from .base import BaseModel
+from .base import TimeStampedModel
 
 
-class StructuralElement(BaseModel):
+class StructuralElement(TimeStampedModel):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('created by'),
+                                   null=True, blank=True, related_name='%(class)s_created', editable=False)
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('modified by'),
+                                    null=True, blank=True, related_name='%(class)s_modified', editable=False)
     index = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
     attributes = hstore.DictionaryField(blank=True, null=True)
 

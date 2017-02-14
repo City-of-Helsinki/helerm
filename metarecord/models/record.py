@@ -2,11 +2,11 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from .action import Action
-from .base import BaseModel
+from .base import TimeStampedModel, UUIDPrimaryKeyModel
 from .structural_element import StructuralElement
 
 
-class RecordType(BaseModel):
+class RecordType(TimeStampedModel, UUIDPrimaryKeyModel):
     value = models.CharField(verbose_name=_('name'), max_length=256)
 
     class Meta:
