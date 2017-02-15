@@ -167,8 +167,8 @@ class TOSImporter:
                 print('Cannot set parent, function %s does not exist' % parent_id)
                 # TODO ignoring missing parent for now
 
-        function, created = Function.objects.latest_version(). get_or_create(function_id=function_data['function_id'],
-                                                                             defaults=function_data)
+        function, created = Function.objects.latest_version().update_or_create(function_id=function_data['function_id'],
+                                                                               defaults=function_data)
         return function
 
     def _get_attributes(self, data):
