@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
+from adminsortable2.admin import SortableAdminMixin
 
 from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
 from .models.structural_element import reload_attribute_schema
@@ -40,10 +41,10 @@ class AttributeValueInline(admin.StackedInline):
     extra = 0
 
 
-class AttributeAdmin(admin.ModelAdmin):
+class AttributeAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ('name',)
-    ordering = ('name',)
     inlines = (AttributeValueInline,)
+    exclude = ('index',)
 
     class Meta:
         model = Attribute

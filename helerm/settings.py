@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'helusers.providers.helsinki',
+    'adminsortable2',
 
     'metarecord',
     'users',
