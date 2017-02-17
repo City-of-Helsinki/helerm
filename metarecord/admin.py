@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from adminsortable2.admin import SortableAdminMixin
 
-from .models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
+from .models import Action, Attribute, AttributeValue, Function, Phase, Record
 from .models.structural_element import reload_attribute_schema
 
 
@@ -54,5 +54,4 @@ admin.site.register(Function, FunctionAdmin)
 admin.site.register(Phase, PhaseAdmin)
 admin.site.register(Action, ActionAdmin)
 admin.site.register(Record, RecordAdmin)
-admin.site.register(RecordType)
 admin.site.register(Attribute, AttributeAdmin)

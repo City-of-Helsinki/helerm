@@ -1,18 +1,8 @@
-from rest_framework import serializers, viewsets
+from rest_framework import viewsets
 
-from metarecord.models import Record, RecordType
+from metarecord.models import Record
 
-from .base import DetailSerializerMixin, HexPrimaryKeyRelatedField, HexRelatedField, StructuralElementSerializer
-
-
-class RecordTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RecordType
-
-
-class RecordTypeViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = RecordType.objects.all()
-    serializer_class = RecordTypeSerializer
+from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
 
 
 class RecordListSerializer(StructuralElementSerializer):
@@ -20,7 +10,7 @@ class RecordListSerializer(StructuralElementSerializer):
         model = Record
 
     action = HexRelatedField(read_only=True)
-    type = HexPrimaryKeyRelatedField(read_only=True)
+    parent = HexRelatedField(read_only=True)
 
 
 class RecordDetailSerializer(RecordListSerializer):
@@ -28,7 +18,7 @@ class RecordDetailSerializer(RecordListSerializer):
 
 
 class RecordViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Record.objects.select_related('action', 'type')
+    queryset = Record.objects.select_related('action')
     serializer_class = RecordListSerializer
     serializer_class_detail = RecordDetailSerializer
     lookup_field = 'uuid'
