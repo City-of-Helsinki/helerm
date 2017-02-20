@@ -1,11 +1,9 @@
 import re
 from collections import OrderedDict
 
-from django.core.exceptions import ValidationError
 from openpyxl import load_workbook
 
 from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
-from metarecord.models.structural_element import reload_attribute_schema
 
 
 class TOSImporter:
@@ -25,6 +23,8 @@ class TOSImporter:
         'Paperiasiakirjojen säilytysaika arkistossa': 'RetentionPeriodTotal',
         'Paperiasiakirjojen säilytysaika työpisteessä': 'RetentionPeriodOffice',
         'Salassapitoajan laskentaperuste': 'Restriction.SecurityPeriodStart',
+        'Suojaustaso': 'Restriction.ProtectionLevel',
+        'Turvallisuusluokka': 'Restriction.SecurityClass',
     }
     FREE_TEXT_ATTRIBUTES = {
         'Lisätietoja': 'AdditionalInformation',
@@ -196,7 +196,9 @@ class TOSImporter:
             if not record_type:
                 self._emit_error('Record type missing')
                 return
-            model_attributes['type'] = RecordType.objects.get(value=record_type)
+            model_attributes['type'], created = RecordType.objects.get_or_create(value=record_type)
+            if created:
+                print('Warning: created a new record_type %s' % record_type)
             parent_field_name = 'action'
         else:  # attachment
             model_attributes['type'] = RecordType.objects.get(value=self.ATTACHMENT_RECORD_TYPE_NAME)
@@ -210,11 +212,6 @@ class TOSImporter:
 
         new_obj = model(**model_attributes)
         new_obj.attributes = self._get_attributes(data)
-
-        try:
-            new_obj.full_clean()
-        except ValidationError as e:
-            print('ValidationError: %s' % e)
 
         new_obj.save()
         return new_obj
@@ -256,9 +253,8 @@ class TOSImporter:
 
             if not row:
                 continue
-            # from pprint import pprint
-            # pprint(row)
-            type_info = row.pop('Tehtäväluokka').strip()
+
+            type_info = str(row.pop('Tehtäväluokka')).strip()
             if type_info == 'Asian metatiedot':
                 target['obj'] = function_obj
                 name = function_obj.name
@@ -402,8 +398,6 @@ class TOSImporter:
     def import_data(self):
         print('Importing data...')
 
-        reload_attribute_schema()
-
         for sheet in self.wb:
             print('Processing sheet %s' % sheet.title)
             if (sheet.max_column <= 2 or sheet.max_row <= 2 or sheet.cell('A1').value != 'Tehtäväluokka' or
@@ -422,8 +416,6 @@ class TOSImporter:
 
     def import_template(self, sheet_name, template_name):
         print('Importing template...')
-
-        reload_attribute_schema()
 
         sheet = self.wb.get_sheet_by_name(sheet_name)
         template_name = template_name or sheet_name
