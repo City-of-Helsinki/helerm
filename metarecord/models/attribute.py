@@ -7,10 +7,12 @@ from .base import TimeStampedModel, UUIDPrimaryKeyModel
 class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
     identifier = models.CharField(verbose_name=_('identifier'), max_length=64, unique=True, db_index=True)
     name = models.CharField(verbose_name=_('name'), max_length=256)
+    index = models.PositiveSmallIntegerField(db_index=True)
 
     class Meta:
         verbose_name = _('attribute')
         verbose_name_plural = _('attributes')
+        ordering = ('index',)
 
     def __str__(self):
         return self.name
@@ -18,6 +20,8 @@ class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
     def save(self, *args, **kwargs):
         if not self.identifier:
             self.identifier = self.pk
+        if not self.index:
+            self.index = max(Attribute.objects.values_list('index', flat=True) or [0]) + 1
         super().save(*args, **kwargs)
 
     def is_free_text(self):

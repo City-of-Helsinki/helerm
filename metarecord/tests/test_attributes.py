@@ -1,6 +1,7 @@
 import pytest
 from django.core.exceptions import ValidationError
 
+from metarecord.models import Attribute
 from metarecord.models.structural_element import reload_attribute_schema
 
 
@@ -33,3 +34,12 @@ def test_free_text_attribute_validation(function, free_text_attribute):
 
     with pytest.raises(ValidationError):
         function.full_clean()
+
+
+@pytest.mark.django_db
+def test_attributes_will_get_index_numbers():
+    attribute_1 = Attribute.objects.create(name='attribute 1')
+    assert attribute_1.index == 1
+
+    attribute_2 = Attribute.objects.create(name='attribute 2')
+    assert attribute_2.index == 2
