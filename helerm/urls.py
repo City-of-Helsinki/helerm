@@ -17,9 +17,11 @@ from django.conf.urls import include, url
 from helusers import admin
 
 from metarecord import urls_v1
+from metarecord.views import ExportView
 
 urlpatterns = [
     url(r'^v1/', include(urls_v1)),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^export/', ExportView.as_view(), name='export')
 ]

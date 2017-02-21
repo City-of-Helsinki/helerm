@@ -89,3 +89,5 @@ python manage.py import_template <data excel file> <sheet name> [template name]
 ```
 python manage.py export_data <xml file>
 ```
+
+- Or using the API http://127.0.0.1:8000/export/
