@@ -50,7 +50,7 @@ class Function(StructuralElement):
     class Meta:
         verbose_name = _('function')
         verbose_name_plural = _('functions')
-        unique_together = ('function_id', 'version')
+        unique_together = (('function_id', 'version'), ('uuid', 'version'))
 
     objects = FunctionQuerySet.as_manager()
 

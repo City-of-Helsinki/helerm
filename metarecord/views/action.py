@@ -15,7 +15,7 @@ class ActionListSerializer(StructuralElementSerializer):
 
 
 class ActionDetailSerializer(ActionListSerializer):
-    records = RecordDetailSerializer(many=True, read_only=True)
+    records = RecordDetailSerializer(many=True)
 
 
 class ActionViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
