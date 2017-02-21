@@ -32,6 +32,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='attribute',
             name='index',
-            field=models.PositiveSmallIntegerField(blank=True, db_index=True),
+            field=models.PositiveSmallIntegerField(db_index=True),
         ),
     ]
