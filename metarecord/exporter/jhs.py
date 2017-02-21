@@ -113,6 +113,7 @@ class JHSExporter:
 
         # at least for now include all functions that have data
         function_qs = Function.objects.exclude(phases__isnull=True)
+        function_qs = function_qs.prefetch_related('phases', 'phases__actions', 'phases__actions__records')
 
         functions = []
         for function in function_qs:
