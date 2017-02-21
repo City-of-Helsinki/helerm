@@ -14,20 +14,19 @@ def attribute(choice_attribute):
     'action',
     'record',
     'attribute',
-    'record_type',
     'template',
 ])
 @pytest.mark.django_db
-def test_get(client, resource, function, phase, action, record, attribute, record_type, template):
+def test_get(client, resource, function, phase, action, record, attribute, template):
     """
     Test GET to every resource's list and detail endpoint.
     """
-    list_url = reverse('v1:%s-list' % resource.replace('_', ''))
+    list_url = reverse('v1:%s-list' % resource)
     response = client.get(list_url)
     assert response.status_code == 200
     assert len(response.data['results'])
 
-    id_field = 'pk' if resource in ('attribute', 'record_type') else 'uuid'
+    id_field = 'pk' if resource is 'attribute' else 'uuid'
     id_value = getattr(locals().get(resource), id_field)
     detail_url = reverse('v1:%s-detail' % resource.replace('_', ''), kwargs={id_field: id_value})
     response = client.get(detail_url)

@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from openpyxl import load_workbook
 
-from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record, RecordType
+from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record
 
 
 class TOSImporter:
@@ -25,6 +25,7 @@ class TOSImporter:
         'Salassapitoajan laskentaperuste': 'Restriction.SecurityPeriodStart',
         'Suojaustaso': 'Restriction.ProtectionLevel',
         'Turvallisuusluokka': 'Restriction.SecurityClass',
+        'Asiakirjatyyppi': 'RecordType',
     }
     FREE_TEXT_ATTRIBUTES = {
         'Lisätietoja': 'AdditionalInformation',
@@ -176,6 +177,8 @@ class TOSImporter:
 
         attributes = {}
         for attribute_name, attribute_value in data['attributes'].items():
+            if attribute_name == 'Asiakirjan tyyppi':
+                attribute_name = 'Asiakirjatyyppi'
             if attribute_name not in all_attributes:
                 print('Illegal attribute: %s' % attribute_name)
                 continue
@@ -184,7 +187,7 @@ class TOSImporter:
         return attributes
 
     def _save_structural_element(self, model, parent, data, index, parent_record=None):
-        record_type = data['attributes'].pop('Asiakirjan tyyppi', None)
+        #record_type = data['attributes'].pop('Asiakirjan tyyppi', None)
 
         model_attributes = {}  # model specific attributes
 
@@ -193,15 +196,8 @@ class TOSImporter:
         elif model == Action:
             parent_field_name = 'phase'
         elif model == Record and parent_record is None:
-            if not record_type:
-                self._emit_error('Record type missing')
-                return
-            model_attributes['type'], created = RecordType.objects.get_or_create(value=record_type)
-            if created:
-                print('Warning: created a new record_type %s' % record_type)
             parent_field_name = 'action'
         else:  # attachment
-            model_attributes['type'] = RecordType.objects.get(value=self.ATTACHMENT_RECORD_TYPE_NAME)
             parent_field_name = 'action'
             model_attributes['parent'] = parent_record
 
@@ -346,15 +342,11 @@ class TOSImporter:
         for attr, values in codesets.items():
             print('\nProcessing %s' % attr)
 
-            if attr == 'Asiakirjatyypit':
-                for value in values:
-                    obj, created = RecordType.objects.get_or_create(value=value)
-                    info_str = 'Created' if created else 'Already exist'
-                    print('    %s: %s' % (info_str, value))
-                continue
-
             all_attributes = self.CHOICE_ATTRIBUTES.copy()
             all_attributes.update(self.FREE_TEXT_ATTRIBUTES)
+
+            if attr == 'Asiakirjatyypit':
+                attr = 'Asiakirjatyyppi'
 
             if attr not in all_attributes:
                 print('    skipping ')

@@ -64,7 +64,7 @@ class JHSExporter:
             id=record.id,
             Kayttorajoitustiedot=self._create_restriction_info(record),
             Sailytysaikatiedot=self._create_retention_info(record),
-            AsiakirjaluokkaTeksti=jhs.AsiakirjaluokkaTeksti(str(record.type.value)),
+            AsiakirjaluokkaTeksti=jhs.AsiakirjaluokkaTeksti(self._get_attribute_value(record, 'RecordType')),
             AsiakirjaluokkaTarkenneTeksti=jhs.AsiakirjaluokkaTarkenneTeksti(record.name),
             TietojarjestelmaNimi=jhs.TietojarjestelmaNimi(information_system) if information_system else None
         )
