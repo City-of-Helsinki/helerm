@@ -38,8 +38,10 @@ class JHSExporter:
 
         jhs_mapping = self.JHS_MAPPING.get(attribute_identifier)
         if jhs_mapping:
-            value = jhs_mapping[value]
-
+            try:
+                value = jhs_mapping[value]
+            except KeyError:
+                raise Exception('Invalid value for %s: %s' % (attribute_identifier, value))
         return value
 
     def _create_restriction_info(self, obj):
@@ -111,25 +113,40 @@ class JHSExporter:
 
         # at least for now include all functions that have data
         function_qs = Function.objects.exclude(phases__isnull=True)
+        function_qs = function_qs.prefetch_related('phases', 'phases__actions', 'phases__actions__records')
 
         functions = []
         for function in function_qs:
             self.msg('processing function %s' % function)
             phases = []
-            for phase in function.phases.all():
-                actions = []
-                for action in phase.actions.all():
-                    records = []
-                    for record in action.records.all():
-                        records.append(self._handle_record(record))
-                    actions.append(self._handle_action(action, records))
-                phases.append(self._handle_phase(phase, actions))
+            handling = None
+            func = None
             try:
+                for phase in function.phases.all():
+                    actions = []
+                    for action in phase.actions.all():
+                        records = []
+                        for record in action.records.all():
+                            handling = record
+                            records.append(self._handle_record(record))
+                        handling = action
+                        actions.append(self._handle_action(action, records))
+                    handling = phase
+                    phases.append(self._handle_phase(phase, actions))
+                handling = function
                 func = self._handle_function(function, phases)
-                func.toDOM()  # validates
-                functions.append(func)
-            except pyxb.PyXBException as e:
-                self.msg('ERROR validating the function, details:\n%s' % e.details())
+            except Exception as e:
+                error = '%s: %s' % (e.__class__.__name__, e)
+                if handling:
+                    self.msg('ERROR %s while processing %s' % (error, handling))
+                else:
+                    self.msg('ERROR %s' % error)
+            if func:
+                try:
+                    func.toDOM()  # validates
+                    functions.append(func)
+                except pyxb.PyXBException as e:
+                    self.msg('ERROR validating the function, details:\n%s' % e.details())
 
         self.msg('creating the actual XML...')
 
