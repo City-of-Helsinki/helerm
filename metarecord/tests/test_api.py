@@ -207,3 +207,16 @@ def test_function_put_invalid_attributes(function_data, user_api_client, functio
     assert response.status_code == 400
     assert response.data['attributes']['InvalidFunctionAttribute'] == ['Invalid attribute.']
     assert response.data['phases'][0]['attributes']['InvalidPhaseAttribute'] == ['Invalid attribute.']
+
+
+@pytest.mark.parametrize('attributes', [
+    'foo',
+    ['foo'],
+    {'ChoiceAttr': ['foo']},
+])
+@pytest.mark.django_db
+def test_function_put_invalid_attributes_format(function_data, user_api_client, function, attributes):
+    function_data['function_id'] = function.function_id
+    function_data['phases'][0]['attributes'] = attributes
+    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 400
