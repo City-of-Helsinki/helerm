@@ -9,6 +9,7 @@ class BaseModelSerializer(serializers.ModelSerializer):
 
 class StructuralElementSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(source='uuid', format='hex', read_only=True)
+    attributes = serializers.DictField(child=serializers.CharField(), required=False)
 
     class Meta:
         ordering = ('index',)
