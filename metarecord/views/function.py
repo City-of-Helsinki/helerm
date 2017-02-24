@@ -9,7 +9,7 @@ from .phase import PhaseDetailSerializer
 
 
 class FunctionListSerializer(StructuralElementSerializer):
-    parent = HexRelatedField(queryset=Function.objects.all())
+    parent = HexRelatedField(queryset=Function.objects.all(), required=False, allow_null=True)
     phases = HexRelatedField(many=True, read_only=True)
     version = serializers.IntegerField(read_only=True)
 
