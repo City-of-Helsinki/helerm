@@ -24,19 +24,25 @@ class FunctionDetailSerializer(FunctionListSerializer):
     @transaction.atomic
     def _create_new_version(self, function_data):
         user = self.context['request'].user
+        user_data = {'created_by': user, 'modified_by': user}
+
         phase_data = function_data.pop('phases', [])
-        function = Function.objects.create(created_by=user, modified_by=user, **function_data)
+        function_data.update(user_data)
+        function = Function.objects.create(**function_data)
 
-        for phase_datum in phase_data:
+        for index, phase_datum in enumerate(phase_data, 1):
             action_data = phase_datum.pop('actions', [])
-            phase = Phase.objects.create(function=function, created_by=user, modified_by=user, **phase_datum)
+            phase_datum.update(user_data)
+            phase = Phase.objects.create(function=function, index=index, **phase_datum)
 
-            for action_datum in action_data:
+            for index, action_datum in enumerate(action_data, 1):
                 record_data = action_datum.pop('records', [])
-                action = Action.objects.create(phase=phase, created_by=user, modified_by=user, **action_datum)
+                action_datum.update(user_data)
+                action = Action.objects.create(phase=phase, index=index, **action_datum)
 
-                for record_datum in record_data:
-                    Record.objects.create(action=action, created_by=user, modified_by=user, **record_datum)
+                for index, record_datum in enumerate(record_data, 1):
+                    record_datum.update(user_data)
+                    Record.objects.create(action=action, index=index, **record_datum)
 
         return function
 
