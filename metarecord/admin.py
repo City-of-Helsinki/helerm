@@ -13,6 +13,20 @@ class StructuralElementAdmin(admin.ModelAdmin):
     def changeform_view(self, *args, **kwargs):
         return super().changeform_view(*args, **kwargs)
 
+    def get_fieldsets(self, request, obj=None):
+        all_fields = self.get_fields(request, obj)
+        attribute_fields = Attribute.objects.values_list('identifier', flat=True)
+        normal_fields = [field for field in all_fields if field not in attribute_fields]
+
+        return (
+            (None, {
+                'fields': normal_fields,
+            }),
+            (_('attributes'), {
+                'fields': attribute_fields,
+            }),
+        )
+
 
 class FunctionAdmin(StructuralElementAdmin):
     list_display = ('get_function_id', 'name', 'state', 'version')
