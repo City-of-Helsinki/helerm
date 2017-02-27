@@ -6,6 +6,10 @@ from openpyxl import load_workbook
 from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record
 
 
+class TOSImporterException(Exception):
+    pass
+
+
 class TOSImporter:
 
     # valid attributes and their identifiers
@@ -165,8 +169,10 @@ class TOSImporter:
             try:
                 function_data['parent'] = Function.objects.latest_version().get(function_id=parent_id)
             except Function.DoesNotExist:
-                print('Cannot set parent, function %s does not exist' % parent_id)
-                # TODO ignoring missing parent for now
+                raise TOSImporterException(
+                    'Cannot set parent for function %s, function %s does not exist' %
+                    (function_data['function_id'], parent_id)
+                )
 
         function, created = Function.objects.latest_version().update_or_create(function_id=function_data['function_id'],
                                                                                defaults=function_data)
@@ -187,8 +193,6 @@ class TOSImporter:
         return attributes
 
     def _save_structural_element(self, model, parent, data, index, parent_record=None):
-        #record_type = data['attributes'].pop('Asiakirjan tyyppi', None)
-
         model_attributes = {}  # model specific attributes
 
         if model == Phase:
