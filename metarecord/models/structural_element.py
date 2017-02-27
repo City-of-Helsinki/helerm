@@ -31,6 +31,12 @@ class StructuralElement(TimeStampedModel):
     def get_attribute_json_schema(cls):
         return get_attribute_json_schema(**cls._attribute_validations)
 
+    def save(self, *args, **kwargs):
+        for key, value in self.attributes.copy().items():
+            if value in ('', None):
+                del self.attributes[key]
+        return super().save(*args, **kwargs)
+
 
 def reload_attribute_schema():
     """
