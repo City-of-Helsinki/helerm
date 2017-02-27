@@ -1,7 +1,7 @@
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from metarecord.importer.tos import TOSImporter
+from metarecord.importer.tos import TOSImporter, TOSImporterException
 
 
 class Command(BaseCommand):
@@ -18,8 +18,11 @@ class Command(BaseCommand):
         try:
             tos_importer = TOSImporter(filename)
         except Exception as e:
-            print("Cannot open file '%s': %s" % (filename, e))
+            self.stderr.write(self.style.ERROR("Cannot open file '%s': %s" % (filename, e)))
             return
 
-        with transaction.atomic():
-            tos_importer.import_data()
+        try:
+            with transaction.atomic():
+                tos_importer.import_data()
+        except TOSImporterException as e:
+            self.stderr.write(self.style.ERROR(e))
