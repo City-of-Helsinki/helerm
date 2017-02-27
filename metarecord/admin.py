@@ -40,14 +40,17 @@ class FunctionAdmin(StructuralElementAdmin):
 
 class PhaseAdmin(StructuralElementAdmin):
     ordering = ('function__function_id', 'index')
+    raw_id_fields = ('function',)
 
 
 class ActionAdmin(StructuralElementAdmin):
     ordering = ('phase__function__function_id', 'index')
+    raw_id_fields = ('phase',)
 
 
 class RecordAdmin(StructuralElementAdmin):
     ordering = ('action__phase__function__function_id', 'index')
+    raw_id_fields = ('action', 'parent')
 
 
 class AttributeValueInline(admin.StackedInline):
