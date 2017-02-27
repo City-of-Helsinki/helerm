@@ -28,10 +28,10 @@ class Function(StructuralElement):
     function_id = models.CharField(verbose_name=_('function ID'), max_length=16, db_index=True, null=True)
     parent = models.ForeignKey('self', verbose_name=_('parent'), related_name='children', blank=True, null=True)
     name = models.CharField(verbose_name=_('name'), max_length=256)
-    error_count = models.PositiveIntegerField(default=0)
+    error_count = models.PositiveIntegerField(verbose_name=_('error count'), default=0)
     is_template = models.BooleanField(verbose_name=_('is template'), default=False)
     version = models.PositiveIntegerField(db_index=True, default=1, null=True, blank=True)
-    state = models.CharField(max_length=20, choices=STATE_CHOICES, default=DRAFT)
+    state = models.CharField(verbose_name=_('state'), max_length=20, choices=STATE_CHOICES, default=DRAFT)
 
     # Function attribute validation rules, hardcoded at least for now
     _attribute_validations = {
