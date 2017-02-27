@@ -3,15 +3,15 @@ from django.utils.translation import ugettext_lazy as _
 from adminsortable2.admin import SortableAdminMixin
 
 from .models import Action, Attribute, AttributeValue, Function, Phase, Record
-from .models.structural_element import reload_attribute_schema
+from .models.structural_element import use_attribute_schema
 
 
 class StructuralElementAdmin(admin.ModelAdmin):
     exclude = ('attribute_values',)
 
-    def get_form(self, request, obj=None, **kwargs):
-        reload_attribute_schema()
-        return super().get_form(request, obj, **kwargs)
+    @use_attribute_schema()
+    def changeform_view(self, *args, **kwargs):
+        return super().changeform_view(*args, **kwargs)
 
 
 class FunctionAdmin(StructuralElementAdmin):
