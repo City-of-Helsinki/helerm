@@ -1,4 +1,6 @@
 import uuid
+from contextlib import ContextDecorator
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -31,6 +33,21 @@ class StructuralElement(TimeStampedModel):
     def get_attribute_json_schema(cls):
         return get_attribute_json_schema(**cls._attribute_validations)
 
+    def save(self, *args, **kwargs):
+        for key, value in self.attributes.copy().items():
+            if value in ('', None):
+                del self.attributes[key]
+        return super().save(*args, **kwargs)
+
+
+def disable_attribute_schema():
+    """
+    Disable django-hstore schema for attributes.
+    """
+    for model in StructuralElement.__subclasses__():
+        data_field = model._meta.get_field('attributes')
+        data_field.reload_schema(None)
+
 
 def reload_attribute_schema():
     """
@@ -60,6 +77,18 @@ def reload_attribute_schema():
     for model in StructuralElement.__subclasses__():
         data_field = model._meta.get_field('attributes')
         data_field.reload_schema(whole_schema)
+
+
+class use_attribute_schema(ContextDecorator):
+    """
+    Context manager / decorator to use django-hstore schema for attributes.
+    """
+    def __enter__(self):
+        reload_attribute_schema()
+        return self
+
+    def __exit__(self, *exc):
+        disable_attribute_schema()
 
 
 def get_attribute_json_schema(allowed=None, required=None, conditionally_required=None):

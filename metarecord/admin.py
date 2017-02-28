@@ -3,21 +3,35 @@ from django.utils.translation import ugettext_lazy as _
 from adminsortable2.admin import SortableAdminMixin
 
 from .models import Action, Attribute, AttributeValue, Function, Phase, Record
-from .models.structural_element import reload_attribute_schema
+from .models.structural_element import use_attribute_schema
 
 
 class StructuralElementAdmin(admin.ModelAdmin):
     exclude = ('attribute_values',)
 
-    def get_form(self, request, obj=None, **kwargs):
-        reload_attribute_schema()
-        return super().get_form(request, obj, **kwargs)
+    @use_attribute_schema()
+    def changeform_view(self, *args, **kwargs):
+        return super().changeform_view(*args, **kwargs)
+
+    def get_fieldsets(self, request, obj=None):
+        all_fields = self.get_fields(request, obj)
+        attribute_fields = Attribute.objects.values_list('identifier', flat=True)
+        normal_fields = [field for field in all_fields if field not in attribute_fields]
+
+        return (
+            (None, {
+                'fields': normal_fields,
+            }),
+            (_('attributes'), {
+                'fields': attribute_fields,
+            }),
+        )
 
 
 class FunctionAdmin(StructuralElementAdmin):
     list_display = ('get_function_id', 'name', 'state', 'version')
     ordering = ('function_id', 'version')
-    exclude = ('attribute_values', 'version')
+    fields = ('parent', 'function_id', 'name', 'state', 'is_template', 'error_count')
 
     def get_function_id(self, obj):
         return obj.function_id if not obj.is_template else '* %s *' % _('template').upper()
@@ -26,14 +40,17 @@ class FunctionAdmin(StructuralElementAdmin):
 
 class PhaseAdmin(StructuralElementAdmin):
     ordering = ('function__function_id', 'index')
+    raw_id_fields = ('function',)
 
 
 class ActionAdmin(StructuralElementAdmin):
     ordering = ('phase__function__function_id', 'index')
+    raw_id_fields = ('phase',)
 
 
 class RecordAdmin(StructuralElementAdmin):
     ordering = ('action__phase__function__function_id', 'index')
+    raw_id_fields = ('action', 'parent')
 
 
 class AttributeValueInline(admin.StackedInline):
