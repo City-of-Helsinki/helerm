@@ -51,6 +51,11 @@ class Function(StructuralElement):
         verbose_name = _('function')
         verbose_name_plural = _('functions')
         unique_together = (('function_id', 'version'), ('uuid', 'version'))
+        permissions = (
+            ('can_edit', _('Can edit')),
+            ('can_review', _('Can review')),
+            ('can_approve', _('Can approve'))
+        )
 
     objects = FunctionQuerySet.as_manager()
 

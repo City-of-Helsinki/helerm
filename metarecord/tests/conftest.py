@@ -1,4 +1,5 @@
 import pytest
+import uuid
 
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
@@ -72,7 +73,22 @@ def template():
 
 @pytest.fixture
 def user():
-    return get_user_model().objects.create(username='test_user')
+    return get_user_model().objects.create(
+        username='test_user',
+        first_name='John',
+        last_name='Rambo',
+        uuid=uuid.UUID('c2609283-9f53-41e4-8942-014340bb8d52')
+    )
+
+
+@pytest.fixture
+def user_2():
+    return get_user_model().objects.create(
+        username='test_user_2',
+        first_name='Rocky',
+        last_name='Balboa',
+        uuid=uuid.UUID('7c248eb0-263f-4321-ba46-474a48f5e208')
+    )
 
 
 @pytest.fixture
