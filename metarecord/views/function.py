@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers, viewsets
@@ -21,7 +22,11 @@ class FunctionListSerializer(StructuralElementSerializer):
 class FunctionDetailSerializer(FunctionListSerializer):
     phases = PhaseDetailSerializer(many=True)
 
-    @transaction.atomic
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.partial:
+            self.fields['state'].read_only = True
+
     def _create_new_version(self, function_data):
         user = self.context['request'].user
         user_data = {'created_by': user, 'modified_by': user}
@@ -51,16 +56,65 @@ class FunctionDetailSerializer(FunctionListSerializer):
             raise exceptions.ValidationError(_('Function ID %s already exists.') % value)
         return value
 
+    def validate(self, data):
+        if self.partial:
+            if 'state' not in data:
+                raise exceptions.ValidationError({'state': self.error_messages['required']})
+            self.check_state_change(self.instance.state, data['state'])
+        return data
+
     def create(self, validated_data):
         return self._create_new_version(validated_data)
 
+    @transaction.atomic
     def update(self, instance, validated_data):
+        if self.partial:
+            state = validated_data['state']
+            if instance.state == state:
+                return instance
+
+            # ignore other fields than state and do an actual update instead of a new version
+            new_function = super().update(instance, {'state': validated_data['state']})
+            new_function.create_metadata_version(self.context['request'].user)
+            return new_function
+
         # if function_id is changed the function will need a new uuid as well
         if validated_data['function_id'] == instance.function_id:
             validated_data['uuid'] = instance.uuid
         else:
             validated_data.pop('uuid', None)
-        return self._create_new_version(validated_data)
+
+        new_function = self._create_new_version(validated_data)
+        new_function.create_metadata_version(self.context['request'].user)
+
+        return new_function
+
+    def check_state_change(self, old_state, new_state):
+        user = self.context['request'].user
+
+        if old_state == new_state:
+            return
+
+        valid_changes = {
+            Function.DRAFT: {Function.SENT_FOR_REVIEW},
+            Function.SENT_FOR_REVIEW: {Function.WAITING_FOR_APPROVAL, Function.DRAFT},
+            Function.WAITING_FOR_APPROVAL: {Function.APPROVED, Function.DRAFT},
+            Function.APPROVED: {Function.DRAFT},
+        }
+        if new_state not in valid_changes[old_state]:
+            raise exceptions.ValidationError({'state': [_('Invalid state change.')]})
+
+        state_change_required_perms = {
+            Function.SENT_FOR_REVIEW: Function.CAN_EDIT,
+            Function.WAITING_FOR_APPROVAL: Function.CAN_REVIEW,
+            Function.APPROVED: Function.CAN_APPROVE,
+        }
+
+        relevant_state = new_state if new_state != Function.DRAFT else old_state
+        required_perm = state_change_required_perms[relevant_state]
+
+        if not user.has_perm(required_perm):
+            raise exceptions.PermissionDenied(_('No permission for the state change.'))
 
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
@@ -68,7 +122,7 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
     lookup_field = 'uuid'
-    http_method_names = ['get', 'head', 'options', 'post', 'put']
+    http_method_names = ['get', 'head', 'options', 'post', 'put', 'patch']
 
     def get_queryset(self):
         state = self.request.query_params.get('state')
