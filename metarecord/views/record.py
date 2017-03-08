@@ -14,7 +14,8 @@ class RecordListSerializer(StructuralElementSerializer):
 
 
 class RecordDetailSerializer(RecordListSerializer):
-    pass
+    class Meta(RecordListSerializer.Meta):
+        read_only_fields = ('index',)
 
 
 class RecordViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
