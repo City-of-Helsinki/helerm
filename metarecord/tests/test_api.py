@@ -148,22 +148,12 @@ def test_unauthenticated_user_cannot_post_or_put_functions(function_data, api_cl
 
 
 @pytest.mark.django_db
-def test_cannot_delete_functions(function_data, user_api_client, function):
-    response = user_api_client.delete(get_function_detail_url(function))
+def test_cannot_post_or_delete_functions(user_api_client, function, function_data):
+    response = user_api_client.post(FUNCTION_LIST_URL, data=function_data)
     assert response.status_code == 405
 
-
-@pytest.mark.django_db
-def test_function_post(function_data, user_api_client):
-    function_data['function_id'] = '00 77'
-    response = user_api_client.post(FUNCTION_LIST_URL, data=function_data)
-    assert response.status_code == 201
-
-    new_function = Function.objects.last()
-    _check_function_object_matches_data(new_function, function_data)
-
-    assert new_function.version == 1
-    assert new_function.state == Function.DRAFT
+    response = user_api_client.delete(get_function_detail_url(function))
+    assert response.status_code == 405
 
 
 @pytest.mark.django_db
@@ -184,15 +174,6 @@ def test_function_put(function_data, user_api_client, function, phase, action, r
     for index, obj in enumerate(models):
         obj.refresh_from_db()
         assert obj.modified_at == modified_ats[index]
-
-
-@pytest.mark.django_db
-def test_function_post_function_id_exists_already(function_data, user_api_client, function):
-    function_data['function_id'] = function.function_id
-
-    response = user_api_client.post(FUNCTION_LIST_URL, data=function_data)
-    assert response.status_code == 400
-    assert response.data['function_id'] == ['Function ID %s already exists.' % function.function_id]
 
 
 @pytest.mark.django_db

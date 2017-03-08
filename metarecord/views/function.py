@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers, viewsets
@@ -21,6 +20,9 @@ class FunctionListSerializer(StructuralElementSerializer):
 
 class FunctionDetailSerializer(FunctionListSerializer):
     phases = PhaseDetailSerializer(many=True)
+
+    class Meta(FunctionListSerializer.Meta):
+        read_only_fields = ('function_id',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,20 +53,12 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
         return function
 
-    def validate_function_id(self, value):
-        if not self.instance and Function.objects.filter(function_id=value).exists():
-            raise exceptions.ValidationError(_('Function ID %s already exists.') % value)
-        return value
-
     def validate(self, data):
         if self.partial:
             if 'state' not in data:
                 raise exceptions.ValidationError({'state': self.error_messages['required']})
             self.check_state_change(self.instance.state, data['state'])
         return data
-
-    def create(self, validated_data):
-        return self._create_new_version(validated_data)
 
     @transaction.atomic
     def update(self, instance, validated_data):
@@ -88,12 +82,7 @@ class FunctionDetailSerializer(FunctionListSerializer):
                 _('Cannot edit while in state "sent_for_review" or "waiting_for_approval"')
             )
 
-        # if function_id is changed the function will need a new uuid as well
-        if validated_data['function_id'] == instance.function_id:
-            validated_data['uuid'] = instance.uuid
-        else:
-            validated_data.pop('uuid', None)
-
+        validated_data['function_id'] = instance.function_id
         new_function = self._create_new_version(validated_data)
         new_function.create_metadata_version(user)
 
@@ -132,7 +121,7 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
     lookup_field = 'uuid'
-    http_method_names = ['get', 'head', 'options', 'post', 'put', 'patch']
+    http_method_names = ['get', 'head', 'options', 'put', 'patch']
 
     def get_queryset(self):
         state = self.request.query_params.get('state')
