@@ -367,3 +367,16 @@ def test_function_put_no_permission(function_data, user_api_client, function):
     response = user_api_client.put(get_function_detail_url(function), data=function_data)
     assert response.status_code == 403
     assert 'No permission to edit.' in str(response.data)
+
+
+@pytest.mark.django_db
+def test_function_cannot_edit_states(function_data, user_api_client, function):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+
+    for state in (Function.SENT_FOR_REVIEW, Function.WAITING_FOR_APPROVAL):
+        function.state = state
+        function.save(update_fields=('state',))
+
+        response = user_api_client.put(get_function_detail_url(function), data=function_data)
+        assert response.status_code == 400
+        assert 'Cannot edit while in state' in str(response.data)

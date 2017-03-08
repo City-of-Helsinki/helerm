@@ -83,6 +83,11 @@ class FunctionDetailSerializer(FunctionListSerializer):
         if not user.has_perm(Function.CAN_EDIT):
             raise exceptions.PermissionDenied(_('No permission to edit.'))
 
+        if instance.state in (Function.SENT_FOR_REVIEW, Function.WAITING_FOR_APPROVAL):
+            raise exceptions.ValidationError(
+                _('Cannot edit while in state "sent_for_review" or "waiting_for_approval"')
+            )
+
         # if function_id is changed the function will need a new uuid as well
         if validated_data['function_id'] == instance.function_id:
             validated_data['uuid'] = instance.uuid
