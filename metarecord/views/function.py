@@ -68,6 +68,8 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
+        user = self.context['request'].user
+
         if self.partial:
             state = validated_data['state']
             if instance.state == state:
@@ -75,8 +77,11 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
             # ignore other fields than state and do an actual update instead of a new version
             new_function = super().update(instance, {'state': validated_data['state']})
-            new_function.create_metadata_version(self.context['request'].user)
+            new_function.create_metadata_version(user)
             return new_function
+
+        if not user.has_perm(Function.CAN_EDIT):
+            raise exceptions.PermissionDenied(_('No permission to edit.'))
 
         # if function_id is changed the function will need a new uuid as well
         if validated_data['function_id'] == instance.function_id:
@@ -85,7 +90,7 @@ class FunctionDetailSerializer(FunctionListSerializer):
             validated_data.pop('uuid', None)
 
         new_function = self._create_new_version(validated_data)
-        new_function.create_metadata_version(self.context['request'].user)
+        new_function.create_metadata_version(user)
 
         return new_function
 

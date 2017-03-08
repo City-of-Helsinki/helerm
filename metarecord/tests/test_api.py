@@ -360,3 +360,10 @@ def test_metadata_version(user_api_client, user_2_api_client, function, function
     assert metadata_version.state == Function.SENT_FOR_REVIEW
     assert metadata_version.modified_at == new_function.modified_at > original_modified_at
     assert metadata_version.modified_by == user_2_api_client.user
+
+
+@pytest.mark.django_db
+def test_function_put_no_permission(function_data, user_api_client, function):
+    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 403
+    assert 'No permission to edit.' in str(response.data)
