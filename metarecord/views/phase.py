@@ -17,6 +17,9 @@ class PhaseListSerializer(StructuralElementSerializer):
 class PhaseDetailSerializer(PhaseListSerializer):
     actions = ActionDetailSerializer(many=True)
 
+    class Meta(PhaseListSerializer.Meta):
+        read_only_fields = ('index',)
+
 
 class PhaseViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Phase.objects.prefetch_related('actions')

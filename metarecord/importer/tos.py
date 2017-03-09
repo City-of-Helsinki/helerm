@@ -174,8 +174,22 @@ class TOSImporter:
                     (function_data['function_id'], parent_id)
                 )
 
-        function, created = Function.objects.latest_version().update_or_create(function_id=function_data['function_id'],
-                                                                               defaults=function_data)
+        try:
+            function = Function.objects.latest_version().get(function_id=function_data['function_id'])
+            if function.phases.count() != 0:
+                raise TOSImporterException(
+                    'Function %s seems to be populated already.' % function_data['function_id']
+                )
+
+            function.metadata_versions.all().delete()
+            for key, value in function_data.items():
+                setattr(function, key, value)
+            function.save()
+            function.create_metadata_version()
+
+        except Function.DoesNotExist:
+            function = Function.objects.create(**function_data)
+
         return function
 
     def _get_attributes(self, data):

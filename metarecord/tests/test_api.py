@@ -1,6 +1,7 @@
 import pytest
 from rest_framework.reverse import reverse
 from metarecord.models import Function
+from metarecord.tests.utils import set_permissions
 
 
 FUNCTION_LIST_URL = reverse('v1:function-list')
@@ -147,25 +148,12 @@ def test_unauthenticated_user_cannot_post_or_put_functions(function_data, api_cl
 
 
 @pytest.mark.django_db
-def test_cannot_patch_or_delete_functions(function_data, user_api_client, function):
-    response = user_api_client.patch(get_function_detail_url(function), data=function_data)
+def test_cannot_post_or_delete_functions(user_api_client, function, function_data):
+    response = user_api_client.post(FUNCTION_LIST_URL, data=function_data)
     assert response.status_code == 405
 
     response = user_api_client.delete(get_function_detail_url(function))
     assert response.status_code == 405
-
-
-@pytest.mark.django_db
-def test_function_post(function_data, user_api_client):
-    function_data['function_id'] = '00 77'
-    response = user_api_client.post(FUNCTION_LIST_URL, data=function_data)
-    assert response.status_code == 201
-
-    new_function = Function.objects.last()
-    _check_function_object_matches_data(new_function, function_data)
-
-    assert new_function.version == 1
-    assert new_function.state == Function.DRAFT
 
 
 @pytest.mark.django_db
@@ -186,15 +174,6 @@ def test_function_put(function_data, user_api_client, function, phase, action, r
     for index, obj in enumerate(models):
         obj.refresh_from_db()
         assert obj.modified_at == modified_ats[index]
-
-
-@pytest.mark.django_db
-def test_function_post_function_id_exists_already(function_data, user_api_client, function):
-    function_data['function_id'] = function.function_id
-
-    response = user_api_client.post(FUNCTION_LIST_URL, data=function_data)
-    assert response.status_code == 400
-    assert response.data['function_id'] == ['Function ID %s already exists.' % function.function_id]
 
 
 @pytest.mark.django_db
@@ -220,3 +199,165 @@ def test_function_put_invalid_attributes_format(function_data, user_api_client, 
     function_data['phases'][0]['attributes'] = attributes
     response = user_api_client.put(get_function_detail_url(function), data=function_data)
     assert response.status_code == 400
+
+
+@pytest.mark.django_db
+def test_function_state_change(user_api_client, function):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    data = {'state': Function.SENT_FOR_REVIEW, 'name': 'this should be ignored'}
+    original_name = function.name
+
+    response = user_api_client.patch(get_function_detail_url(function), data=data)
+    assert response.status_code == 200
+    assert response.data['version'] == 1
+    assert response.data['state'] == Function.SENT_FOR_REVIEW
+    assert response.data['name'] == original_name
+
+    function.refresh_from_db()
+    assert function.version == 1
+    assert function.state == Function.SENT_FOR_REVIEW
+    assert function.name == original_name
+
+
+@pytest.mark.django_db
+def test_function_put(function_data, user_api_client, function):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    function_data['state'] = Function.SENT_FOR_REVIEW
+
+    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 200
+
+    new_function = Function.objects.last()
+    assert new_function.state == Function.DRAFT
+
+
+@pytest.mark.django_db
+def test_state_change_validity(user_api_client, function):
+    set_permissions(user_api_client, (Function.CAN_EDIT, Function.CAN_REVIEW, Function.CAN_APPROVE))
+    url = get_function_detail_url(function)
+
+    all_states = {Function.DRAFT, Function.SENT_FOR_REVIEW, Function.WAITING_FOR_APPROVAL, Function.APPROVED}
+
+    valid_changes = {
+        Function.DRAFT: {Function.SENT_FOR_REVIEW},
+        Function.SENT_FOR_REVIEW: {Function.WAITING_FOR_APPROVAL, Function.DRAFT},
+        Function.WAITING_FOR_APPROVAL: {Function.APPROVED, Function.DRAFT},
+        Function.APPROVED: {Function.DRAFT},
+    }
+
+    for old_state, valid_new_states in valid_changes.items():
+        function.state = old_state
+        function.save(update_fields=('state',))
+
+        for new_state in valid_new_states:
+            function.state = old_state
+            function.save(update_fields=('state',))
+
+            response = user_api_client.patch(url, data={'state': new_state})
+            assert response.status_code == 200
+
+        invalid_new_states = all_states - valid_new_states - {old_state}
+
+        for new_state in invalid_new_states:
+            function.state = old_state
+            function.save(update_fields=('state',))
+
+            response = user_api_client.patch(url, data={'state': new_state})
+            assert response.status_code == 400
+
+
+@pytest.mark.django_db
+def test_state_change_permissions(user_api_client, function):
+    url = get_function_detail_url(function)
+
+    all_permissions = {Function.CAN_EDIT, Function.CAN_REVIEW, Function.CAN_APPROVE}
+
+    required_perms = {
+        Function.SENT_FOR_REVIEW: Function.CAN_EDIT,
+        Function.WAITING_FOR_APPROVAL: Function.CAN_REVIEW,
+        Function.APPROVED: Function.CAN_APPROVE,
+    }
+
+    valid_changes = {
+        Function.DRAFT: Function.SENT_FOR_REVIEW,
+        Function.SENT_FOR_REVIEW: Function.WAITING_FOR_APPROVAL,
+        Function.WAITING_FOR_APPROVAL: Function.APPROVED,
+    }
+
+    # forward changes
+    for old_state, new_state in valid_changes.items():
+        function.state = old_state
+        function.save(update_fields=('state',))
+        required_perm = required_perms[new_state]
+
+        others_than_required_perm = all_permissions - {required_perm}
+        set_permissions(user_api_client, others_than_required_perm)
+        response = user_api_client.patch(url, data={'state': new_state})
+        assert response.status_code == 403
+
+        set_permissions(user_api_client, required_perm)
+        response = user_api_client.patch(url, data={'state': new_state})
+        assert response.status_code == 200
+
+    # changes back to DRAFT
+    for old_state in {Function.SENT_FOR_REVIEW, Function.WAITING_FOR_APPROVAL, Function.APPROVED}:
+        function.state = old_state
+        function.save(update_fields=('state',))
+        required_perm = required_perms[old_state]
+
+        others_than_required_perm = all_permissions - {required_perm}
+        set_permissions(user_api_client, others_than_required_perm)
+        response = user_api_client.patch(url, data={'state': Function.DRAFT})
+        assert response.status_code == 403
+
+        set_permissions(user_api_client, required_perm)
+        response = user_api_client.patch(url, data={'state': Function.DRAFT})
+        assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_metadata_version(user_api_client, user_2_api_client, function, function_data):
+    url = get_function_detail_url(function)
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    set_permissions(user_2_api_client, Function.CAN_EDIT)
+
+    response = user_api_client.put(url, data=function_data)
+    assert response.status_code == 200
+
+    new_function = Function.objects.last()
+    original_modified_at = new_function.modified_at
+    assert new_function.metadata_versions.count() == 1
+    metadata_version = new_function.metadata_versions.last()
+    assert metadata_version.state == Function.DRAFT
+    assert metadata_version.modified_at == original_modified_at
+    assert metadata_version.modified_by == user_api_client.user
+
+    response = user_2_api_client.patch(url, data={'state': Function.SENT_FOR_REVIEW})
+    assert response.status_code == 200
+
+    new_function = Function.objects.last()
+    assert new_function.metadata_versions.count() == 2
+    metadata_version = new_function.metadata_versions.last()
+    assert metadata_version.state == Function.SENT_FOR_REVIEW
+    assert metadata_version.modified_at == new_function.modified_at > original_modified_at
+    assert metadata_version.modified_by == user_2_api_client.user
+
+
+@pytest.mark.django_db
+def test_function_put_no_permission(function_data, user_api_client, function):
+    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 403
+    assert 'No permission to edit.' in str(response.data)
+
+
+@pytest.mark.django_db
+def test_function_cannot_edit_states(function_data, user_api_client, function):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+
+    for state in (Function.SENT_FOR_REVIEW, Function.WAITING_FOR_APPROVAL):
+        function.state = state
+        function.save(update_fields=('state',))
+
+        response = user_api_client.put(get_function_detail_url(function), data=function_data)
+        assert response.status_code == 400
+        assert 'Cannot edit while in state' in str(response.data)

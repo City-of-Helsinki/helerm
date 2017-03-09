@@ -27,7 +27,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
 
 class DetailSerializerMixin:
     def get_serializer_class(self):
-        if self.action in ('create', 'retrieve', 'update'):
+        if self.action in ('create', 'retrieve', 'partial_update', 'update'):
             try:
                 return self.serializer_class_detail
             except AttributeError:

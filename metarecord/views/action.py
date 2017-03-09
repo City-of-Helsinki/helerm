@@ -10,12 +10,15 @@ class ActionListSerializer(StructuralElementSerializer):
     class Meta(StructuralElementSerializer.Meta):
         model = Action
 
-    phase = HexRelatedField(read_only=True, )
+    phase = HexRelatedField(read_only=True)
     records = HexRelatedField(many=True, read_only=True)
 
 
 class ActionDetailSerializer(ActionListSerializer):
     records = RecordDetailSerializer(many=True)
+
+    class Meta(ActionListSerializer.Meta):
+        read_only_fields = ('index',)
 
 
 class ActionViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):

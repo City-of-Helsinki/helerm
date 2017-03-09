@@ -1,4 +1,5 @@
 from django.db import connection, models, transaction
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from .structural_element import StructuralElement
@@ -24,6 +25,10 @@ class Function(StructuralElement):
         (WAITING_FOR_APPROVAL, _('Waiting for approval')),
         (APPROVED, _('Approved')),
     )
+
+    CAN_EDIT = 'metarecord.can_edit'
+    CAN_REVIEW = 'metarecord.can_review'
+    CAN_APPROVE = 'metarecord.can_approve'
 
     function_id = models.CharField(verbose_name=_('function ID'), max_length=16, db_index=True, null=True)
     parent = models.ForeignKey('self', verbose_name=_('parent'), related_name='children', blank=True, null=True)
@@ -89,3 +94,26 @@ class Function(StructuralElement):
                 self.version = 1
 
         super().save(*args, **kwargs)
+
+    def create_metadata_version(self, modified_by=None):
+        MetadataVersion.objects.create(
+            function=self,
+            modified_at=self.modified_at,
+            modified_by=modified_by,
+            state=self.state,
+        )
+
+
+class MetadataVersion(models.Model):
+    function = models.ForeignKey(Function, verbose_name=_('function'), related_name='metadata_versions')
+    modified_at = models.DateTimeField(verbose_name=_('modified at'))
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('modified by'), blank=True, null=True)
+    state = models.CharField(
+        verbose_name=_('state'), max_length=20, choices=Function.STATE_CHOICES, default=Function.DRAFT
+    )
+
+    class Meta:
+        ordering = ('id',)
+
+    def __str__(self):
+        return ''  # because of admin UI
