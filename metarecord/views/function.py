@@ -12,10 +12,16 @@ class FunctionListSerializer(StructuralElementSerializer):
     parent = HexRelatedField(queryset=Function.objects.all(), required=False, allow_null=True)
     phases = HexRelatedField(many=True, read_only=True)
     version = serializers.IntegerField(read_only=True)
+    modified_by = serializers.SerializerMethodField()
 
     class Meta(StructuralElementSerializer.Meta):
         model = Function
         exclude = StructuralElementSerializer.Meta.exclude + ('index', 'is_template')
+
+    def get_modified_by(self, obj):
+        if obj.modified_by:
+            return '{} {}'.format(obj.modified_by.first_name, obj.modified_by.last_name).strip()
+        return None
 
 
 class FunctionDetailSerializer(FunctionListSerializer):
@@ -117,7 +123,7 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
-    queryset = Function.objects.filter(is_template=False).prefetch_related('phases')
+    queryset = Function.objects.filter(is_template=False).select_related('modified_by').prefetch_related('phases')
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
     lookup_field = 'uuid'
