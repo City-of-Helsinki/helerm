@@ -361,3 +361,17 @@ def test_function_cannot_edit_states(function_data, user_api_client, function):
         response = user_api_client.put(get_function_detail_url(function), data=function_data)
         assert response.status_code == 400
         assert 'Cannot edit while in state' in str(response.data)
+
+
+@pytest.mark.django_db
+def test_function_modified_by(function, user_api_client, user):
+    response = user_api_client.get(get_function_detail_url(function))
+    assert response.status_code == 200
+    assert response.data['modified_by'] is None
+
+    function.modified_by = user
+    function.save(update_fields=('modified_by',))
+
+    response = user_api_client.get(get_function_detail_url(function))
+    assert response.status_code == 200
+    assert response.data['modified_by'] == '%s %s' % (user.first_name, user.last_name)
