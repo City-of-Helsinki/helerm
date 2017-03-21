@@ -3,7 +3,7 @@ from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from adminsortable2.admin import SortableAdminMixin
 
-from .models import Action, Attribute, AttributeValue, Function, Phase, Record, MetadataVersion
+from .models import Action, Attribute, AttributeGroup, AttributeValue, Function, Phase, Record, MetadataVersion
 from .models.structural_element import use_attribute_schema
 
 
@@ -79,7 +79,7 @@ class AttributeValueInline(admin.StackedInline):
 
 
 class AttributeAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'group')
     inlines = (AttributeValueInline,)
     exclude = ('index',)
 
@@ -87,8 +87,13 @@ class AttributeAdmin(SortableAdminMixin, admin.ModelAdmin):
         model = Attribute
 
 
+class AttributeGroupAdmin(admin.ModelAdmin):
+    model = AttributeGroup
+
+
 admin.site.register(Function, FunctionAdmin)
 admin.site.register(Phase, PhaseAdmin)
 admin.site.register(Action, ActionAdmin)
 admin.site.register(Record, RecordAdmin)
 admin.site.register(Attribute, AttributeAdmin)
+admin.site.register(AttributeGroup, AttributeGroupAdmin)

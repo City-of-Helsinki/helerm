@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-08 22:04+0200\n"
+"POT-Creation-Date: 2017-03-21 16:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "suomi"
 msgid "English"
 msgstr "englanti"
 
-#: metarecord/admin.py:26 metarecord/models/attribute.py:14
+#: metarecord/admin.py:26 metarecord/models/attribute.py:26
 msgid "attributes"
 msgstr "attribuutit"
 
@@ -46,8 +46,9 @@ msgstr "tehtäväluokkatunniste"
 msgid "phase"
 msgstr "käsittelyvaihe"
 
-#: metarecord/models/action.py:10 metarecord/models/attribute.py:9
-#: metarecord/models/function.py:35 metarecord/models/phase.py:10
+#: metarecord/models/action.py:10 metarecord/models/attribute.py:8
+#: metarecord/models/attribute.py:20 metarecord/models/function.py:35
+#: metarecord/models/phase.py:10
 msgid "name"
 msgstr "nimi"
 
@@ -59,23 +60,35 @@ msgstr "toimenpide"
 msgid "actions"
 msgstr "toimenpiteet"
 
-#: metarecord/models/attribute.py:8
+#: metarecord/models/attribute.py:11
+msgid "attribute group"
+msgstr "attribuuttiryhmä"
+
+#: metarecord/models/attribute.py:12
+msgid "attribute groups"
+msgstr "attribuuttiryhmät"
+
+#: metarecord/models/attribute.py:19
 msgid "identifier"
 msgstr "tunniste"
 
-#: metarecord/models/attribute.py:13 metarecord/models/attribute.py:32
+#: metarecord/models/attribute.py:22
+msgid "group"
+msgstr "ryhmä"
+
+#: metarecord/models/attribute.py:25 metarecord/models/attribute.py:44
 msgid "attribute"
 msgstr "attribuutti"
 
-#: metarecord/models/attribute.py:33
+#: metarecord/models/attribute.py:45
 msgid "value"
 msgstr "arvo"
 
-#: metarecord/models/attribute.py:36
+#: metarecord/models/attribute.py:48
 msgid "attribute value"
 msgstr "attribuutin arvo"
 
-#: metarecord/models/attribute.py:37
+#: metarecord/models/attribute.py:49
 msgid "attribute values"
 msgstr "attribuuttien arvot"
 
@@ -173,21 +186,21 @@ msgstr "lisääjä"
 msgid "Invalid attribute."
 msgstr "Epäkelpo attribuutti."
 
-#: metarecord/views/function.py:78
+#: metarecord/views/function.py:84
 msgid "No permission to edit."
 msgstr "Ei lupaa muokata."
 
-#: metarecord/views/function.py:82
+#: metarecord/views/function.py:88
 msgid ""
 "Cannot edit while in state \"sent_for_review\" or \"waiting_for_approval\""
 msgstr ""
 "Muokkaus ei ole mahdollista kun tila on \"sent_for_review\" tai "
 "\"waiting_for_approval\""
 
-#: metarecord/views/function.py:104
+#: metarecord/views/function.py:110
 msgid "Invalid state change."
 msgstr "Virheellinen tilan vaihto."
 
-#: metarecord/views/function.py:116
+#: metarecord/views/function.py:122
 msgid "No permission for the state change."
 msgstr "Ei oikeutta tilan vaihtoon."

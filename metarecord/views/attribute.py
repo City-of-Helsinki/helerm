@@ -17,6 +17,7 @@ class AttributeValueSerializer(serializers.ModelSerializer):
 class AttributeSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True, format='hex')
     values = AttributeValueSerializer(read_only=True, many=True)
+    group = serializers.SlugRelatedField(read_only=True, slug_field='name')
 
     class Meta:
         model = Attribute
@@ -31,7 +32,7 @@ class AttributeFilterSet(django_filters.rest_framework.FilterSet):
 
 
 class AttributeViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Attribute.objects.prefetch_related('values')
+    queryset = Attribute.objects.select_related('group').prefetch_related('values')
     serializer_class = AttributeSerializer
     filter_class = AttributeFilterSet
 

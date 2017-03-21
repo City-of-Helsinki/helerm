@@ -3,7 +3,7 @@ import uuid
 
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
-from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record
+from metarecord.models import Action, Attribute, AttributeGroup, AttributeValue, Function, Phase, Record
 
 
 @pytest.fixture
@@ -110,3 +110,11 @@ def user_2_api_client(user_2):
     api_client.force_authenticate(user_2)
     api_client.user = user_2
     return api_client
+
+
+@pytest.fixture
+def attribute_group(choice_attribute):
+    group = AttributeGroup.objects.create(name='test attribute group')
+    choice_attribute.group = group
+    choice_attribute.save(update_fields=('group',))
+    return group
