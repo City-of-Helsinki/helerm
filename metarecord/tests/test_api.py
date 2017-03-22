@@ -1,3 +1,4 @@
+import uuid
 import pytest
 from rest_framework.reverse import reverse
 from metarecord.models import Function
@@ -5,10 +6,15 @@ from metarecord.tests.utils import set_permissions
 
 
 FUNCTION_LIST_URL = reverse('v1:function-list')
+ATTRIBUTE_LIST_URL = reverse('v1:attribute-list')
 
 
 def get_function_detail_url(function):
     return reverse('v1:function-detail', kwargs={'uuid': function.uuid})
+
+
+def get_attribute_detail_url(attribute):
+    return reverse('v1:attribute-detail', kwargs={'pk': attribute.id})
 
 
 @pytest.fixture
@@ -375,3 +381,21 @@ def test_function_modified_by(function, user_api_client, user):
     response = user_api_client.get(get_function_detail_url(function))
     assert response.status_code == 200
     assert response.data['modified_by'] == '%s %s' % (user.first_name, user.last_name)
+
+
+@pytest.mark.django_db
+def test_attribute_get_list_and_detail(choice_attribute, choice_value_1, attribute_group, user_api_client):
+    for url in (ATTRIBUTE_LIST_URL, get_attribute_detail_url(choice_attribute)):
+        response = user_api_client.get(url)
+        assert response.status_code == 200
+        data = response.data['results'][0] if 'results' in response.data else response.data
+
+        assert uuid.UUID(data['id']) == choice_attribute.id
+        assert data['identifier'] == choice_attribute.identifier
+        assert data['name'] == choice_attribute.name
+        assert data['group'] == attribute_group.name
+
+        assert len(data['values']) == 1
+        value_datum = data['values'][0]
+        assert uuid.UUID(value_datum['id']) == choice_value_1.id
+        assert value_datum['value'] == choice_value_1.value

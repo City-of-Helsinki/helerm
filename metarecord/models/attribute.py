@@ -4,10 +4,22 @@ from django.utils.translation import ugettext_lazy as _
 from .base import TimeStampedModel, UUIDPrimaryKeyModel
 
 
+class AttributeGroup(models.Model):
+    name = models.CharField(max_length=64, verbose_name=_('name'))
+
+    class Meta:
+        verbose_name = _('attribute group')
+        verbose_name_plural = _('attribute groups')
+
+    def __str__(self):
+        return self.name
+
+
 class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
     identifier = models.CharField(verbose_name=_('identifier'), max_length=64, unique=True, db_index=True)
     name = models.CharField(verbose_name=_('name'), max_length=256)
     index = models.PositiveSmallIntegerField(db_index=True)
+    group = models.ForeignKey(AttributeGroup, verbose_name=_('group'), related_name='attributes', null=True, blank=True)
 
     class Meta:
         verbose_name = _('attribute')
