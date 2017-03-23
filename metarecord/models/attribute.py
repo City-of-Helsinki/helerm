@@ -1,7 +1,8 @@
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
 
 from .base import TimeStampedModel, UUIDPrimaryKeyModel
+from .predefined_attributes import PREDEFINED_ATTRIBUTES
 
 
 class AttributeGroup(models.Model):
@@ -51,3 +52,9 @@ class AttributeValue(TimeStampedModel, UUIDPrimaryKeyModel):
 
     def __str__(self):
         return self.value
+
+
+def create_predefined_attributes():
+    with transaction.atomic():
+        for attribute in PREDEFINED_ATTRIBUTES:
+            Attribute.objects.get_or_create(identifier=attribute['identifier'], defaults=attribute)
