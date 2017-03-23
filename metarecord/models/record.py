@@ -12,19 +12,22 @@ class Record(StructuralElement):
 
     # Record attribute validation rules, hardcoded at least for now
     _attribute_validations = {
-        'allowed': ['PersonalData', 'PublicityClass', 'SecurityPeriod', 'Restriction.SecurityPeriodStart',
-                    'SecurityReason', 'RetentionPeriod', 'RetentionReason', 'RetentionPeriodStart',
-                    'AdditionalInformation', 'RetentionPeriodTotal', 'RetentionPeriodOffice', 'InformationSystem',
-                    'SocialSecurityNumber', 'StorageAccountable', 'StorageLocation', 'StorageOrder',
-                    'ProtectionClass', 'AdditionalInformation', 'RecordType'],
-        'required': ['PersonalData', 'PublicityClass', 'SecurityPeriod', 'Restriction.SecurityPeriodStart',
-                     'SecurityReason', 'RetentionPeriod', 'RetentionReason', 'RetentionPeriodStart', 'RecordType'],
+        'allowed': (
+            'AdditionalInformation', 'InformationSystem', 'PersonalData', 'PublicityClass',
+            'Restriction.ProtectionLevel' 'Restriction.SecurityClass', 'RetentionPeriod', 'RetentionPeriodStart',
+            'RetentionPeriodTotal', 'RetentionPeriodOffice', 'RetentionReason', 'ProtectionClass', 'SecurityPeriod',
+            'SocialSecurityNumber', 'StorageAccountable', 'StorageOrder', 'Subject.Scheme', 'Subject'
+        ),
+        'required': (
+            'PersonalData', 'PublicityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
+        ),
         'conditionally_required': {
             'SecurityPeriod': {'PublicityClass': 'Salassa pidettävä'},
             'Restriction.SecurityPeriodStart': {'PublicityClass': 'Salassa pidettävä'},
             'SecurityReason': {'PublicityClass': 'Salassa pidettävä'}
         }
     }
+
 
     class Meta:
         verbose_name = _('record')

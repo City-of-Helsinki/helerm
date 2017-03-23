@@ -79,4 +79,8 @@ PREDEFINED_ATTRIBUTES = [
         'identifier': 'Subject.Scheme',
         'name': 'Käytetty Asiasanasto',
     },
+    {
+        'identifier': 'AdditionalInformation',
+        'name': 'Lisätietoja',
+    },
 ]
