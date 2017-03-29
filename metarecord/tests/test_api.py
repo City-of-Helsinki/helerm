@@ -1,8 +1,8 @@
 import uuid
 import pytest
 from rest_framework.reverse import reverse
-from metarecord.models import Function
-from metarecord.tests.utils import set_permissions
+from metarecord.models import Action, Attribute, Function, Phase, Record
+from metarecord.tests.utils import check_attribute_errors, set_permissions
 
 
 FUNCTION_LIST_URL = reverse('v1:function-list')
@@ -45,6 +45,17 @@ def function_data(parent_function, function, free_text_attribute, choice_attribu
             }
         ]
     }
+
+
+# by default disable hardcoded attribute validations so that they don't interfere
+# in tests unrelated to attribute validation, attribute validations are tested
+# explicitly in their own tests.
+@pytest.fixture(autouse=True)
+def disable_attribute_validations():
+    for structural_element in (Function, Phase, Action, Record):
+        structural_element._attribute_validations['allowed'] = None
+        structural_element._attribute_validations['required'] = None
+        structural_element._attribute_validations['conditionally_required'] = None
 
 
 def _check_function_object_matches_data(function_obj, data):
@@ -399,3 +410,102 @@ def test_attribute_get_list_and_detail(choice_attribute, choice_value_1, attribu
         value_datum = data['values'][0]
         assert uuid.UUID(value_datum['id']) == choice_value_1.id
         assert value_datum['value'] == choice_value_1.value
+
+
+@pytest.mark.django_db
+def test_attribute_validations_when_sent_for_review(
+        super_user_api_client, function, phase, action, record, free_text_attribute, free_text_attribute_2,
+        choice_attribute, choice_value_1, choice_attribute_2, choice_value_2_1, choice_value_2_2
+):
+
+    # set free text attribute required and choice attribute allowed for every structural element
+    for structural_element in (Function, Phase, Action, Record):
+        structural_element._attribute_validations['allowed'] = [
+            free_text_attribute.identifier,
+            choice_attribute.identifier,
+            choice_attribute_2.identifier,
+        ]
+        structural_element._attribute_validations['required'] = [free_text_attribute.identifier]
+        structural_element._attribute_validations['conditionally_required'] = {
+            choice_attribute.identifier: {
+                choice_attribute_2.identifier: choice_value_2_2.value
+            }
+        }
+
+    valid_attributes = {
+        free_text_attribute.identifier: 'some value',
+        choice_attribute.identifier: choice_value_1.value,
+    }
+
+    # the function has a conditionally required attribute
+    function.attributes = {choice_attribute_2.identifier: choice_value_2_2.value}
+    function.save(update_fields=('attributes',))
+
+    # new phase with valid attributes
+    Phase.objects.create(function=function, name='phase 2', index=2, attributes=valid_attributes)
+
+    # the action has a non allowed attribute
+    action.attributes = {free_text_attribute_2.identifier: 'some value'}
+    action.save(update_fields=('attributes',))
+
+    # the record has a non allowed value
+    record.attributes = {choice_attribute.identifier: choice_value_2_1.value}
+    record.save(update_fields=('attributes',))
+
+    # try to send the function for review
+    response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
+    assert response.status_code == 400
+    errors = response.data
+
+    # check function attribute errors
+    check_attribute_errors(errors, free_text_attribute, 'required')
+    check_attribute_errors(errors, choice_attribute, 'required')  # this should be the conditionally required one
+
+    # check phase attribute errors
+    assert errors['phases'][1] == {}  # this should be the new phase with valid attributes
+    errors = errors['phases'][0]
+    check_attribute_errors(errors, free_text_attribute, 'required')
+
+    # check action attribute errors
+    errors = errors['actions'][0]
+    check_attribute_errors(errors, free_text_attribute, 'required')
+    check_attribute_errors(errors, free_text_attribute_2, 'allowed')
+
+    # check record attribute errors
+    errors = errors['records'][0]
+    check_attribute_errors(errors, free_text_attribute, 'required')
+    check_attribute_errors(errors, choice_attribute, 'value')
+
+    # make the action valid and to try to send the function for review again
+    action.attributes = valid_attributes
+    action.save(update_fields=('attributes',))
+    response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
+    assert response.status_code == 400
+    errors = response.data
+
+    # check that the action is valid and the record errors are still there
+    action_errors = errors['phases'][0]['actions'][0]
+    assert 'attributes' not in action_errors
+    record_errors = action_errors['records'][0]
+    check_attribute_errors(record_errors, free_text_attribute, 'required')
+    check_attribute_errors(record_errors, choice_attribute, 'value')
+
+    # make the record valid and try to send the function for review again
+    record.attributes = valid_attributes
+    record.save(update_fields=('attributes',))
+    response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
+    assert response.status_code == 400
+    errors = response.data
+
+    # the action and the record are valid, there should be only phase errors
+    phase_errors = errors['phases'][0]
+    check_attribute_errors(phase_errors, free_text_attribute, 'required')
+    assert 'actions' not in phase_errors
+
+    # check supposed valid case as well
+    phase.attributes = valid_attributes
+    phase.save(update_fields=('attributes',))
+    function.attributes = valid_attributes
+    function.save(update_fields=('attributes',))
+    response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
+    assert response.status_code == 200

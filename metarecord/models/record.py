@@ -28,7 +28,6 @@ class Record(StructuralElement):
         }
     }
 
-
     class Meta:
         verbose_name = _('record')
         verbose_name_plural = _('records')

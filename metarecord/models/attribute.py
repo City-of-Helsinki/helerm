@@ -37,6 +37,22 @@ class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
             self.index = max(Attribute.objects.values_list('index', flat=True) or [0]) + 1
         super().save(*args, **kwargs)
 
+    @classmethod
+    def check_identifiers(cls, identifiers):
+        """
+        Check that identifiers are valid.
+
+        :param identifiers: list of identifiers
+        :return: validation error dict
+        """
+
+        errors = {}
+        valid_identifiers = set(Attribute.objects.values_list('identifier', flat=True))
+        invalid_identifiers = set(identifiers) - valid_identifiers
+        if invalid_identifiers:
+            errors = {identifier: [_('Invalid attribute.')] for identifier in invalid_identifiers}
+        return errors
+
     def is_free_text(self):
         return not self.values.exists()
 

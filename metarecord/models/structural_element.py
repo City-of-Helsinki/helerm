@@ -1,5 +1,6 @@
 import uuid
 from contextlib import ContextDecorator
+from copy import deepcopy
 
 from django.conf import settings
 from django.db import models
@@ -32,6 +33,35 @@ class StructuralElement(TimeStampedModel):
     @classmethod
     def get_attribute_json_schema(cls):
         return get_attribute_json_schema(**cls._attribute_validations)
+
+    @classmethod
+    def get_required_attributes(cls):
+        return set(cls._attribute_validations.get('required') or [])
+
+    @classmethod
+    def get_conditionally_required_attributes(cls):
+        return deepcopy(cls._attribute_validations.get('conditionally_required')) or {}
+
+    @classmethod
+    def is_attribute_allowed(cls, attribute_identifier):
+        allowed = cls._attribute_validations.get('allowed')
+        if allowed is None:
+            # None means the validation isn't enabled
+            return True
+        return attribute_identifier in allowed
+
+    @classmethod
+    def get_child_relation_name(cls):
+        child_field_names = {
+            'Function': 'phases',
+            'Phase': 'actions',
+            'Action': 'records',
+            'Record': None,
+        }
+        try:
+            return child_field_names[cls.__name__]
+        except KeyError:
+            raise NotImplementedError()
 
     def save(self, *args, **kwargs):
         for key, value in self.attributes.copy().items():

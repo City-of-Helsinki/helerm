@@ -4,6 +4,7 @@ import uuid
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 from metarecord.models import Action, Attribute, AttributeGroup, AttributeValue, Function, Phase, Record
+from metarecord.tests.utils import set_permissions
 
 
 @pytest.fixture
@@ -23,17 +24,17 @@ def second_function(parent_function):
 
 @pytest.fixture
 def phase(function):
-    return Phase.objects.create(name='test phase', function=function)
+    return Phase.objects.create(name='test phase', function=function, index=1)
 
 
 @pytest.fixture
 def action(phase):
-    return Action.objects.create(name='test action', phase=phase)
+    return Action.objects.create(name='test action', phase=phase, index=1)
 
 
 @pytest.fixture
 def record(action):
-    return Record.objects.create(name='test record', action=action)
+    return Record.objects.create(name='test record', action=action, index=1)
 
 
 @pytest.fixture
@@ -42,8 +43,19 @@ def choice_attribute():
 
 
 @pytest.fixture
+def choice_attribute_2():
+    return Attribute.objects.create(name='test choice attribute 2', identifier='ChoiceAttr2')
+
+
+@pytest.fixture
 def free_text_attribute():
     return Attribute.objects.create(name='test free text attribute', identifier='FreeTextAttr')
+
+
+
+@pytest.fixture
+def free_text_attribute_2():
+    return Attribute.objects.create(name='test free text attribute 2', identifier='FreeTextAttr2')
 
 
 @pytest.fixture
@@ -57,13 +69,13 @@ def choice_value_2(choice_attribute):
 
 
 @pytest.fixture
-def free_text_value_1(free_text_attribute):
-    return AttributeValue.objects.create(value='test free text value 1', attribute=free_text_attribute)
+def choice_value_2_1(choice_attribute_2):
+    return AttributeValue.objects.create(value='test choice value 2 1', attribute=choice_attribute_2)
 
 
 @pytest.fixture
-def free_text_value_2(free_text_attribute):
-    return AttributeValue.objects.create(value='test free text value 2', attribute=free_text_attribute)
+def choice_value_2_2(choice_attribute_2):
+    return AttributeValue.objects.create(value='test choice value 2 2', attribute=choice_attribute_2)
 
 
 @pytest.fixture
@@ -92,6 +104,16 @@ def user_2():
 
 
 @pytest.fixture
+def super_user():
+    return get_user_model().objects.create(
+        username='test_super_user',
+        first_name='Kurt',
+        last_name='Sloane',
+        uuid=uuid.UUID('e96d474b-6eee-45af-94f8-7d48292036f4')
+    )
+
+
+@pytest.fixture
 def api_client():
     return APIClient()
 
@@ -109,6 +131,15 @@ def user_2_api_client(user_2):
     api_client = APIClient()
     api_client.force_authenticate(user_2)
     api_client.user = user_2
+    return api_client
+
+
+@pytest.fixture
+def super_user_api_client(super_user):
+    api_client = APIClient()
+    api_client.force_authenticate(super_user)
+    api_client.user = super_user
+    set_permissions(api_client, (Function.CAN_EDIT, Function.CAN_REVIEW, Function.CAN_APPROVE))
     return api_client
 
 
