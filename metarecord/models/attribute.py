@@ -1,7 +1,8 @@
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
 
 from .base import TimeStampedModel, UUIDPrimaryKeyModel
+from .predefined_attributes import PREDEFINED_ATTRIBUTES
 
 
 class AttributeGroup(models.Model):
@@ -36,6 +37,22 @@ class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
             self.index = max(Attribute.objects.values_list('index', flat=True) or [0]) + 1
         super().save(*args, **kwargs)
 
+    @classmethod
+    def check_identifiers(cls, identifiers):
+        """
+        Check that identifiers are valid.
+
+        :param identifiers: list of identifiers
+        :return: validation error dict
+        """
+
+        errors = {}
+        valid_identifiers = set(Attribute.objects.values_list('identifier', flat=True))
+        invalid_identifiers = set(identifiers) - valid_identifiers
+        if invalid_identifiers:
+            errors = {identifier: [_('Invalid attribute.')] for identifier in invalid_identifiers}
+        return errors
+
     def is_free_text(self):
         return not self.values.exists()
 
@@ -51,3 +68,9 @@ class AttributeValue(TimeStampedModel, UUIDPrimaryKeyModel):
 
     def __str__(self):
         return self.value
+
+
+def create_predefined_attributes():
+    with transaction.atomic():
+        for attribute in PREDEFINED_ATTRIBUTES:
+            Attribute.objects.get_or_create(identifier=attribute['identifier'], defaults=attribute)

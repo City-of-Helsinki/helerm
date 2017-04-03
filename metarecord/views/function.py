@@ -2,7 +2,7 @@ from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers, viewsets
 
-from metarecord.models import Action, Function, Phase, Record
+from metarecord.models import Action, Attribute, Function, Phase, Record
 
 from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
 from .phase import PhaseDetailSerializer
@@ -64,6 +64,11 @@ class FunctionDetailSerializer(FunctionListSerializer):
             if 'state' not in data:
                 raise exceptions.ValidationError({'state': self.error_messages['required']})
             self.check_state_change(self.instance.state, data['state'])
+
+            if self.instance.state == Function.DRAFT and data['state'] != Function.DRAFT:
+                errors = self.get_attribute_validation_errors(self.instance)
+                if errors:
+                    raise exceptions.ValidationError(errors)
         return data
 
     @transaction.atomic

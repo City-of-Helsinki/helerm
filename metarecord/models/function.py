@@ -40,11 +40,15 @@ class Function(StructuralElement):
 
     # Function attribute validation rules, hardcoded at least for now
     _attribute_validations = {
-        'allowed': ['PersonalData', 'PublicityClass', 'SecurityPeriod', 'Restriction.SecurityPeriodStart',
-                    'SecurityReason', 'RetentionPeriod', 'RetentionReason', 'RetentionPeriodStart',
-                    'AdditionalInformation'],
-        'required': ['PersonalData', 'PublicityClass', 'SecurityPeriod', 'Restriction.SecurityPeriodStart',
-                     'SecurityReason', 'RetentionPeriod', 'RetentionReason', 'RetentionPeriodStart'],
+        'allowed': (
+            'AdditionalInformation', 'InformationSystem', 'PersonalData', 'PublicityClass',
+            'Restriction.ProtectionLevel' 'Restriction.SecurityClass', 'Restriction.SecurityPeriodStart',
+            'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason', 'SecurityPeriod', 'SecurityReason',
+            'Subject.Scheme', 'Subject'
+        ),
+        'required': (
+            'PersonalData', 'PublicityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
+        ),
         'conditionally_required': {
             'SecurityPeriod': {'PublicityClass': 'Salassa pidettävä'},
             'Restriction.SecurityPeriodStart': {'PublicityClass': 'Salassa pidettävä'},

@@ -63,10 +63,16 @@ API root will be located at http://127.0.0.1:8000/v1/
 
 ## Import
 
-- First you need to import functions and attributes. An excel file containing the attributes is needed.
+- First you need to import functions and create attributes
 
 ```
 python manage.py import_functions data/helsinki-functions.csv
+python manage.py create_attributes
+```
+
+- It is also possible to import attributes from an excel file
+
+```
 python manage.py import_attributes <excel file>
 ```
 
