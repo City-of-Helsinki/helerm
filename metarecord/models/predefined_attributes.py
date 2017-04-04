@@ -1,5 +1,17 @@
 PREDEFINED_ATTRIBUTES = [
     {
+        'identifier': 'PhaseType',
+        'name': 'Käsittelyvaiheen tyyppi',
+    },
+    {
+        'identifier': 'ActionType',
+        'name': 'Toimenpiteen tyyppi',
+    },
+    {
+        'identifier': 'RecordType',
+        'name': 'Asiakirjan tyyppi',
+    },
+    {
         'identifier': 'PublicityClass',
         'name': 'Julkisuusluokka',
     },
@@ -14,6 +26,10 @@ PREDEFINED_ATTRIBUTES = [
     {
         'identifier': 'Restriction.SecurityPeriodStart',
         'name': 'Salassapitoajan laskentaperuste',
+    },
+    {
+        'identifier': 'PublicityClassChange',
+        'name': 'Julkisuusluokan muutos',
     },
     {
         'identifier': 'Restriction.ProtectionLevel',
@@ -42,6 +58,10 @@ PREDEFINED_ATTRIBUTES = [
     {
         'identifier': 'RetentionPeriodStart',
         'name': 'Säilytysajan laskentaperuste',
+    },
+    {
+        'identifier': 'DisposePreviousVersions',
+        'name': 'Asiakirjan aiempien versioiden poistaminen',
     },
     {
         'identifier': 'RetentionPeriodTotal',
@@ -78,6 +98,26 @@ PREDEFINED_ATTRIBUTES = [
     {
         'identifier': 'Subject.Scheme',
         'name': 'Käytetty Asiasanasto',
+    },
+    {
+        'identifier': 'DataGroup',
+        'name': 'Päätietoryhmä',
+    },
+    {
+        'identifier': 'ProcessInformation',
+        'name': 'Prosessitiedot',
+    },
+    {
+        'identifier': 'ProcessOwner',
+        'name': 'Prosessin omistaja',
+    },
+    {
+        'identifier': 'CollectiveProcessIDSource',
+        'name': 'Kokoavan prosessitunnuksen lähde',
+    },
+    {
+        'identifier': 'ProcessStatus',
+        'name': 'Käsittelyprosessin tila',
     },
     {
         'identifier': 'AdditionalInformation',
