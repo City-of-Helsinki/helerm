@@ -44,7 +44,7 @@ class Function(StructuralElement):
             'AdditionalInformation', 'DataGroup', 'CollectiveProcessIDSource', 'InformationSystem', 'PersonalData',
             'ProcessInformation', 'ProcessOwner', 'PublicityClass', 'Restriction.ProtectionLevel',
             'Restriction.SecurityClass', 'Restriction.SecurityPeriodStart', 'RetentionPeriod', 'RetentionPeriodStart',
-            'RetentionReason', 'SecurityPeriod', 'SecurityReason', 'Subject.Scheme', 'Subject',
+            'RetentionReason', 'SecurityPeriod', 'SecurityReason', 'SocialSecurityNumber', 'Subject.Scheme', 'Subject',
         ),
         'required': (
             'PersonalData', 'PublicityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
