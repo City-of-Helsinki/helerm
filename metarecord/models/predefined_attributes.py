@@ -16,6 +16,10 @@ PREDEFINED_ATTRIBUTES = [
         'name': 'Salassapitoajan laskentaperuste',
     },
     {
+        'identifier': 'PublicityClassChange',
+        'name': 'Julkisuusluokan muutos',
+    },
+    {
         'identifier': 'Restriction.ProtectionLevel',
         'name': 'Suojaustaso',
     },
@@ -42,6 +46,10 @@ PREDEFINED_ATTRIBUTES = [
     {
         'identifier': 'RetentionPeriodStart',
         'name': 'Säilytysajan laskentaperuste',
+    },
+    {
+        'identifier': 'DisposePreviousVersions',
+        'name': 'Asiakirjan aiempien versioiden poistaminen',
     },
     {
         'identifier': 'RetentionPeriodTotal',
@@ -78,6 +86,26 @@ PREDEFINED_ATTRIBUTES = [
     {
         'identifier': 'Subject.Scheme',
         'name': 'Käytetty Asiasanasto',
+    },
+    {
+        'identifier': 'DataGroup',
+        'name': 'Päätietoryhmä',
+    },
+    {
+        'identifier': 'ProcessInformation',
+        'name': 'Prosessitiedot',
+    },
+    {
+        'identifier': 'ProcessOwner',
+        'name': 'Prosessin omistaja',
+    },
+    {
+        'identifier': 'CollectiveProcessIDSource',
+        'name': 'Kokoavan prosessitunnuksen lähde',
+    },
+    {
+        'identifier': 'ProcessStatus',
+        'name': 'Käsittelyprosessin tila',
     },
     {
         'identifier': 'AdditionalInformation',

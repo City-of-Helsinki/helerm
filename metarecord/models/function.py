@@ -41,10 +41,10 @@ class Function(StructuralElement):
     # Function attribute validation rules, hardcoded at least for now
     _attribute_validations = {
         'allowed': (
-            'AdditionalInformation', 'InformationSystem', 'PersonalData', 'PublicityClass',
-            'Restriction.ProtectionLevel' 'Restriction.SecurityClass', 'Restriction.SecurityPeriodStart',
-            'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason', 'SecurityPeriod', 'SecurityReason',
-            'Subject.Scheme', 'Subject'
+            'AdditionalInformation', 'DataGroup', 'CollectiveProcessIDSource', 'InformationSystem', 'PersonalData',
+            'ProcessInformation', 'ProcessOwner', 'PublicityClass', 'Restriction.ProtectionLevel',
+            'Restriction.SecurityClass', 'Restriction.SecurityPeriodStart', 'RetentionPeriod', 'RetentionPeriodStart',
+            'RetentionReason', 'SecurityPeriod', 'SecurityReason', 'Subject.Scheme', 'Subject',
         ),
         'required': (
             'PersonalData', 'PublicityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'

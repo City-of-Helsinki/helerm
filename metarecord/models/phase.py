@@ -12,7 +12,7 @@ class Phase(StructuralElement):
     # Phase attribute validation rules, hardcoded at least for now
     _attribute_validations = {
         'allowed': (
-            'AdditionalInformation', 'InformationSystem'
+            'AdditionalInformation', 'InformationSystem', 'ProcessStatus'
         )
     }
 

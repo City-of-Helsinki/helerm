@@ -13,10 +13,11 @@ class Record(StructuralElement):
     # Record attribute validation rules, hardcoded at least for now
     _attribute_validations = {
         'allowed': (
-            'AdditionalInformation', 'InformationSystem', 'PersonalData', 'PublicityClass',
-            'Restriction.ProtectionLevel' 'Restriction.SecurityClass', 'RetentionPeriod', 'RetentionPeriodStart',
-            'RetentionPeriodTotal', 'RetentionPeriodOffice', 'RetentionReason', 'ProtectionClass', 'SecurityPeriod',
-            'SocialSecurityNumber', 'StorageAccountable', 'StorageOrder', 'Subject.Scheme', 'Subject'
+            'AdditionalInformation', 'DataGroup', 'DisposePreviousVersions', 'InformationSystem', 'PersonalData',
+            'PublicityClass', 'PublicityClassChange', 'Restriction.ProtectionLevel', 'Restriction.SecurityClass',
+            'RetentionPeriod', 'RetentionPeriodStart', 'RetentionPeriodTotal', 'RetentionPeriodOffice',
+            'RetentionReason', 'ProtectionClass', 'SecurityPeriod', 'SocialSecurityNumber', 'StorageAccountable',
+            'StorageOrder', 'Subject.Scheme', 'Subject'
         ),
         'required': (
             'PersonalData', 'PublicityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
