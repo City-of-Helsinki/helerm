@@ -1,5 +1,17 @@
 PREDEFINED_ATTRIBUTES = [
     {
+        'identifier': 'PhaseType',
+        'name': 'Käsittelyvaiheen tyyppi',
+    },
+    {
+        'identifier': 'ActionType',
+        'name': 'Toimenpiteen tyyppi',
+    },
+    {
+        'identifier': 'RecordType',
+        'name': 'Asiakirjan tyyppi',
+    },
+    {
         'identifier': 'PublicityClass',
         'name': 'Julkisuusluokka',
     },

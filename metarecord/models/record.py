@@ -14,13 +14,13 @@ class Record(StructuralElement):
     _attribute_validations = {
         'allowed': (
             'AdditionalInformation', 'DataGroup', 'DisposePreviousVersions', 'InformationSystem', 'PersonalData',
-            'PublicityClass', 'PublicityClassChange', 'Restriction.ProtectionLevel', 'Restriction.SecurityClass',
-            'RetentionPeriod', 'RetentionPeriodStart', 'RetentionPeriodTotal', 'RetentionPeriodOffice',
-            'RetentionReason', 'ProtectionClass', 'SecurityPeriod', 'SocialSecurityNumber', 'StorageAccountable',
-            'StorageOrder', 'Subject.Scheme', 'Subject'
+            'PublicityClass', 'PublicityClassChange', 'RecordType', 'Restriction.ProtectionLevel',
+            'Restriction.SecurityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionPeriodTotal',
+            'RetentionPeriodOffice', 'RetentionReason', 'ProtectionClass', 'SecurityPeriod', 'SocialSecurityNumber',
+            'StorageAccountable', 'StorageOrder', 'Subject.Scheme', 'Subject'
         ),
         'required': (
-            'PersonalData', 'PublicityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
+            'PersonalData', 'PublicityClass', 'RecordType', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
         ),
         'conditionally_required': {
             'SecurityPeriod': {'PublicityClass': 'Salassa pidettävä'},
