@@ -104,10 +104,6 @@ PREDEFINED_ATTRIBUTES = [
         'name': 'Päätietoryhmä',
     },
     {
-        'identifier': 'ProcessInformation',
-        'name': 'Prosessitiedot',
-    },
-    {
         'identifier': 'ProcessOwner',
         'name': 'Prosessin omistaja',
     },
