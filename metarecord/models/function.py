@@ -42,9 +42,9 @@ class Function(StructuralElement):
     _attribute_validations = {
         'allowed': (
             'AdditionalInformation', 'DataGroup', 'CollectiveProcessIDSource', 'InformationSystem', 'PersonalData',
-            'ProcessInformation', 'ProcessOwner', 'PublicityClass', 'Restriction.ProtectionLevel',
-            'Restriction.SecurityClass', 'Restriction.SecurityPeriodStart', 'RetentionPeriod', 'RetentionPeriodStart',
-            'RetentionReason', 'SecurityPeriod', 'SecurityReason', 'SocialSecurityNumber', 'Subject.Scheme', 'Subject',
+            'ProcessOwner', 'PublicityClass', 'Restriction.ProtectionLevel', 'Restriction.SecurityClass',
+            'Restriction.SecurityPeriodStart', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason',
+            'SecurityPeriod', 'SecurityReason', 'SocialSecurityNumber', 'Subject.Scheme', 'Subject'
         ),
         'required': (
             'PersonalData', 'PublicityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
