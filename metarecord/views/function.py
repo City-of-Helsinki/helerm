@@ -144,7 +144,7 @@ class FunctionDetailSerializer(FunctionListSerializer):
 class FunctionFilterSet(django_filters.FilterSet):
     class Meta:
         model = Function
-        fields = ('valid_at',)
+        fields = ('valid_at', 'version')
 
     valid_at = django_filters.DateFilter(method='filter_valid_at')
 
@@ -171,7 +171,11 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     http_method_names = ['get', 'head', 'options', 'put', 'patch']
 
     def get_queryset(self):
+        if 'version' in self.request.query_params:
+            return self.queryset
+
         state = self.request.query_params.get('state')
         if state == 'approved':
             return self.queryset.latest_approved()
+
         return self.queryset.latest_version()
