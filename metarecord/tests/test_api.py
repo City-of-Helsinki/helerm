@@ -631,3 +631,24 @@ def test_attribute_endpoints(user_api_client, choice_attribute, choice_value_1, 
     value_data = attribute_data['values'][0]
     assert value_data.keys() == {'id', 'value', 'created_at', 'modified_at', 'index'}
     assert value_data['value'] == choice_value_1.value
+
+
+@pytest.mark.parametrize('filtering, expected_indexes', (
+        ('', [2, 3]),
+        ('version=', [2, 3]),
+        ('version=foo', []),
+        ('version=1', [0, 3]),
+        ('version=2', [1]),
+))
+@pytest.mark.django_db
+def test_function_version_filter(user_api_client, filtering, expected_indexes):
+    functions = (
+        Function.objects.create(name='function_0', function_id='00'),
+        Function.objects.create(name='function_1', function_id='00'),
+        Function.objects.create(name='function_2', function_id='00'),
+        Function.objects.create(name='function_3', function_id='01'),
+    )
+
+    response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
+    assert response.status_code == 200
+    assert_response_functions(response, [functions[index] for index in expected_indexes])
