@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 
+from metarecord.models import Function
+
 
 def set_permissions(api_client, permissions):
     """
@@ -29,3 +31,19 @@ def check_attribute_errors(errors, attribute, expected_error):
     :param expected_error: part of expected error message
     """
     assert any(expected_error in error for error in errors['attributes'][attribute.identifier])
+
+
+def assert_response_functions(response, objects):
+    """
+    Assert Function object or objects exist in response data.
+    """
+    data = response.data
+    if 'results' in data:
+        data = data['results']
+
+    if not (isinstance(objects, list) or isinstance(objects, tuple)):
+        objects = [objects]
+
+    expected_ids = {obj.uuid.hex for obj in objects}
+    actual_ids = {str(obj['id']) for obj in data}
+    assert expected_ids == actual_ids, '%s does not match %s' % (expected_ids, actual_ids)

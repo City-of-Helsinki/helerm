@@ -1,5 +1,8 @@
 from django.db import transaction
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
+
+import django_filters
 from rest_framework import exceptions, serializers, viewsets
 
 from metarecord.models import Action, Attribute, Function, Phase, Record
@@ -60,9 +63,14 @@ class FunctionDetailSerializer(FunctionListSerializer):
         return function
 
     def validate(self, data):
+        new_valid_from = data.get('valid_from')
+        new_valid_to = data.get('valid_to')
+        if new_valid_from and new_valid_to and new_valid_from > new_valid_to:
+            raise exceptions.ValidationError(_('"valid_from" cannot be after "valid_to".'))
+
         if self.partial:
-            if 'state' not in data:
-                raise exceptions.ValidationError({'state': self.error_messages['required']})
+            if not any(field in data for field in ('state', 'valid_from', 'valid_to')):
+                raise exceptions.ValidationError(_('"state", "valid_from" or "valid_to" required.'))
             self.check_state_change(self.instance.state, data['state'])
 
             if self.instance.state == Function.DRAFT and data['state'] != Function.DRAFT:
@@ -76,12 +84,18 @@ class FunctionDetailSerializer(FunctionListSerializer):
         user = self.context['request'].user
 
         if self.partial:
-            state = validated_data['state']
-            if instance.state == state:
+            allowed_fields = {'state', 'valid_from', 'valid_to'}
+            data = {field: validated_data[field] for field in allowed_fields if field in validated_data}
+            if not data:
                 return instance
 
-            # ignore other fields than state and do an actual update instead of a new version
-            new_function = super().update(instance, {'state': validated_data['state']})
+            # ignore other fields than state, valid_from and valid_to
+            # and do an actual update instead of a new version
+            new_function = super().update(instance, {
+                'state': validated_data.get('state'),
+                'valid_from': validated_data.get('valid_from'),
+                'valid_to': validated_data.get('valid_to'),
+            })
             new_function.create_metadata_version(user)
             return new_function
 
@@ -127,10 +141,31 @@ class FunctionDetailSerializer(FunctionListSerializer):
             raise exceptions.PermissionDenied(_('No permission for the state change.'))
 
 
+class FunctionFilterSet(django_filters.FilterSet):
+    class Meta:
+        model = Function
+        fields = ('valid_at',)
+
+    valid_at = django_filters.DateFilter(method='filter_valid_at')
+
+    def filter_valid_at(self, queryset, name, value):
+        # if neither date is set the function is considered not valid
+        queryset = queryset.exclude(Q(valid_from__isnull=True) & Q(valid_to__isnull=True))
+
+        # null value means there is no bound in that direction
+        queryset = queryset.filter(
+            (Q(valid_from__isnull=True) | Q(valid_from__lte=value)) &
+            (Q(valid_to__isnull=True) | Q(valid_to__gte=value))
+        )
+        return queryset
+
+
 class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     queryset = Function.objects.filter(is_template=False).select_related('modified_by').prefetch_related('phases')
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
+    filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
+    filter_class = FunctionFilterSet
     lookup_field = 'uuid'
     http_method_names = ['get', 'head', 'options', 'put', 'patch']
 

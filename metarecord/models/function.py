@@ -37,6 +37,8 @@ class Function(StructuralElement):
     is_template = models.BooleanField(verbose_name=_('is template'), default=False)
     version = models.PositiveIntegerField(db_index=True, default=1, null=True, blank=True)
     state = models.CharField(verbose_name=_('state'), max_length=20, choices=STATE_CHOICES, default=DRAFT)
+    valid_from = models.DateField(verbose_name=_('valid from'), null=True, blank=True)
+    valid_to = models.DateField(verbose_name=_('valid to'), null=True, blank=True)
 
     # Function attribute validation rules, hardcoded at least for now
     _attribute_validations = {
@@ -105,16 +107,23 @@ class Function(StructuralElement):
             modified_at=self.modified_at,
             modified_by=modified_by,
             state=self.state,
+            valid_from=self.valid_from,
+            valid_to=self.valid_to,
         )
 
 
 class MetadataVersion(models.Model):
+    """
+    Stores history of Function's "internal" meta data ie. information not meant for an operational system.
+    """
     function = models.ForeignKey(Function, verbose_name=_('function'), related_name='metadata_versions')
     modified_at = models.DateTimeField(verbose_name=_('modified at'))
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('modified by'), blank=True, null=True)
     state = models.CharField(
         verbose_name=_('state'), max_length=20, choices=Function.STATE_CHOICES, default=Function.DRAFT
     )
+    valid_from = models.DateField(verbose_name=_('valid from'), null=True, blank=True)
+    valid_to = models.DateField(verbose_name=_('valid to'), null=True, blank=True)
 
     class Meta:
         ordering = ('id',)
