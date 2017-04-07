@@ -1,8 +1,9 @@
+import datetime
 import uuid
 import pytest
 from rest_framework.reverse import reverse
 from metarecord.models import Action, Attribute, Function, Phase, Record
-from metarecord.tests.utils import check_attribute_errors, set_permissions
+from metarecord.tests.utils import assert_response_functions, check_attribute_errors, set_permissions
 
 
 FUNCTION_LIST_URL = reverse('v1:function-list')
@@ -337,6 +338,7 @@ def test_metadata_version(user_api_client, user_2_api_client, function, function
     url = get_function_detail_url(function)
     set_permissions(user_api_client, Function.CAN_EDIT)
     set_permissions(user_2_api_client, Function.CAN_EDIT)
+    function_data['valid_from'] = '2015-01-01'
 
     response = user_api_client.put(url, data=function_data)
     assert response.status_code == 200
@@ -348,8 +350,10 @@ def test_metadata_version(user_api_client, user_2_api_client, function, function
     assert metadata_version.state == Function.DRAFT
     assert metadata_version.modified_at == original_modified_at
     assert metadata_version.modified_by == user_api_client.user
+    assert metadata_version.valid_from == datetime.date(2015, 1, 1)
+    assert metadata_version.valid_to is None
 
-    response = user_2_api_client.patch(url, data={'state': Function.SENT_FOR_REVIEW})
+    response = user_2_api_client.patch(url, data={'state': Function.SENT_FOR_REVIEW, 'valid_to': '2016-01-01'})
     assert response.status_code == 200
 
     new_function = Function.objects.last()
@@ -358,6 +362,8 @@ def test_metadata_version(user_api_client, user_2_api_client, function, function
     assert metadata_version.state == Function.SENT_FOR_REVIEW
     assert metadata_version.modified_at == new_function.modified_at > original_modified_at
     assert metadata_version.modified_by == user_2_api_client.user
+    assert metadata_version.valid_from is None
+    assert metadata_version.valid_to == datetime.date(2016, 1, 1)
 
 
 @pytest.mark.django_db
@@ -509,3 +515,64 @@ def test_attribute_validations_when_sent_for_review(
     function.save(update_fields=('attributes',))
     response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_function_patch_required_fields(function_data, user_api_client, function):
+    set_permissions(user_api_client, Function.CAN_REVIEW)
+
+    function.state = Function.SENT_FOR_REVIEW
+    function.save(update_fields=('state',))
+
+    response = user_api_client.patch(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 400
+    assert '"state", "valid_from" or "valid_to" required.' in str(response.data)
+
+
+@pytest.mark.django_db
+def test_function_validation_date_validation(user_api_client, function, function_data):
+    url = get_function_detail_url(function)
+    set_permissions(user_api_client, (Function.CAN_EDIT, Function.CAN_REVIEW))
+    function_data['valid_from'] = '2015-01-02'
+    function_data['valid_to'] = '2015-01-01'
+
+    response = user_api_client.put(url, data=function_data)
+    assert response.status_code == 400
+    assert '"valid_from" cannot be after "valid_to".' in str(response.data)
+
+    response = user_api_client.patch(url, data=function_data)
+    assert response.status_code == 400
+    assert '"valid_from" cannot be after "valid_to".' in str(response.data)
+
+
+@pytest.mark.parametrize('filtering, expected_indexes', (
+        ('', [0, 1, 2, 3, 4]),
+        ('valid_at=34234xyz', []),
+        ('valid_at=1999-05-05', [4]),
+        ('valid_at=2000-05-05', [1, 4]),
+        ('valid_at=2004-05-05', [1, 2, 3, 4]),
+        ('valid_at=2007-05-05', [1]),
+))
+@pytest.mark.django_db
+def test_function_validation_date_filtering(user_api_client, filtering, expected_indexes):
+    functions = (
+        Function.objects.create(
+            name='function_0', function_id='00'
+        ),
+        Function.objects.create(
+            name='function_1', function_id='01', valid_from='2000-05-05'
+        ),
+        Function.objects.create(
+            name='function_2', function_id='02', valid_from='2002-05-05', valid_to='2004-05-05'
+        ),
+        Function.objects.create(
+            name='function_3', function_id='03', valid_from='2003-05-05', valid_to='2005-05-05'
+        ),
+        Function.objects.create(
+            name='function_4', function_id='04', valid_to='2006-05-05'
+        ),
+    )
+
+    response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
+    assert response.status_code == 200
+    assert_response_functions(response, [functions[index] for index in expected_indexes])
