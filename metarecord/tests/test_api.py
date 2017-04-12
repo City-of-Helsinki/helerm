@@ -29,13 +29,10 @@ def function_data(parent_function, function, free_text_attribute, choice_attribu
         },
         'phases': [
             {
-                'name': 'new phase',
                 'actions': [
                     {
-                        'name': 'new action',
                         'records': [
                             {
-                                'name': 'new record',
                                 'attributes': {
                                     choice_attribute.identifier: 'new record attribute value',
                                 },
@@ -69,19 +66,16 @@ def _check_function_object_matches_data(function_obj, data):
 
     new_phase = new_function.phases.first()
     phase_data = data['phases'][0]
-    assert new_phase.name == phase_data['name']
     assert new_phase.attributes == {}
     assert new_phase.actions.count() == 1
 
     new_action = new_phase.actions.first()
     action_data = phase_data['actions'][0]
-    assert new_action.name == action_data['name']
     assert new_action.attributes == {}
     assert new_action.records.count() == 1
 
     new_record = new_action.records.first()
     record_data = action_data['records'][0]
-    assert new_record.name == record_data['name']
     assert new_record.attributes == record_data['attributes']
 
 
@@ -176,6 +170,8 @@ def test_cannot_post_or_delete_functions(user_api_client, function, function_dat
 
 @pytest.mark.django_db
 def test_function_put(function_data, user_api_client, function, phase, action, record):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+
     models = (function, phase, action, record)
     modified_ats = [obj.modified_at for obj in models]  # store original modified_at timestamps
 
@@ -238,7 +234,7 @@ def test_function_state_change(user_api_client, function):
 
 
 @pytest.mark.django_db
-def test_function_put(function_data, user_api_client, function):
+def test_function_put_state(function_data, user_api_client, function):
     set_permissions(user_api_client, Function.CAN_EDIT)
     function_data['state'] = Function.SENT_FOR_REVIEW
 
@@ -448,7 +444,7 @@ def test_attribute_validations_when_sent_for_review(
     function.save(update_fields=('attributes',))
 
     # new phase with valid attributes
-    Phase.objects.create(function=function, name='phase 2', index=2, attributes=valid_attributes)
+    Phase.objects.create(function=function, index=2, attributes=valid_attributes)
 
     # the action has a non allowed attribute
     action.attributes = {free_text_attribute_2.identifier: 'some value'}

@@ -7,12 +7,11 @@ from .structural_element import StructuralElement
 
 class Phase(StructuralElement):
     function = models.ForeignKey(Function, verbose_name=_('function'), related_name='phases')
-    name = models.CharField(verbose_name=_('name'), max_length=256)
 
     # Phase attribute validation rules, hardcoded at least for now
     _attribute_validations = {
         'allowed': (
-            'AdditionalInformation', 'InformationSystem', 'PhaseType', 'ProcessStatus'
+            'AdditionalInformation', 'InformationSystem', 'PhaseType', 'ProcessStatus', 'TypeSpecifier'
         )
     }
 
@@ -22,4 +21,4 @@ class Phase(StructuralElement):
         ordering = ('function', 'index')
 
     def __str__(self):
-        return '%s | %s' % (self.function, self.name)
+        return '%s | %s' % (self.function, self.attributes.get('TypeSpecifier', '-'))

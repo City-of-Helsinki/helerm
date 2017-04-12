@@ -7,12 +7,11 @@ from .structural_element import StructuralElement
 
 class Action(StructuralElement):
     phase = models.ForeignKey(Phase, verbose_name=_('phase'), related_name='actions')
-    name = models.CharField(verbose_name=_('name'), max_length=256)
 
     # Action attribute validation rules, hardcoded at least for now
     _attribute_validations = {
         'allowed': (
-            'ActionType', 'AdditionalInformation', 'InformationSystem', 'ProcessStatus'
+            'ActionType', 'AdditionalInformation', 'InformationSystem', 'ProcessStatus', 'TypeSpecifier'
         )
     }
 
@@ -22,4 +21,4 @@ class Action(StructuralElement):
         ordering = ('phase', 'index')
 
     def __str__(self):
-        return '%s | %s' % (self.phase, self.name)
+        return '%s | %s' % (self.phase, self.attributes.get('TypeSpecifier', '-'))

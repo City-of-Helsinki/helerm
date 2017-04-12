@@ -119,4 +119,8 @@ PREDEFINED_ATTRIBUTES = [
         'identifier': 'AdditionalInformation',
         'name': 'Lisätietoja',
     },
+    {
+        'identifier': 'TypeSpecifier',
+        'name': 'Tyypin tarkenne',
+    }
 ]

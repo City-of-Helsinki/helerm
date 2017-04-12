@@ -24,17 +24,17 @@ def second_function(parent_function):
 
 @pytest.fixture
 def phase(function):
-    return Phase.objects.create(name='test phase', function=function, index=1)
+    return Phase.objects.create(attributes={'TypeSpecifier': 'test phase'}, function=function, index=1)
 
 
 @pytest.fixture
 def action(phase):
-    return Action.objects.create(name='test action', phase=phase, index=1)
+    return Action.objects.create(attributes={'TypeSpecifier': 'test action'}, phase=phase, index=1)
 
 
 @pytest.fixture
 def record(action):
-    return Record.objects.create(name='test record', action=action, index=1)
+    return Record.objects.create(attributes={'TypeSpecifier': 'test record'}, action=action, index=1)
 
 
 @pytest.fixture
