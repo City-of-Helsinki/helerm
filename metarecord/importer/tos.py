@@ -221,11 +221,11 @@ class TOSImporter:
 
         model_attributes[parent_field_name] = parent
 
-        model_attributes['name'] = data['name']
         model_attributes['index'] = index
 
         new_obj = model(**model_attributes)
-        new_obj.attributes = self._get_attributes(data)
+        new_obj.attributes = {'TypeSpecifier': data['name']}
+        new_obj.attributes.update(self._get_attributes(data))
 
         new_obj.save()
         return new_obj

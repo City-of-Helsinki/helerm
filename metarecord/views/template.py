@@ -19,7 +19,7 @@ class TemplateDetailSerializer(TemplateListSerializer):
 
 
 class TemplateViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Function.objects.filter(is_template=True).prefetch_related('phases').order_by('name')
+    queryset = Function.objects.filter(is_template=True).prefetch_related('phases')
     serializer_class = TemplateListSerializer
     serializer_class_detail = TemplateDetailSerializer
     lookup_field = 'uuid'

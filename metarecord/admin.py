@@ -4,29 +4,6 @@ from django.utils.translation import ugettext_lazy as _
 from adminsortable2.admin import SortableAdminMixin
 
 from .models import Action, Attribute, AttributeGroup, AttributeValue, Function, Phase, Record, MetadataVersion
-from .models.structural_element import use_attribute_schema
-
-
-class StructuralElementAdmin(admin.ModelAdmin):
-    exclude = ('attribute_values',)
-
-    @use_attribute_schema()
-    def changeform_view(self, *args, **kwargs):
-        return super().changeform_view(*args, **kwargs)
-
-    def get_fieldsets(self, request, obj=None):
-        all_fields = self.get_fields(request, obj)
-        attribute_fields = Attribute.objects.values_list('identifier', flat=True)
-        normal_fields = [field for field in all_fields if field not in attribute_fields]
-
-        return (
-            (None, {
-                'fields': normal_fields,
-            }),
-            (_('attributes'), {
-                'fields': attribute_fields,
-            }),
-        )
 
 
 class MetadataVersionInline(admin.TabularInline):
@@ -41,11 +18,11 @@ class MetadataVersionInline(admin.TabularInline):
         return False
 
 
-class FunctionAdmin(StructuralElementAdmin):
-    list_display = ('get_function_id', 'name', 'state', 'version')
+class FunctionAdmin(admin.ModelAdmin):
+    list_display = ('get_function_id', 'state', 'version')
     ordering = ('function_id', 'version')
     fields = (
-        'parent', 'function_id', 'name', 'state', 'is_template', 'error_count', 'valid_from', 'valid_to'
+        'parent', 'function_id', 'state', 'is_template', 'error_count', 'valid_from', 'valid_to', 'attributes'
     )
     inlines = (MetadataVersionInline,)
 
@@ -60,17 +37,20 @@ class FunctionAdmin(StructuralElementAdmin):
             obj.create_metadata_version()
 
 
-class PhaseAdmin(StructuralElementAdmin):
+class PhaseAdmin(admin.ModelAdmin):
+    fields = ('function', 'attributes')
     ordering = ('function__function_id', 'index')
     raw_id_fields = ('function',)
 
 
-class ActionAdmin(StructuralElementAdmin):
+class ActionAdmin(admin.ModelAdmin):
+    fields = ('phase', 'attributes')
     ordering = ('phase__function__function_id', 'index')
     raw_id_fields = ('phase',)
 
 
-class RecordAdmin(StructuralElementAdmin):
+class RecordAdmin(admin.ModelAdmin):
+    fields = ('action', 'parent', 'attributes')
     ordering = ('action__phase__function__function_id', 'index')
     raw_id_fields = ('action', 'parent')
 
