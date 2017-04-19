@@ -173,7 +173,9 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
 
         for required_attribute, condition in conditionally_required.items():
 
-            condition_attribute, value = next(iter(condition.items()))
+            condition_attribute, values = next(iter(condition.items()))
+            if not (isinstance(values, list) or isinstance(values, tuple)):
+                values = (values,)
 
             if len(condition) > 1:
                 raise NotImplementedError('Only one condition supported at the moment. ')
@@ -185,7 +187,7 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
                 {
                     'properties': {
                         condition_attribute: {
-                            'enum': [value]
+                            'enum': values
                         }
                     },
                     'required': [required_attribute]
@@ -193,7 +195,7 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
                 {
                     'properties': {
                         condition_attribute: {
-                            'not': {'enum': [value]}
+                            'not': {'enum': values}
                         }
                     },
                     'required': []

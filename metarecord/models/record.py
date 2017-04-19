@@ -23,9 +23,9 @@ class Record(StructuralElement):
             'PersonalData', 'PublicityClass', 'RecordType', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
         ),
         'conditionally_required': {
-            'SecurityPeriod': {'PublicityClass': 'Salassa pidettävä'},
-            'Restriction.SecurityPeriodStart': {'PublicityClass': 'Salassa pidettävä'},
-            'SecurityReason': {'PublicityClass': 'Salassa pidettävä'}
+            'SecurityPeriod': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')},
+            'Restriction.SecurityPeriodStart': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')},
+            'SecurityReason': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')}
         }
     }
 
