@@ -21,4 +21,10 @@ class Phase(StructuralElement):
         ordering = ('function', 'index')
 
     def __str__(self):
-        return '%s | %s' % (self.function, self.attributes.get('TypeSpecifier', '-'))
+        return '%s | %s' % (self.function, self.get_name() or '-')
+
+    def get_name(self):
+        type_specifier = self.attributes.get('TypeSpecifier')
+        if type_specifier:
+            return type_specifier
+        return self.attributes.get('PhaseType')

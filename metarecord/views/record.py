@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import serializers, viewsets
 
 from metarecord.models import Record
 
@@ -9,6 +9,7 @@ class RecordListSerializer(StructuralElementSerializer):
     class Meta(StructuralElementSerializer.Meta):
         model = Record
 
+    name = serializers.CharField(read_only=True, source='get_name')
     action = HexRelatedField(read_only=True)
     parent = HexRelatedField(read_only=True)
 
