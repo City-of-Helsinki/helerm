@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import serializers, viewsets
 
 from metarecord.models import Phase
 
@@ -10,6 +10,7 @@ class PhaseListSerializer(StructuralElementSerializer):
     class Meta(StructuralElementSerializer.Meta):
         model = Phase
 
+    name = serializers.CharField(read_only=True, source='get_name')
     function = HexRelatedField(read_only=True)
     actions = HexRelatedField(many=True, read_only=True)
 

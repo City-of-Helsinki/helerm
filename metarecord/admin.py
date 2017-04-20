@@ -19,7 +19,7 @@ class MetadataVersionInline(admin.TabularInline):
 
 
 class FunctionAdmin(admin.ModelAdmin):
-    list_display = ('get_function_id', 'state', 'version')
+    list_display = ('get_function_id', 'name', 'state', 'version')
     ordering = ('function_id', 'version')
     fields = (
         'parent', 'function_id', 'state', 'is_template', 'error_count', 'valid_from', 'valid_to', 'attributes'
@@ -38,21 +38,36 @@ class FunctionAdmin(admin.ModelAdmin):
 
 
 class PhaseAdmin(admin.ModelAdmin):
-    fields = ('function', 'attributes')
+    fields = ('name', 'function', 'attributes')
     ordering = ('function__function_id', 'index')
     raw_id_fields = ('function',)
+    readonly_fields = ('name',)
+
+    def name(self, obj):
+        return obj.get_name()
+    name.short_description = _('name')
 
 
 class ActionAdmin(admin.ModelAdmin):
-    fields = ('phase', 'attributes')
+    fields = ('name', 'phase', 'attributes')
     ordering = ('phase__function__function_id', 'index')
     raw_id_fields = ('phase',)
+    readonly_fields = ('name',)
+
+    def name(self, obj):
+        return obj.get_name()
+    name.short_description = _('name')
 
 
 class RecordAdmin(admin.ModelAdmin):
-    fields = ('action', 'parent', 'attributes')
+    fields = ('name', 'action', 'parent', 'attributes')
     ordering = ('action__phase__function__function_id', 'index')
     raw_id_fields = ('action', 'parent')
+    readonly_fields = ('name',)
+
+    def name(self, obj):
+        return obj.get_name()
+    name.short_description = _('name')
 
 
 class AttributeValueInline(admin.StackedInline):

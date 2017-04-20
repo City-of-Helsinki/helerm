@@ -572,3 +572,33 @@ def test_function_validation_date_filtering(user_api_client, filtering, expected
     response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
     assert response.status_code == 200
     assert_response_functions(response, [functions[index] for index in expected_indexes])
+
+
+@pytest.mark.django_db
+def test_name_field(user_api_client, function, phase, action, record):
+    url = get_function_detail_url(function)
+
+    response = user_api_client.get(url)
+    assert response.status_code == 200
+    data = response.data
+
+    # expect name to match TypeSpecifier
+    assert data['phases'][0]['name'] == phase.attributes['TypeSpecifier']
+    assert data['phases'][0]['actions'][0]['name'] == action.attributes['TypeSpecifier']
+    assert data['phases'][0]['actions'][0]['records'][0]['name'] == record.attributes['TypeSpecifier']
+
+    phase.attributes = {'PhaseType': 'phase_type'}
+    action.attributes = {'ActionType': 'action_type'}
+    record.attributes = {'RecordType':  'record_type'}
+    phase.save()
+    action.save()
+    record.save()
+
+    response = user_api_client.get(url)
+    assert response.status_code == 200
+    data = response.data
+
+    # no TypeSpecifier, expect name to match type
+    assert data['phases'][0]['name'] == phase.attributes['PhaseType']
+    assert data['phases'][0]['actions'][0]['name'] == action.attributes['ActionType']
+    assert data['phases'][0]['actions'][0]['records'][0]['name'] == record.attributes['RecordType']
