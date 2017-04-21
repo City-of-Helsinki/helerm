@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
-from adminsortable2.admin import SortableAdminMixin
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 
 from .models import Action, Attribute, AttributeGroup, AttributeValue, Function, Phase, Record, MetadataVersion
 
@@ -70,7 +70,7 @@ class RecordAdmin(admin.ModelAdmin):
     name.short_description = _('name')
 
 
-class AttributeValueInline(admin.StackedInline):
+class AttributeValueInline(SortableInlineAdminMixin, admin.TabularInline):
     model = AttributeValue
     extra = 0
 
