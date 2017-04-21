@@ -64,14 +64,29 @@ class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
 class AttributeValue(TimeStampedModel, UUIDPrimaryKeyModel):
     attribute = models.ForeignKey(Attribute, verbose_name=_('attribute'), related_name='values')
     value = models.CharField(verbose_name=_('value'), max_length=1024)
+    index = models.PositiveSmallIntegerField(db_index=True)
 
     class Meta:
         verbose_name = _('attribute value')
         verbose_name_plural = _('attribute values')
-        unique_together = ('attribute', 'value')
+        unique_together = (('attribute', 'value'), ('attribute', 'index'))
+        ordering = ('index',)
 
     def __str__(self):
         return self.value
+
+    def save(self, *args, **kwargs):
+        if not self.index:
+            # in theory a race condition is possible here, but with current usage
+            # that is practically impossible, and it won't cause any real harm anyway
+            last_index = (
+                AttributeValue.objects
+                .filter(attribute=self.attribute)
+                .values_list('index', flat=True)
+                .last()
+            )
+            self.index = last_index + 1 if last_index else 1
+        super().save(*args, **kwargs)
 
 
 def create_predefined_attributes():
