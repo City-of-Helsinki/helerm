@@ -69,6 +69,11 @@ class TOSImporter:
         s = s.split('=')[0].strip()
         return s
 
+    def _clean_attribute_value(self, s):
+        if not s:
+            return None
+        return re.sub(r'\s\s+', ' ', str(s)).strip() or None
+
     def _get_codesets(self, sheet):
         HEADER_ROW = 5
         VALUE_ROW = 5 + 1
@@ -122,11 +127,11 @@ class TOSImporter:
         for row in cells:
             attrs = {}
             for col, attr in enumerate(headers):
-                val = row[col].value
-                if col == 0 and not val:
+                cleaned_value = self._clean_attribute_value(row[col].value)
+                if col == 0 and not cleaned_value:
                     break
-                if val is not None:
-                    attrs[attr] = val
+                if cleaned_value:
+                    attrs[attr] = cleaned_value
             data.append(attrs)
         return data
 
@@ -385,7 +390,10 @@ class TOSImporter:
 
             for value in values:
                 try:
-                    obj, created = AttributeValue.objects.get_or_create(attribute=attribute_obj, value=value)
+                    cleaned_value = self._clean_attribute_value(value)
+                    if not cleaned_value:
+                        raise ValueError('Invalid value: "%s"' % value)
+                    obj, created = AttributeValue.objects.get_or_create(attribute=attribute_obj, value=cleaned_value)
                 except ValueError as e:
                     # TODO just printing errors and continuing here for now
                     print('    !!!! Cannot create attribute value: %s' % e)
