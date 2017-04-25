@@ -20,6 +20,9 @@ class MetadataVersionInline(admin.TabularInline):
 
 class FunctionAdmin(admin.ModelAdmin):
     list_display = ('get_function_id', 'name', 'state', 'version')
+    list_filter = ('state',)
+    search_fields = ('function_id', 'name')
+
     ordering = ('function_id', 'version')
     fields = (
         'parent', 'function_id', 'state', 'is_template', 'error_count', 'valid_from', 'valid_to', 'attributes'
@@ -42,6 +45,7 @@ class PhaseAdmin(admin.ModelAdmin):
     ordering = ('function__function_id', 'index')
     raw_id_fields = ('function',)
     readonly_fields = ('name',)
+    search_fields = ('attributes',)
 
     def name(self, obj):
         return obj.get_name()
@@ -53,6 +57,7 @@ class ActionAdmin(admin.ModelAdmin):
     ordering = ('phase__function__function_id', 'index')
     raw_id_fields = ('phase',)
     readonly_fields = ('name',)
+    search_fields = ('attributes',)
 
     def name(self, obj):
         return obj.get_name()
@@ -64,6 +69,7 @@ class RecordAdmin(admin.ModelAdmin):
     ordering = ('action__phase__function__function_id', 'index')
     raw_id_fields = ('action', 'parent')
     readonly_fields = ('name',)
+    search_fields = ('attributes',)
 
     def name(self, obj):
         return obj.get_name()
