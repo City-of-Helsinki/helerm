@@ -39,7 +39,9 @@ def record(action):
 
 @pytest.fixture
 def choice_attribute():
-    return Attribute.objects.create(name='test choice attribute', identifier='ChoiceAttr')
+    return Attribute.objects.create(
+        name='test choice attribute', identifier='ChoiceAttr', help_text='test choice attribute help text'
+    )
 
 
 @pytest.fixture
