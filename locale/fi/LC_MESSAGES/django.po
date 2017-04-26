@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-13 11:45+0300\n"
+"POT-Creation-Date: 2017-04-26 14:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,37 +26,33 @@ msgstr "suomi"
 msgid "English"
 msgstr "englanti"
 
-#: metarecord/admin.py:26 metarecord/models/attribute.py:31
-msgid "attributes"
-msgstr "attribuutit"
-
-#: metarecord/admin.py:34
+#: metarecord/admin.py:11
 msgid "State history"
 msgstr "Tilahistoria"
 
-#: metarecord/admin.py:53 metarecord/models/function.py:75
+#: metarecord/admin.py:30 metarecord/models/function.py:75
 msgid "template"
 msgstr "malli"
 
-#: metarecord/admin.py:54 metarecord/models/function.py:33
+#: metarecord/admin.py:31 metarecord/models/function.py:33
 msgid "function ID"
 msgstr "tehtäväluokkatunniste"
 
-#: metarecord/models/action.py:9 metarecord/models/phase.py:20
-msgid "phase"
-msgstr "käsittelyvaihe"
-
-#: metarecord/models/action.py:10 metarecord/models/attribute.py:13
-#: metarecord/models/attribute.py:25 metarecord/models/function.py:35
-#: metarecord/models/phase.py:10
+#: metarecord/admin.py:48 metarecord/admin.py:59 metarecord/admin.py:70
+#: metarecord/models/attribute.py:13 metarecord/models/attribute.py:25
+#: metarecord/models/function.py:35
 msgid "name"
 msgstr "nimi"
 
-#: metarecord/models/action.py:20 metarecord/models/record.py:9
+#: metarecord/models/action.py:9 metarecord/models/phase.py:19
+msgid "phase"
+msgstr "käsittelyvaihe"
+
+#: metarecord/models/action.py:19 metarecord/models/record.py:9
 msgid "action"
 msgstr "toimenpide"
 
-#: metarecord/models/action.py:21
+#: metarecord/models/action.py:20
 msgid "actions"
 msgstr "toimenpiteet"
 
@@ -76,23 +72,31 @@ msgstr "tunniste"
 msgid "group"
 msgstr "ryhmä"
 
-#: metarecord/models/attribute.py:30 metarecord/models/attribute.py:65
+#: metarecord/models/attribute.py:28
+msgid "help text"
+msgstr "ohjeteksti"
+
+#: metarecord/models/attribute.py:31 metarecord/models/attribute.py:66
 msgid "attribute"
 msgstr "attribuutti"
 
-#: metarecord/models/attribute.py:57 metarecord/views/base.py:64
+#: metarecord/models/attribute.py:32
+msgid "attributes"
+msgstr "attribuutit"
+
+#: metarecord/models/attribute.py:58 metarecord/views/base.py:64
 msgid "Invalid attribute."
 msgstr "Epäkelpo attribuutti."
 
-#: metarecord/models/attribute.py:66
+#: metarecord/models/attribute.py:67
 msgid "value"
 msgstr "arvo"
 
-#: metarecord/models/attribute.py:69
+#: metarecord/models/attribute.py:70
 msgid "attribute value"
 msgstr "attribuutin arvo"
 
-#: metarecord/models/attribute.py:70
+#: metarecord/models/attribute.py:71
 msgid "attribute values"
 msgstr "attribuuttien arvot"
 
@@ -120,7 +124,7 @@ msgstr "Odottaa hyväksyntää"
 msgid "Approved"
 msgstr "Hyväksytty"
 
-#: metarecord/models/function.py:34 metarecord/models/record.py:11
+#: metarecord/models/function.py:34 metarecord/models/record.py:10
 msgid "parent"
 msgstr "vanhempi"
 
@@ -173,19 +177,15 @@ msgstr "muokkausaika"
 msgid "modified by"
 msgstr "muokkaaja"
 
-#: metarecord/models/phase.py:21
+#: metarecord/models/phase.py:20
 msgid "phases"
 msgstr "käsittelyvaiheet"
 
-#: metarecord/models/record.py:10
-msgid "type specifier"
-msgstr "tyypin tarkenne"
-
-#: metarecord/models/record.py:33
+#: metarecord/models/record.py:32
 msgid "record"
 msgstr "asiakirja"
 
-#: metarecord/models/record.py:34
+#: metarecord/models/record.py:33
 msgid "records"
 msgstr "asiakirjat"
 
@@ -232,3 +232,6 @@ msgstr "Virheellinen tilan vaihto."
 #: metarecord/views/function.py:141
 msgid "No permission for the state change."
 msgstr "Ei oikeutta tilan vaihtoon."
+
+#~ msgid "type specifier"
+#~ msgstr "tyypin tarkenne"
