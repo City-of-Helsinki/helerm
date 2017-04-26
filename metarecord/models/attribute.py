@@ -25,6 +25,7 @@ class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
     name = models.CharField(verbose_name=_('name'), max_length=256)
     index = models.PositiveSmallIntegerField(db_index=True)
     group = models.ForeignKey(AttributeGroup, verbose_name=_('group'), related_name='attributes', null=True, blank=True)
+    help_text = models.TextField(verbose_name=_('help text'), blank=True)
 
     class Meta:
         verbose_name = _('attribute')
