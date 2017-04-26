@@ -602,3 +602,32 @@ def test_name_field(user_api_client, function, phase, action, record):
     assert data['phases'][0]['name'] == phase.attributes['PhaseType']
     assert data['phases'][0]['actions'][0]['name'] == action.attributes['ActionType']
     assert data['phases'][0]['actions'][0]['records'][0]['name'] == record.attributes['RecordType']
+
+
+@pytest.mark.parametrize('endpoint', ('list', 'detail'))
+@pytest.mark.django_db
+def test_attribute_endpoints(user_api_client, choice_attribute, choice_value_1, attribute_group, endpoint):
+    url = ATTRIBUTE_LIST_URL if endpoint == 'list' else get_attribute_detail_url(choice_attribute)
+
+    response = user_api_client.get(url)
+    assert response.status_code == 200
+
+    if endpoint == 'list':
+        results = response.data['results']
+        assert len(results) == 1
+        attribute_data = results[0]
+    else:
+        attribute_data = response.data
+
+    assert attribute_data.keys() == {
+        'name', 'values', 'id', 'created_at', 'modified_at', 'help_text', 'group', 'identifier', 'index'
+    }
+    assert attribute_data['name'] == choice_attribute.name
+    assert attribute_data['identifier'] == choice_attribute.identifier
+    assert attribute_data['help_text'] == choice_attribute.help_text
+    assert attribute_data['group'] == attribute_group.name
+    assert len(attribute_data['values']) == 1
+
+    value_data = attribute_data['values'][0]
+    assert value_data.keys() == {'id', 'value', 'created_at', 'modified_at', 'index'}
+    assert value_data['value'] == choice_value_1.value
