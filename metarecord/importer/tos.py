@@ -213,7 +213,10 @@ class TOSImporter:
 
     def _save_structural_element(self, model, parent, data, index, parent_record=None):
         model_attributes = {}  # model specific attributes
-        name_attribute = {}  # attribute and value describing name, PhaseType, ActionType or TypeSpecifier
+
+        # attribute and value describing name. most commonly the attribute is TypeSpecifier,
+        # but it might be PhaseType for Phase or ActionType for action
+        name_attribute = {'TypeSpecifier': data['name']}
 
         if model == Phase:
             parent_field_name = 'function'
@@ -224,8 +227,6 @@ class TOSImporter:
             ).exists()
             if is_phase_type:
                 name_attribute = {'PhaseType': data['name']}
-            else:
-                name_attribute = {'TypeSpecifier': data['name']}
         elif model == Action:
             parent_field_name = 'phase'
             # if the value is a valid ActionType attribute value then ActionType attribute is used for name,
@@ -235,8 +236,6 @@ class TOSImporter:
             ).exists()
             if is_action_type:
                 name_attribute = {'ActionType': data['name']}
-            else:
-                name_attribute = {'TypeSpecifier': data['name']}
         elif model == Record and parent_record is None:
             parent_field_name = 'action'
         else:  # attachment
