@@ -6,6 +6,10 @@ from metarecord.binding import jhs
 from metarecord.models import Function
 
 
+class JHSExporterException(Exception):
+    pass
+
+
 class JHSExporter:
     NAMESPACE = 'tos'
     TOS_VERSION = '1'
@@ -75,7 +79,7 @@ class JHSExporter:
         return jhs.Toimenpidetiedot(
             id=action.id,
             ToimenpideluokkaTeksti=action.get_name(),
-            Asiakirjatieto=records
+            Asiakirjatieto=records,
         )
 
     def _handle_phase(self, phase, actions):
@@ -155,15 +159,23 @@ class JHSExporter:
             Luokka=functions,
         )
 
-        dom = tos_root.toDOM()
+        try:
+            dom = tos_root.toDOM()
+        except pyxb.PyXBException as e:
+            self.msg('ERROR while creating the XML file: %s' % e.details())
+            raise JHSExporterException(e.details())
+
         return dom.toprettyxml(' ', encoding='utf-8')
 
     def export_data(self, filename):
         self.msg('exporting data...')
         xml = self.create_xml()
 
-        with open(filename, 'wb') as f:
-            self.msg('writing to the file...')
-            f.write(xml)
-
-            self.msg('Done.')
+        try:
+            with open(filename, 'wb') as f:
+                self.msg('writing to the file...')
+                f.write(xml)
+                self.msg('Done.')
+        except Exception as e:
+            self.msg('ERROR writing to the file: %s' % e)
+            raise JHSExporterException(e)

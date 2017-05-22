@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from metarecord.exporter.jhs import JHSExporter
+from metarecord.exporter.jhs import JHSExporter, JHSExporterException
 
 
 class Command(BaseCommand):
@@ -15,4 +15,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         filename = options['filename']
         jhs_exporter = JHSExporter(output=True)
-        jhs_exporter.export_data(filename)
+
+        try:
+            jhs_exporter.export_data(filename)
+        except JHSExporterException as e:
+            self.stderr.write(self.style.ERROR(e))
