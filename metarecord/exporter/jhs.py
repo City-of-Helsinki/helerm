@@ -67,21 +67,21 @@ class JHSExporter:
             Kayttorajoitustiedot=self._create_restriction_info(record),
             Sailytysaikatiedot=self._create_retention_info(record),
             AsiakirjaluokkaTeksti=jhs.AsiakirjaluokkaTeksti(self._get_attribute_value(record, 'RecordType')),
-            AsiakirjaluokkaTarkenneTeksti=jhs.AsiakirjaluokkaTarkenneTeksti(record.name),
+            AsiakirjaluokkaTarkenneTeksti=jhs.AsiakirjaluokkaTarkenneTeksti(record.get_name()),
             TietojarjestelmaNimi=jhs.TietojarjestelmaNimi(information_system) if information_system else None
         )
 
     def _handle_action(self, action, records):
         return jhs.Toimenpidetiedot(
             id=action.id,
-            ToimenpideluokkaTeksti=action.name,
+            ToimenpideluokkaTeksti=action.get_name(),
             Asiakirjatieto=records
         )
 
     def _handle_phase(self, phase, actions):
         return jhs.Toimenpidetiedot(
             id=phase.id,
-            ToimenpideluokkaTeksti=phase.name,
+            ToimenpideluokkaTeksti=phase.get_name(),
             Toimenpidetiedot=actions
         )
 
@@ -95,7 +95,7 @@ class JHSExporter:
             Toimenpidetiedot=phases
         )
         return jhs.Luokka(
-            id=function.id,
+            id=function.uuid,
             Luokitustunnus=function.function_id,
             Nimeke=jhs.Nimeke(jhs.NimekeKielella(function.name, kieliKoodi='fi')),
             KasittelyprosessiTiedot=handling_process_info
@@ -112,7 +112,7 @@ class JHSExporter:
         )
 
         # at least for now include all functions that have data
-        function_qs = Function.objects.exclude(phases__isnull=True)
+        function_qs = Function.objects.exclude(phases__isnull=True).latest_version()
         function_qs = function_qs.prefetch_related('phases', 'phases__actions', 'phases__actions__records')
 
         functions = []
