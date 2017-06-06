@@ -1,7 +1,7 @@
-# metarecord/bindings/_jhs.py
+# ./metarecord/binding/_jhs.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:567ab21ac37a6d7db45f717b194c27c1e22858bd
-# Generated 2016-04-21 23:14:26.420164 by PyXB version 1.2.4 using Python 3.4.3.final.0
+# Generated 2017-06-06 17:55:12.151275 by PyXB version 1.2.4 using Python 3.5.1.final.0
 # Namespace http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19 [xmlns:jhs]
 
 from __future__ import unicode_literals
@@ -15,7 +15,7 @@ import sys
 import pyxb.utils.six as _six
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:a545d2b4-07fd-11e6-a564-001c42776b60')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:24344192-4ac8-11e7-bc04-a0999b00698b')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.4'
@@ -79,7 +79,7 @@ class AlayksikkoNimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'AlayksikkoNimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 19, 1)
+    _XSDLocation = None
     _Documentation = None
 AlayksikkoNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'AlayksikkoNimiTyyppi', AlayksikkoNimiTyyppi)
@@ -90,7 +90,7 @@ class AlkuHetkiTyyppi (pyxb.binding.datatypes.dateTime):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'AlkuHetkiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 23, 1)
+    _XSDLocation = None
     _Documentation = None
 AlkuHetkiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'AlkuHetkiTyyppi', AlkuHetkiTyyppi)
@@ -101,7 +101,7 @@ class AlkuPvmTyyppi (pyxb.binding.datatypes.date):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'AlkuPvmTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 27, 1)
+    _XSDLocation = None
     _Documentation = None
 AlkuPvmTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'AlkuPvmTyyppi', AlkuPvmTyyppi)
@@ -112,7 +112,7 @@ class AmmattiKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'AmmattiKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 31, 1)
+    _XSDLocation = None
     _Documentation = None
 AmmattiKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'AmmattiKoodiTyyppi', AmmattiKoodiTyyppi)
@@ -123,7 +123,7 @@ class BICKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'BICKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 35, 1)
+    _XSDLocation = None
     _Documentation = None
 BICKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'BICKoodiTyyppi', BICKoodiTyyppi)
@@ -134,7 +134,7 @@ class CareOfTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'CareOfTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 39, 1)
+    _XSDLocation = None
     _Documentation = None
 CareOfTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'CareOfTekstiTyyppi', CareOfTekstiTyyppi)
@@ -145,7 +145,7 @@ class EdellinenSukuNimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'EdellinenSukuNimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 43, 1)
+    _XSDLocation = None
     _Documentation = None
 EdellinenSukuNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'EdellinenSukuNimiTyyppi', EdellinenSukuNimiTyyppi)
@@ -156,7 +156,7 @@ class EnsimmainenRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'EnsimmainenRiviTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 47, 1)
+    _XSDLocation = None
     _Documentation = None
 EnsimmainenRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'EnsimmainenRiviTekstiTyyppi', EnsimmainenRiviTekstiTyyppi)
@@ -167,7 +167,7 @@ class EtunimetNimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'EtunimetNimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 51, 1)
+    _XSDLocation = None
     _Documentation = None
 EtunimetNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'EtunimetNimiTyyppi', EtunimetNimiTyyppi)
@@ -178,7 +178,7 @@ class EtuNimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'EtuNimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 55, 1)
+    _XSDLocation = None
     _Documentation = None
 EtuNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'EtuNimiTyyppi', EtuNimiTyyppi)
@@ -189,7 +189,7 @@ class FaksinumeroTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'FaksinumeroTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 59, 1)
+    _XSDLocation = None
     _Documentation = None
 FaksinumeroTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'FaksinumeroTekstiTyyppi', FaksinumeroTekstiTyyppi)
@@ -200,7 +200,7 @@ class HenkiloTunnusTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'HenkiloTunnusTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 63, 1)
+    _XSDLocation = None
     _Documentation = None
 HenkiloTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'HenkiloTunnusTyyppi', HenkiloTunnusTyyppi)
@@ -211,7 +211,7 @@ class HuoltosuhdeTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'HuoltosuhdeTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 67, 1)
+    _XSDLocation = None
     _Documentation = None
 HuoltosuhdeTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'HuoltosuhdeTekstiTyyppi', HuoltosuhdeTekstiTyyppi)
@@ -222,7 +222,7 @@ class HuoneistotunnisteNumeroTyyppi (pyxb.binding.datatypes.decimal):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'HuoneistotunnisteNumeroTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 71, 1)
+    _XSDLocation = None
     _Documentation = None
 HuoneistotunnisteNumeroTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'HuoneistotunnisteNumeroTyyppi', HuoneistotunnisteNumeroTyyppi)
@@ -233,7 +233,7 @@ class HuoneistotunnisteJakokirjainTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'HuoneistotunnisteJakokirjainTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 75, 1)
+    _XSDLocation = None
     _Documentation = None
 HuoneistotunnisteJakokirjainTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'HuoneistotunnisteJakokirjainTekstiTyyppi', HuoneistotunnisteJakokirjainTekstiTyyppi)
@@ -244,7 +244,7 @@ class HuoneistotunnisteKirjainTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'HuoneistotunnisteKirjainTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 79, 1)
+    _XSDLocation = None
     _Documentation = None
 HuoneistotunnisteKirjainTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'HuoneistotunnisteKirjainTekstiTyyppi', HuoneistotunnisteKirjainTekstiTyyppi)
@@ -255,7 +255,7 @@ class IBANTunnusTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'IBANTunnusTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 83, 1)
+    _XSDLocation = None
     _Documentation = None
 IBANTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'IBANTunnusTyyppi', IBANTunnusTyyppi)
@@ -266,7 +266,7 @@ class IkaluokkaTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'IkaluokkaTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 87, 1)
+    _XSDLocation = None
     _Documentation = None
 IkaluokkaTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'IkaluokkaTekstiTyyppi', IkaluokkaTekstiTyyppi)
@@ -277,7 +277,7 @@ class KansalaisuusKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'KansalaisuusKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 91, 1)
+    _XSDLocation = None
     _Documentation = None
 KansalaisuusKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KansalaisuusKoodiTyyppi', KansalaisuusKoodiTyyppi)
@@ -288,7 +288,7 @@ class KatuNimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'KatuNimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 95, 1)
+    _XSDLocation = None
     _Documentation = None
 KatuNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KatuNimiTyyppi', KatuNimiTyyppi)
@@ -299,7 +299,7 @@ class KieliKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'KieliKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 99, 1)
+    _XSDLocation = None
     _Documentation = None
 KieliKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KieliKoodiTyyppi', KieliKoodiTyyppi)
@@ -310,7 +310,7 @@ class KolmasRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'KolmasRiviTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 103, 1)
+    _XSDLocation = None
     _Documentation = None
 KolmasRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KolmasRiviTekstiTyyppi', KolmasRiviTekstiTyyppi)
@@ -321,7 +321,7 @@ class KuntaKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'KuntaKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 107, 1)
+    _XSDLocation = None
     _Documentation = None
 KuntaKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KuntaKoodiTyyppi', KuntaKoodiTyyppi)
@@ -332,7 +332,7 @@ class KuntaNumeroTyyppi (pyxb.binding.datatypes.decimal):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'KuntaNumeroTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 111, 1)
+    _XSDLocation = None
     _Documentation = None
 KuntaNumeroTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KuntaNumeroTyyppi', KuntaNumeroTyyppi)
@@ -343,7 +343,7 @@ class KuolemaPvmTyyppi (pyxb.binding.datatypes.date):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'KuolemaPvmTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 115, 1)
+    _XSDLocation = None
     _Documentation = None
 KuolemaPvmTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KuolemaPvmTyyppi', KuolemaPvmTyyppi)
@@ -354,7 +354,7 @@ class KutsumaNimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'KutsumaNimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 119, 1)
+    _XSDLocation = None
     _Documentation = None
 KutsumaNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KutsumaNimiTyyppi', KutsumaNimiTyyppi)
@@ -365,7 +365,7 @@ class KuudesRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'KuudesRiviTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 123, 1)
+    _XSDLocation = None
     _Documentation = None
 KuudesRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KuudesRiviTekstiTyyppi', KuudesRiviTekstiTyyppi)
@@ -376,7 +376,7 @@ class KuvausTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'KuvausTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 127, 1)
+    _XSDLocation = None
     _Documentation = None
 KuvausTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KuvausTekstiTyyppi', KuvausTekstiTyyppi)
@@ -387,7 +387,7 @@ class LajiKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LajiKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 131, 1)
+    _XSDLocation = None
     _Documentation = None
 LajiKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'LajiKoodiTyyppi', LajiKoodiTyyppi)
@@ -398,7 +398,7 @@ class LajiTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LajiTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 135, 1)
+    _XSDLocation = None
     _Documentation = None
 LajiTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'LajiTekstiTyyppi', LajiTekstiTyyppi)
@@ -409,7 +409,7 @@ class LoppuHetkiTyyppi (pyxb.binding.datatypes.dateTime):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LoppuHetkiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 139, 1)
+    _XSDLocation = None
     _Documentation = None
 LoppuHetkiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'LoppuHetkiTyyppi', LoppuHetkiTyyppi)
@@ -420,7 +420,7 @@ class LoppuPvmTyyppi (pyxb.binding.datatypes.date):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LoppuPvmTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 143, 1)
+    _XSDLocation = None
     _Documentation = None
 LoppuPvmTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'LoppuPvmTyyppi', LoppuPvmTyyppi)
@@ -431,7 +431,7 @@ class MaatunnusKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'MaatunnusKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 147, 1)
+    _XSDLocation = None
     _Documentation = None
 MaatunnusKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'MaatunnusKoodiTyyppi', MaatunnusKoodiTyyppi)
@@ -442,7 +442,7 @@ class NeljasRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'NeljasRiviTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 151, 1)
+    _XSDLocation = None
     _Documentation = None
 NeljasRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'NeljasRiviTekstiTyyppi', NeljasRiviTekstiTyyppi)
@@ -453,7 +453,7 @@ class NimilajiKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'NimilajiKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 155, 1)
+    _XSDLocation = None
     _Documentation = None
 NimilajiKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'NimilajiKoodiTyyppi', NimilajiKoodiTyyppi)
@@ -464,7 +464,7 @@ class NimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'NimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 159, 1)
+    _XSDLocation = None
     _Documentation = None
 NimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'NimiTyyppi', NimiTyyppi)
@@ -475,7 +475,7 @@ class OsoiteNumeroTyyppi (pyxb.binding.datatypes.decimal):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'OsoiteNumeroTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 163, 1)
+    _XSDLocation = None
     _Documentation = None
 OsoiteNumeroTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'OsoiteNumeroTyyppi', OsoiteNumeroTyyppi)
@@ -486,7 +486,7 @@ class PaayksikkoNimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PaayksikkoNimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 167, 1)
+    _XSDLocation = None
     _Documentation = None
 PaayksikkoNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PaayksikkoNimiTyyppi', PaayksikkoNimiTyyppi)
@@ -497,7 +497,7 @@ class PankkitiliTunnusTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PankkitiliTunnusTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 171, 1)
+    _XSDLocation = None
     _Documentation = None
 PankkitiliTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PankkitiliTunnusTyyppi', PankkitiliTunnusTyyppi)
@@ -508,7 +508,7 @@ class PostilokerolyhenneTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PostilokerolyhenneTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 175, 1)
+    _XSDLocation = None
     _Documentation = None
 PostilokerolyhenneTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PostilokerolyhenneTekstiTyyppi', PostilokerolyhenneTekstiTyyppi)
@@ -519,7 +519,7 @@ class PostilokeroTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PostilokeroTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 179, 1)
+    _XSDLocation = None
     _Documentation = None
 PostilokeroTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PostilokeroTekstiTyyppi', PostilokeroTekstiTyyppi)
@@ -530,7 +530,7 @@ class PostinumeroKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PostinumeroKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 183, 1)
+    _XSDLocation = None
     _Documentation = None
 PostinumeroKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PostinumeroKoodiTyyppi', PostinumeroKoodiTyyppi)
@@ -541,7 +541,7 @@ class PostitoimipaikkaNimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PostitoimipaikkaNimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 187, 1)
+    _XSDLocation = None
     _Documentation = None
 PostitoimipaikkaNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PostitoimipaikkaNimiTyyppi', PostitoimipaikkaNimiTyyppi)
@@ -552,7 +552,7 @@ class PuhelinnumeroTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PuhelinnumeroTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 191, 1)
+    _XSDLocation = None
     _Documentation = None
 PuhelinnumeroTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PuhelinnumeroTekstiTyyppi', PuhelinnumeroTekstiTyyppi)
@@ -563,7 +563,7 @@ class SahkoinenAsiointiTunnusTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'SahkoinenAsiointiTunnusTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 195, 1)
+    _XSDLocation = None
     _Documentation = None
 SahkoinenAsiointiTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SahkoinenAsiointiTunnusTyyppi', SahkoinenAsiointiTunnusTyyppi)
@@ -574,7 +574,7 @@ class SahkopostiosoiteTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'SahkopostiosoiteTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 199, 1)
+    _XSDLocation = None
     _Documentation = None
 SahkopostiosoiteTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SahkopostiosoiteTekstiTyyppi', SahkopostiosoiteTekstiTyyppi)
@@ -585,7 +585,7 @@ class SiviilisaatyTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'SiviilisaatyTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 203, 1)
+    _XSDLocation = None
     _Documentation = None
 SiviilisaatyTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SiviilisaatyTekstiTyyppi', SiviilisaatyTekstiTyyppi)
@@ -596,7 +596,7 @@ class StatusryhmaTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'StatusryhmaTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 207, 1)
+    _XSDLocation = None
     _Documentation = None
 StatusryhmaTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'StatusryhmaTekstiTyyppi', StatusryhmaTekstiTyyppi)
@@ -607,7 +607,7 @@ class SukuNimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'SukuNimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 211, 1)
+    _XSDLocation = None
     _Documentation = None
 SukuNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SukuNimiTyyppi', SukuNimiTyyppi)
@@ -618,7 +618,7 @@ class SukupuoliKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'SukupuoliKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 215, 1)
+    _XSDLocation = None
     _Documentation = None
 SukupuoliKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SukupuoliKoodiTyyppi', SukupuoliKoodiTyyppi)
@@ -629,7 +629,7 @@ class SyntymaPvmTyyppi (pyxb.binding.datatypes.date):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'SyntymaPvmTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 219, 1)
+    _XSDLocation = None
     _Documentation = None
 SyntymaPvmTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SyntymaPvmTyyppi', SyntymaPvmTyyppi)
@@ -640,7 +640,7 @@ class ToinenRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ToinenRiviTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 223, 1)
+    _XSDLocation = None
     _Documentation = None
 ToinenRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'ToinenRiviTekstiTyyppi', ToinenRiviTekstiTyyppi)
@@ -651,7 +651,7 @@ class TurvakieltoKytkinTyyppi (pyxb.binding.datatypes.boolean):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'TurvakieltoKytkinTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 227, 1)
+    _XSDLocation = None
     _Documentation = None
 TurvakieltoKytkinTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'TurvakieltoKytkinTyyppi', TurvakieltoKytkinTyyppi)
@@ -662,7 +662,7 @@ class UlkomaaHenkiloTunnusTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'UlkomaaHenkiloTunnusTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 231, 1)
+    _XSDLocation = None
     _Documentation = None
 UlkomaaHenkiloTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'UlkomaaHenkiloTunnusTyyppi', UlkomaaHenkiloTunnusTyyppi)
@@ -673,7 +673,7 @@ class UlkomaaPostitoimipaikkaNimiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'UlkomaaPostitoimipaikkaNimiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 235, 1)
+    _XSDLocation = None
     _Documentation = None
 UlkomaaPostitoimipaikkaNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'UlkomaaPostitoimipaikkaNimiTyyppi', UlkomaaPostitoimipaikkaNimiTyyppi)
@@ -684,7 +684,7 @@ class VakinainenKytkinTyyppi (pyxb.binding.datatypes.boolean):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'VakinainenKytkinTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 239, 1)
+    _XSDLocation = None
     _Documentation = None
 VakinainenKytkinTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'VakinainenKytkinTyyppi', VakinainenKytkinTyyppi)
@@ -695,7 +695,7 @@ class ValiaikainenHenkiloTunnusTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ValiaikainenHenkiloTunnusTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 243, 1)
+    _XSDLocation = None
     _Documentation = None
 ValiaikainenHenkiloTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'ValiaikainenHenkiloTunnusTyyppi', ValiaikainenHenkiloTunnusTyyppi)
@@ -706,7 +706,7 @@ class ValtiotunnusKoodiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ValtiotunnusKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 247, 1)
+    _XSDLocation = None
     _Documentation = None
 ValtiotunnusKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'ValtiotunnusKoodiTyyppi', ValtiotunnusKoodiTyyppi)
@@ -717,7 +717,7 @@ class ViidesRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ViidesRiviTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 251, 1)
+    _XSDLocation = None
     _Documentation = None
 ViidesRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'ViidesRiviTekstiTyyppi', ViidesRiviTekstiTyyppi)
@@ -728,7 +728,7 @@ class VoimassaoloKytkinTyyppi (pyxb.binding.datatypes.boolean):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloKytkinTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 255, 1)
+    _XSDLocation = None
     _Documentation = None
 VoimassaoloKytkinTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'VoimassaoloKytkinTyyppi', VoimassaoloKytkinTyyppi)
@@ -739,190 +739,190 @@ class YritysTunnusTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'YritysTunnusTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 259, 1)
+    _XSDLocation = None
     _Documentation = None
 YritysTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'YritysTunnusTyyppi', YritysTunnusTyyppi)
 
-AlayksikkoNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AlayksikkoNimi'), AlayksikkoNimiTyyppi, location=pyxb.utils.utility.Location(None, 18, 1))
+AlayksikkoNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AlayksikkoNimi'), AlayksikkoNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', AlayksikkoNimi.name().localName(), AlayksikkoNimi)
 
-AlkuHetki = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AlkuHetki'), AlkuHetkiTyyppi, location=pyxb.utils.utility.Location(None, 22, 1))
+AlkuHetki = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AlkuHetki'), AlkuHetkiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', AlkuHetki.name().localName(), AlkuHetki)
 
-AlkuPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AlkuPvm'), AlkuPvmTyyppi, location=pyxb.utils.utility.Location(None, 26, 1))
+AlkuPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AlkuPvm'), AlkuPvmTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', AlkuPvm.name().localName(), AlkuPvm)
 
-AmmattiKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AmmattiKoodi'), AmmattiKoodiTyyppi, location=pyxb.utils.utility.Location(None, 30, 1))
+AmmattiKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AmmattiKoodi'), AmmattiKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', AmmattiKoodi.name().localName(), AmmattiKoodi)
 
-BICKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'BICKoodi'), BICKoodiTyyppi, location=pyxb.utils.utility.Location(None, 34, 1))
+BICKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'BICKoodi'), BICKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', BICKoodi.name().localName(), BICKoodi)
 
-CareOfTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'CareOfTeksti'), CareOfTekstiTyyppi, location=pyxb.utils.utility.Location(None, 38, 1))
+CareOfTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'CareOfTeksti'), CareOfTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', CareOfTeksti.name().localName(), CareOfTeksti)
 
-EdellinenSukuNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EdellinenSukuNimi'), EdellinenSukuNimiTyyppi, location=pyxb.utils.utility.Location(None, 42, 1))
+EdellinenSukuNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EdellinenSukuNimi'), EdellinenSukuNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', EdellinenSukuNimi.name().localName(), EdellinenSukuNimi)
 
-EnsimmainenRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EnsimmainenRiviTeksti'), EnsimmainenRiviTekstiTyyppi, location=pyxb.utils.utility.Location(None, 46, 1))
+EnsimmainenRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EnsimmainenRiviTeksti'), EnsimmainenRiviTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', EnsimmainenRiviTeksti.name().localName(), EnsimmainenRiviTeksti)
 
-EtunimetNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EtunimetNimi'), EtunimetNimiTyyppi, location=pyxb.utils.utility.Location(None, 50, 1))
+EtunimetNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EtunimetNimi'), EtunimetNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', EtunimetNimi.name().localName(), EtunimetNimi)
 
-EtuNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EtuNimi'), EtuNimiTyyppi, location=pyxb.utils.utility.Location(None, 54, 1))
+EtuNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EtuNimi'), EtuNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', EtuNimi.name().localName(), EtuNimi)
 
-FaksinumeroTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'FaksinumeroTeksti'), FaksinumeroTekstiTyyppi, location=pyxb.utils.utility.Location(None, 58, 1))
+FaksinumeroTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'FaksinumeroTeksti'), FaksinumeroTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', FaksinumeroTeksti.name().localName(), FaksinumeroTeksti)
 
-HenkiloTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HenkiloTunnus'), HenkiloTunnusTyyppi, location=pyxb.utils.utility.Location(None, 62, 1))
+HenkiloTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HenkiloTunnus'), HenkiloTunnusTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', HenkiloTunnus.name().localName(), HenkiloTunnus)
 
-HuoltosuhdeTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HuoltosuhdeTeksti'), HuoltosuhdeTekstiTyyppi, location=pyxb.utils.utility.Location(None, 66, 1))
+HuoltosuhdeTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HuoltosuhdeTeksti'), HuoltosuhdeTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', HuoltosuhdeTeksti.name().localName(), HuoltosuhdeTeksti)
 
-HuoneistotunnisteNumero = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HuoneistotunnisteNumero'), HuoneistotunnisteNumeroTyyppi, location=pyxb.utils.utility.Location(None, 70, 1))
+HuoneistotunnisteNumero = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HuoneistotunnisteNumero'), HuoneistotunnisteNumeroTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', HuoneistotunnisteNumero.name().localName(), HuoneistotunnisteNumero)
 
-HuoneistotunnisteJakokirjainTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HuoneistotunnisteJakokirjainTeksti'), HuoneistotunnisteJakokirjainTekstiTyyppi, location=pyxb.utils.utility.Location(None, 74, 1))
+HuoneistotunnisteJakokirjainTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HuoneistotunnisteJakokirjainTeksti'), HuoneistotunnisteJakokirjainTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', HuoneistotunnisteJakokirjainTeksti.name().localName(), HuoneistotunnisteJakokirjainTeksti)
 
-HuoneistotunnisteKirjainTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HuoneistotunnisteKirjainTeksti'), HuoneistotunnisteKirjainTekstiTyyppi, location=pyxb.utils.utility.Location(None, 78, 1))
+HuoneistotunnisteKirjainTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HuoneistotunnisteKirjainTeksti'), HuoneistotunnisteKirjainTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', HuoneistotunnisteKirjainTeksti.name().localName(), HuoneistotunnisteKirjainTeksti)
 
-IBANTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'IBANTunnus'), IBANTunnusTyyppi, location=pyxb.utils.utility.Location(None, 82, 1))
+IBANTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'IBANTunnus'), IBANTunnusTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', IBANTunnus.name().localName(), IBANTunnus)
 
-IkaluokkaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'IkaluokkaTeksti'), IkaluokkaTekstiTyyppi, location=pyxb.utils.utility.Location(None, 86, 1))
+IkaluokkaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'IkaluokkaTeksti'), IkaluokkaTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', IkaluokkaTeksti.name().localName(), IkaluokkaTeksti)
 
-KansalaisuusKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KansalaisuusKoodi'), KansalaisuusKoodiTyyppi, location=pyxb.utils.utility.Location(None, 90, 1))
+KansalaisuusKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KansalaisuusKoodi'), KansalaisuusKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KansalaisuusKoodi.name().localName(), KansalaisuusKoodi)
 
-KatuNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KatuNimi'), KatuNimiTyyppi, location=pyxb.utils.utility.Location(None, 94, 1))
+KatuNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KatuNimi'), KatuNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KatuNimi.name().localName(), KatuNimi)
 
-KieliKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KieliKoodi'), KieliKoodiTyyppi, location=pyxb.utils.utility.Location(None, 98, 1))
+KieliKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KieliKoodi'), KieliKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KieliKoodi.name().localName(), KieliKoodi)
 
-KolmasRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KolmasRiviTeksti'), KolmasRiviTekstiTyyppi, location=pyxb.utils.utility.Location(None, 102, 1))
+KolmasRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KolmasRiviTeksti'), KolmasRiviTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KolmasRiviTeksti.name().localName(), KolmasRiviTeksti)
 
-KuntaKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuntaKoodi'), KuntaKoodiTyyppi, location=pyxb.utils.utility.Location(None, 106, 1))
+KuntaKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuntaKoodi'), KuntaKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KuntaKoodi.name().localName(), KuntaKoodi)
 
-KuntaNumero = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuntaNumero'), KuntaNumeroTyyppi, location=pyxb.utils.utility.Location(None, 110, 1))
+KuntaNumero = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuntaNumero'), KuntaNumeroTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KuntaNumero.name().localName(), KuntaNumero)
 
-KuolemaPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuolemaPvm'), KuolemaPvmTyyppi, location=pyxb.utils.utility.Location(None, 114, 1))
+KuolemaPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuolemaPvm'), KuolemaPvmTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KuolemaPvm.name().localName(), KuolemaPvm)
 
-KutsumaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KutsumaNimi'), KutsumaNimiTyyppi, location=pyxb.utils.utility.Location(None, 118, 1))
+KutsumaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KutsumaNimi'), KutsumaNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KutsumaNimi.name().localName(), KutsumaNimi)
 
-KuudesRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuudesRiviTeksti'), KuudesRiviTekstiTyyppi, location=pyxb.utils.utility.Location(None, 122, 1))
+KuudesRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuudesRiviTeksti'), KuudesRiviTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KuudesRiviTeksti.name().localName(), KuudesRiviTeksti)
 
-KuvausTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuvausTeksti'), KuvausTekstiTyyppi, location=pyxb.utils.utility.Location(None, 126, 1))
+KuvausTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuvausTeksti'), KuvausTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KuvausTeksti.name().localName(), KuvausTeksti)
 
-LajiKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LajiKoodi'), LajiKoodiTyyppi, location=pyxb.utils.utility.Location(None, 130, 1))
+LajiKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LajiKoodi'), LajiKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', LajiKoodi.name().localName(), LajiKoodi)
 
-LajiTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LajiTeksti'), LajiTekstiTyyppi, location=pyxb.utils.utility.Location(None, 134, 1))
+LajiTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LajiTeksti'), LajiTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', LajiTeksti.name().localName(), LajiTeksti)
 
-LoppuHetki = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LoppuHetki'), LoppuHetkiTyyppi, location=pyxb.utils.utility.Location(None, 138, 1))
+LoppuHetki = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LoppuHetki'), LoppuHetkiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', LoppuHetki.name().localName(), LoppuHetki)
 
-LoppuPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LoppuPvm'), LoppuPvmTyyppi, location=pyxb.utils.utility.Location(None, 142, 1))
+LoppuPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LoppuPvm'), LoppuPvmTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', LoppuPvm.name().localName(), LoppuPvm)
 
-MaatunnusKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MaatunnusKoodi'), MaatunnusKoodiTyyppi, location=pyxb.utils.utility.Location(None, 146, 1))
+MaatunnusKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MaatunnusKoodi'), MaatunnusKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', MaatunnusKoodi.name().localName(), MaatunnusKoodi)
 
-NeljasRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NeljasRiviTeksti'), NeljasRiviTekstiTyyppi, location=pyxb.utils.utility.Location(None, 150, 1))
+NeljasRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NeljasRiviTeksti'), NeljasRiviTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', NeljasRiviTeksti.name().localName(), NeljasRiviTeksti)
 
-NimilajiKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimilajiKoodi'), NimilajiKoodiTyyppi, location=pyxb.utils.utility.Location(None, 154, 1))
+NimilajiKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimilajiKoodi'), NimilajiKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', NimilajiKoodi.name().localName(), NimilajiKoodi)
 
-Nimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Nimi'), NimiTyyppi, location=pyxb.utils.utility.Location(None, 158, 1))
+Nimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Nimi'), NimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', Nimi.name().localName(), Nimi)
 
-OsoiteNumero = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OsoiteNumero'), OsoiteNumeroTyyppi, location=pyxb.utils.utility.Location(None, 162, 1))
+OsoiteNumero = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OsoiteNumero'), OsoiteNumeroTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', OsoiteNumero.name().localName(), OsoiteNumero)
 
-PaayksikkoNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PaayksikkoNimi'), PaayksikkoNimiTyyppi, location=pyxb.utils.utility.Location(None, 166, 1))
+PaayksikkoNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PaayksikkoNimi'), PaayksikkoNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', PaayksikkoNimi.name().localName(), PaayksikkoNimi)
 
-PankkitiliTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PankkitiliTunnus'), PankkitiliTunnusTyyppi, location=pyxb.utils.utility.Location(None, 170, 1))
+PankkitiliTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PankkitiliTunnus'), PankkitiliTunnusTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', PankkitiliTunnus.name().localName(), PankkitiliTunnus)
 
-PostilokerolyhenneTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PostilokerolyhenneTeksti'), PostilokerolyhenneTekstiTyyppi, location=pyxb.utils.utility.Location(None, 174, 1))
+PostilokerolyhenneTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PostilokerolyhenneTeksti'), PostilokerolyhenneTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', PostilokerolyhenneTeksti.name().localName(), PostilokerolyhenneTeksti)
 
-PostilokeroTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PostilokeroTeksti'), PostilokeroTekstiTyyppi, location=pyxb.utils.utility.Location(None, 178, 1))
+PostilokeroTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PostilokeroTeksti'), PostilokeroTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', PostilokeroTeksti.name().localName(), PostilokeroTeksti)
 
-PostinumeroKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PostinumeroKoodi'), PostinumeroKoodiTyyppi, location=pyxb.utils.utility.Location(None, 182, 1))
+PostinumeroKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PostinumeroKoodi'), PostinumeroKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', PostinumeroKoodi.name().localName(), PostinumeroKoodi)
 
-PostitoimipaikkaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PostitoimipaikkaNimi'), PostitoimipaikkaNimiTyyppi, location=pyxb.utils.utility.Location(None, 186, 1))
+PostitoimipaikkaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PostitoimipaikkaNimi'), PostitoimipaikkaNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', PostitoimipaikkaNimi.name().localName(), PostitoimipaikkaNimi)
 
-PuhelinnumeroTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PuhelinnumeroTeksti'), PuhelinnumeroTekstiTyyppi, location=pyxb.utils.utility.Location(None, 190, 1))
+PuhelinnumeroTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PuhelinnumeroTeksti'), PuhelinnumeroTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', PuhelinnumeroTeksti.name().localName(), PuhelinnumeroTeksti)
 
-SahkoinenAsiointiTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SahkoinenAsiointiTunnus'), SahkoinenAsiointiTunnusTyyppi, location=pyxb.utils.utility.Location(None, 194, 1))
+SahkoinenAsiointiTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SahkoinenAsiointiTunnus'), SahkoinenAsiointiTunnusTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SahkoinenAsiointiTunnus.name().localName(), SahkoinenAsiointiTunnus)
 
-SahkopostiosoiteTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SahkopostiosoiteTeksti'), SahkopostiosoiteTekstiTyyppi, location=pyxb.utils.utility.Location(None, 198, 1))
+SahkopostiosoiteTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SahkopostiosoiteTeksti'), SahkopostiosoiteTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SahkopostiosoiteTeksti.name().localName(), SahkopostiosoiteTeksti)
 
-SiviilisaatyTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SiviilisaatyTeksti'), SiviilisaatyTekstiTyyppi, location=pyxb.utils.utility.Location(None, 202, 1))
+SiviilisaatyTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SiviilisaatyTeksti'), SiviilisaatyTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SiviilisaatyTeksti.name().localName(), SiviilisaatyTeksti)
 
-StatusryhmaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'StatusryhmaTeksti'), StatusryhmaTekstiTyyppi, location=pyxb.utils.utility.Location(None, 206, 1))
+StatusryhmaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'StatusryhmaTeksti'), StatusryhmaTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', StatusryhmaTeksti.name().localName(), StatusryhmaTeksti)
 
-SukuNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SukuNimi'), SukuNimiTyyppi, location=pyxb.utils.utility.Location(None, 210, 1))
+SukuNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SukuNimi'), SukuNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SukuNimi.name().localName(), SukuNimi)
 
-SukupuoliKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SukupuoliKoodi'), SukupuoliKoodiTyyppi, location=pyxb.utils.utility.Location(None, 214, 1))
+SukupuoliKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SukupuoliKoodi'), SukupuoliKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SukupuoliKoodi.name().localName(), SukupuoliKoodi)
 
-SyntymaPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SyntymaPvm'), SyntymaPvmTyyppi, location=pyxb.utils.utility.Location(None, 218, 1))
+SyntymaPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SyntymaPvm'), SyntymaPvmTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SyntymaPvm.name().localName(), SyntymaPvm)
 
-ToinenRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToinenRiviTeksti'), ToinenRiviTekstiTyyppi, location=pyxb.utils.utility.Location(None, 222, 1))
+ToinenRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToinenRiviTeksti'), ToinenRiviTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', ToinenRiviTeksti.name().localName(), ToinenRiviTeksti)
 
-TurvakieltoKytkin = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TurvakieltoKytkin'), TurvakieltoKytkinTyyppi, location=pyxb.utils.utility.Location(None, 226, 1))
+TurvakieltoKytkin = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TurvakieltoKytkin'), TurvakieltoKytkinTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', TurvakieltoKytkin.name().localName(), TurvakieltoKytkin)
 
-UlkomaaHenkiloTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'UlkomaaHenkiloTunnus'), UlkomaaHenkiloTunnusTyyppi, location=pyxb.utils.utility.Location(None, 230, 1))
+UlkomaaHenkiloTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'UlkomaaHenkiloTunnus'), UlkomaaHenkiloTunnusTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', UlkomaaHenkiloTunnus.name().localName(), UlkomaaHenkiloTunnus)
 
-UlkomaaPostitoimipaikkaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'UlkomaaPostitoimipaikkaNimi'), UlkomaaPostitoimipaikkaNimiTyyppi, location=pyxb.utils.utility.Location(None, 234, 1))
+UlkomaaPostitoimipaikkaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'UlkomaaPostitoimipaikkaNimi'), UlkomaaPostitoimipaikkaNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', UlkomaaPostitoimipaikkaNimi.name().localName(), UlkomaaPostitoimipaikkaNimi)
 
-VakinainenKytkin = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VakinainenKytkin'), VakinainenKytkinTyyppi, location=pyxb.utils.utility.Location(None, 238, 1))
+VakinainenKytkin = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VakinainenKytkin'), VakinainenKytkinTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', VakinainenKytkin.name().localName(), VakinainenKytkin)
 
-ValiaikainenHenkiloTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ValiaikainenHenkiloTunnus'), ValiaikainenHenkiloTunnusTyyppi, location=pyxb.utils.utility.Location(None, 242, 1))
+ValiaikainenHenkiloTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ValiaikainenHenkiloTunnus'), ValiaikainenHenkiloTunnusTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', ValiaikainenHenkiloTunnus.name().localName(), ValiaikainenHenkiloTunnus)
 
-ValtiotunnusKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ValtiotunnusKoodi'), ValtiotunnusKoodiTyyppi, location=pyxb.utils.utility.Location(None, 246, 1))
+ValtiotunnusKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ValtiotunnusKoodi'), ValtiotunnusKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', ValtiotunnusKoodi.name().localName(), ValtiotunnusKoodi)
 
-ViidesRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ViidesRiviTeksti'), ViidesRiviTekstiTyyppi, location=pyxb.utils.utility.Location(None, 250, 1))
+ViidesRiviTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ViidesRiviTeksti'), ViidesRiviTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', ViidesRiviTeksti.name().localName(), ViidesRiviTeksti)
 
-VoimassaoloKytkin = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloKytkin'), VoimassaoloKytkinTyyppi, location=pyxb.utils.utility.Location(None, 254, 1))
+VoimassaoloKytkin = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloKytkin'), VoimassaoloKytkinTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', VoimassaoloKytkin.name().localName(), VoimassaoloKytkin)
 
-YritysTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'YritysTunnus'), YritysTunnusTyyppi, location=pyxb.utils.utility.Location(None, 258, 1))
+YritysTunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'YritysTunnus'), YritysTunnusTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', YritysTunnus.name().localName(), YritysTunnus)

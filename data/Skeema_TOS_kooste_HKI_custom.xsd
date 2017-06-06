@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+***************************************************************
+JHS-suositukseen 'TOS-rakenne ja skeema' liittyvä xml-skeema
+Skeeman laadinnassa on käytetty JHS-suosituksen 170 periaatteita
+Skeema on laadittu JHS-suosituksen työryhmän toimesta
+Työryhmän PJ Mikko Eräkaski, Kansallisarkisto; editori Pekka Nieminen, Netum Oy
+Muutoshistoria:
+02.10.2013: ensimmäinen julkinen luonnos, palautekierrokselle julkaistava versio
+xx.04.2014: palautekierrosten perusteella muokattu versio
+14.01.2015: Julkaisua varten laadittu versio
+******************************************************************** 
+-->
+<xs:schema xmlns:jhs="http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19" xmlns:tos="http://skeemat.jhs-suositukset.fi/tos/2015/01/15" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://skeemat.jhs-suositukset.fi/tos/2015/01/15" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19" schemaLocation="JHSydin20091019_HKI_custom.xsd"/>
+	<xs:include schemaLocation="Skeema_TOS_atomaariset_HKI_custom.xsd"/>
+
+	<!--Tos-elementti on koko TOS-kuvauksen juurielementti.-->
+	<xs:element name="Tos" >
+	<xs:complexType>
+		<xs:sequence>
+			<!--TosTiedot-elementti sisältää koko TOS:ia koskevia tietoja.-->
+			<xs:element ref="tos:TosTiedot"/>
+			<!--Luokka-elementit määrittävät TOS:n sisällön metatiedot käytetyn luokituksen (tehtävä- tai palveluluokitus) mukaisesti.-->
+			<xs:element ref="tos:Luokka" maxOccurs="unbounded"/>
+			<!--Laajennos-elementin avulla voidaan lisätä organisaatiokohtaisia metatietoja.-->
+			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	</xs:element>
+
+	<!--TOS-tiedot-->
+	<xs:element name="TosTiedot" type="tos:TosTiedotTyyppi"/>
+	<xs:complexType name="TosTiedotTyyppi">
+		<xs:sequence>
+			<!--Nimeke on TOS:n "nimi", eli ketä koskevasta TOS:sta on kyse-->
+			<xs:element ref="tos:Nimeke"/>
+			<xs:element ref="tos:YhteyshenkiloNimi"/>
+			<!--TosVersio tarkoittaa koko TOS:n versionumeroa, rakenneosilla voi olla oma versiointinsa-->
+			<xs:element ref="tos:TosVersio"/>
+			<!--TilaKoodi:lla ilmaistaan TOS:n valmiustila-->	
+			<xs:element ref="tos:TilaKoodi" minOccurs="0"/>
+			<xs:element ref="tos:OrganisaatioNimi" minOccurs="0"/>
+			<xs:element ref="tos:LaatijaNimi" minOccurs="0"/>
+			<xs:element ref="tos:LaadittuPvm" minOccurs="0"/>
+			<xs:element ref="tos:MuokkaajaNimi" minOccurs="0"/>
+			<xs:element ref="tos:MuokattuPvm" minOccurs="0"/>
+			<xs:element ref="tos:HyvaksyjaNimi" minOccurs="0"/>
+			<xs:element ref="tos:HyvaksyttyPvm" minOccurs="0"/>
+			<xs:element ref="tos:VoimassaoloAlkaaPvm" minOccurs="0"/>
+			<xs:element ref="tos:VoimassaoloPaattyyPvm" minOccurs="0"/>
+			<xs:element ref="tos:LisatiedotTeksti" minOccurs="0"/>
+			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<!--id on elementin uniikisti yksilöivä tunnus-->
+		<xs:attribute ref="tos:id" use="required"/>
+	</xs:complexType>
+
+	<!--Luokka-->
+	<xs:element name="Luokka" type="tos:luokkaTyyppi"/>
+	<xs:complexType name="luokkaTyyppi">
+		<xs:sequence>
+			<xs:element ref="tos:OrganisaatioNimi" minOccurs="0"/>	<!--Luku x.x-->
+			<xs:element ref="tos:LaatijaNimi" minOccurs="0"/>
+			<xs:element ref="tos:LaadittuPvm" minOccurs="0"/>
+			<xs:element ref="tos:MuokkaajaNimi" minOccurs="0"/>
+			<xs:element ref="tos:MuokattuPvm" minOccurs="0"/>
+			<xs:element ref="tos:HyvaksyjaNimi" minOccurs="0"/>
+			<xs:element ref="tos:HyvaksyttyPvm" minOccurs="0"/>
+			<xs:element ref="tos:VoimassaoloAlkaaPvm" minOccurs="0"/>
+			<xs:element ref="tos:VoimassaoloPaattyyPvm" minOccurs="0"/>
+			<!--Luokitustunnus on organisaation tehtäväluokituksen mukainen koodi (esim. 01.02.03) tai muun palveluluokituksen mukainen koodi. osaversio tarkoittaa kyseisen rakenneosan versionumeroa, jolla mahdollistetaan versiointi rakenneosakohtaisesti -->
+			<xs:element ref="tos:Luokitustunnus"/>  
+			<xs:element ref="tos:TilaKoodi" minOccurs="0"/>
+			<!--OsaVersio tarkoittaa rakenneosan versionumeroa, sen käyttö on valinnaista-->			
+			<xs:element ref="tos:OsaVersio" minOccurs="0"/>
+			<xs:element ref="tos:Nimeke"/>
+			<xs:element ref="tos:LuokitusKuvausTeksti" minOccurs="0"/>
+			<xs:element ref="tos:KasittelyprosessiTiedot"/>
+			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute ref="tos:id" use="required"/>
+	</xs:complexType>
+
+	<!--Laajennos-->
+	<xs:element name="Laajennos">
+		<xs:annotation>
+			<xs:documentation>Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any processContents="skip"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!--Nimeke-->
+	<!--
+	Nimeke voi olla useamman kielinen. Jos Nimeke-elementtejä on useita täytyy jokaisen attribuutiksi aina liittyä kielikoodi.
+	-->
+	<xs:element name="Nimeke" type="tos:nimekeTyyppi"/>
+	<xs:complexType name="nimekeTyyppi">
+		<xs:choice>
+			<xs:element ref="tos:NimekeKielella" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element ref="tos:NimekeTeksti" minOccurs="1" maxOccurs="1"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:element name="NimekeKielella" type="tos:nimekeKielellaTyyppi"/>
+	<xs:complexType name="nimekeKielellaTyyppi">
+		<xs:sequence>
+			<xs:element ref="tos:NimekeTeksti"/>
+		</xs:sequence>
+		<xs:attribute ref="tos:kieliKoodi" use="required"/>
+	</xs:complexType>
+
+	<!--Käsittelyprosessitiedot-->
+	<xs:element name="KasittelyprosessiTiedot" type="tos:kasittelyprosessiTiedotTyyppi"/>
+	<xs:complexType name="kasittelyprosessiTiedotTyyppi">
+		<xs:sequence>
+			<xs:element ref="tos:TietojarjestelmaNimi" minOccurs="0"/>
+			<xs:element ref="tos:Kayttorajoitustiedot"/>
+			<xs:element ref="tos:Sailytysaikatiedot"/>
+			<xs:element ref="tos:Toimenpidetiedot" maxOccurs="unbounded"/>
+			<xs:element ref="tos:OrganisaatioNimi" minOccurs="0"/>
+			<xs:element ref="tos:LaatijaNimi" minOccurs="0"/>
+			<xs:element ref="tos:LaadittuPvm" minOccurs="0"/>
+			<xs:element ref="tos:MuokkaajaNimi" minOccurs="0"/>
+			<xs:element ref="tos:MuokattuPvm" minOccurs="0"/>
+			<xs:element ref="tos:HyvaksyjaNimi" minOccurs="0"/>
+			<xs:element ref="tos:HyvaksyttyPvm" minOccurs="0"/>
+			<xs:element ref="tos:VoimassaoloAlkaaPvm" minOccurs="0"/>
+			<xs:element ref="tos:VoimassaoloPaattyyPvm" minOccurs="0"/>
+			<xs:element ref="tos:Asiasanat" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tos:PaatietoryhmatTeksti" minOccurs="0"/>
+			<xs:element ref="tos:ProsessinOmistajaNimi" minOccurs="0"/>
+			<xs:element ref="tos:KokoavanProsessitunnuksenLahdeTeksti" minOccurs="0"/>
+			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute ref="tos:id" use="required"/>
+	</xs:complexType>
+
+	<!--Asiasanat-->
+	<!--
+	Asiasanat-rakenteita voi olla rajoittamaton määrä. Jokaista asiasanastoa kohden on suositeltavaa olla oma Asiasanat-elementti, jonka asiasanat liittyvät siihen sanastoon.
+	-->
+	<xs:element name="Asiasanat" type="tos:asiasanatTyyppi"/>
+	<xs:complexType name="asiasanatTyyppi">
+		<xs:sequence>
+			<xs:element ref="tos:AsiasanastoTeksti" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tos:AsiasanaTeksti" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--Toimenpidetiedot-->
+	<xs:element name="Toimenpidetiedot" type="tos:toimenpidetiedotTyyppi"/>
+	<xs:complexType name="toimenpidetiedotTyyppi">
+		<xs:sequence>
+			<xs:element ref="tos:ToimenpideluokkaTeksti" minOccurs="0"/>
+			<xs:element ref="tos:ToimenpideluokkaTarkenneTeksti" minOccurs="0"/>
+			<xs:element ref="tos:ToimenpiteenKuvausTeksti" minOccurs="0"/>
+			<xs:element ref="tos:KasittelyprosessinTilaTeksti" minOccurs="0"/>
+			<xs:element ref="tos:TietojarjestelmaNimi" minOccurs="0"/>
+			<xs:element ref="tos:OrganisaatioNimi" minOccurs="0"/>
+			<xs:element ref="tos:LaatijaNimi" minOccurs="0"/>
+			<xs:element ref="tos:LaadittuPvm" minOccurs="0"/>
+			<xs:element ref="tos:MuokkaajaNimi" minOccurs="0"/>
+			<xs:element ref="tos:MuokattuPvm" minOccurs="0"/>
+			<xs:element ref="tos:HyvaksyjaNimi" minOccurs="0"/>
+			<xs:element ref="tos:HyvaksyttyPvm" minOccurs="0"/>
+			<xs:element ref="tos:VoimassaoloAlkaaPvm" minOccurs="0"/>
+			<xs:element ref="tos:VoimassaoloPaattyyPvm" minOccurs="0"/>
+			<xs:choice minOccurs="0">
+				<xs:element ref="tos:Asiakirjatieto" maxOccurs="unbounded"/>
+				<xs:element ref="tos:Toimenpidetiedot" maxOccurs="unbounded"/>
+			</xs:choice>
+			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute ref="tos:id" use="required"/>
+	</xs:complexType>
+	
+	<!--Asiakirjatiedot-->
+	<!--
+	Asiakirjatiedon käyttörajoitus-, salassapito- ja säilytysaikatietojen oletusarvot voidaan periyttää Käsittelyprosessi-tasolta.
+	TOS-järjestelmän tehtävä on täyttää kyseiset tiedot Asiakirjatieto-elementtiin, jos niitä ei ole erikseen annettu.
+	-->
+	<xs:element name="Asiakirjatieto" type="tos:asiakirjatietoTyyppi"/>
+	<xs:complexType name="asiakirjatietoTyyppi">
+		<xs:sequence>
+			<xs:element ref="tos:Kayttorajoitustiedot"/>
+			<xs:element ref="tos:Sailytysaikatiedot"/>
+			<xs:element ref="tos:OrganisaatioNimi" minOccurs="0"/>
+			<xs:element ref="tos:LaatijaNimi" minOccurs="0"/>
+			<xs:element ref="tos:LaadittuPvm" minOccurs="0"/>
+			<xs:element ref="tos:MuokkaajaNimi" minOccurs="0"/>
+			<xs:element ref="tos:MuokattuPvm" minOccurs="0"/>
+			<xs:element ref="tos:HyvaksyjaNimi" minOccurs="0"/>
+			<xs:element ref="tos:HyvaksyttyPvm" minOccurs="0"/>
+			<xs:element ref="tos:VoimassaoloAlkaaPvm" minOccurs="0"/>
+			<xs:element ref="tos:VoimassaoloPaattyyPvm" minOccurs="0"/>
+			<xs:element ref="tos:AsiakirjaluokkaTeksti"/>
+			<xs:element ref="tos:AsiakirjaluokkaTarkenneTeksti" minOccurs="0"/>
+			<xs:element ref="tos:TietojarjestelmaNimi" minOccurs="0"/>
+			<xs:element ref="tos:Kasittelysaannot" minOccurs="0"/>
+			<xs:element ref="tos:Asiasanat" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tos:PaatietoryhmatTeksti" minOccurs="0"/>
+			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute ref="tos:id" use="required"/>
+	</xs:complexType>
+	
+	<!--Käsittelysäännöt-->
+	<xs:element name="Kasittelysaannot" type="tos:kasittelysaannotTyyppi"/>
+	<xs:complexType name="kasittelysaannotTyyppi">
+		<xs:sequence>
+			<xs:element ref="tos:JulkisuusluokkaMuutosTeksti" minOccurs="0"/>
+			<xs:element ref="tos:AiempienVersioidenPoistoTeksti" minOccurs="0"/>
+			<xs:element ref="tos:TallennuspaikkaTeksti" minOccurs="0"/>
+			<xs:element ref="tos:SailytyspaikkaTeksti" minOccurs="0"/>
+			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--Käyttörajoitustiedot-->
+	<!--
+	Jos asiakirjatiedon tiedot ovat salassapidettäviä, SalassapitoAikaArvo ja SalassapitoPerusteTeksti ovat pakollisia.
+	-->
+	<xs:element name="Kayttorajoitustiedot" type="tos:kayttorajoitusTiedotTyyppi"/>
+	<xs:complexType name="kayttorajoitusTiedotTyyppi">
+		<xs:sequence>
+			<xs:element ref="tos:JulkisuusluokkaKoodi" minOccurs="0"/>
+			<xs:element ref="tos:SuojaustasoKoodi" minOccurs="0"/>
+			<xs:element ref="tos:TurvallisuusluokkaKoodi" minOccurs="0"/>
+			<xs:element ref="tos:HenkilotietoluonneKoodi" minOccurs="0"/>
+			<xs:element ref="tos:SalassapitoAikaArvo" minOccurs="0"/>
+			<xs:element ref="tos:SalassapitoPerusteTeksti" minOccurs="0"/>
+			<xs:element ref="tos:SalassapidonLaskentaperusteTeksti" minOccurs="0"/>
+			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--Säilytysaikatiedot-->	
+	<xs:element name="Sailytysaikatiedot" type="tos:sailytysaikaTiedotTyyppi"/>
+	<xs:complexType name="sailytysaikaTiedotTyyppi">
+		<xs:sequence>
+			<xs:element ref="tos:SailytysajanPituusArvo" minOccurs="0"/>
+			<xs:element ref="tos:SailytysajanPerusteTeksti" minOccurs="0"/>
+			<xs:element ref="tos:SailytysajanLaskentaperusteTeksti" minOccurs="0"/>
+			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	</xs:schema>

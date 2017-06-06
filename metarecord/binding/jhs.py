@@ -1,7 +1,7 @@
-# metarecord/bindings/jhs.py
+# ./metarecord/binding/jhs.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:0bcf4fe07fa483312851437fc9b3f33582a4d3fa
-# Generated 2016-04-21 23:14:26.422829 by PyXB version 1.2.4 using Python 3.4.3.final.0
+# Generated 2017-06-06 17:55:12.152058 by PyXB version 1.2.4 using Python 3.5.1.final.0
 # Namespace http://skeemat.jhs-suositukset.fi/tos/2015/01/15
 
 from __future__ import unicode_literals
@@ -15,7 +15,7 @@ import sys
 import pyxb.utils.six as _six
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:a545d2b4-07fd-11e6-a564-001c42776b60')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:24344192-4ac8-11e7-bc04-a0999b00698b')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.4'
@@ -24,8 +24,8 @@ if pyxb.__version__ != _PyXBVersion:
     raise pyxb.PyXBVersionError(_PyXBVersion)
 
 # Import bindings for namespaces imported into schema
+import metarecord.binding._jhs as _ImportedBinding_metarecord_binding__jhs
 import pyxb.binding.datatypes
-from metarecord.binding import _jhs as _ImportedBinding__jhs
 
 # NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI('http://skeemat.jhs-suositukset.fi/tos/2015/01/15', create_if_missing=True)
@@ -80,7 +80,7 @@ class idTyyppi (pyxb.binding.datatypes.string):
     """Rakenneosan yksilöivä id-tunnus. Formaattia ei ole määritelty."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'idTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 21, 1)
+    _XSDLocation = None
     _Documentation = 'Rakenneosan yksilöivä id-tunnus. Formaattia ei ole määritelty.'
 idTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'idTyyppi', idTyyppi)
@@ -91,7 +91,7 @@ class kieliKoodiTyyppi (pyxb.binding.datatypes.string):
     """Kielikoodin avulla elementti voi ilmetä usealla eri kielellä. Suositellaan käytettäväksi standardeja kielikoodeja (fi, se, en).		"""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'kieliKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 29, 1)
+    _XSDLocation = None
     _Documentation = 'Kielikoodin avulla elementti voi ilmetä usealla eri kielellä. Suositellaan käytettäväksi standardeja kielikoodeja (fi, se, en).\t\t'
 kieliKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'kieliKoodiTyyppi', kieliKoodiTyyppi)
@@ -102,9 +102,9 @@ class tilaKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.basis.enumer
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'tilaKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 41, 1)
+    _XSDLocation = None
     _Documentation = None
-tilaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=tilaKoodiTyyppi, enum_prefix=None)
+tilaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=tilaKoodiTyyppi)
 tilaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 tilaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 tilaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
@@ -119,7 +119,7 @@ class versioTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'versioTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 73, 1)
+    _XSDLocation = None
     _Documentation = None
 versioTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'versioTyyppi', versioTyyppi)
@@ -130,7 +130,7 @@ class luokitustunnusTyyppi (pyxb.binding.datatypes.string):
     """Käytettäessä julkisen hallinnon yhteisiä luokituksia, tunnuksena pitää käyttää yhteisen luokituksen mukaista tunnusta."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'luokitustunnusTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 78, 1)
+    _XSDLocation = None
     _Documentation = 'Käytettäessä julkisen hallinnon yhteisiä luokituksia, tunnuksena pitää käyttää yhteisen luokituksen mukaista tunnusta.'
 luokitustunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'luokitustunnusTyyppi', luokitustunnusTyyppi)
@@ -141,7 +141,7 @@ class nimekeTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'nimekeTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 86, 1)
+    _XSDLocation = None
     _Documentation = None
 nimekeTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'nimekeTekstiTyyppi', nimekeTekstiTyyppi)
@@ -152,7 +152,7 @@ class kuvausTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'kuvausTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 93, 1)
+    _XSDLocation = None
     _Documentation = None
 kuvausTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'kuvausTekstiTyyppi', kuvausTekstiTyyppi)
@@ -163,7 +163,7 @@ class lisatiedotTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'lisatiedotTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 98, 1)
+    _XSDLocation = None
     _Documentation = None
 lisatiedotTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'lisatiedotTekstiTyyppi', lisatiedotTekstiTyyppi)
@@ -174,9 +174,9 @@ class julkisuusluokkaKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.b
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'julkisuusluokkaKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 103, 1)
+    _XSDLocation = None
     _Documentation = None
-julkisuusluokkaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=julkisuusluokkaKoodiTyyppi, enum_prefix=None)
+julkisuusluokkaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=julkisuusluokkaKoodiTyyppi)
 julkisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 julkisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 julkisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
@@ -190,7 +190,7 @@ class salassapitoAikaArvoTyyppi (pyxb.binding.datatypes.integer):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'salassapitoAikaArvoTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 129, 1)
+    _XSDLocation = None
     _Documentation = None
 salassapitoAikaArvoTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'salassapitoAikaArvoTyyppi', salassapitoAikaArvoTyyppi)
@@ -201,7 +201,7 @@ class salassapitoPerusteTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'salassapitoPerusteTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 138, 1)
+    _XSDLocation = None
     _Documentation = None
 salassapitoPerusteTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'salassapitoPerusteTekstiTyyppi', salassapitoPerusteTekstiTyyppi)
@@ -212,7 +212,7 @@ class salassapidonLaskentaperusteTekstiTyyppi (pyxb.binding.datatypes.string):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'salassapidonLaskentaperusteTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 147, 1)
+    _XSDLocation = None
     _Documentation = None
 salassapidonLaskentaperusteTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'salassapidonLaskentaperusteTekstiTyyppi', salassapidonLaskentaperusteTekstiTyyppi)
@@ -223,9 +223,9 @@ class suojaustasoKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.basis
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'suojaustasoKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 156, 1)
+    _XSDLocation = None
     _Documentation = None
-suojaustasoKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=suojaustasoKoodiTyyppi, enum_prefix=None)
+suojaustasoKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=suojaustasoKoodiTyyppi)
 suojaustasoKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 suojaustasoKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 suojaustasoKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
@@ -239,9 +239,9 @@ class turvallisuusluokkaKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.bindin
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'turvallisuusluokkaKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 182, 1)
+    _XSDLocation = None
     _Documentation = None
-turvallisuusluokkaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=turvallisuusluokkaKoodiTyyppi, enum_prefix=None)
+turvallisuusluokkaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=turvallisuusluokkaKoodiTyyppi)
 turvallisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 turvallisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 turvallisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
@@ -255,9 +255,9 @@ class henkilotietoluonneKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.bindin
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'henkilotietoluonneKoodiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 208, 1)
+    _XSDLocation = None
     _Documentation = None
-henkilotietoluonneKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=henkilotietoluonneKoodiTyyppi, enum_prefix=None)
+henkilotietoluonneKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=henkilotietoluonneKoodiTyyppi)
 henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
@@ -270,7 +270,7 @@ class sailytysajanPituusArvoTyyppi (pyxb.binding.datatypes.integer):
     """Suositeltavat arvot: 0, 3, 6, 10, 20, 50, 120 tai -1 (pysyvä säilytys)"""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'sailytysajanPituusArvoTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 229, 1)
+    _XSDLocation = None
     _Documentation = 'Suositeltavat arvot: 0, 3, 6, 10, 20, 50, 120 tai -1 (pysyvä säilytys)'
 sailytysajanPituusArvoTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'sailytysajanPituusArvoTyyppi', sailytysajanPituusArvoTyyppi)
@@ -281,7 +281,7 @@ class sailytysajanPerusteTekstiTyyppi (pyxb.binding.datatypes.string):
     """Säilytysaika voi perustua lakiin tai olla organisaation oma päätös. Pysyvä säilytys perustuu arkistolaitoksen päätökseen."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'sailytysajanPerusteTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 237, 1)
+    _XSDLocation = None
     _Documentation = 'Säilytysaika voi perustua lakiin tai olla organisaation oma päätös. Pysyvä säilytys perustuu arkistolaitoksen päätökseen.'
 sailytysajanPerusteTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'sailytysajanPerusteTekstiTyyppi', sailytysajanPerusteTekstiTyyppi)
@@ -292,7 +292,7 @@ class sailytysajanLaskentaperusteTekstiTyyppi (pyxb.binding.datatypes.string):
     """Suositeltavat arvot käsittelyprosessille: Asian lopullinen ratkaisu. Suositeltavat arvot asiakirjalle: Asian lopullinen ratkaisu, Asiakirjan päivämäärä."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'sailytysajanLaskentaperusteTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 245, 1)
+    _XSDLocation = None
     _Documentation = 'Suositeltavat arvot käsittelyprosessille: Asian lopullinen ratkaisu. Suositeltavat arvot asiakirjalle: Asian lopullinen ratkaisu, Asiakirjan päivämäärä.'
 sailytysajanLaskentaperusteTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'sailytysajanLaskentaperusteTekstiTyyppi', sailytysajanLaskentaperusteTekstiTyyppi)
@@ -305,10 +305,23 @@ class toimenpideluokkaTekstiTyyppi (pyxb.binding.datatypes.string):
 	    """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'toimenpideluokkaTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 253, 1)
+    _XSDLocation = None
     _Documentation = '\n\tSuositeltavat arvot: ohjaus, vireilletulo , valmistelu, päätöksenteko, toimeenpano, tiedoksianto, muutoksenhaku, seuranta.\n\t    '
 toimenpideluokkaTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'toimenpideluokkaTekstiTyyppi', toimenpideluokkaTekstiTyyppi)
+
+# Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}toimenpideluokkaTarkenneTekstiTyyppi
+class toimenpideluokkaTarkenneTekstiTyyppi (pyxb.binding.datatypes.string):
+
+    """
+	Suositeltavat arvot: ohjaus, vireilletulo , valmistelu, päätöksenteko, toimeenpano, tiedoksianto, muutoksenhaku, seuranta.
+	        """
+
+    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'toimenpideluokkaTarkenneTekstiTyyppi')
+    _XSDLocation = None
+    _Documentation = '\n\tSuositeltavat arvot: ohjaus, vireilletulo , valmistelu, päätöksenteko, toimeenpano, tiedoksianto, muutoksenhaku, seuranta.\n\t        '
+toimenpideluokkaTarkenneTekstiTyyppi._InitializeFacetMap()
+Namespace.addCategoryObject('typeBinding', 'toimenpideluokkaTarkenneTekstiTyyppi', toimenpideluokkaTarkenneTekstiTyyppi)
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}asiakirjaLuokkaTekstiTyyppi
 class asiakirjaLuokkaTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -319,7 +332,7 @@ class asiakirjaLuokkaTekstiTyyppi (pyxb.binding.datatypes.string):
 	    """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'asiakirjaLuokkaTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 263, 1)
+    _XSDLocation = None
     _Documentation = '\n\tSuositeltavia arvoja ovat: Aloite, Asetus, Ehdotus, Esitys, Esityslista, Hakemus, Ilmoitus, Julkaisu, Kannanotto, Kantelu, Kartta, Kertomus, Kirje, Kutsu, Kuulutus, Kuva, Laki, Lasku, Lausunto, Lausuntopyyntö, Liite, Luettelo, Lupa, Mietintö, Muistio, Määräys, Nimittämiskirja, Ohje, Ohjelma, Oikaisuvaatimus, Ote, Piirustus, Pyyntö, Päätös, Pöytäkirja, Raportti, Seloste, Selvitys, Sopimus, Strategia, Suositus, Suunnitelma, Talousarvio, Tarjous, Tarjouspyyntö, Teos, Tiedote, Tilasto, Tilaus, Tilinpäätös, Todistus, Tosite, Valitus, Valtakirja, Vastine, Yhteenveto.\n\tAsiakirjatyypit ilmaistaan aina yksikkömuodossa.\n\t    '
 asiakirjaLuokkaTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'asiakirjaLuokkaTekstiTyyppi', asiakirjaLuokkaTekstiTyyppi)
@@ -332,7 +345,7 @@ class kasittelyprosessinTilaTekstiTyyppi (pyxb.binding.datatypes.string):
 			"""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'kasittelyprosessinTilaTekstiTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 274, 1)
+    _XSDLocation = None
     _Documentation = '\n\tSuositeltavia arvoja ovat: Avattu, Vireillä, Valmistelussa, Ratkaistavana, Toimitettu tiedoksi, Toimeenpantava, Päätetty, Avattu uudelleen, Muutoksenhaku, Seurannassa, Siirretty, Hävitetty.\n\t\t\t'
 kasittelyprosessinTilaTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'kasittelyprosessinTilaTekstiTyyppi', kasittelyprosessinTilaTekstiTyyppi)
@@ -344,27 +357,27 @@ class CTD_ANON (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = None
-    _XSDLocation = pyxb.utils.utility.Location(None, 20, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}TosTiedot uses Python identifier TosTiedot
-    __TosTiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TosTiedot'), 'TosTiedot', '__httpskeemat_jhs_suositukset_fitos20150115_CTD_ANON_httpskeemat_jhs_suositukset_fitos20150115TosTiedot', False, pyxb.utils.utility.Location(None, 33, 1), )
+    __TosTiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TosTiedot'), 'TosTiedot', '__httpskeemat_jhs_suositukset_fitos20150115_CTD_ANON_httpskeemat_jhs_suositukset_fitos20150115TosTiedot', False, None, )
 
     
     TosTiedot = property(__TosTiedot.value, __TosTiedot.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Luokka uses Python identifier Luokka
-    __Luokka = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Luokka'), 'Luokka', '__httpskeemat_jhs_suositukset_fitos20150115_CTD_ANON_httpskeemat_jhs_suositukset_fitos20150115Luokka', True, pyxb.utils.utility.Location(None, 60, 1), )
+    __Luokka = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Luokka'), 'Luokka', '__httpskeemat_jhs_suositukset_fitos20150115_CTD_ANON_httpskeemat_jhs_suositukset_fitos20150115Luokka', True, None, )
 
     
     Luokka = property(__Luokka.value, __Luokka.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Laajennos uses Python identifier Laajennos
-    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_CTD_ANON_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, pyxb.utils.utility.Location(None, 86, 1), )
+    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_CTD_ANON_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, None, )
 
     
     Laajennos = property(__Laajennos.value, __Laajennos.set, None, 'Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.')
@@ -387,7 +400,7 @@ class CTD_ANON_ (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = None
-    _XSDLocation = pyxb.utils.utility.Location(None, 90, 2)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
@@ -408,20 +421,20 @@ class nimekeTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'nimekeTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 102, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}NimekeTeksti uses Python identifier NimekeTeksti
-    __NimekeTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti'), 'NimekeTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_nimekeTyyppi_httpskeemat_jhs_suositukset_fitos20150115NimekeTeksti', False, pyxb.utils.utility.Location(None, 85, 1), )
+    __NimekeTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti'), 'NimekeTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_nimekeTyyppi_httpskeemat_jhs_suositukset_fitos20150115NimekeTeksti', False, None, )
 
     
     NimekeTeksti = property(__NimekeTeksti.value, __NimekeTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}NimekeKielella uses Python identifier NimekeKielella
-    __NimekeKielella = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'NimekeKielella'), 'NimekeKielella', '__httpskeemat_jhs_suositukset_fitos20150115_nimekeTyyppi_httpskeemat_jhs_suositukset_fitos20150115NimekeKielella', True, pyxb.utils.utility.Location(None, 108, 1), )
+    __NimekeKielella = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'NimekeKielella'), 'NimekeKielella', '__httpskeemat_jhs_suositukset_fitos20150115_nimekeTyyppi_httpskeemat_jhs_suositukset_fitos20150115NimekeKielella', True, None, )
 
     
     NimekeKielella = property(__NimekeKielella.value, __NimekeKielella.set, None, None)
@@ -443,20 +456,20 @@ class asiasanatTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'asiasanatTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 147, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}AsiasanastoTeksti uses Python identifier AsiasanastoTeksti
-    __AsiasanastoTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AsiasanastoTeksti'), 'AsiasanastoTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_asiasanatTyyppi_httpskeemat_jhs_suositukset_fitos20150115AsiasanastoTeksti', True, pyxb.utils.utility.Location(None, 294, 1), )
+    __AsiasanastoTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AsiasanastoTeksti'), 'AsiasanastoTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_asiasanatTyyppi_httpskeemat_jhs_suositukset_fitos20150115AsiasanastoTeksti', True, None, )
 
     
     AsiasanastoTeksti = property(__AsiasanastoTeksti.value, __AsiasanastoTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}AsiasanaTeksti uses Python identifier AsiasanaTeksti
-    __AsiasanaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AsiasanaTeksti'), 'AsiasanaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_asiasanatTyyppi_httpskeemat_jhs_suositukset_fitos20150115AsiasanaTeksti', True, pyxb.utils.utility.Location(None, 295, 1), )
+    __AsiasanaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AsiasanaTeksti'), 'AsiasanaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_asiasanatTyyppi_httpskeemat_jhs_suositukset_fitos20150115AsiasanaTeksti', True, None, )
 
     
     AsiasanaTeksti = property(__AsiasanaTeksti.value, __AsiasanaTeksti.set, None, None)
@@ -478,41 +491,41 @@ class kasittelysaannotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'kasittelysaannotTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 212, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}JulkisuusluokkaMuutosTeksti uses Python identifier JulkisuusluokkaMuutosTeksti
-    __JulkisuusluokkaMuutosTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaMuutosTeksti'), 'JulkisuusluokkaMuutosTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelysaannotTyyppi_httpskeemat_jhs_suositukset_fitos20150115JulkisuusluokkaMuutosTeksti', False, pyxb.utils.utility.Location(None, 301, 1), )
+    __JulkisuusluokkaMuutosTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaMuutosTeksti'), 'JulkisuusluokkaMuutosTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelysaannotTyyppi_httpskeemat_jhs_suositukset_fitos20150115JulkisuusluokkaMuutosTeksti', False, None, )
 
     
     JulkisuusluokkaMuutosTeksti = property(__JulkisuusluokkaMuutosTeksti.value, __JulkisuusluokkaMuutosTeksti.set, None, 'Esimerkiksi: Asian päättäminen, Päätöksenteko (toimenpide), Päätöksen allekirjoitus (toimenpide).')
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}AiempienVersioidenPoistoTeksti uses Python identifier AiempienVersioidenPoistoTeksti
-    __AiempienVersioidenPoistoTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AiempienVersioidenPoistoTeksti'), 'AiempienVersioidenPoistoTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelysaannotTyyppi_httpskeemat_jhs_suositukset_fitos20150115AiempienVersioidenPoistoTeksti', False, pyxb.utils.utility.Location(None, 307, 1), )
+    __AiempienVersioidenPoistoTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AiempienVersioidenPoistoTeksti'), 'AiempienVersioidenPoistoTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelysaannotTyyppi_httpskeemat_jhs_suositukset_fitos20150115AiempienVersioidenPoistoTeksti', False, None, )
 
     
     AiempienVersioidenPoistoTeksti = property(__AiempienVersioidenPoistoTeksti.value, __AiempienVersioidenPoistoTeksti.set, None, 'Suositeltavat: Asian ratkaisu, Tietty aika asian ratkaisusta, Asiakirjan hävittäminen.')
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}TallennuspaikkaTeksti uses Python identifier TallennuspaikkaTeksti
-    __TallennuspaikkaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TallennuspaikkaTeksti'), 'TallennuspaikkaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelysaannotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TallennuspaikkaTeksti', False, pyxb.utils.utility.Location(None, 313, 1), )
+    __TallennuspaikkaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TallennuspaikkaTeksti'), 'TallennuspaikkaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelysaannotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TallennuspaikkaTeksti', False, None, )
 
     
     TallennuspaikkaTeksti = property(__TallennuspaikkaTeksti.value, __TallennuspaikkaTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}SailytyspaikkaTeksti uses Python identifier SailytyspaikkaTeksti
-    __SailytyspaikkaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SailytyspaikkaTeksti'), 'SailytyspaikkaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelysaannotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SailytyspaikkaTeksti', False, pyxb.utils.utility.Location(None, 314, 1), )
+    __SailytyspaikkaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SailytyspaikkaTeksti'), 'SailytyspaikkaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelysaannotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SailytyspaikkaTeksti', False, None, )
 
     
     SailytyspaikkaTeksti = property(__SailytyspaikkaTeksti.value, __SailytyspaikkaTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Laajennos uses Python identifier Laajennos
-    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelysaannotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, pyxb.utils.utility.Location(None, 86, 1), )
+    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelysaannotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, None, )
 
     
     Laajennos = property(__Laajennos.value, __Laajennos.set, None, 'Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.')
@@ -537,62 +550,62 @@ class kayttorajoitusTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'kayttorajoitusTiedotTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 227, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}JulkisuusluokkaKoodi uses Python identifier JulkisuusluokkaKoodi
-    __JulkisuusluokkaKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaKoodi'), 'JulkisuusluokkaKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115JulkisuusluokkaKoodi', False, pyxb.utils.utility.Location(None, 102, 1), )
+    __JulkisuusluokkaKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaKoodi'), 'JulkisuusluokkaKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115JulkisuusluokkaKoodi', False, None, )
 
     
     JulkisuusluokkaKoodi = property(__JulkisuusluokkaKoodi.value, __JulkisuusluokkaKoodi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}SalassapitoAikaArvo uses Python identifier SalassapitoAikaArvo
-    __SalassapitoAikaArvo = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoAikaArvo'), 'SalassapitoAikaArvo', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SalassapitoAikaArvo', False, pyxb.utils.utility.Location(None, 128, 1), )
+    __SalassapitoAikaArvo = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoAikaArvo'), 'SalassapitoAikaArvo', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SalassapitoAikaArvo', False, None, )
 
     
     SalassapitoAikaArvo = property(__SalassapitoAikaArvo.value, __SalassapitoAikaArvo.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}SalassapitoPerusteTeksti uses Python identifier SalassapitoPerusteTeksti
-    __SalassapitoPerusteTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoPerusteTeksti'), 'SalassapitoPerusteTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SalassapitoPerusteTeksti', False, pyxb.utils.utility.Location(None, 137, 1), )
+    __SalassapitoPerusteTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoPerusteTeksti'), 'SalassapitoPerusteTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SalassapitoPerusteTeksti', False, None, )
 
     
     SalassapitoPerusteTeksti = property(__SalassapitoPerusteTeksti.value, __SalassapitoPerusteTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}SalassapidonLaskentaperusteTeksti uses Python identifier SalassapidonLaskentaperusteTeksti
-    __SalassapidonLaskentaperusteTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SalassapidonLaskentaperusteTeksti'), 'SalassapidonLaskentaperusteTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SalassapidonLaskentaperusteTeksti', False, pyxb.utils.utility.Location(None, 146, 1), )
+    __SalassapidonLaskentaperusteTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SalassapidonLaskentaperusteTeksti'), 'SalassapidonLaskentaperusteTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SalassapidonLaskentaperusteTeksti', False, None, )
 
     
     SalassapidonLaskentaperusteTeksti = property(__SalassapidonLaskentaperusteTeksti.value, __SalassapidonLaskentaperusteTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}SuojaustasoKoodi uses Python identifier SuojaustasoKoodi
-    __SuojaustasoKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SuojaustasoKoodi'), 'SuojaustasoKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SuojaustasoKoodi', False, pyxb.utils.utility.Location(None, 155, 1), )
+    __SuojaustasoKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SuojaustasoKoodi'), 'SuojaustasoKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SuojaustasoKoodi', False, None, )
 
     
     SuojaustasoKoodi = property(__SuojaustasoKoodi.value, __SuojaustasoKoodi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}TurvallisuusluokkaKoodi uses Python identifier TurvallisuusluokkaKoodi
-    __TurvallisuusluokkaKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TurvallisuusluokkaKoodi'), 'TurvallisuusluokkaKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TurvallisuusluokkaKoodi', False, pyxb.utils.utility.Location(None, 181, 1), )
+    __TurvallisuusluokkaKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TurvallisuusluokkaKoodi'), 'TurvallisuusluokkaKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TurvallisuusluokkaKoodi', False, None, )
 
     
     TurvallisuusluokkaKoodi = property(__TurvallisuusluokkaKoodi.value, __TurvallisuusluokkaKoodi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HenkilotietoluonneKoodi uses Python identifier HenkilotietoluonneKoodi
-    __HenkilotietoluonneKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HenkilotietoluonneKoodi'), 'HenkilotietoluonneKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HenkilotietoluonneKoodi', False, pyxb.utils.utility.Location(None, 207, 1), )
+    __HenkilotietoluonneKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HenkilotietoluonneKoodi'), 'HenkilotietoluonneKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HenkilotietoluonneKoodi', False, None, )
 
     
     HenkilotietoluonneKoodi = property(__HenkilotietoluonneKoodi.value, __HenkilotietoluonneKoodi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Laajennos uses Python identifier Laajennos
-    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, pyxb.utils.utility.Location(None, 86, 1), )
+    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_kayttorajoitusTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, None, )
 
     
     Laajennos = property(__Laajennos.value, __Laajennos.set, None, 'Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.')
@@ -620,34 +633,34 @@ class sailytysaikaTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'sailytysaikaTiedotTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 242, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}SailytysajanPituusArvo uses Python identifier SailytysajanPituusArvo
-    __SailytysajanPituusArvo = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPituusArvo'), 'SailytysajanPituusArvo', '__httpskeemat_jhs_suositukset_fitos20150115_sailytysaikaTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SailytysajanPituusArvo', False, pyxb.utils.utility.Location(None, 228, 1), )
+    __SailytysajanPituusArvo = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPituusArvo'), 'SailytysajanPituusArvo', '__httpskeemat_jhs_suositukset_fitos20150115_sailytysaikaTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SailytysajanPituusArvo', False, None, )
 
     
     SailytysajanPituusArvo = property(__SailytysajanPituusArvo.value, __SailytysajanPituusArvo.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}SailytysajanPerusteTeksti uses Python identifier SailytysajanPerusteTeksti
-    __SailytysajanPerusteTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPerusteTeksti'), 'SailytysajanPerusteTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_sailytysaikaTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SailytysajanPerusteTeksti', False, pyxb.utils.utility.Location(None, 236, 1), )
+    __SailytysajanPerusteTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPerusteTeksti'), 'SailytysajanPerusteTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_sailytysaikaTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SailytysajanPerusteTeksti', False, None, )
 
     
     SailytysajanPerusteTeksti = property(__SailytysajanPerusteTeksti.value, __SailytysajanPerusteTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}SailytysajanLaskentaperusteTeksti uses Python identifier SailytysajanLaskentaperusteTeksti
-    __SailytysajanLaskentaperusteTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanLaskentaperusteTeksti'), 'SailytysajanLaskentaperusteTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_sailytysaikaTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SailytysajanLaskentaperusteTeksti', False, pyxb.utils.utility.Location(None, 244, 1), )
+    __SailytysajanLaskentaperusteTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanLaskentaperusteTeksti'), 'SailytysajanLaskentaperusteTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_sailytysaikaTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115SailytysajanLaskentaperusteTeksti', False, None, )
 
     
     SailytysajanLaskentaperusteTeksti = property(__SailytysajanLaskentaperusteTeksti.value, __SailytysajanLaskentaperusteTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Laajennos uses Python identifier Laajennos
-    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_sailytysaikaTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, pyxb.utils.utility.Location(None, 86, 1), )
+    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_sailytysaikaTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, None, )
 
     
     Laajennos = property(__Laajennos.value, __Laajennos.set, None, 'Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.')
@@ -671,111 +684,111 @@ class TosTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'TosTiedotTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 34, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}TilaKoodi uses Python identifier TilaKoodi
-    __TilaKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi'), 'TilaKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TilaKoodi', False, pyxb.utils.utility.Location(None, 40, 1), )
+    __TilaKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi'), 'TilaKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TilaKoodi', False, None, )
 
     
     TilaKoodi = property(__TilaKoodi.value, __TilaKoodi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}TosVersio uses Python identifier TosVersio
-    __TosVersio = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TosVersio'), 'TosVersio', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TosVersio', False, pyxb.utils.utility.Location(None, 71, 1), )
+    __TosVersio = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TosVersio'), 'TosVersio', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TosVersio', False, None, )
 
     
     TosVersio = property(__TosVersio.value, __TosVersio.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LisatiedotTeksti uses Python identifier LisatiedotTeksti
-    __LisatiedotTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LisatiedotTeksti'), 'LisatiedotTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LisatiedotTeksti', False, pyxb.utils.utility.Location(None, 97, 1), )
+    __LisatiedotTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LisatiedotTeksti'), 'LisatiedotTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LisatiedotTeksti', False, None, )
 
     
     LisatiedotTeksti = property(__LisatiedotTeksti.value, __LisatiedotTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}OrganisaatioNimi uses Python identifier OrganisaatioNimi
-    __OrganisaatioNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), 'OrganisaatioNimi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115OrganisaatioNimi', False, pyxb.utils.utility.Location(None, 283, 1), )
+    __OrganisaatioNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), 'OrganisaatioNimi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115OrganisaatioNimi', False, None, )
 
     
     OrganisaatioNimi = property(__OrganisaatioNimi.value, __OrganisaatioNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LaatijaNimi uses Python identifier LaatijaNimi
-    __LaatijaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), 'LaatijaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaatijaNimi', False, pyxb.utils.utility.Location(None, 285, 1), )
+    __LaatijaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), 'LaatijaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaatijaNimi', False, None, )
 
     
     LaatijaNimi = property(__LaatijaNimi.value, __LaatijaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LaadittuPvm uses Python identifier LaadittuPvm
-    __LaadittuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), 'LaadittuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaadittuPvm', False, pyxb.utils.utility.Location(None, 286, 1), )
+    __LaadittuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), 'LaadittuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaadittuPvm', False, None, )
 
     
     LaadittuPvm = property(__LaadittuPvm.value, __LaadittuPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}MuokkaajaNimi uses Python identifier MuokkaajaNimi
-    __MuokkaajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), 'MuokkaajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokkaajaNimi', False, pyxb.utils.utility.Location(None, 287, 1), )
+    __MuokkaajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), 'MuokkaajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokkaajaNimi', False, None, )
 
     
     MuokkaajaNimi = property(__MuokkaajaNimi.value, __MuokkaajaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}MuokattuPvm uses Python identifier MuokattuPvm
-    __MuokattuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), 'MuokattuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokattuPvm', False, pyxb.utils.utility.Location(None, 288, 1), )
+    __MuokattuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), 'MuokattuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokattuPvm', False, None, )
 
     
     MuokattuPvm = property(__MuokattuPvm.value, __MuokattuPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HyvaksyjaNimi uses Python identifier HyvaksyjaNimi
-    __HyvaksyjaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), 'HyvaksyjaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyjaNimi', False, pyxb.utils.utility.Location(None, 289, 1), )
+    __HyvaksyjaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), 'HyvaksyjaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyjaNimi', False, None, )
 
     
     HyvaksyjaNimi = property(__HyvaksyjaNimi.value, __HyvaksyjaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HyvaksyttyPvm uses Python identifier HyvaksyttyPvm
-    __HyvaksyttyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), 'HyvaksyttyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyttyPvm', False, pyxb.utils.utility.Location(None, 290, 1), )
+    __HyvaksyttyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), 'HyvaksyttyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyttyPvm', False, None, )
 
     
     HyvaksyttyPvm = property(__HyvaksyttyPvm.value, __HyvaksyttyPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}VoimassaoloAlkaaPvm uses Python identifier VoimassaoloAlkaaPvm
-    __VoimassaoloAlkaaPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), 'VoimassaoloAlkaaPvm', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloAlkaaPvm', False, pyxb.utils.utility.Location(None, 291, 1), )
+    __VoimassaoloAlkaaPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), 'VoimassaoloAlkaaPvm', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloAlkaaPvm', False, None, )
 
     
     VoimassaoloAlkaaPvm = property(__VoimassaoloAlkaaPvm.value, __VoimassaoloAlkaaPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}VoimassaoloPaattyyPvm uses Python identifier VoimassaoloPaattyyPvm
-    __VoimassaoloPaattyyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), 'VoimassaoloPaattyyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloPaattyyPvm', False, pyxb.utils.utility.Location(None, 292, 1), )
+    __VoimassaoloPaattyyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), 'VoimassaoloPaattyyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloPaattyyPvm', False, None, )
 
     
     VoimassaoloPaattyyPvm = property(__VoimassaoloPaattyyPvm.value, __VoimassaoloPaattyyPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}YhteyshenkiloNimi uses Python identifier YhteyshenkiloNimi
-    __YhteyshenkiloNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'YhteyshenkiloNimi'), 'YhteyshenkiloNimi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115YhteyshenkiloNimi', False, pyxb.utils.utility.Location(None, 293, 1), )
+    __YhteyshenkiloNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'YhteyshenkiloNimi'), 'YhteyshenkiloNimi', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115YhteyshenkiloNimi', False, None, )
 
     
     YhteyshenkiloNimi = property(__YhteyshenkiloNimi.value, __YhteyshenkiloNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Laajennos uses Python identifier Laajennos
-    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, pyxb.utils.utility.Location(None, 86, 1), )
+    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, None, )
 
     
     Laajennos = property(__Laajennos.value, __Laajennos.set, None, 'Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.')
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Nimeke uses Python identifier Nimeke
-    __Nimeke = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Nimeke'), 'Nimeke', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Nimeke', False, pyxb.utils.utility.Location(None, 101, 1), )
+    __Nimeke = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Nimeke'), 'Nimeke', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Nimeke', False, None, )
 
     
     Nimeke = property(__Nimeke.value, __Nimeke.set, None, None)
@@ -783,8 +796,8 @@ class TosTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}id uses Python identifier id
     __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', idTyyppi, required=True)
-    __id._DeclarationLocation = pyxb.utils.utility.Location(None, 20, 1)
-    __id._UseLocation = pyxb.utils.utility.Location(None, 56, 2)
+    __id._DeclarationLocation = None
+    __id._UseLocation = None
     
     id = property(__id.value, __id.set, None, None)
 
@@ -818,118 +831,118 @@ class luokkaTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'luokkaTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 61, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}TilaKoodi uses Python identifier TilaKoodi
-    __TilaKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi'), 'TilaKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115TilaKoodi', False, pyxb.utils.utility.Location(None, 40, 1), )
+    __TilaKoodi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi'), 'TilaKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115TilaKoodi', False, None, )
 
     
     TilaKoodi = property(__TilaKoodi.value, __TilaKoodi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}OsaVersio uses Python identifier OsaVersio
-    __OsaVersio = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OsaVersio'), 'OsaVersio', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115OsaVersio', False, pyxb.utils.utility.Location(None, 72, 1), )
+    __OsaVersio = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OsaVersio'), 'OsaVersio', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115OsaVersio', False, None, )
 
     
     OsaVersio = property(__OsaVersio.value, __OsaVersio.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Luokitustunnus uses Python identifier Luokitustunnus
-    __Luokitustunnus = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Luokitustunnus'), 'Luokitustunnus', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115Luokitustunnus', False, pyxb.utils.utility.Location(None, 77, 1), )
+    __Luokitustunnus = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Luokitustunnus'), 'Luokitustunnus', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115Luokitustunnus', False, None, )
 
     
     Luokitustunnus = property(__Luokitustunnus.value, __Luokitustunnus.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LuokitusKuvausTeksti uses Python identifier LuokitusKuvausTeksti
-    __LuokitusKuvausTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LuokitusKuvausTeksti'), 'LuokitusKuvausTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115LuokitusKuvausTeksti', False, pyxb.utils.utility.Location(None, 91, 1), )
+    __LuokitusKuvausTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LuokitusKuvausTeksti'), 'LuokitusKuvausTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115LuokitusKuvausTeksti', False, None, )
 
     
     LuokitusKuvausTeksti = property(__LuokitusKuvausTeksti.value, __LuokitusKuvausTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}OrganisaatioNimi uses Python identifier OrganisaatioNimi
-    __OrganisaatioNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), 'OrganisaatioNimi', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115OrganisaatioNimi', False, pyxb.utils.utility.Location(None, 283, 1), )
+    __OrganisaatioNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), 'OrganisaatioNimi', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115OrganisaatioNimi', False, None, )
 
     
     OrganisaatioNimi = property(__OrganisaatioNimi.value, __OrganisaatioNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LaatijaNimi uses Python identifier LaatijaNimi
-    __LaatijaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), 'LaatijaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaatijaNimi', False, pyxb.utils.utility.Location(None, 285, 1), )
+    __LaatijaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), 'LaatijaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaatijaNimi', False, None, )
 
     
     LaatijaNimi = property(__LaatijaNimi.value, __LaatijaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LaadittuPvm uses Python identifier LaadittuPvm
-    __LaadittuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), 'LaadittuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaadittuPvm', False, pyxb.utils.utility.Location(None, 286, 1), )
+    __LaadittuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), 'LaadittuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaadittuPvm', False, None, )
 
     
     LaadittuPvm = property(__LaadittuPvm.value, __LaadittuPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}MuokkaajaNimi uses Python identifier MuokkaajaNimi
-    __MuokkaajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), 'MuokkaajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokkaajaNimi', False, pyxb.utils.utility.Location(None, 287, 1), )
+    __MuokkaajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), 'MuokkaajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokkaajaNimi', False, None, )
 
     
     MuokkaajaNimi = property(__MuokkaajaNimi.value, __MuokkaajaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}MuokattuPvm uses Python identifier MuokattuPvm
-    __MuokattuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), 'MuokattuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokattuPvm', False, pyxb.utils.utility.Location(None, 288, 1), )
+    __MuokattuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), 'MuokattuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokattuPvm', False, None, )
 
     
     MuokattuPvm = property(__MuokattuPvm.value, __MuokattuPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HyvaksyjaNimi uses Python identifier HyvaksyjaNimi
-    __HyvaksyjaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), 'HyvaksyjaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyjaNimi', False, pyxb.utils.utility.Location(None, 289, 1), )
+    __HyvaksyjaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), 'HyvaksyjaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyjaNimi', False, None, )
 
     
     HyvaksyjaNimi = property(__HyvaksyjaNimi.value, __HyvaksyjaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HyvaksyttyPvm uses Python identifier HyvaksyttyPvm
-    __HyvaksyttyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), 'HyvaksyttyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyttyPvm', False, pyxb.utils.utility.Location(None, 290, 1), )
+    __HyvaksyttyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), 'HyvaksyttyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyttyPvm', False, None, )
 
     
     HyvaksyttyPvm = property(__HyvaksyttyPvm.value, __HyvaksyttyPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}VoimassaoloAlkaaPvm uses Python identifier VoimassaoloAlkaaPvm
-    __VoimassaoloAlkaaPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), 'VoimassaoloAlkaaPvm', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloAlkaaPvm', False, pyxb.utils.utility.Location(None, 291, 1), )
+    __VoimassaoloAlkaaPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), 'VoimassaoloAlkaaPvm', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloAlkaaPvm', False, None, )
 
     
     VoimassaoloAlkaaPvm = property(__VoimassaoloAlkaaPvm.value, __VoimassaoloAlkaaPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}VoimassaoloPaattyyPvm uses Python identifier VoimassaoloPaattyyPvm
-    __VoimassaoloPaattyyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), 'VoimassaoloPaattyyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloPaattyyPvm', False, pyxb.utils.utility.Location(None, 292, 1), )
+    __VoimassaoloPaattyyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), 'VoimassaoloPaattyyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloPaattyyPvm', False, None, )
 
     
     VoimassaoloPaattyyPvm = property(__VoimassaoloPaattyyPvm.value, __VoimassaoloPaattyyPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Laajennos uses Python identifier Laajennos
-    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, pyxb.utils.utility.Location(None, 86, 1), )
+    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, None, )
 
     
     Laajennos = property(__Laajennos.value, __Laajennos.set, None, 'Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.')
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Nimeke uses Python identifier Nimeke
-    __Nimeke = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Nimeke'), 'Nimeke', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115Nimeke', False, pyxb.utils.utility.Location(None, 101, 1), )
+    __Nimeke = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Nimeke'), 'Nimeke', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115Nimeke', False, None, )
 
     
     Nimeke = property(__Nimeke.value, __Nimeke.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}KasittelyprosessiTiedot uses Python identifier KasittelyprosessiTiedot
-    __KasittelyprosessiTiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessiTiedot'), 'KasittelyprosessiTiedot', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115KasittelyprosessiTiedot', False, pyxb.utils.utility.Location(None, 117, 1), )
+    __KasittelyprosessiTiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessiTiedot'), 'KasittelyprosessiTiedot', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115KasittelyprosessiTiedot', False, None, )
 
     
     KasittelyprosessiTiedot = property(__KasittelyprosessiTiedot.value, __KasittelyprosessiTiedot.set, None, None)
@@ -937,8 +950,8 @@ class luokkaTyyppi (pyxb.binding.basis.complexTypeDefinition):
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}id uses Python identifier id
     __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', idTyyppi, required=True)
-    __id._DeclarationLocation = pyxb.utils.utility.Location(None, 20, 1)
-    __id._UseLocation = pyxb.utils.utility.Location(None, 82, 2)
+    __id._DeclarationLocation = None
+    __id._UseLocation = None
     
     id = property(__id.value, __id.set, None, None)
 
@@ -973,13 +986,13 @@ class nimekeKielellaTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'nimekeKielellaTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 109, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}NimekeTeksti uses Python identifier NimekeTeksti
-    __NimekeTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti'), 'NimekeTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_nimekeKielellaTyyppi_httpskeemat_jhs_suositukset_fitos20150115NimekeTeksti', False, pyxb.utils.utility.Location(None, 85, 1), )
+    __NimekeTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti'), 'NimekeTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_nimekeKielellaTyyppi_httpskeemat_jhs_suositukset_fitos20150115NimekeTeksti', False, None, )
 
     
     NimekeTeksti = property(__NimekeTeksti.value, __NimekeTeksti.set, None, None)
@@ -987,8 +1000,8 @@ class nimekeKielellaTyyppi (pyxb.binding.basis.complexTypeDefinition):
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}kieliKoodi uses Python identifier kieliKoodi
     __kieliKoodi = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'kieliKoodi'), 'kieliKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_nimekeKielellaTyyppi_httpskeemat_jhs_suositukset_fitos20150115kieliKoodi', kieliKoodiTyyppi, required=True)
-    __kieliKoodi._DeclarationLocation = pyxb.utils.utility.Location(None, 28, 1)
-    __kieliKoodi._UseLocation = pyxb.utils.utility.Location(None, 113, 2)
+    __kieliKoodi._DeclarationLocation = None
+    __kieliKoodi._UseLocation = None
     
     kieliKoodi = property(__kieliKoodi.value, __kieliKoodi.set, None, None)
 
@@ -1008,132 +1021,132 @@ class kasittelyprosessiTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'kasittelyprosessiTiedotTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 118, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}OrganisaatioNimi uses Python identifier OrganisaatioNimi
-    __OrganisaatioNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), 'OrganisaatioNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115OrganisaatioNimi', False, pyxb.utils.utility.Location(None, 283, 1), )
+    __OrganisaatioNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), 'OrganisaatioNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115OrganisaatioNimi', False, None, )
 
     
     OrganisaatioNimi = property(__OrganisaatioNimi.value, __OrganisaatioNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}TietojarjestelmaNimi uses Python identifier TietojarjestelmaNimi
-    __TietojarjestelmaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), 'TietojarjestelmaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TietojarjestelmaNimi', False, pyxb.utils.utility.Location(None, 284, 1), )
+    __TietojarjestelmaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), 'TietojarjestelmaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TietojarjestelmaNimi', False, None, )
 
     
     TietojarjestelmaNimi = property(__TietojarjestelmaNimi.value, __TietojarjestelmaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LaatijaNimi uses Python identifier LaatijaNimi
-    __LaatijaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), 'LaatijaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaatijaNimi', False, pyxb.utils.utility.Location(None, 285, 1), )
+    __LaatijaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), 'LaatijaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaatijaNimi', False, None, )
 
     
     LaatijaNimi = property(__LaatijaNimi.value, __LaatijaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LaadittuPvm uses Python identifier LaadittuPvm
-    __LaadittuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), 'LaadittuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaadittuPvm', False, pyxb.utils.utility.Location(None, 286, 1), )
+    __LaadittuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), 'LaadittuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaadittuPvm', False, None, )
 
     
     LaadittuPvm = property(__LaadittuPvm.value, __LaadittuPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}MuokkaajaNimi uses Python identifier MuokkaajaNimi
-    __MuokkaajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), 'MuokkaajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokkaajaNimi', False, pyxb.utils.utility.Location(None, 287, 1), )
+    __MuokkaajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), 'MuokkaajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokkaajaNimi', False, None, )
 
     
     MuokkaajaNimi = property(__MuokkaajaNimi.value, __MuokkaajaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}MuokattuPvm uses Python identifier MuokattuPvm
-    __MuokattuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), 'MuokattuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokattuPvm', False, pyxb.utils.utility.Location(None, 288, 1), )
+    __MuokattuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), 'MuokattuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokattuPvm', False, None, )
 
     
     MuokattuPvm = property(__MuokattuPvm.value, __MuokattuPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HyvaksyjaNimi uses Python identifier HyvaksyjaNimi
-    __HyvaksyjaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), 'HyvaksyjaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyjaNimi', False, pyxb.utils.utility.Location(None, 289, 1), )
+    __HyvaksyjaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), 'HyvaksyjaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyjaNimi', False, None, )
 
     
     HyvaksyjaNimi = property(__HyvaksyjaNimi.value, __HyvaksyjaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HyvaksyttyPvm uses Python identifier HyvaksyttyPvm
-    __HyvaksyttyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), 'HyvaksyttyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyttyPvm', False, pyxb.utils.utility.Location(None, 290, 1), )
+    __HyvaksyttyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), 'HyvaksyttyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyttyPvm', False, None, )
 
     
     HyvaksyttyPvm = property(__HyvaksyttyPvm.value, __HyvaksyttyPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}VoimassaoloAlkaaPvm uses Python identifier VoimassaoloAlkaaPvm
-    __VoimassaoloAlkaaPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), 'VoimassaoloAlkaaPvm', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloAlkaaPvm', False, pyxb.utils.utility.Location(None, 291, 1), )
+    __VoimassaoloAlkaaPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), 'VoimassaoloAlkaaPvm', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloAlkaaPvm', False, None, )
 
     
     VoimassaoloAlkaaPvm = property(__VoimassaoloAlkaaPvm.value, __VoimassaoloAlkaaPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}VoimassaoloPaattyyPvm uses Python identifier VoimassaoloPaattyyPvm
-    __VoimassaoloPaattyyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), 'VoimassaoloPaattyyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloPaattyyPvm', False, pyxb.utils.utility.Location(None, 292, 1), )
+    __VoimassaoloPaattyyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), 'VoimassaoloPaattyyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloPaattyyPvm', False, None, )
 
     
     VoimassaoloPaattyyPvm = property(__VoimassaoloPaattyyPvm.value, __VoimassaoloPaattyyPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}PaatietoryhmatTeksti uses Python identifier PaatietoryhmatTeksti
-    __PaatietoryhmatTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti'), 'PaatietoryhmatTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115PaatietoryhmatTeksti', False, pyxb.utils.utility.Location(None, 296, 1), )
+    __PaatietoryhmatTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti'), 'PaatietoryhmatTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115PaatietoryhmatTeksti', False, None, )
 
     
     PaatietoryhmatTeksti = property(__PaatietoryhmatTeksti.value, __PaatietoryhmatTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}ProsessinOmistajaNimi uses Python identifier ProsessinOmistajaNimi
-    __ProsessinOmistajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'ProsessinOmistajaNimi'), 'ProsessinOmistajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115ProsessinOmistajaNimi', False, pyxb.utils.utility.Location(None, 297, 1), )
+    __ProsessinOmistajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'ProsessinOmistajaNimi'), 'ProsessinOmistajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115ProsessinOmistajaNimi', False, None, )
 
     
     ProsessinOmistajaNimi = property(__ProsessinOmistajaNimi.value, __ProsessinOmistajaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}KokoavanProsessitunnuksenLahdeTeksti uses Python identifier KokoavanProsessitunnuksenLahdeTeksti
-    __KokoavanProsessitunnuksenLahdeTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'KokoavanProsessitunnuksenLahdeTeksti'), 'KokoavanProsessitunnuksenLahdeTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115KokoavanProsessitunnuksenLahdeTeksti', False, pyxb.utils.utility.Location(None, 298, 1), )
+    __KokoavanProsessitunnuksenLahdeTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'KokoavanProsessitunnuksenLahdeTeksti'), 'KokoavanProsessitunnuksenLahdeTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115KokoavanProsessitunnuksenLahdeTeksti', False, None, )
 
     
     KokoavanProsessitunnuksenLahdeTeksti = property(__KokoavanProsessitunnuksenLahdeTeksti.value, __KokoavanProsessitunnuksenLahdeTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Laajennos uses Python identifier Laajennos
-    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, pyxb.utils.utility.Location(None, 86, 1), )
+    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, None, )
 
     
     Laajennos = property(__Laajennos.value, __Laajennos.set, None, 'Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.')
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Asiasanat uses Python identifier Asiasanat
-    __Asiasanat = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat'), 'Asiasanat', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Asiasanat', True, pyxb.utils.utility.Location(None, 146, 1), )
+    __Asiasanat = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat'), 'Asiasanat', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Asiasanat', True, None, )
 
     
     Asiasanat = property(__Asiasanat.value, __Asiasanat.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Toimenpidetiedot uses Python identifier Toimenpidetiedot
-    __Toimenpidetiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot'), 'Toimenpidetiedot', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Toimenpidetiedot', True, pyxb.utils.utility.Location(None, 155, 1), )
+    __Toimenpidetiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot'), 'Toimenpidetiedot', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Toimenpidetiedot', True, None, )
 
     
     Toimenpidetiedot = property(__Toimenpidetiedot.value, __Toimenpidetiedot.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Kayttorajoitustiedot uses Python identifier Kayttorajoitustiedot
-    __Kayttorajoitustiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot'), 'Kayttorajoitustiedot', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Kayttorajoitustiedot', False, pyxb.utils.utility.Location(None, 226, 1), )
+    __Kayttorajoitustiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot'), 'Kayttorajoitustiedot', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Kayttorajoitustiedot', False, None, )
 
     
     Kayttorajoitustiedot = property(__Kayttorajoitustiedot.value, __Kayttorajoitustiedot.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Sailytysaikatiedot uses Python identifier Sailytysaikatiedot
-    __Sailytysaikatiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot'), 'Sailytysaikatiedot', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Sailytysaikatiedot', False, pyxb.utils.utility.Location(None, 241, 1), )
+    __Sailytysaikatiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot'), 'Sailytysaikatiedot', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Sailytysaikatiedot', False, None, )
 
     
     Sailytysaikatiedot = property(__Sailytysaikatiedot.value, __Sailytysaikatiedot.set, None, None)
@@ -1141,8 +1154,8 @@ class kasittelyprosessiTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}id uses Python identifier id
     __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', idTyyppi, required=True)
-    __id._DeclarationLocation = pyxb.utils.utility.Location(None, 20, 1)
-    __id._UseLocation = pyxb.utils.utility.Location(None, 139, 2)
+    __id._DeclarationLocation = None
+    __id._UseLocation = None
     
     id = property(__id.value, __id.set, None, None)
 
@@ -1179,118 +1192,125 @@ class toimenpidetiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'toimenpidetiedotTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 156, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}ToimenpiteenKuvausTeksti uses Python identifier ToimenpiteenKuvausTeksti
-    __ToimenpiteenKuvausTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'ToimenpiteenKuvausTeksti'), 'ToimenpiteenKuvausTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115ToimenpiteenKuvausTeksti', False, pyxb.utils.utility.Location(None, 90, 1), )
+    __ToimenpiteenKuvausTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'ToimenpiteenKuvausTeksti'), 'ToimenpiteenKuvausTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115ToimenpiteenKuvausTeksti', False, None, )
 
     
     ToimenpiteenKuvausTeksti = property(__ToimenpiteenKuvausTeksti.value, __ToimenpiteenKuvausTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}ToimenpideluokkaTeksti uses Python identifier ToimenpideluokkaTeksti
-    __ToimenpideluokkaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTeksti'), 'ToimenpideluokkaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115ToimenpideluokkaTeksti', False, pyxb.utils.utility.Location(None, 252, 1), )
+    __ToimenpideluokkaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTeksti'), 'ToimenpideluokkaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115ToimenpideluokkaTeksti', False, None, )
 
     
     ToimenpideluokkaTeksti = property(__ToimenpideluokkaTeksti.value, __ToimenpideluokkaTeksti.set, None, None)
 
     
+    # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}ToimenpideluokkaTarkenneTeksti uses Python identifier ToimenpideluokkaTarkenneTeksti
+    __ToimenpideluokkaTarkenneTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTarkenneTeksti'), 'ToimenpideluokkaTarkenneTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115ToimenpideluokkaTarkenneTeksti', False, None, )
+
+    
+    ToimenpideluokkaTarkenneTeksti = property(__ToimenpideluokkaTarkenneTeksti.value, __ToimenpideluokkaTarkenneTeksti.set, None, None)
+
+    
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}KasittelyprosessinTilaTeksti uses Python identifier KasittelyprosessinTilaTeksti
-    __KasittelyprosessinTilaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessinTilaTeksti'), 'KasittelyprosessinTilaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115KasittelyprosessinTilaTeksti', False, pyxb.utils.utility.Location(None, 273, 1), )
+    __KasittelyprosessinTilaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessinTilaTeksti'), 'KasittelyprosessinTilaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115KasittelyprosessinTilaTeksti', False, None, )
 
     
     KasittelyprosessinTilaTeksti = property(__KasittelyprosessinTilaTeksti.value, __KasittelyprosessinTilaTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}OrganisaatioNimi uses Python identifier OrganisaatioNimi
-    __OrganisaatioNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), 'OrganisaatioNimi', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115OrganisaatioNimi', False, pyxb.utils.utility.Location(None, 283, 1), )
+    __OrganisaatioNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), 'OrganisaatioNimi', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115OrganisaatioNimi', False, None, )
 
     
     OrganisaatioNimi = property(__OrganisaatioNimi.value, __OrganisaatioNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}TietojarjestelmaNimi uses Python identifier TietojarjestelmaNimi
-    __TietojarjestelmaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), 'TietojarjestelmaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TietojarjestelmaNimi', False, pyxb.utils.utility.Location(None, 284, 1), )
+    __TietojarjestelmaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), 'TietojarjestelmaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115TietojarjestelmaNimi', False, None, )
 
     
     TietojarjestelmaNimi = property(__TietojarjestelmaNimi.value, __TietojarjestelmaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LaatijaNimi uses Python identifier LaatijaNimi
-    __LaatijaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), 'LaatijaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaatijaNimi', False, pyxb.utils.utility.Location(None, 285, 1), )
+    __LaatijaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), 'LaatijaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaatijaNimi', False, None, )
 
     
     LaatijaNimi = property(__LaatijaNimi.value, __LaatijaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LaadittuPvm uses Python identifier LaadittuPvm
-    __LaadittuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), 'LaadittuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaadittuPvm', False, pyxb.utils.utility.Location(None, 286, 1), )
+    __LaadittuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), 'LaadittuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaadittuPvm', False, None, )
 
     
     LaadittuPvm = property(__LaadittuPvm.value, __LaadittuPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}MuokkaajaNimi uses Python identifier MuokkaajaNimi
-    __MuokkaajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), 'MuokkaajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokkaajaNimi', False, pyxb.utils.utility.Location(None, 287, 1), )
+    __MuokkaajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), 'MuokkaajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokkaajaNimi', False, None, )
 
     
     MuokkaajaNimi = property(__MuokkaajaNimi.value, __MuokkaajaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}MuokattuPvm uses Python identifier MuokattuPvm
-    __MuokattuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), 'MuokattuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokattuPvm', False, pyxb.utils.utility.Location(None, 288, 1), )
+    __MuokattuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), 'MuokattuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokattuPvm', False, None, )
 
     
     MuokattuPvm = property(__MuokattuPvm.value, __MuokattuPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HyvaksyjaNimi uses Python identifier HyvaksyjaNimi
-    __HyvaksyjaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), 'HyvaksyjaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyjaNimi', False, pyxb.utils.utility.Location(None, 289, 1), )
+    __HyvaksyjaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), 'HyvaksyjaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyjaNimi', False, None, )
 
     
     HyvaksyjaNimi = property(__HyvaksyjaNimi.value, __HyvaksyjaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HyvaksyttyPvm uses Python identifier HyvaksyttyPvm
-    __HyvaksyttyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), 'HyvaksyttyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyttyPvm', False, pyxb.utils.utility.Location(None, 290, 1), )
+    __HyvaksyttyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), 'HyvaksyttyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyttyPvm', False, None, )
 
     
     HyvaksyttyPvm = property(__HyvaksyttyPvm.value, __HyvaksyttyPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}VoimassaoloAlkaaPvm uses Python identifier VoimassaoloAlkaaPvm
-    __VoimassaoloAlkaaPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), 'VoimassaoloAlkaaPvm', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloAlkaaPvm', False, pyxb.utils.utility.Location(None, 291, 1), )
+    __VoimassaoloAlkaaPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), 'VoimassaoloAlkaaPvm', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloAlkaaPvm', False, None, )
 
     
     VoimassaoloAlkaaPvm = property(__VoimassaoloAlkaaPvm.value, __VoimassaoloAlkaaPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}VoimassaoloPaattyyPvm uses Python identifier VoimassaoloPaattyyPvm
-    __VoimassaoloPaattyyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), 'VoimassaoloPaattyyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloPaattyyPvm', False, pyxb.utils.utility.Location(None, 292, 1), )
+    __VoimassaoloPaattyyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), 'VoimassaoloPaattyyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloPaattyyPvm', False, None, )
 
     
     VoimassaoloPaattyyPvm = property(__VoimassaoloPaattyyPvm.value, __VoimassaoloPaattyyPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Laajennos uses Python identifier Laajennos
-    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, pyxb.utils.utility.Location(None, 86, 1), )
+    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, None, )
 
     
     Laajennos = property(__Laajennos.value, __Laajennos.set, None, 'Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.')
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Toimenpidetiedot uses Python identifier Toimenpidetiedot
-    __Toimenpidetiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot'), 'Toimenpidetiedot', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Toimenpidetiedot', True, pyxb.utils.utility.Location(None, 155, 1), )
+    __Toimenpidetiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot'), 'Toimenpidetiedot', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Toimenpidetiedot', True, None, )
 
     
     Toimenpidetiedot = property(__Toimenpidetiedot.value, __Toimenpidetiedot.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Asiakirjatieto uses Python identifier Asiakirjatieto
-    __Asiakirjatieto = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Asiakirjatieto'), 'Asiakirjatieto', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Asiakirjatieto', True, pyxb.utils.utility.Location(None, 185, 1), )
+    __Asiakirjatieto = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Asiakirjatieto'), 'Asiakirjatieto', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115Asiakirjatieto', True, None, )
 
     
     Asiakirjatieto = property(__Asiakirjatieto.value, __Asiakirjatieto.set, None, None)
@@ -1298,14 +1318,15 @@ class toimenpidetiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}id uses Python identifier id
     __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', idTyyppi, required=True)
-    __id._DeclarationLocation = pyxb.utils.utility.Location(None, 20, 1)
-    __id._UseLocation = pyxb.utils.utility.Location(None, 177, 2)
+    __id._DeclarationLocation = None
+    __id._UseLocation = None
     
     id = property(__id.value, __id.set, None, None)
 
     _ElementMap.update({
         __ToimenpiteenKuvausTeksti.name() : __ToimenpiteenKuvausTeksti,
         __ToimenpideluokkaTeksti.name() : __ToimenpideluokkaTeksti,
+        __ToimenpideluokkaTarkenneTeksti.name() : __ToimenpideluokkaTarkenneTeksti,
         __KasittelyprosessinTilaTeksti.name() : __KasittelyprosessinTilaTeksti,
         __OrganisaatioNimi.name() : __OrganisaatioNimi,
         __TietojarjestelmaNimi.name() : __TietojarjestelmaNimi,
@@ -1334,132 +1355,132 @@ class asiakirjatietoTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'asiakirjatietoTyyppi')
-    _XSDLocation = pyxb.utils.utility.Location(None, 186, 1)
+    _XSDLocation = None
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}AsiakirjaluokkaTeksti uses Python identifier AsiakirjaluokkaTeksti
-    __AsiakirjaluokkaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTeksti'), 'AsiakirjaluokkaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115AsiakirjaluokkaTeksti', False, pyxb.utils.utility.Location(None, 262, 1), )
+    __AsiakirjaluokkaTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTeksti'), 'AsiakirjaluokkaTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115AsiakirjaluokkaTeksti', False, None, )
 
     
     AsiakirjaluokkaTeksti = property(__AsiakirjaluokkaTeksti.value, __AsiakirjaluokkaTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}OrganisaatioNimi uses Python identifier OrganisaatioNimi
-    __OrganisaatioNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), 'OrganisaatioNimi', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115OrganisaatioNimi', False, pyxb.utils.utility.Location(None, 283, 1), )
+    __OrganisaatioNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), 'OrganisaatioNimi', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115OrganisaatioNimi', False, None, )
 
     
     OrganisaatioNimi = property(__OrganisaatioNimi.value, __OrganisaatioNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}TietojarjestelmaNimi uses Python identifier TietojarjestelmaNimi
-    __TietojarjestelmaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), 'TietojarjestelmaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115TietojarjestelmaNimi', False, pyxb.utils.utility.Location(None, 284, 1), )
+    __TietojarjestelmaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), 'TietojarjestelmaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115TietojarjestelmaNimi', False, None, )
 
     
     TietojarjestelmaNimi = property(__TietojarjestelmaNimi.value, __TietojarjestelmaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LaatijaNimi uses Python identifier LaatijaNimi
-    __LaatijaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), 'LaatijaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaatijaNimi', False, pyxb.utils.utility.Location(None, 285, 1), )
+    __LaatijaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), 'LaatijaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaatijaNimi', False, None, )
 
     
     LaatijaNimi = property(__LaatijaNimi.value, __LaatijaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}LaadittuPvm uses Python identifier LaadittuPvm
-    __LaadittuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), 'LaadittuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaadittuPvm', False, pyxb.utils.utility.Location(None, 286, 1), )
+    __LaadittuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), 'LaadittuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115LaadittuPvm', False, None, )
 
     
     LaadittuPvm = property(__LaadittuPvm.value, __LaadittuPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}MuokkaajaNimi uses Python identifier MuokkaajaNimi
-    __MuokkaajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), 'MuokkaajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokkaajaNimi', False, pyxb.utils.utility.Location(None, 287, 1), )
+    __MuokkaajaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), 'MuokkaajaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokkaajaNimi', False, None, )
 
     
     MuokkaajaNimi = property(__MuokkaajaNimi.value, __MuokkaajaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}MuokattuPvm uses Python identifier MuokattuPvm
-    __MuokattuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), 'MuokattuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokattuPvm', False, pyxb.utils.utility.Location(None, 288, 1), )
+    __MuokattuPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), 'MuokattuPvm', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115MuokattuPvm', False, None, )
 
     
     MuokattuPvm = property(__MuokattuPvm.value, __MuokattuPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HyvaksyjaNimi uses Python identifier HyvaksyjaNimi
-    __HyvaksyjaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), 'HyvaksyjaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyjaNimi', False, pyxb.utils.utility.Location(None, 289, 1), )
+    __HyvaksyjaNimi = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), 'HyvaksyjaNimi', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyjaNimi', False, None, )
 
     
     HyvaksyjaNimi = property(__HyvaksyjaNimi.value, __HyvaksyjaNimi.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}HyvaksyttyPvm uses Python identifier HyvaksyttyPvm
-    __HyvaksyttyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), 'HyvaksyttyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyttyPvm', False, pyxb.utils.utility.Location(None, 290, 1), )
+    __HyvaksyttyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), 'HyvaksyttyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115HyvaksyttyPvm', False, None, )
 
     
     HyvaksyttyPvm = property(__HyvaksyttyPvm.value, __HyvaksyttyPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}VoimassaoloAlkaaPvm uses Python identifier VoimassaoloAlkaaPvm
-    __VoimassaoloAlkaaPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), 'VoimassaoloAlkaaPvm', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloAlkaaPvm', False, pyxb.utils.utility.Location(None, 291, 1), )
+    __VoimassaoloAlkaaPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), 'VoimassaoloAlkaaPvm', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloAlkaaPvm', False, None, )
 
     
     VoimassaoloAlkaaPvm = property(__VoimassaoloAlkaaPvm.value, __VoimassaoloAlkaaPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}VoimassaoloPaattyyPvm uses Python identifier VoimassaoloPaattyyPvm
-    __VoimassaoloPaattyyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), 'VoimassaoloPaattyyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloPaattyyPvm', False, pyxb.utils.utility.Location(None, 292, 1), )
+    __VoimassaoloPaattyyPvm = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), 'VoimassaoloPaattyyPvm', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115VoimassaoloPaattyyPvm', False, None, )
 
     
     VoimassaoloPaattyyPvm = property(__VoimassaoloPaattyyPvm.value, __VoimassaoloPaattyyPvm.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}PaatietoryhmatTeksti uses Python identifier PaatietoryhmatTeksti
-    __PaatietoryhmatTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti'), 'PaatietoryhmatTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115PaatietoryhmatTeksti', False, pyxb.utils.utility.Location(None, 296, 1), )
+    __PaatietoryhmatTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti'), 'PaatietoryhmatTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115PaatietoryhmatTeksti', False, None, )
 
     
     PaatietoryhmatTeksti = property(__PaatietoryhmatTeksti.value, __PaatietoryhmatTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}AsiakirjaluokkaTarkenneTeksti uses Python identifier AsiakirjaluokkaTarkenneTeksti
-    __AsiakirjaluokkaTarkenneTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTarkenneTeksti'), 'AsiakirjaluokkaTarkenneTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115AsiakirjaluokkaTarkenneTeksti', False, pyxb.utils.utility.Location(None, 299, 1), )
+    __AsiakirjaluokkaTarkenneTeksti = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTarkenneTeksti'), 'AsiakirjaluokkaTarkenneTeksti', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115AsiakirjaluokkaTarkenneTeksti', False, None, )
 
     
     AsiakirjaluokkaTarkenneTeksti = property(__AsiakirjaluokkaTarkenneTeksti.value, __AsiakirjaluokkaTarkenneTeksti.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Laajennos uses Python identifier Laajennos
-    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, pyxb.utils.utility.Location(None, 86, 1), )
+    __Laajennos = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), 'Laajennos', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115Laajennos', True, None, )
 
     
     Laajennos = property(__Laajennos.value, __Laajennos.set, None, 'Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.')
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Asiasanat uses Python identifier Asiasanat
-    __Asiasanat = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat'), 'Asiasanat', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115Asiasanat', True, pyxb.utils.utility.Location(None, 146, 1), )
+    __Asiasanat = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat'), 'Asiasanat', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115Asiasanat', True, None, )
 
     
     Asiasanat = property(__Asiasanat.value, __Asiasanat.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Kasittelysaannot uses Python identifier Kasittelysaannot
-    __Kasittelysaannot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Kasittelysaannot'), 'Kasittelysaannot', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115Kasittelysaannot', False, pyxb.utils.utility.Location(None, 211, 1), )
+    __Kasittelysaannot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Kasittelysaannot'), 'Kasittelysaannot', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115Kasittelysaannot', False, None, )
 
     
     Kasittelysaannot = property(__Kasittelysaannot.value, __Kasittelysaannot.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Kayttorajoitustiedot uses Python identifier Kayttorajoitustiedot
-    __Kayttorajoitustiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot'), 'Kayttorajoitustiedot', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115Kayttorajoitustiedot', False, pyxb.utils.utility.Location(None, 226, 1), )
+    __Kayttorajoitustiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot'), 'Kayttorajoitustiedot', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115Kayttorajoitustiedot', False, None, )
 
     
     Kayttorajoitustiedot = property(__Kayttorajoitustiedot.value, __Kayttorajoitustiedot.set, None, None)
 
     
     # Element {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}Sailytysaikatiedot uses Python identifier Sailytysaikatiedot
-    __Sailytysaikatiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot'), 'Sailytysaikatiedot', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115Sailytysaikatiedot', False, pyxb.utils.utility.Location(None, 241, 1), )
+    __Sailytysaikatiedot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot'), 'Sailytysaikatiedot', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115Sailytysaikatiedot', False, None, )
 
     
     Sailytysaikatiedot = property(__Sailytysaikatiedot.value, __Sailytysaikatiedot.set, None, None)
@@ -1467,8 +1488,8 @@ class asiakirjatietoTyyppi (pyxb.binding.basis.complexTypeDefinition):
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}id uses Python identifier id
     __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', idTyyppi, required=True)
-    __id._DeclarationLocation = pyxb.utils.utility.Location(None, 20, 1)
-    __id._UseLocation = pyxb.utils.utility.Location(None, 207, 2)
+    __id._DeclarationLocation = None
+    __id._UseLocation = None
     
     id = property(__id.value, __id.set, None, None)
 
@@ -1498,181 +1519,184 @@ class asiakirjatietoTyyppi (pyxb.binding.basis.complexTypeDefinition):
 Namespace.addCategoryObject('typeBinding', 'asiakirjatietoTyyppi', asiakirjatietoTyyppi)
 
 
-OrganisaatioNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, location=pyxb.utils.utility.Location(None, 283, 1))
+OrganisaatioNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, location=None)
 Namespace.addCategoryObject('elementBinding', OrganisaatioNimi.name().localName(), OrganisaatioNimi)
 
-TietojarjestelmaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), pyxb.binding.datatypes.string, location=pyxb.utils.utility.Location(None, 284, 1))
+TietojarjestelmaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), pyxb.binding.datatypes.string, location=None)
 Namespace.addCategoryObject('elementBinding', TietojarjestelmaNimi.name().localName(), TietojarjestelmaNimi)
 
-AsiasanastoTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiasanastoTeksti'), pyxb.binding.datatypes.string, location=pyxb.utils.utility.Location(None, 294, 1))
+AsiasanastoTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiasanastoTeksti'), pyxb.binding.datatypes.string, location=None)
 Namespace.addCategoryObject('elementBinding', AsiasanastoTeksti.name().localName(), AsiasanastoTeksti)
 
-AsiasanaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiasanaTeksti'), pyxb.binding.datatypes.string, location=pyxb.utils.utility.Location(None, 295, 1))
+AsiasanaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiasanaTeksti'), pyxb.binding.datatypes.string, location=None)
 Namespace.addCategoryObject('elementBinding', AsiasanaTeksti.name().localName(), AsiasanaTeksti)
 
-PaatietoryhmatTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti'), pyxb.binding.datatypes.string, location=pyxb.utils.utility.Location(None, 296, 1))
+PaatietoryhmatTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti'), pyxb.binding.datatypes.string, location=None)
 Namespace.addCategoryObject('elementBinding', PaatietoryhmatTeksti.name().localName(), PaatietoryhmatTeksti)
 
-KokoavanProsessitunnuksenLahdeTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KokoavanProsessitunnuksenLahdeTeksti'), pyxb.binding.datatypes.string, location=pyxb.utils.utility.Location(None, 298, 1))
+KokoavanProsessitunnuksenLahdeTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KokoavanProsessitunnuksenLahdeTeksti'), pyxb.binding.datatypes.string, location=None)
 Namespace.addCategoryObject('elementBinding', KokoavanProsessitunnuksenLahdeTeksti.name().localName(), KokoavanProsessitunnuksenLahdeTeksti)
 
-AsiakirjaluokkaTarkenneTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTarkenneTeksti'), pyxb.binding.datatypes.string, location=pyxb.utils.utility.Location(None, 299, 1))
+AsiakirjaluokkaTarkenneTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTarkenneTeksti'), pyxb.binding.datatypes.string, location=None)
 Namespace.addCategoryObject('elementBinding', AsiakirjaluokkaTarkenneTeksti.name().localName(), AsiakirjaluokkaTarkenneTeksti)
 
-JulkisuusluokkaMuutosTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaMuutosTeksti'), pyxb.binding.datatypes.string, documentation='Esimerkiksi: Asian päättäminen, Päätöksenteko (toimenpide), Päätöksen allekirjoitus (toimenpide).', location=pyxb.utils.utility.Location(None, 301, 1))
+JulkisuusluokkaMuutosTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaMuutosTeksti'), pyxb.binding.datatypes.string, documentation='Esimerkiksi: Asian päättäminen, Päätöksenteko (toimenpide), Päätöksen allekirjoitus (toimenpide).', location=None)
 Namespace.addCategoryObject('elementBinding', JulkisuusluokkaMuutosTeksti.name().localName(), JulkisuusluokkaMuutosTeksti)
 
-AiempienVersioidenPoistoTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AiempienVersioidenPoistoTeksti'), pyxb.binding.datatypes.string, documentation='Suositeltavat: Asian ratkaisu, Tietty aika asian ratkaisusta, Asiakirjan hävittäminen.', location=pyxb.utils.utility.Location(None, 307, 1))
+AiempienVersioidenPoistoTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AiempienVersioidenPoistoTeksti'), pyxb.binding.datatypes.string, documentation='Suositeltavat: Asian ratkaisu, Tietty aika asian ratkaisusta, Asiakirjan hävittäminen.', location=None)
 Namespace.addCategoryObject('elementBinding', AiempienVersioidenPoistoTeksti.name().localName(), AiempienVersioidenPoistoTeksti)
 
-TallennuspaikkaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TallennuspaikkaTeksti'), pyxb.binding.datatypes.string, location=pyxb.utils.utility.Location(None, 313, 1))
+TallennuspaikkaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TallennuspaikkaTeksti'), pyxb.binding.datatypes.string, location=None)
 Namespace.addCategoryObject('elementBinding', TallennuspaikkaTeksti.name().localName(), TallennuspaikkaTeksti)
 
-SailytyspaikkaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytyspaikkaTeksti'), pyxb.binding.datatypes.string, location=pyxb.utils.utility.Location(None, 314, 1))
+SailytyspaikkaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytyspaikkaTeksti'), pyxb.binding.datatypes.string, location=None)
 Namespace.addCategoryObject('elementBinding', SailytyspaikkaTeksti.name().localName(), SailytyspaikkaTeksti)
 
-TilaKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi'), tilaKoodiTyyppi, location=pyxb.utils.utility.Location(None, 40, 1))
+TilaKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi'), tilaKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', TilaKoodi.name().localName(), TilaKoodi)
 
-TosVersio = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TosVersio'), versioTyyppi, location=pyxb.utils.utility.Location(None, 71, 1))
+TosVersio = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TosVersio'), versioTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', TosVersio.name().localName(), TosVersio)
 
-OsaVersio = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OsaVersio'), versioTyyppi, location=pyxb.utils.utility.Location(None, 72, 1))
+OsaVersio = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OsaVersio'), versioTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', OsaVersio.name().localName(), OsaVersio)
 
-Luokitustunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Luokitustunnus'), luokitustunnusTyyppi, location=pyxb.utils.utility.Location(None, 77, 1))
+Luokitustunnus = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Luokitustunnus'), luokitustunnusTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', Luokitustunnus.name().localName(), Luokitustunnus)
 
-NimekeTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti'), nimekeTekstiTyyppi, location=pyxb.utils.utility.Location(None, 85, 1))
+NimekeTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti'), nimekeTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', NimekeTeksti.name().localName(), NimekeTeksti)
 
-ToimenpiteenKuvausTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToimenpiteenKuvausTeksti'), kuvausTekstiTyyppi, location=pyxb.utils.utility.Location(None, 90, 1))
+ToimenpiteenKuvausTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToimenpiteenKuvausTeksti'), kuvausTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', ToimenpiteenKuvausTeksti.name().localName(), ToimenpiteenKuvausTeksti)
 
-LuokitusKuvausTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LuokitusKuvausTeksti'), kuvausTekstiTyyppi, location=pyxb.utils.utility.Location(None, 91, 1))
+LuokitusKuvausTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LuokitusKuvausTeksti'), kuvausTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', LuokitusKuvausTeksti.name().localName(), LuokitusKuvausTeksti)
 
-KuvausTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuvausTeksti'), kuvausTekstiTyyppi, location=pyxb.utils.utility.Location(None, 92, 1))
+KuvausTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KuvausTeksti'), kuvausTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KuvausTeksti.name().localName(), KuvausTeksti)
 
-LisatiedotTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LisatiedotTeksti'), lisatiedotTekstiTyyppi, location=pyxb.utils.utility.Location(None, 97, 1))
+LisatiedotTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LisatiedotTeksti'), lisatiedotTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', LisatiedotTeksti.name().localName(), LisatiedotTeksti)
 
-JulkisuusluokkaKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaKoodi'), julkisuusluokkaKoodiTyyppi, location=pyxb.utils.utility.Location(None, 102, 1))
+JulkisuusluokkaKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaKoodi'), julkisuusluokkaKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', JulkisuusluokkaKoodi.name().localName(), JulkisuusluokkaKoodi)
 
-SalassapitoAikaArvo = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoAikaArvo'), salassapitoAikaArvoTyyppi, location=pyxb.utils.utility.Location(None, 128, 1))
+SalassapitoAikaArvo = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoAikaArvo'), salassapitoAikaArvoTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SalassapitoAikaArvo.name().localName(), SalassapitoAikaArvo)
 
-SalassapitoPerusteTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoPerusteTeksti'), salassapitoPerusteTekstiTyyppi, location=pyxb.utils.utility.Location(None, 137, 1))
+SalassapitoPerusteTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoPerusteTeksti'), salassapitoPerusteTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SalassapitoPerusteTeksti.name().localName(), SalassapitoPerusteTeksti)
 
-SalassapidonLaskentaperusteTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapidonLaskentaperusteTeksti'), salassapidonLaskentaperusteTekstiTyyppi, location=pyxb.utils.utility.Location(None, 146, 1))
+SalassapidonLaskentaperusteTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapidonLaskentaperusteTeksti'), salassapidonLaskentaperusteTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SalassapidonLaskentaperusteTeksti.name().localName(), SalassapidonLaskentaperusteTeksti)
 
-SuojaustasoKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SuojaustasoKoodi'), suojaustasoKoodiTyyppi, location=pyxb.utils.utility.Location(None, 155, 1))
+SuojaustasoKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SuojaustasoKoodi'), suojaustasoKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SuojaustasoKoodi.name().localName(), SuojaustasoKoodi)
 
-TurvallisuusluokkaKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TurvallisuusluokkaKoodi'), turvallisuusluokkaKoodiTyyppi, location=pyxb.utils.utility.Location(None, 181, 1))
+TurvallisuusluokkaKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TurvallisuusluokkaKoodi'), turvallisuusluokkaKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', TurvallisuusluokkaKoodi.name().localName(), TurvallisuusluokkaKoodi)
 
-HenkilotietoluonneKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HenkilotietoluonneKoodi'), henkilotietoluonneKoodiTyyppi, location=pyxb.utils.utility.Location(None, 207, 1))
+HenkilotietoluonneKoodi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HenkilotietoluonneKoodi'), henkilotietoluonneKoodiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', HenkilotietoluonneKoodi.name().localName(), HenkilotietoluonneKoodi)
 
-SailytysajanPituusArvo = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPituusArvo'), sailytysajanPituusArvoTyyppi, location=pyxb.utils.utility.Location(None, 228, 1))
+SailytysajanPituusArvo = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPituusArvo'), sailytysajanPituusArvoTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SailytysajanPituusArvo.name().localName(), SailytysajanPituusArvo)
 
-SailytysajanPerusteTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPerusteTeksti'), sailytysajanPerusteTekstiTyyppi, location=pyxb.utils.utility.Location(None, 236, 1))
+SailytysajanPerusteTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPerusteTeksti'), sailytysajanPerusteTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SailytysajanPerusteTeksti.name().localName(), SailytysajanPerusteTeksti)
 
-SailytysajanLaskentaperusteTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanLaskentaperusteTeksti'), sailytysajanLaskentaperusteTekstiTyyppi, location=pyxb.utils.utility.Location(None, 244, 1))
+SailytysajanLaskentaperusteTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanLaskentaperusteTeksti'), sailytysajanLaskentaperusteTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', SailytysajanLaskentaperusteTeksti.name().localName(), SailytysajanLaskentaperusteTeksti)
 
-ToimenpideluokkaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTeksti'), toimenpideluokkaTekstiTyyppi, location=pyxb.utils.utility.Location(None, 252, 1))
+ToimenpideluokkaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTeksti'), toimenpideluokkaTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', ToimenpideluokkaTeksti.name().localName(), ToimenpideluokkaTeksti)
 
-AsiakirjaluokkaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTeksti'), asiakirjaLuokkaTekstiTyyppi, location=pyxb.utils.utility.Location(None, 262, 1))
+ToimenpideluokkaTarkenneTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTarkenneTeksti'), toimenpideluokkaTarkenneTekstiTyyppi, location=None)
+Namespace.addCategoryObject('elementBinding', ToimenpideluokkaTarkenneTeksti.name().localName(), ToimenpideluokkaTarkenneTeksti)
+
+AsiakirjaluokkaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTeksti'), asiakirjaLuokkaTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', AsiakirjaluokkaTeksti.name().localName(), AsiakirjaluokkaTeksti)
 
-KasittelyprosessinTilaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessinTilaTeksti'), kasittelyprosessinTilaTekstiTyyppi, location=pyxb.utils.utility.Location(None, 273, 1))
+KasittelyprosessinTilaTeksti = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessinTilaTeksti'), kasittelyprosessinTilaTekstiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KasittelyprosessinTilaTeksti.name().localName(), KasittelyprosessinTilaTeksti)
 
-LaatijaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding__jhs.NimiTyyppi, location=pyxb.utils.utility.Location(None, 285, 1))
+LaatijaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', LaatijaNimi.name().localName(), LaatijaNimi)
 
-LaadittuPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, location=pyxb.utils.utility.Location(None, 286, 1))
+LaadittuPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', LaadittuPvm.name().localName(), LaadittuPvm)
 
-MuokkaajaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding__jhs.NimiTyyppi, location=pyxb.utils.utility.Location(None, 287, 1))
+MuokkaajaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', MuokkaajaNimi.name().localName(), MuokkaajaNimi)
 
-MuokattuPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, location=pyxb.utils.utility.Location(None, 288, 1))
+MuokattuPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', MuokattuPvm.name().localName(), MuokattuPvm)
 
-HyvaksyjaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding__jhs.NimiTyyppi, location=pyxb.utils.utility.Location(None, 289, 1))
+HyvaksyjaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', HyvaksyjaNimi.name().localName(), HyvaksyjaNimi)
 
-HyvaksyttyPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, location=pyxb.utils.utility.Location(None, 290, 1))
+HyvaksyttyPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', HyvaksyttyPvm.name().localName(), HyvaksyttyPvm)
 
-VoimassaoloAlkaaPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, location=pyxb.utils.utility.Location(None, 291, 1))
+VoimassaoloAlkaaPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', VoimassaoloAlkaaPvm.name().localName(), VoimassaoloAlkaaPvm)
 
-VoimassaoloPaattyyPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding__jhs.LoppuPvmTyyppi, location=pyxb.utils.utility.Location(None, 292, 1))
+VoimassaoloPaattyyPvm = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding_metarecord_binding__jhs.LoppuPvmTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', VoimassaoloPaattyyPvm.name().localName(), VoimassaoloPaattyyPvm)
 
-YhteyshenkiloNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'YhteyshenkiloNimi'), _ImportedBinding__jhs.NimiTyyppi, location=pyxb.utils.utility.Location(None, 293, 1))
+YhteyshenkiloNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'YhteyshenkiloNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', YhteyshenkiloNimi.name().localName(), YhteyshenkiloNimi)
 
-ProsessinOmistajaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ProsessinOmistajaNimi'), _ImportedBinding__jhs.NimiTyyppi, location=pyxb.utils.utility.Location(None, 297, 1))
+ProsessinOmistajaNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ProsessinOmistajaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', ProsessinOmistajaNimi.name().localName(), ProsessinOmistajaNimi)
 
-Tos = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Tos'), CTD_ANON, location=pyxb.utils.utility.Location(None, 19, 1))
+Tos = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Tos'), CTD_ANON, location=None)
 Namespace.addCategoryObject('elementBinding', Tos.name().localName(), Tos)
 
-Laajennos = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=pyxb.utils.utility.Location(None, 86, 1))
+Laajennos = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=None)
 Namespace.addCategoryObject('elementBinding', Laajennos.name().localName(), Laajennos)
 
-Nimeke = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Nimeke'), nimekeTyyppi, location=pyxb.utils.utility.Location(None, 101, 1))
+Nimeke = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Nimeke'), nimekeTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', Nimeke.name().localName(), Nimeke)
 
-Asiasanat = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat'), asiasanatTyyppi, location=pyxb.utils.utility.Location(None, 146, 1))
+Asiasanat = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat'), asiasanatTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', Asiasanat.name().localName(), Asiasanat)
 
-Kasittelysaannot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Kasittelysaannot'), kasittelysaannotTyyppi, location=pyxb.utils.utility.Location(None, 211, 1))
+Kasittelysaannot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Kasittelysaannot'), kasittelysaannotTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', Kasittelysaannot.name().localName(), Kasittelysaannot)
 
-Kayttorajoitustiedot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot'), kayttorajoitusTiedotTyyppi, location=pyxb.utils.utility.Location(None, 226, 1))
+Kayttorajoitustiedot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot'), kayttorajoitusTiedotTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', Kayttorajoitustiedot.name().localName(), Kayttorajoitustiedot)
 
-Sailytysaikatiedot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot'), sailytysaikaTiedotTyyppi, location=pyxb.utils.utility.Location(None, 241, 1))
+Sailytysaikatiedot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot'), sailytysaikaTiedotTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', Sailytysaikatiedot.name().localName(), Sailytysaikatiedot)
 
-TosTiedot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TosTiedot'), TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 33, 1))
+TosTiedot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TosTiedot'), TosTiedotTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', TosTiedot.name().localName(), TosTiedot)
 
-Luokka = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Luokka'), luokkaTyyppi, location=pyxb.utils.utility.Location(None, 60, 1))
+Luokka = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Luokka'), luokkaTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', Luokka.name().localName(), Luokka)
 
-NimekeKielella = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimekeKielella'), nimekeKielellaTyyppi, location=pyxb.utils.utility.Location(None, 108, 1))
+NimekeKielella = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimekeKielella'), nimekeKielellaTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', NimekeKielella.name().localName(), NimekeKielella)
 
-KasittelyprosessiTiedot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessiTiedot'), kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 117, 1))
+KasittelyprosessiTiedot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessiTiedot'), kasittelyprosessiTiedotTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', KasittelyprosessiTiedot.name().localName(), KasittelyprosessiTiedot)
 
-Toimenpidetiedot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot'), toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 155, 1))
+Toimenpidetiedot = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot'), toimenpidetiedotTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', Toimenpidetiedot.name().localName(), Toimenpidetiedot)
 
-Asiakirjatieto = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Asiakirjatieto'), asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 185, 1))
+Asiakirjatieto = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Asiakirjatieto'), asiakirjatietoTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', Asiakirjatieto.name().localName(), Asiakirjatieto)
 
 
 
-CTD_ANON._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TosTiedot'), TosTiedotTyyppi, scope=CTD_ANON, location=pyxb.utils.utility.Location(None, 33, 1)))
+CTD_ANON._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TosTiedot'), TosTiedotTyyppi, scope=CTD_ANON, location=None))
 
-CTD_ANON._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Luokka'), luokkaTyyppi, scope=CTD_ANON, location=pyxb.utils.utility.Location(None, 60, 1)))
+CTD_ANON._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Luokka'), luokkaTyyppi, scope=CTD_ANON, location=None))
 
-CTD_ANON._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=CTD_ANON, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=pyxb.utils.utility.Location(None, 86, 1)))
+CTD_ANON._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=CTD_ANON, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=None))
 
 def _BuildAutomaton ():
     # Remove this helper function from the namespace after it is invoked
@@ -1681,20 +1705,20 @@ def _BuildAutomaton ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 27, 3))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_0)
     states = []
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TosTiedot')), pyxb.utils.utility.Location(None, 23, 3))
+    symbol = pyxb.binding.content.ElementUse(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TosTiedot')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Luokka')), pyxb.utils.utility.Location(None, 25, 3))
+    symbol = pyxb.binding.content.ElementUse(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Luokka')), None)
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), pyxb.utils.utility.Location(None, 27, 3))
+    symbol = pyxb.binding.content.ElementUse(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     transitions = []
@@ -1726,7 +1750,7 @@ def _BuildAutomaton_ ():
     counters = set()
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.WildcardUse(pyxb.binding.content.Wildcard(process_contents=pyxb.binding.content.Wildcard.PC_skip, namespace_constraint=pyxb.binding.content.Wildcard.NC_any), pyxb.utils.utility.Location(None, 92, 4))
+    symbol = pyxb.binding.content.WildcardUse(pyxb.binding.content.Wildcard(process_contents=pyxb.binding.content.Wildcard.PC_skip, namespace_constraint=pyxb.binding.content.Wildcard.NC_any), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []
@@ -1737,9 +1761,9 @@ CTD_ANON_._Automaton = _BuildAutomaton_()
 
 
 
-nimekeTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti'), nimekeTekstiTyyppi, scope=nimekeTyyppi, location=pyxb.utils.utility.Location(None, 85, 1)))
+nimekeTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti'), nimekeTekstiTyyppi, scope=nimekeTyyppi, location=None))
 
-nimekeTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimekeKielella'), nimekeKielellaTyyppi, scope=nimekeTyyppi, location=pyxb.utils.utility.Location(None, 108, 1)))
+nimekeTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimekeKielella'), nimekeKielellaTyyppi, scope=nimekeTyyppi, location=None))
 
 def _BuildAutomaton_2 ():
     # Remove this helper function from the namespace after it is invoked
@@ -1750,11 +1774,11 @@ def _BuildAutomaton_2 ():
     counters = set()
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(nimekeTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'NimekeKielella')), pyxb.utils.utility.Location(None, 104, 3))
+    symbol = pyxb.binding.content.ElementUse(nimekeTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'NimekeKielella')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(nimekeTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti')), pyxb.utils.utility.Location(None, 105, 3))
+    symbol = pyxb.binding.content.ElementUse(nimekeTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti')), None)
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     transitions = []
@@ -1769,9 +1793,9 @@ nimekeTyyppi._Automaton = _BuildAutomaton_2()
 
 
 
-asiasanatTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiasanastoTeksti'), pyxb.binding.datatypes.string, scope=asiasanatTyyppi, location=pyxb.utils.utility.Location(None, 294, 1)))
+asiasanatTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiasanastoTeksti'), pyxb.binding.datatypes.string, scope=asiasanatTyyppi, location=None))
 
-asiasanatTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiasanaTeksti'), pyxb.binding.datatypes.string, scope=asiasanatTyyppi, location=pyxb.utils.utility.Location(None, 295, 1)))
+asiasanatTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiasanaTeksti'), pyxb.binding.datatypes.string, scope=asiasanatTyyppi, location=None))
 
 def _BuildAutomaton_3 ():
     # Remove this helper function from the namespace after it is invoked
@@ -1780,19 +1804,19 @@ def _BuildAutomaton_3 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 149, 3))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 150, 3))
+    cc_1 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_1)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(asiasanatTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AsiasanastoTeksti')), pyxb.utils.utility.Location(None, 149, 3))
+    symbol = pyxb.binding.content.ElementUse(asiasanatTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AsiasanastoTeksti')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(asiasanatTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AsiasanaTeksti')), pyxb.utils.utility.Location(None, 150, 3))
+    symbol = pyxb.binding.content.ElementUse(asiasanatTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AsiasanaTeksti')), None)
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     transitions = []
@@ -1811,15 +1835,15 @@ asiasanatTyyppi._Automaton = _BuildAutomaton_3()
 
 
 
-kasittelysaannotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaMuutosTeksti'), pyxb.binding.datatypes.string, scope=kasittelysaannotTyyppi, documentation='Esimerkiksi: Asian päättäminen, Päätöksenteko (toimenpide), Päätöksen allekirjoitus (toimenpide).', location=pyxb.utils.utility.Location(None, 301, 1)))
+kasittelysaannotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaMuutosTeksti'), pyxb.binding.datatypes.string, scope=kasittelysaannotTyyppi, documentation='Esimerkiksi: Asian päättäminen, Päätöksenteko (toimenpide), Päätöksen allekirjoitus (toimenpide).', location=None))
 
-kasittelysaannotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AiempienVersioidenPoistoTeksti'), pyxb.binding.datatypes.string, scope=kasittelysaannotTyyppi, documentation='Suositeltavat: Asian ratkaisu, Tietty aika asian ratkaisusta, Asiakirjan hävittäminen.', location=pyxb.utils.utility.Location(None, 307, 1)))
+kasittelysaannotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AiempienVersioidenPoistoTeksti'), pyxb.binding.datatypes.string, scope=kasittelysaannotTyyppi, documentation='Suositeltavat: Asian ratkaisu, Tietty aika asian ratkaisusta, Asiakirjan hävittäminen.', location=None))
 
-kasittelysaannotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TallennuspaikkaTeksti'), pyxb.binding.datatypes.string, scope=kasittelysaannotTyyppi, location=pyxb.utils.utility.Location(None, 313, 1)))
+kasittelysaannotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TallennuspaikkaTeksti'), pyxb.binding.datatypes.string, scope=kasittelysaannotTyyppi, location=None))
 
-kasittelysaannotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytyspaikkaTeksti'), pyxb.binding.datatypes.string, scope=kasittelysaannotTyyppi, location=pyxb.utils.utility.Location(None, 314, 1)))
+kasittelysaannotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytyspaikkaTeksti'), pyxb.binding.datatypes.string, scope=kasittelysaannotTyyppi, location=None))
 
-kasittelysaannotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=kasittelysaannotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=pyxb.utils.utility.Location(None, 86, 1)))
+kasittelysaannotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=kasittelysaannotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=None))
 
 def _BuildAutomaton_4 ():
     # Remove this helper function from the namespace after it is invoked
@@ -1828,40 +1852,40 @@ def _BuildAutomaton_4 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 214, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 215, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 216, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 217, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 218, 3))
+    cc_4 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_4)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelysaannotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaMuutosTeksti')), pyxb.utils.utility.Location(None, 214, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelysaannotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaMuutosTeksti')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelysaannotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AiempienVersioidenPoistoTeksti')), pyxb.utils.utility.Location(None, 215, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelysaannotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AiempienVersioidenPoistoTeksti')), None)
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelysaannotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TallennuspaikkaTeksti')), pyxb.utils.utility.Location(None, 216, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelysaannotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TallennuspaikkaTeksti')), None)
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelysaannotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SailytyspaikkaTeksti')), pyxb.utils.utility.Location(None, 217, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelysaannotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SailytyspaikkaTeksti')), None)
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelysaannotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), pyxb.utils.utility.Location(None, 218, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelysaannotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
     st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     transitions = []
@@ -1910,21 +1934,21 @@ kasittelysaannotTyyppi._Automaton = _BuildAutomaton_4()
 
 
 
-kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaKoodi'), julkisuusluokkaKoodiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=pyxb.utils.utility.Location(None, 102, 1)))
+kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaKoodi'), julkisuusluokkaKoodiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=None))
 
-kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoAikaArvo'), salassapitoAikaArvoTyyppi, scope=kayttorajoitusTiedotTyyppi, location=pyxb.utils.utility.Location(None, 128, 1)))
+kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoAikaArvo'), salassapitoAikaArvoTyyppi, scope=kayttorajoitusTiedotTyyppi, location=None))
 
-kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoPerusteTeksti'), salassapitoPerusteTekstiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=pyxb.utils.utility.Location(None, 137, 1)))
+kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoPerusteTeksti'), salassapitoPerusteTekstiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=None))
 
-kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapidonLaskentaperusteTeksti'), salassapidonLaskentaperusteTekstiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=pyxb.utils.utility.Location(None, 146, 1)))
+kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SalassapidonLaskentaperusteTeksti'), salassapidonLaskentaperusteTekstiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=None))
 
-kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SuojaustasoKoodi'), suojaustasoKoodiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=pyxb.utils.utility.Location(None, 155, 1)))
+kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SuojaustasoKoodi'), suojaustasoKoodiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=None))
 
-kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TurvallisuusluokkaKoodi'), turvallisuusluokkaKoodiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=pyxb.utils.utility.Location(None, 181, 1)))
+kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TurvallisuusluokkaKoodi'), turvallisuusluokkaKoodiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=None))
 
-kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HenkilotietoluonneKoodi'), henkilotietoluonneKoodiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=pyxb.utils.utility.Location(None, 207, 1)))
+kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HenkilotietoluonneKoodi'), henkilotietoluonneKoodiTyyppi, scope=kayttorajoitusTiedotTyyppi, location=None))
 
-kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=kayttorajoitusTiedotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=pyxb.utils.utility.Location(None, 86, 1)))
+kayttorajoitusTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=kayttorajoitusTiedotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=None))
 
 def _BuildAutomaton_5 ():
     # Remove this helper function from the namespace after it is invoked
@@ -1933,128 +1957,164 @@ def _BuildAutomaton_5 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 230, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 231, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 233, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 234, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 235, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 236, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_5)
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=None)
+    counters.add(cc_6)
+    cc_7 = fac.CounterCondition(min=0, max=None, metadata=None)
+    counters.add(cc_7)
     states = []
-    final_update = None
-    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaKoodi')), pyxb.utils.utility.Location(None, 229, 3))
+    final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_0, False))
+    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'JulkisuusluokkaKoodi')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
-    final_update = None
-    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SuojaustasoKoodi')), pyxb.utils.utility.Location(None, 230, 3))
-    st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
-    states.append(st_1)
-    final_update = None
-    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TurvallisuusluokkaKoodi')), pyxb.utils.utility.Location(None, 231, 3))
-    st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
-    states.append(st_2)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HenkilotietoluonneKoodi')), pyxb.utils.utility.Location(None, 232, 3))
-    st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
-    states.append(st_3)
+    final_update.add(fac.UpdateInstruction(cc_1, False))
+    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SuojaustasoKoodi')), None)
+    st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
+    states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoAikaArvo')), pyxb.utils.utility.Location(None, 233, 3))
-    st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
-    states.append(st_4)
+    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TurvallisuusluokkaKoodi')), None)
+    st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
+    states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoPerusteTeksti')), pyxb.utils.utility.Location(None, 234, 3))
-    st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
-    states.append(st_5)
+    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HenkilotietoluonneKoodi')), None)
+    st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
+    states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SalassapidonLaskentaperusteTeksti')), pyxb.utils.utility.Location(None, 235, 3))
-    st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
-    states.append(st_6)
+    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoAikaArvo')), None)
+    st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
+    states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), pyxb.utils.utility.Location(None, 236, 3))
-    st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SalassapitoPerusteTeksti')), None)
+    st_5 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
+    states.append(st_5)
+    final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_6, False))
+    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SalassapidonLaskentaperusteTeksti')), None)
+    st_6 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
+    states.append(st_6)
+    final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_7, False))
+    symbol = pyxb.binding.content.ElementUse(kayttorajoitusTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
+    st_7 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     transitions = []
+    transitions.append(fac.Transition(st_0, [
+        fac.UpdateInstruction(cc_0, True) ]))
     transitions.append(fac.Transition(st_1, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_2, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_3, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
+    transitions.append(fac.Transition(st_4, [
+        fac.UpdateInstruction(cc_0, False) ]))
+    transitions.append(fac.Transition(st_5, [
+        fac.UpdateInstruction(cc_0, False) ]))
+    transitions.append(fac.Transition(st_6, [
+        fac.UpdateInstruction(cc_0, False) ]))
+    transitions.append(fac.Transition(st_7, [
+        fac.UpdateInstruction(cc_0, False) ]))
     st_0._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_1, [
-        fac.UpdateInstruction(cc_0, True) ]))
+        fac.UpdateInstruction(cc_1, True) ]))
     transitions.append(fac.Transition(st_2, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_3, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_4, [
+        fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_5, [
+        fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_6, [
+        fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_7, [
+        fac.UpdateInstruction(cc_1, False) ]))
     st_1._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_2, [
-        fac.UpdateInstruction(cc_1, True) ]))
+        fac.UpdateInstruction(cc_2, True) ]))
     transitions.append(fac.Transition(st_3, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
+    transitions.append(fac.Transition(st_4, [
+        fac.UpdateInstruction(cc_2, False) ]))
+    transitions.append(fac.Transition(st_5, [
+        fac.UpdateInstruction(cc_2, False) ]))
+    transitions.append(fac.Transition(st_6, [
+        fac.UpdateInstruction(cc_2, False) ]))
+    transitions.append(fac.Transition(st_7, [
+        fac.UpdateInstruction(cc_2, False) ]))
     st_2._set_transitionSet(transitions)
     transitions = []
+    transitions.append(fac.Transition(st_3, [
+        fac.UpdateInstruction(cc_3, True) ]))
     transitions.append(fac.Transition(st_4, [
-         ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_5, [
-         ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_6, [
-         ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_7, [
-         ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     st_3._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_4, [
-        fac.UpdateInstruction(cc_2, True) ]))
+        fac.UpdateInstruction(cc_4, True) ]))
     transitions.append(fac.Transition(st_5, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     st_4._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_5, [
-        fac.UpdateInstruction(cc_3, True) ]))
+        fac.UpdateInstruction(cc_5, True) ]))
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     st_5._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_4, True) ]))
+        fac.UpdateInstruction(cc_6, True) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     st_6._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_5, True) ]))
+        fac.UpdateInstruction(cc_7, True) ]))
     st_7._set_transitionSet(transitions)
-    return fac.Automaton(states, counters, False, containing_state=None)
+    return fac.Automaton(states, counters, True, containing_state=None)
 kayttorajoitusTiedotTyyppi._Automaton = _BuildAutomaton_5()
 
 
 
 
-sailytysaikaTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPituusArvo'), sailytysajanPituusArvoTyyppi, scope=sailytysaikaTiedotTyyppi, location=pyxb.utils.utility.Location(None, 228, 1)))
+sailytysaikaTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPituusArvo'), sailytysajanPituusArvoTyyppi, scope=sailytysaikaTiedotTyyppi, location=None))
 
-sailytysaikaTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPerusteTeksti'), sailytysajanPerusteTekstiTyyppi, scope=sailytysaikaTiedotTyyppi, location=pyxb.utils.utility.Location(None, 236, 1)))
+sailytysaikaTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPerusteTeksti'), sailytysajanPerusteTekstiTyyppi, scope=sailytysaikaTiedotTyyppi, location=None))
 
-sailytysaikaTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanLaskentaperusteTeksti'), sailytysajanLaskentaperusteTekstiTyyppi, scope=sailytysaikaTiedotTyyppi, location=pyxb.utils.utility.Location(None, 244, 1)))
+sailytysaikaTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanLaskentaperusteTeksti'), sailytysajanLaskentaperusteTekstiTyyppi, scope=sailytysaikaTiedotTyyppi, location=None))
 
-sailytysaikaTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=sailytysaikaTiedotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=pyxb.utils.utility.Location(None, 86, 1)))
+sailytysaikaTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=sailytysaikaTiedotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=None))
 
 def _BuildAutomaton_6 ():
     # Remove this helper function from the namespace after it is invoked
@@ -2063,84 +2123,98 @@ def _BuildAutomaton_6 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 246, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 247, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_1)
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=None)
+    counters.add(cc_2)
+    cc_3 = fac.CounterCondition(min=0, max=None, metadata=None)
+    counters.add(cc_3)
     states = []
-    final_update = None
-    symbol = pyxb.binding.content.ElementUse(sailytysaikaTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPituusArvo')), pyxb.utils.utility.Location(None, 244, 3))
+    final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_0, False))
+    symbol = pyxb.binding.content.ElementUse(sailytysaikaTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPituusArvo')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(sailytysaikaTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPerusteTeksti')), pyxb.utils.utility.Location(None, 245, 3))
-    st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_1, False))
+    symbol = pyxb.binding.content.ElementUse(sailytysaikaTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanPerusteTeksti')), None)
+    st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(sailytysaikaTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanLaskentaperusteTeksti')), pyxb.utils.utility.Location(None, 246, 3))
-    st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_2, False))
+    symbol = pyxb.binding.content.ElementUse(sailytysaikaTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SailytysajanLaskentaperusteTeksti')), None)
+    st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(sailytysaikaTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), pyxb.utils.utility.Location(None, 247, 3))
-    st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_3, False))
+    symbol = pyxb.binding.content.ElementUse(sailytysaikaTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
+    st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     transitions = []
+    transitions.append(fac.Transition(st_0, [
+        fac.UpdateInstruction(cc_0, True) ]))
     transitions.append(fac.Transition(st_1, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
+    transitions.append(fac.Transition(st_2, [
+        fac.UpdateInstruction(cc_0, False) ]))
+    transitions.append(fac.Transition(st_3, [
+        fac.UpdateInstruction(cc_0, False) ]))
     st_0._set_transitionSet(transitions)
     transitions = []
+    transitions.append(fac.Transition(st_1, [
+        fac.UpdateInstruction(cc_1, True) ]))
     transitions.append(fac.Transition(st_2, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_3, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     st_1._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_2, [
-        fac.UpdateInstruction(cc_0, True) ]))
+        fac.UpdateInstruction(cc_2, True) ]))
     transitions.append(fac.Transition(st_3, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     st_2._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_3, [
-        fac.UpdateInstruction(cc_1, True) ]))
+        fac.UpdateInstruction(cc_3, True) ]))
     st_3._set_transitionSet(transitions)
-    return fac.Automaton(states, counters, False, containing_state=None)
+    return fac.Automaton(states, counters, True, containing_state=None)
 sailytysaikaTiedotTyyppi._Automaton = _BuildAutomaton_6()
 
 
 
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi'), tilaKoodiTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 40, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi'), tilaKoodiTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TosVersio'), versioTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 71, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TosVersio'), versioTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LisatiedotTeksti'), lisatiedotTekstiTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 97, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LisatiedotTeksti'), lisatiedotTekstiTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 283, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 285, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 286, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 287, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 288, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 289, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 290, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 291, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding__jhs.LoppuPvmTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 292, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding_metarecord_binding__jhs.LoppuPvmTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'YhteyshenkiloNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 293, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'YhteyshenkiloNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=TosTiedotTyyppi, location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=TosTiedotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=pyxb.utils.utility.Location(None, 86, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=TosTiedotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=None))
 
-TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Nimeke'), nimekeTyyppi, scope=TosTiedotTyyppi, location=pyxb.utils.utility.Location(None, 101, 1)))
+TosTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Nimeke'), nimekeTyyppi, scope=TosTiedotTyyppi, location=None))
 
 def _BuildAutomaton_7 ():
     # Remove this helper function from the namespace after it is invoked
@@ -2149,101 +2223,101 @@ def _BuildAutomaton_7 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 42, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 43, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 44, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 45, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 46, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 47, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 48, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 49, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 50, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_8)
-    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 51, 3))
+    cc_9 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 52, 3))
+    cc_10 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 53, 3))
+    cc_11 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_11)
     states = []
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Nimeke')), pyxb.utils.utility.Location(None, 37, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Nimeke')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'YhteyshenkiloNimi')), pyxb.utils.utility.Location(None, 38, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'YhteyshenkiloNimi')), None)
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TosVersio')), pyxb.utils.utility.Location(None, 40, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TosVersio')), None)
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi')), pyxb.utils.utility.Location(None, 42, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi')), None)
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), pyxb.utils.utility.Location(None, 43, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), None)
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), pyxb.utils.utility.Location(None, 44, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), None)
     st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), pyxb.utils.utility.Location(None, 45, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), None)
     st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), pyxb.utils.utility.Location(None, 46, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), None)
     st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), pyxb.utils.utility.Location(None, 47, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), None)
     st_8 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), pyxb.utils.utility.Location(None, 48, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), None)
     st_9 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), pyxb.utils.utility.Location(None, 49, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), None)
     st_10 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), pyxb.utils.utility.Location(None, 50, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), None)
     st_11 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_9, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), pyxb.utils.utility.Location(None, 51, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), None)
     st_12 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_10, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LisatiedotTeksti')), pyxb.utils.utility.Location(None, 52, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LisatiedotTeksti')), None)
     st_13 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_11, False))
-    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), pyxb.utils.utility.Location(None, 53, 3))
+    symbol = pyxb.binding.content.ElementUse(TosTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
     st_14 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     transitions = []
@@ -2466,37 +2540,37 @@ TosTiedotTyyppi._Automaton = _BuildAutomaton_7()
 
 
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi'), tilaKoodiTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 40, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi'), tilaKoodiTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OsaVersio'), versioTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 72, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OsaVersio'), versioTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Luokitustunnus'), luokitustunnusTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 77, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Luokitustunnus'), luokitustunnusTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LuokitusKuvausTeksti'), kuvausTekstiTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 91, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LuokitusKuvausTeksti'), kuvausTekstiTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 283, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 285, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 286, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 287, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 288, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 289, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 290, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 291, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding__jhs.LoppuPvmTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 292, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding_metarecord_binding__jhs.LoppuPvmTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=luokkaTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=pyxb.utils.utility.Location(None, 86, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=luokkaTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Nimeke'), nimekeTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 101, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Nimeke'), nimekeTyyppi, scope=luokkaTyyppi, location=None))
 
-luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessiTiedot'), kasittelyprosessiTiedotTyyppi, scope=luokkaTyyppi, location=pyxb.utils.utility.Location(None, 117, 1)))
+luokkaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessiTiedot'), kasittelyprosessiTiedotTyyppi, scope=luokkaTyyppi, location=None))
 
 def _BuildAutomaton_8 ():
     # Remove this helper function from the namespace after it is invoked
@@ -2505,96 +2579,96 @@ def _BuildAutomaton_8 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 63, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 64, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 65, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 66, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 67, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 68, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 69, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 70, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 71, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_8)
-    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 74, 3))
+    cc_9 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 76, 3))
+    cc_10 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 78, 3))
+    cc_11 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_11)
-    cc_12 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 80, 3))
+    cc_12 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_12)
     states = []
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), pyxb.utils.utility.Location(None, 63, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), pyxb.utils.utility.Location(None, 64, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), None)
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), pyxb.utils.utility.Location(None, 65, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), None)
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), pyxb.utils.utility.Location(None, 66, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), None)
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), pyxb.utils.utility.Location(None, 67, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), None)
     st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), pyxb.utils.utility.Location(None, 68, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), None)
     st_5 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), pyxb.utils.utility.Location(None, 69, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), None)
     st_6 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), pyxb.utils.utility.Location(None, 70, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), None)
     st_7 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), pyxb.utils.utility.Location(None, 71, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), None)
     st_8 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Luokitustunnus')), pyxb.utils.utility.Location(None, 73, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Luokitustunnus')), None)
     st_9 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi')), pyxb.utils.utility.Location(None, 74, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TilaKoodi')), None)
     st_10 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OsaVersio')), pyxb.utils.utility.Location(None, 76, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OsaVersio')), None)
     st_11 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Nimeke')), pyxb.utils.utility.Location(None, 77, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Nimeke')), None)
     st_12 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LuokitusKuvausTeksti')), pyxb.utils.utility.Location(None, 78, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LuokitusKuvausTeksti')), None)
     st_13 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessiTiedot')), pyxb.utils.utility.Location(None, 79, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessiTiedot')), None)
     st_14 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_12, False))
-    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), pyxb.utils.utility.Location(None, 80, 3))
+    symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
     st_15 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_15)
     transitions = []
@@ -2771,7 +2845,7 @@ luokkaTyyppi._Automaton = _BuildAutomaton_8()
 
 
 
-nimekeKielellaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti'), nimekeTekstiTyyppi, scope=nimekeKielellaTyyppi, location=pyxb.utils.utility.Location(None, 85, 1)))
+nimekeKielellaTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti'), nimekeTekstiTyyppi, scope=nimekeKielellaTyyppi, location=None))
 
 def _BuildAutomaton_9 ():
     # Remove this helper function from the namespace after it is invoked
@@ -2782,7 +2856,7 @@ def _BuildAutomaton_9 ():
     counters = set()
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(nimekeKielellaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti')), pyxb.utils.utility.Location(None, 111, 3))
+    symbol = pyxb.binding.content.ElementUse(nimekeKielellaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'NimekeTeksti')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []
@@ -2793,41 +2867,41 @@ nimekeKielellaTyyppi._Automaton = _BuildAutomaton_9()
 
 
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 283, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), pyxb.binding.datatypes.string, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 284, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), pyxb.binding.datatypes.string, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 285, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 286, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 287, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 288, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 289, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 290, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 291, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding__jhs.LoppuPvmTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 292, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding_metarecord_binding__jhs.LoppuPvmTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti'), pyxb.binding.datatypes.string, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 296, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti'), pyxb.binding.datatypes.string, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ProsessinOmistajaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 297, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ProsessinOmistajaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KokoavanProsessitunnuksenLahdeTeksti'), pyxb.binding.datatypes.string, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 298, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KokoavanProsessitunnuksenLahdeTeksti'), pyxb.binding.datatypes.string, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=kasittelyprosessiTiedotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=pyxb.utils.utility.Location(None, 86, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=kasittelyprosessiTiedotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat'), asiasanatTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 146, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat'), asiasanatTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot'), toimenpidetiedotTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 155, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot'), toimenpidetiedotTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot'), kayttorajoitusTiedotTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 226, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot'), kayttorajoitusTiedotTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
-kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot'), sailytysaikaTiedotTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=pyxb.utils.utility.Location(None, 241, 1)))
+kasittelyprosessiTiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot'), sailytysaikaTiedotTyyppi, scope=kasittelyprosessiTiedotTyyppi, location=None))
 
 def _BuildAutomaton_10 ():
     # Remove this helper function from the namespace after it is invoked
@@ -2836,121 +2910,121 @@ def _BuildAutomaton_10 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 120, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 124, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 125, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 126, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 127, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 128, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 129, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 130, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 131, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_8)
-    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 132, 3))
+    cc_9 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 133, 3))
+    cc_10 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 134, 3))
+    cc_11 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_11)
-    cc_12 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 135, 3))
+    cc_12 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_12)
-    cc_13 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 136, 3))
+    cc_13 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_13)
-    cc_14 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 137, 3))
+    cc_14 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_14)
     states = []
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi')), pyxb.utils.utility.Location(None, 120, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot')), pyxb.utils.utility.Location(None, 121, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot')), None)
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot')), pyxb.utils.utility.Location(None, 122, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot')), None)
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot')), pyxb.utils.utility.Location(None, 123, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot')), None)
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), pyxb.utils.utility.Location(None, 124, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), None)
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), pyxb.utils.utility.Location(None, 125, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), None)
     st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), pyxb.utils.utility.Location(None, 126, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), None)
     st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), pyxb.utils.utility.Location(None, 127, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), None)
     st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), pyxb.utils.utility.Location(None, 128, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), None)
     st_8 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), pyxb.utils.utility.Location(None, 129, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), None)
     st_9 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), pyxb.utils.utility.Location(None, 130, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), None)
     st_10 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), pyxb.utils.utility.Location(None, 131, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), None)
     st_11 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_9, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), pyxb.utils.utility.Location(None, 132, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), None)
     st_12 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_10, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat')), pyxb.utils.utility.Location(None, 133, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat')), None)
     st_13 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_11, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti')), pyxb.utils.utility.Location(None, 134, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti')), None)
     st_14 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_12, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'ProsessinOmistajaNimi')), pyxb.utils.utility.Location(None, 135, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'ProsessinOmistajaNimi')), None)
     st_15 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_15)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_13, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'KokoavanProsessitunnuksenLahdeTeksti')), pyxb.utils.utility.Location(None, 136, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'KokoavanProsessitunnuksenLahdeTeksti')), None)
     st_16 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_16)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_14, False))
-    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), pyxb.utils.utility.Location(None, 137, 3))
+    symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
     st_17 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_17)
     transitions = []
@@ -3243,37 +3317,39 @@ kasittelyprosessiTiedotTyyppi._Automaton = _BuildAutomaton_10()
 
 
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToimenpiteenKuvausTeksti'), kuvausTekstiTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 90, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToimenpiteenKuvausTeksti'), kuvausTekstiTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTeksti'), toimenpideluokkaTekstiTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 252, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTeksti'), toimenpideluokkaTekstiTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessinTilaTeksti'), kasittelyprosessinTilaTekstiTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 273, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTarkenneTeksti'), toimenpideluokkaTarkenneTekstiTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 283, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessinTilaTeksti'), kasittelyprosessinTilaTekstiTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), pyxb.binding.datatypes.string, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 284, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 285, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), pyxb.binding.datatypes.string, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 286, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 287, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 288, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 289, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 290, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 291, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding__jhs.LoppuPvmTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 292, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=toimenpidetiedotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=pyxb.utils.utility.Location(None, 86, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding_metarecord_binding__jhs.LoppuPvmTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot'), toimenpidetiedotTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 155, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=toimenpidetiedotTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=None))
 
-toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Asiakirjatieto'), asiakirjatietoTyyppi, scope=toimenpidetiedotTyyppi, location=pyxb.utils.utility.Location(None, 185, 1)))
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot'), toimenpidetiedotTyyppi, scope=toimenpidetiedotTyyppi, location=None))
+
+toimenpidetiedotTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Asiakirjatieto'), asiakirjatietoTyyppi, scope=toimenpidetiedotTyyppi, location=None))
 
 def _BuildAutomaton_11 ():
     # Remove this helper function from the namespace after it is invoked
@@ -3282,463 +3358,511 @@ def _BuildAutomaton_11 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 159, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 160, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 161, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 162, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 163, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 164, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 165, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 166, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 167, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_8)
-    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 168, 3))
+    cc_9 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 169, 3))
+    cc_10 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 170, 3))
+    cc_11 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_11)
-    cc_12 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 171, 3))
+    cc_12 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_12)
-    cc_13 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 175, 3))
+    cc_13 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_13)
+    cc_14 = fac.CounterCondition(min=0, max=1, metadata=None)
+    counters.add(cc_14)
+    cc_15 = fac.CounterCondition(min=0, max=None, metadata=None)
+    counters.add(cc_15)
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTeksti')), pyxb.utils.utility.Location(None, 158, 3))
+    final_update.add(fac.UpdateInstruction(cc_0, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTeksti')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'ToimenpiteenKuvausTeksti')), pyxb.utils.utility.Location(None, 159, 3))
-    st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_1, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'ToimenpideluokkaTarkenneTeksti')), None)
+    st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessinTilaTeksti')), pyxb.utils.utility.Location(None, 160, 3))
-    st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_2, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'ToimenpiteenKuvausTeksti')), None)
+    st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi')), pyxb.utils.utility.Location(None, 161, 3))
-    st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_3, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessinTilaTeksti')), None)
+    st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), pyxb.utils.utility.Location(None, 162, 3))
-    st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_4, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi')), None)
+    st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), pyxb.utils.utility.Location(None, 163, 3))
-    st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_5, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), None)
+    st_5 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), pyxb.utils.utility.Location(None, 164, 3))
-    st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_6, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), None)
+    st_6 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), pyxb.utils.utility.Location(None, 165, 3))
-    st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_7, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), None)
+    st_7 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), pyxb.utils.utility.Location(None, 166, 3))
-    st_8 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_8, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), None)
+    st_8 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), pyxb.utils.utility.Location(None, 167, 3))
-    st_9 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_9, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), None)
+    st_9 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_9, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), pyxb.utils.utility.Location(None, 168, 3))
-    st_10 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_10, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), None)
+    st_10 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_10, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), pyxb.utils.utility.Location(None, 169, 3))
-    st_11 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_11, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), None)
+    st_11 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_11, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), pyxb.utils.utility.Location(None, 170, 3))
-    st_12 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_12, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), None)
+    st_12 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_12, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Asiakirjatieto')), pyxb.utils.utility.Location(None, 172, 4))
-    st_13 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_13, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), None)
+    st_13 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_12, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot')), pyxb.utils.utility.Location(None, 173, 4))
-    st_14 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_14, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Asiakirjatieto')), None)
+    st_14 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_13, False))
-    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), pyxb.utils.utility.Location(None, 175, 3))
-    st_15 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update.add(fac.UpdateInstruction(cc_14, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot')), None)
+    st_15 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_15)
+    final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_15, False))
+    symbol = pyxb.binding.content.ElementUse(toimenpidetiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
+    st_16 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
+    states.append(st_16)
     transitions = []
+    transitions.append(fac.Transition(st_0, [
+        fac.UpdateInstruction(cc_0, True) ]))
     transitions.append(fac.Transition(st_1, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_2, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_3, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_4, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_5, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_6, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_7, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_8, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_9, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_10, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_11, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_12, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_13, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_14, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_15, [
-         ]))
+        fac.UpdateInstruction(cc_0, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_0, False) ]))
     st_0._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_1, [
-        fac.UpdateInstruction(cc_0, True) ]))
+        fac.UpdateInstruction(cc_1, True) ]))
     transitions.append(fac.Transition(st_2, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_3, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_4, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_5, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_0, False) ]))
+        fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_1, False) ]))
     st_1._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_2, [
-        fac.UpdateInstruction(cc_1, True) ]))
+        fac.UpdateInstruction(cc_2, True) ]))
     transitions.append(fac.Transition(st_3, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_4, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_5, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_2, False) ]))
     st_2._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_3, [
-        fac.UpdateInstruction(cc_2, True) ]))
+        fac.UpdateInstruction(cc_3, True) ]))
     transitions.append(fac.Transition(st_4, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_5, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_3, False) ]))
     st_3._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_4, [
-        fac.UpdateInstruction(cc_3, True) ]))
+        fac.UpdateInstruction(cc_4, True) ]))
     transitions.append(fac.Transition(st_5, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_4, False) ]))
     st_4._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_5, [
-        fac.UpdateInstruction(cc_4, True) ]))
+        fac.UpdateInstruction(cc_5, True) ]))
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_5, False) ]))
     st_5._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_5, True) ]))
+        fac.UpdateInstruction(cc_6, True) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_6, False) ]))
     st_6._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_6, True) ]))
+        fac.UpdateInstruction(cc_7, True) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_7, False) ]))
     st_7._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_7, True) ]))
+        fac.UpdateInstruction(cc_8, True) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_8, False) ]))
     st_8._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_8, True) ]))
+        fac.UpdateInstruction(cc_9, True) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_9, False) ]))
     st_9._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_9, True) ]))
+        fac.UpdateInstruction(cc_10, True) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_9, False) ]))
+        fac.UpdateInstruction(cc_10, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_9, False) ]))
+        fac.UpdateInstruction(cc_10, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_9, False) ]))
+        fac.UpdateInstruction(cc_10, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_9, False) ]))
+        fac.UpdateInstruction(cc_10, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_9, False) ]))
+        fac.UpdateInstruction(cc_10, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_10, False) ]))
     st_10._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_10, True) ]))
+        fac.UpdateInstruction(cc_11, True) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_10, False) ]))
+        fac.UpdateInstruction(cc_11, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_10, False) ]))
+        fac.UpdateInstruction(cc_11, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_10, False) ]))
+        fac.UpdateInstruction(cc_11, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_10, False) ]))
+        fac.UpdateInstruction(cc_11, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_11, False) ]))
     st_11._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_11, True) ]))
+        fac.UpdateInstruction(cc_12, True) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_11, False) ]))
+        fac.UpdateInstruction(cc_12, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_11, False) ]))
+        fac.UpdateInstruction(cc_12, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_11, False) ]))
+        fac.UpdateInstruction(cc_12, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_12, False) ]))
     st_12._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_13, [
-         ]))
-    transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_12, True) ]))
+        fac.UpdateInstruction(cc_13, True) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_12, True) ]))
+        fac.UpdateInstruction(cc_13, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_12, False) ]))
+        fac.UpdateInstruction(cc_13, False) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_13, False) ]))
     st_13._set_transitionSet(transitions)
     transitions = []
-    transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_12, True) ]))
     transitions.append(fac.Transition(st_14, [
          ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_12, True) ]))
+        fac.UpdateInstruction(cc_14, True) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_12, False) ]))
+        fac.UpdateInstruction(cc_14, True) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_14, False) ]))
     st_14._set_transitionSet(transitions)
     transitions = []
+    transitions.append(fac.Transition(st_14, [
+        fac.UpdateInstruction(cc_14, True) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_13, True) ]))
+         ]))
+    transitions.append(fac.Transition(st_15, [
+        fac.UpdateInstruction(cc_14, True) ]))
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_14, False) ]))
     st_15._set_transitionSet(transitions)
-    return fac.Automaton(states, counters, False, containing_state=None)
+    transitions = []
+    transitions.append(fac.Transition(st_16, [
+        fac.UpdateInstruction(cc_15, True) ]))
+    st_16._set_transitionSet(transitions)
+    return fac.Automaton(states, counters, True, containing_state=None)
 toimenpidetiedotTyyppi._Automaton = _BuildAutomaton_11()
 
 
 
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTeksti'), asiakirjaLuokkaTekstiTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 262, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTeksti'), asiakirjaLuokkaTekstiTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 283, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi'), pyxb.binding.datatypes.string, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), pyxb.binding.datatypes.string, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 284, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi'), pyxb.binding.datatypes.string, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 285, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 286, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 287, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 288, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding__jhs.NimiTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 289, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi'), _ImportedBinding_metarecord_binding__jhs.NimiTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 290, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding__jhs.AlkuPvmTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 291, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm'), _ImportedBinding_metarecord_binding__jhs.AlkuPvmTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding__jhs.LoppuPvmTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 292, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm'), _ImportedBinding_metarecord_binding__jhs.LoppuPvmTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti'), pyxb.binding.datatypes.string, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 296, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti'), pyxb.binding.datatypes.string, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTarkenneTeksti'), pyxb.binding.datatypes.string, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 299, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTarkenneTeksti'), pyxb.binding.datatypes.string, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=asiakirjatietoTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=pyxb.utils.utility.Location(None, 86, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Laajennos'), CTD_ANON_, scope=asiakirjatietoTyyppi, documentation='Yleinen laajennoselementti. Laajennoksilla mahdollistetaan organisaatiokohtaiset  elementit.', location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat'), asiasanatTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 146, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat'), asiasanatTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Kasittelysaannot'), kasittelysaannotTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 211, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Kasittelysaannot'), kasittelysaannotTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot'), kayttorajoitusTiedotTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 226, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot'), kayttorajoitusTiedotTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
-asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot'), sailytysaikaTiedotTyyppi, scope=asiakirjatietoTyyppi, location=pyxb.utils.utility.Location(None, 241, 1)))
+asiakirjatietoTyyppi._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot'), sailytysaikaTiedotTyyppi, scope=asiakirjatietoTyyppi, location=None))
 
 def _BuildAutomaton_12 ():
     # Remove this helper function from the namespace after it is invoked
@@ -3747,113 +3871,113 @@ def _BuildAutomaton_12 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 190, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 191, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 192, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 193, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 194, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 195, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 196, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 197, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 198, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_8)
-    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 200, 3))
+    cc_9 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 201, 3))
+    cc_10 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 202, 3))
+    cc_11 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_11)
-    cc_12 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 203, 3))
+    cc_12 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_12)
-    cc_13 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(None, 204, 3))
+    cc_13 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_13)
-    cc_14 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(None, 205, 3))
+    cc_14 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_14)
     states = []
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot')), pyxb.utils.utility.Location(None, 188, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot')), None)
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot')), pyxb.utils.utility.Location(None, 189, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot')), None)
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), pyxb.utils.utility.Location(None, 190, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), None)
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), pyxb.utils.utility.Location(None, 191, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), None)
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), pyxb.utils.utility.Location(None, 192, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), None)
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), pyxb.utils.utility.Location(None, 193, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), None)
     st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), pyxb.utils.utility.Location(None, 194, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), None)
     st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), pyxb.utils.utility.Location(None, 195, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), None)
     st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), pyxb.utils.utility.Location(None, 196, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), None)
     st_8 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), pyxb.utils.utility.Location(None, 197, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), None)
     st_9 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), pyxb.utils.utility.Location(None, 198, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), None)
     st_10 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTeksti')), pyxb.utils.utility.Location(None, 199, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTeksti')), None)
     st_11 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_9, False))
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTarkenneTeksti')), pyxb.utils.utility.Location(None, 200, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AsiakirjaluokkaTarkenneTeksti')), None)
     st_12 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_10, False))
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi')), pyxb.utils.utility.Location(None, 201, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi')), None)
     st_13 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_11, False))
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Kasittelysaannot')), pyxb.utils.utility.Location(None, 202, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Kasittelysaannot')), None)
     st_14 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_12, False))
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat')), pyxb.utils.utility.Location(None, 203, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat')), None)
     st_15 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_15)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_13, False))
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti')), pyxb.utils.utility.Location(None, 204, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti')), None)
     st_16 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_16)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_14, False))
-    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), pyxb.utils.utility.Location(None, 205, 3))
+    symbol = pyxb.binding.content.ElementUse(asiakirjatietoTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
     st_17 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_17)
     transitions = []

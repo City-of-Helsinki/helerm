@@ -2,9 +2,7 @@ import uuid
 
 import pyxb
 
-#from metarecord.binding import jhs
-# TODO for now use xsd schema that does not have required fields
-from metarecord.binding import jhs_no_required_fields as jhs
+from metarecord.binding import jhs
 from metarecord.models import Function
 
 
