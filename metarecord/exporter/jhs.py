@@ -18,6 +18,7 @@ class JHSExporter:
         'PublicityClass': {
             'Julkinen': '1',
             'Osittain salassapidettävä': '2',
+            'Osittain salassa pidettävä': '2',
             'Salassa pidettävä': '3',
             'Ei-julkinen': '4'
         },
