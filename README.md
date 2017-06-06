@@ -97,3 +97,23 @@ python manage.py export_data <xml file>
 ```
 
 - Or using the API http://127.0.0.1:8000/export/
+
+### Python XML Schema files and Python bindings
+
+The export uses [pyxb](http://pyxb.sourceforge.net/) library and needs Python bindings to be generated from XSD schema files.
+
+The repo contains two sets of JHS XML Schema files located in `data` directory. In addition to original ones, there are also HKI customized versions, which are in use at least for now. 
+
+Generated bindings are included in `metarecord/binding/` so the export should work out of the box.
+
+To generate new bindings from (HKI customized) JHS schema files run
+
+```
+pyxbgen -u Skeema_TOS_kooste_HKI_custom.xsd --module-prefix=metarecord.binding --schema-root=data -m jhs
+```
+
+By default the generated bindings contain unnecessary references to local files. If the bindings are shared to somewhere, put into the repo for example, it is a good idea to remove unnecessary references by
+
+```
+sed -i '' 's/pyxb.utils.utility.Location([^)]*)/None/' metarecord/binding/*jhs.py
+```
