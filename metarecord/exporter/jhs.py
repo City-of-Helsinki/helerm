@@ -71,23 +71,41 @@ class JHSExporter:
             Kayttorajoitustiedot=self._create_restriction_info(record),
             Sailytysaikatiedot=self._create_retention_info(record),
             AsiakirjaluokkaTeksti=jhs.AsiakirjaluokkaTeksti(self._get_attribute_value(record, 'RecordType')),
-            AsiakirjaluokkaTarkenneTeksti=jhs.AsiakirjaluokkaTarkenneTeksti(record.get_name()),
+            AsiakirjaluokkaTarkenneTeksti=jhs.AsiakirjaluokkaTarkenneTeksti(
+                self._get_attribute_value(record, 'TypeSpecifier')
+            ),
             TietojarjestelmaNimi=jhs.TietojarjestelmaNimi(information_system) if information_system else None
         )
 
     def _handle_action(self, action, records):
-        return jhs.Toimenpidetiedot(
+        ToimenpideTiedot = jhs.Toimenpidetiedot(
             id=action.id,
-            ToimenpideluokkaTeksti=action.get_name(),
             Asiakirjatieto=records,
         )
 
+        action_type = self._get_attribute_value(action, 'ActionType')
+        if action_type:
+            ToimenpideTiedot.ToimenpideluokkaTeksti = action_type
+        type_specifier = self._get_attribute_value(action, 'TypeSpecifier')
+        if type_specifier:
+            ToimenpideTiedot.ToimenpideluokkaTarkenneTeksti = type_specifier
+
+        return ToimenpideTiedot
+
     def _handle_phase(self, phase, actions):
-        return jhs.Toimenpidetiedot(
+        ToimenpideTiedot = jhs.Toimenpidetiedot(
             id=phase.id,
-            ToimenpideluokkaTeksti=phase.get_name(),
             Toimenpidetiedot=actions
         )
+
+        phase_type = self._get_attribute_value(phase, 'PhaseType')
+        if phase_type:
+            ToimenpideTiedot.ToimenpideluokkaTeksti = phase_type,
+        type_specifier = self._get_attribute_value(phase, 'TypeSpecifier')
+        if type_specifier:
+            ToimenpideTiedot.ToimenpideluokkaTarkenneTeksti = type_specifier
+
+        return ToimenpideTiedot
 
     def _handle_function(self, function, phases):
         information_system = self._get_attribute_value(function, 'InformationSystem')
