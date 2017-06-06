@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+***************************************************************
+JHS-suositukseen 'TOS-rakenne ja skeema' liittyvä xml-skeema
+Skeema on laadittu JHS-suosituksen työryhmän toimesta
+Työryhmän PJ Mikko Eräkaski, Kansallisarkisto; editori Pekka Nieminen, Netum Oy
+Muutoshistoria:
+02.10.2013: ensimmäinen julkinen luonnos, palautekierrokselle julkaistava versio
+xx.04.2014: palautekierrosten perusteella muokattu versio
+14.01.2015: Julkaisua varten laadittu versio
+******************************************************************** 
+-->
+<xs:schema xmlns:jhs="http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19" xmlns:tos="http://skeemat.jhs-suositukset.fi/tos/2015/01/15" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://skeemat.jhs-suositukset.fi/tos/2015/01/15" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19" schemaLocation="JHSydin20091019.xsd"/>
+
+	<!--~~~~~~~~~~~-->	
+	<!--Attribuutit-->	
+	<!--~~~~~~~~~~~-->
+	
+	<xs:attribute name="id" type="tos:idTyyppi"/>
+	<xs:simpleType name="idTyyppi">
+			<xs:annotation>
+				<xs:documentation>Rakenneosan yksilöivä id-tunnus. Formaattia ei ole määritelty.</xs:documentation>
+			</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<xs:attribute name="kieliKoodi" type="tos:kieliKoodiTyyppi"/>
+	<xs:simpleType name="kieliKoodiTyyppi">
+			<xs:annotation>
+				<xs:documentation>Kielikoodin avulla elementti voi ilmetä usealla eri kielellä. Suositellaan käytettäväksi standardeja kielikoodeja (fi, se, en).		</xs:documentation>
+			</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	
+	<!--~~~~~~~~~-->
+	<!--Elementit-->
+	<!--~~~~~~~~~-->
+	
+	<xs:element name="TilaKoodi" type="tos:tilaKoodiTyyppi"/>
+	<xs:simpleType name="tilaKoodiTyyppi">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Luonnos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Valmis.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>Käytössä.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>Päivityksessä.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>Ei käytössä.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:element name="TosVersio" type="tos:versioTyyppi"/>
+	<xs:element name="OsaVersio" type="tos:versioTyyppi"/>
+	<xs:simpleType name="versioTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	
+	<xs:element name="Luokitustunnus" type="tos:luokitustunnusTyyppi"/>
+	<xs:simpleType name="luokitustunnusTyyppi">
+			<xs:annotation>
+				<xs:documentation>Käytettäessä julkisen hallinnon yhteisiä luokituksia, tunnuksena pitää käyttää yhteisen luokituksen mukaista tunnusta.</xs:documentation>
+			</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	
+	<xs:element name="NimekeTeksti" type="tos:nimekeTekstiTyyppi"/>
+	<xs:simpleType name="nimekeTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	
+	<xs:element name="ToimenpiteenKuvausTeksti" type="tos:kuvausTekstiTyyppi"/>
+	<xs:element name="LuokitusKuvausTeksti" type="tos:kuvausTekstiTyyppi"/>
+	<xs:element name="KuvausTeksti" type="tos:kuvausTekstiTyyppi"/>
+	<xs:simpleType name="kuvausTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	
+	<xs:element name="LisatiedotTeksti" type="tos:lisatiedotTekstiTyyppi"/>
+	<xs:simpleType name="lisatiedotTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	
+	<xs:element name="JulkisuusluokkaKoodi" type="tos:julkisuusluokkaKoodiTyyppi"/>
+	<xs:simpleType name="julkisuusluokkaKoodiTyyppi">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Julkinen</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Osittain salassa pidettävä</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>Salassa pidettävä</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>Ei-julkinen</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="SalassapitoAikaArvo" type="tos:salassapitoAikaArvoTyyppi"/>
+	<xs:simpleType name="salassapitoAikaArvoTyyppi">
+		<xs:restriction base="xs:integer">
+			<xs:annotation>
+				<xs:documentation>Suositeltavat arvot: 25, 50, 100</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="SalassapitoPerusteTeksti" type="tos:salassapitoPerusteTekstiTyyppi"/>
+	<xs:simpleType name="salassapitoPerusteTekstiTyyppi">
+		<xs:restriction base="xs:string">
+			<xs:annotation>
+				<xs:documentation>Salassapito perustuu julkisuuslakiin (621/1999) tai erityislainsäädäntöön, esimerkki merkintätavasta: JulkL (621/1999) 24.1 § 9 kohta</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="SalassapidonLaskentaperusteTeksti" type="tos:salassapidonLaskentaperusteTekstiTyyppi"/>
+	<xs:simpleType name="salassapidonLaskentaperusteTekstiTyyppi">
+		<xs:restriction base="xs:string">
+			<xs:annotation>
+				<xs:documentation>Suositeltavat arvot käsittelyprosessille: Asian ratkaisu. Suositeltavat arvot asiakirjalle: Asian ratkaisu, Asiakirjan päivämäärä, Asiakirjan valmistuminen, Asiakirjan saapumisajankohta.</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="SuojaustasoKoodi" type="tos:suojaustasoKoodiTyyppi"/>
+	<xs:simpleType name="suojaustasoKoodiTyyppi">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>ST I</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>ST II</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>ST III</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>ST IV</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="TurvallisuusluokkaKoodi" type="tos:turvallisuusluokkaKoodiTyyppi"/>
+	<xs:simpleType name="turvallisuusluokkaKoodiTyyppi">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>ERITTÄIN SALAINEN</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>SALAINEN</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>LUOTTAMUKSELLINEN</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>KÄYTTÖ RAJOITETTU</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="HenkilotietoluonneKoodi" type="tos:henkilotietoluonneKoodiTyyppi"/>
+	<xs:simpleType name="henkilotietoluonneKoodiTyyppi">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Ei sisällä henkilötietoja</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Sisältää henkilötietoja</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>Sisältää arkaluonteisia henkilötietoja</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="SailytysajanPituusArvo" type="tos:sailytysajanPituusArvoTyyppi"/>
+	<xs:simpleType name="sailytysajanPituusArvoTyyppi">
+		<xs:annotation>
+			<xs:documentation>Suositeltavat arvot: 0, 3, 6, 10, 20, 50, 120 tai -1 (pysyvä säilytys)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+
+	<xs:element name="SailytysajanPerusteTeksti" type="tos:sailytysajanPerusteTekstiTyyppi"/>
+	<xs:simpleType name="sailytysajanPerusteTekstiTyyppi">
+		<xs:annotation>
+			<xs:documentation>Säilytysaika voi perustua lakiin tai olla organisaation oma päätös. Pysyvä säilytys perustuu arkistolaitoksen päätökseen.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<xs:element name="SailytysajanLaskentaperusteTeksti" type="tos:sailytysajanLaskentaperusteTekstiTyyppi"/>
+	<xs:simpleType name="sailytysajanLaskentaperusteTekstiTyyppi">
+		<xs:annotation>
+			<xs:documentation>Suositeltavat arvot käsittelyprosessille: Asian lopullinen ratkaisu. Suositeltavat arvot asiakirjalle: Asian lopullinen ratkaisu, Asiakirjan päivämäärä.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<xs:element name="ToimenpideluokkaTeksti" type="tos:toimenpideluokkaTekstiTyyppi"/>
+	<xs:simpleType name="toimenpideluokkaTekstiTyyppi">
+		<xs:annotation>
+			<xs:documentation>
+	Suositeltavat arvot: ohjaus, vireilletulo , valmistelu, päätöksenteko, toimeenpano, tiedoksianto, muutoksenhaku, seuranta.
+	    </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<xs:element name="AsiakirjaluokkaTeksti" type="tos:asiakirjaLuokkaTekstiTyyppi"/>
+	<xs:simpleType name="asiakirjaLuokkaTekstiTyyppi">
+		<xs:annotation>
+			<xs:documentation>
+	Suositeltavia arvoja ovat: Aloite, Asetus, Ehdotus, Esitys, Esityslista, Hakemus, Ilmoitus, Julkaisu, Kannanotto, Kantelu, Kartta, Kertomus, Kirje, Kutsu, Kuulutus, Kuva, Laki, Lasku, Lausunto, Lausuntopyyntö, Liite, Luettelo, Lupa, Mietintö, Muistio, Määräys, Nimittämiskirja, Ohje, Ohjelma, Oikaisuvaatimus, Ote, Piirustus, Pyyntö, Päätös, Pöytäkirja, Raportti, Seloste, Selvitys, Sopimus, Strategia, Suositus, Suunnitelma, Talousarvio, Tarjous, Tarjouspyyntö, Teos, Tiedote, Tilasto, Tilaus, Tilinpäätös, Todistus, Tosite, Valitus, Valtakirja, Vastine, Yhteenveto.
+	Asiakirjatyypit ilmaistaan aina yksikkömuodossa.
+	    </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	
+	<xs:element name="KasittelyprosessinTilaTeksti" type="tos:kasittelyprosessinTilaTekstiTyyppi"/>
+	<xs:simpleType name="kasittelyprosessinTilaTekstiTyyppi">
+		<xs:annotation>
+			<xs:documentation>
+	Suositeltavia arvoja ovat: Avattu, Vireillä, Valmistelussa, Ratkaistavana, Toimitettu tiedoksi, Toimeenpantava, Päätetty, Avattu uudelleen, Muutoksenhaku, Seurannassa, Siirretty, Hävitetty.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	
+	<xs:element name="OrganisaatioNimi" type="xs:string"/>
+	<xs:element name="TietojarjestelmaNimi" type="xs:string"/>
+	<xs:element name="LaatijaNimi" type="jhs:NimiTyyppi"/>
+	<xs:element name="LaadittuPvm" type="jhs:AlkuPvmTyyppi"/>
+	<xs:element name="MuokkaajaNimi" type="jhs:NimiTyyppi"/>
+	<xs:element name="MuokattuPvm" type="jhs:AlkuPvmTyyppi"/>
+	<xs:element name="HyvaksyjaNimi" type="jhs:NimiTyyppi"/>
+	<xs:element name="HyvaksyttyPvm" type="jhs:AlkuPvmTyyppi"/>
+	<xs:element name="VoimassaoloAlkaaPvm" type="jhs:AlkuPvmTyyppi"/>
+	<xs:element name="VoimassaoloPaattyyPvm" type="jhs:LoppuPvmTyyppi"/>
+	<xs:element name="YhteyshenkiloNimi" type="jhs:NimiTyyppi"/>
+	<xs:element name="AsiasanastoTeksti" type="xs:string"/>
+	<xs:element name="AsiasanaTeksti" type="xs:string"/>
+	<xs:element name="PaatietoryhmatTeksti" type="xs:string"/>
+	<xs:element name="ProsessinOmistajaNimi" type="jhs:NimiTyyppi"/>
+	<xs:element name="KokoavanProsessitunnuksenLahdeTeksti" type="xs:string"/>
+	<xs:element name="AsiakirjaluokkaTarkenneTeksti" type="xs:string"/>
+	
+	<xs:element name="JulkisuusluokkaMuutosTeksti" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>Esimerkiksi: Asian päättäminen, Päätöksenteko (toimenpide), Päätöksen allekirjoitus (toimenpide).</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	
+	<xs:element name="AiempienVersioidenPoistoTeksti" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>Suositeltavat: Asian ratkaisu, Tietty aika asian ratkaisusta, Asiakirjan hävittäminen.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	
+	<xs:element name="TallennuspaikkaTeksti" type="xs:string"/>
+	<xs:element name="SailytyspaikkaTeksti" type="xs:string"/>
+	
+</xs:schema>

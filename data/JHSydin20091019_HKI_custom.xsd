@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--***************************************************************
+JHS / Ydintyypit ja ydinelementit
+
+Versio: http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19
+Viimeksi päivitetty: 19.10.2009 Tieto Oy / Lasse Akselin
+
+Muutoshistoria:
+
+9.1.2009: 	ensimmäinen versio
+12.2.2009: päivitetyn sanastotaulukon mukaiset muutokset
+25.2.2009: suositusluonnoksen kommentoinnin jälkeen tehdyt lisäykset
+3.4.2009: JHS-jaoston käsittelyyn lähetetty versio
+19.10.2009: Muutettu: NimiTeksti -> Nimi ja NimiTekstiTyyppi -> NimiTyyppi
+
+******************************************************************** -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jhs="http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19" targetNamespace="http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19" elementFormDefault="qualified">
+	<xs:element name="AlayksikkoNimi" type="jhs:AlayksikkoNimiTyyppi"/>
+	<xs:simpleType name="AlayksikkoNimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="AlkuHetki" type="jhs:AlkuHetkiTyyppi"/>
+	<xs:simpleType name="AlkuHetkiTyyppi">
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:element name="AlkuPvm" type="jhs:AlkuPvmTyyppi"/>
+	<xs:simpleType name="AlkuPvmTyyppi">
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:element name="AmmattiKoodi" type="jhs:AmmattiKoodiTyyppi"/>
+	<xs:simpleType name="AmmattiKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="BICKoodi" type="jhs:BICKoodiTyyppi"/>
+	<xs:simpleType name="BICKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="CareOfTeksti" type="jhs:CareOfTekstiTyyppi"/>
+	<xs:simpleType name="CareOfTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="EdellinenSukuNimi" type="jhs:EdellinenSukuNimiTyyppi"/>
+	<xs:simpleType name="EdellinenSukuNimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="EnsimmainenRiviTeksti" type="jhs:EnsimmainenRiviTekstiTyyppi"/>
+	<xs:simpleType name="EnsimmainenRiviTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="EtunimetNimi" type="jhs:EtunimetNimiTyyppi"/>
+	<xs:simpleType name="EtunimetNimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="EtuNimi" type="jhs:EtuNimiTyyppi"/>
+	<xs:simpleType name="EtuNimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="FaksinumeroTeksti" type="jhs:FaksinumeroTekstiTyyppi"/>
+	<xs:simpleType name="FaksinumeroTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="HenkiloTunnus" type="jhs:HenkiloTunnusTyyppi"/>
+	<xs:simpleType name="HenkiloTunnusTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="HuoltosuhdeTeksti" type="jhs:HuoltosuhdeTekstiTyyppi"/>
+	<xs:simpleType name="HuoltosuhdeTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="HuoneistotunnisteNumero" type="jhs:HuoneistotunnisteNumeroTyyppi"/>
+	<xs:simpleType name="HuoneistotunnisteNumeroTyyppi">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:element name="HuoneistotunnisteJakokirjainTeksti" type="jhs:HuoneistotunnisteJakokirjainTekstiTyyppi"/>
+	<xs:simpleType name="HuoneistotunnisteJakokirjainTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="HuoneistotunnisteKirjainTeksti" type="jhs:HuoneistotunnisteKirjainTekstiTyyppi"/>
+	<xs:simpleType name="HuoneistotunnisteKirjainTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="IBANTunnus" type="jhs:IBANTunnusTyyppi"/>
+	<xs:simpleType name="IBANTunnusTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="IkaluokkaTeksti" type="jhs:IkaluokkaTekstiTyyppi"/>
+	<xs:simpleType name="IkaluokkaTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="KansalaisuusKoodi" type="jhs:KansalaisuusKoodiTyyppi"/>
+	<xs:simpleType name="KansalaisuusKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="KatuNimi" type="jhs:KatuNimiTyyppi"/>
+	<xs:simpleType name="KatuNimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="KieliKoodi" type="jhs:KieliKoodiTyyppi"/>
+	<xs:simpleType name="KieliKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="KolmasRiviTeksti" type="jhs:KolmasRiviTekstiTyyppi"/>
+	<xs:simpleType name="KolmasRiviTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="KuntaKoodi" type="jhs:KuntaKoodiTyyppi"/>
+	<xs:simpleType name="KuntaKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="KuntaNumero" type="jhs:KuntaNumeroTyyppi"/>
+	<xs:simpleType name="KuntaNumeroTyyppi">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:element name="KuolemaPvm" type="jhs:KuolemaPvmTyyppi"/>
+	<xs:simpleType name="KuolemaPvmTyyppi">
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:element name="KutsumaNimi" type="jhs:KutsumaNimiTyyppi"/>
+	<xs:simpleType name="KutsumaNimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="KuudesRiviTeksti" type="jhs:KuudesRiviTekstiTyyppi"/>
+	<xs:simpleType name="KuudesRiviTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="KuvausTeksti" type="jhs:KuvausTekstiTyyppi"/>
+	<xs:simpleType name="KuvausTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="LajiKoodi" type="jhs:LajiKoodiTyyppi"/>
+	<xs:simpleType name="LajiKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="LajiTeksti" type="jhs:LajiTekstiTyyppi"/>
+	<xs:simpleType name="LajiTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="LoppuHetki" type="jhs:LoppuHetkiTyyppi"/>
+	<xs:simpleType name="LoppuHetkiTyyppi">
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:element name="LoppuPvm" type="jhs:LoppuPvmTyyppi"/>
+	<xs:simpleType name="LoppuPvmTyyppi">
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:element name="MaatunnusKoodi" type="jhs:MaatunnusKoodiTyyppi"/>
+	<xs:simpleType name="MaatunnusKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="NeljasRiviTeksti" type="jhs:NeljasRiviTekstiTyyppi"/>
+	<xs:simpleType name="NeljasRiviTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="NimilajiKoodi" type="jhs:NimilajiKoodiTyyppi"/>
+	<xs:simpleType name="NimilajiKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="Nimi" type="jhs:NimiTyyppi"/>
+	<xs:simpleType name="NimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="OsoiteNumero" type="jhs:OsoiteNumeroTyyppi"/>
+	<xs:simpleType name="OsoiteNumeroTyyppi">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:element name="PaayksikkoNimi" type="jhs:PaayksikkoNimiTyyppi"/>
+	<xs:simpleType name="PaayksikkoNimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="PankkitiliTunnus" type="jhs:PankkitiliTunnusTyyppi"/>
+	<xs:simpleType name="PankkitiliTunnusTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="PostilokerolyhenneTeksti" type="jhs:PostilokerolyhenneTekstiTyyppi"/>
+	<xs:simpleType name="PostilokerolyhenneTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="PostilokeroTeksti" type="jhs:PostilokeroTekstiTyyppi"/>
+	<xs:simpleType name="PostilokeroTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="PostinumeroKoodi" type="jhs:PostinumeroKoodiTyyppi"/>
+	<xs:simpleType name="PostinumeroKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="PostitoimipaikkaNimi" type="jhs:PostitoimipaikkaNimiTyyppi"/>
+	<xs:simpleType name="PostitoimipaikkaNimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="PuhelinnumeroTeksti" type="jhs:PuhelinnumeroTekstiTyyppi"/>
+	<xs:simpleType name="PuhelinnumeroTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="SahkoinenAsiointiTunnus" type="jhs:SahkoinenAsiointiTunnusTyyppi"/>
+	<xs:simpleType name="SahkoinenAsiointiTunnusTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="SahkopostiosoiteTeksti" type="jhs:SahkopostiosoiteTekstiTyyppi"/>
+	<xs:simpleType name="SahkopostiosoiteTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="SiviilisaatyTeksti" type="jhs:SiviilisaatyTekstiTyyppi"/>
+	<xs:simpleType name="SiviilisaatyTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="StatusryhmaTeksti" type="jhs:StatusryhmaTekstiTyyppi"/>
+	<xs:simpleType name="StatusryhmaTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="SukuNimi" type="jhs:SukuNimiTyyppi"/>
+	<xs:simpleType name="SukuNimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="SukupuoliKoodi" type="jhs:SukupuoliKoodiTyyppi"/>
+	<xs:simpleType name="SukupuoliKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="SyntymaPvm" type="jhs:SyntymaPvmTyyppi"/>
+	<xs:simpleType name="SyntymaPvmTyyppi">
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:element name="ToinenRiviTeksti" type="jhs:ToinenRiviTekstiTyyppi"/>
+	<xs:simpleType name="ToinenRiviTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="TurvakieltoKytkin" type="jhs:TurvakieltoKytkinTyyppi"/>
+	<xs:simpleType name="TurvakieltoKytkinTyyppi">
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:element name="UlkomaaHenkiloTunnus" type="jhs:UlkomaaHenkiloTunnusTyyppi"/>
+	<xs:simpleType name="UlkomaaHenkiloTunnusTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="UlkomaaPostitoimipaikkaNimi" type="jhs:UlkomaaPostitoimipaikkaNimiTyyppi"/>
+	<xs:simpleType name="UlkomaaPostitoimipaikkaNimiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="VakinainenKytkin" type="jhs:VakinainenKytkinTyyppi"/>
+	<xs:simpleType name="VakinainenKytkinTyyppi">
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:element name="ValiaikainenHenkiloTunnus" type="jhs:ValiaikainenHenkiloTunnusTyyppi"/>
+	<xs:simpleType name="ValiaikainenHenkiloTunnusTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="ValtiotunnusKoodi" type="jhs:ValtiotunnusKoodiTyyppi"/>
+	<xs:simpleType name="ValtiotunnusKoodiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="ViidesRiviTeksti" type="jhs:ViidesRiviTekstiTyyppi"/>
+	<xs:simpleType name="ViidesRiviTekstiTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="VoimassaoloKytkin" type="jhs:VoimassaoloKytkinTyyppi"/>
+	<xs:simpleType name="VoimassaoloKytkinTyyppi">
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:element name="YritysTunnus" type="jhs:YritysTunnusTyyppi"/>
+	<xs:simpleType name="YritysTunnusTyyppi">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+</xs:schema>
