@@ -67,7 +67,7 @@ class JHSExporter:
         information_system = self._get_attribute_value(record, 'InformationSystem')
 
         return jhs.Asiakirjatieto(
-            id=record.id,
+            id=record.uuid,
             Kayttorajoitustiedot=self._create_restriction_info(record),
             Sailytysaikatiedot=self._create_retention_info(record),
             AsiakirjaluokkaTeksti=jhs.AsiakirjaluokkaTeksti(self._get_attribute_value(record, 'RecordType')),
@@ -79,7 +79,7 @@ class JHSExporter:
 
     def _handle_action(self, action, records):
         ToimenpideTiedot = jhs.Toimenpidetiedot(
-            id=action.id,
+            id=action.uuid,
             Asiakirjatieto=records,
         )
 
@@ -94,7 +94,7 @@ class JHSExporter:
 
     def _handle_phase(self, phase, actions):
         ToimenpideTiedot = jhs.Toimenpidetiedot(
-            id=phase.id,
+            id=phase.uuid,
             Toimenpidetiedot=actions
         )
 
