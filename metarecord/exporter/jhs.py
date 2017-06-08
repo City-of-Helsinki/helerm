@@ -101,7 +101,7 @@ class JHSExporter:
 
         phase_type = self._get_attribute_value(phase, 'PhaseType')
         if phase_type:
-            ToimenpideTiedot.ToimenpideluokkaTeksti = phase_type,
+            ToimenpideTiedot.ToimenpideluokkaTeksti = phase_type
         type_specifier = self._get_attribute_value(phase, 'TypeSpecifier')
         if type_specifier:
             ToimenpideTiedot.ToimenpideluokkaTarkenneTeksti = type_specifier
