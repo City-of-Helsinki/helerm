@@ -25,7 +25,7 @@ pip-tools==1.9.0
 psycopg2==2.7.3
 py==1.4.34                # via pytest
 PyJWT==1.5.2              # via djangorestframework-jwt
-pytest-django==2.9.1
+pytest-django==3.1.2
 pytest==2.9.1             # via pytest-django
 python3-openid==3.0.10    # via django-allauth
 pytz==2016.3
