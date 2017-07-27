@@ -13,7 +13,7 @@ django-allauth==0.32.0
 django-cors-headers==2.1.0
 django-filter==1.0.4
 django-hstore==1.4.2
-Django==1.9.5             # via django-allauth
+Django==1.11.3             # via django-allauth
 djangorestframework-jwt==1.9.0
 djangorestframework==3.4.7
 et-xmlfile==1.0.1         # via openpyxl
