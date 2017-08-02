@@ -31,5 +31,5 @@ python3-openid==3.1.0    # via django-allauth
 pytz==2017.2
 pyxb==1.2.5
 requests-oauthlib==0.8.0  # via django-allauth
-requests==2.18.2          # via django-allauth, requests-oauthlib
+requests==2.18.3          # via django-allauth, requests-oauthlib
 six==1.10.0               # via pip-tools
