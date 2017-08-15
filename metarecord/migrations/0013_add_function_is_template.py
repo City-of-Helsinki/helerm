@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import django_hstore.fields
+from django.contrib.postgres.fields import HStoreField
 
 
 class Migration(migrations.Migration):
@@ -21,17 +21,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='function',
             name='attributes',
-            field=django_hstore.fields.DictionaryField(blank=True, null=True),
+            field=HStoreField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='phase',
             name='attributes',
-            field=django_hstore.fields.DictionaryField(blank=True, null=True),
+            field=HStoreField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='record',
             name='attributes',
-            field=django_hstore.fields.DictionaryField(blank=True, null=True),
+            field=HStoreField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='function',

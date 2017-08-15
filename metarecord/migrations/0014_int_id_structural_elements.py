@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
-import django_hstore.fields
+from django.contrib.postgres.fields import HStoreField
 import uuid
 
 
@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                 ('modified_at', models.DateTimeField(default=django.utils.timezone.now, editable=False, verbose_name='time of modification')),
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False)),
                 ('index', models.PositiveSmallIntegerField(db_index=True, editable=False, null=True)),
-                ('attributes', django_hstore.fields.DictionaryField(blank=True, null=True)),
+                ('attributes', HStoreField(blank=True, null=True)),
                 ('name', models.CharField(max_length=256, verbose_name='name')),
                 ('created_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='action_created', to=settings.AUTH_USER_MODEL, verbose_name='created by')),
                 ('modified_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='action_modified', to=settings.AUTH_USER_MODEL, verbose_name='modified by')),
@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
                 ('modified_at', models.DateTimeField(default=django.utils.timezone.now, editable=False, verbose_name='time of modification')),
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False)),
                 ('index', models.PositiveSmallIntegerField(db_index=True, editable=False, null=True)),
-                ('attributes', django_hstore.fields.DictionaryField(blank=True, null=True)),
+                ('attributes', HStoreField(blank=True, null=True)),
                 ('function_id', models.CharField(db_index=True, max_length=16, null=True, unique=True, verbose_name='function ID')),
                 ('name', models.CharField(max_length=256, verbose_name='name')),
                 ('error_count', models.PositiveIntegerField(default=0)),
@@ -115,7 +115,7 @@ class Migration(migrations.Migration):
                 ('modified_at', models.DateTimeField(default=django.utils.timezone.now, editable=False, verbose_name='time of modification')),
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False)),
                 ('index', models.PositiveSmallIntegerField(db_index=True, editable=False, null=True)),
-                ('attributes', django_hstore.fields.DictionaryField(blank=True, null=True)),
+                ('attributes', HStoreField(blank=True, null=True)),
                 ('name', models.CharField(max_length=256, verbose_name='name')),
                 ('created_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='phase_created', to=settings.AUTH_USER_MODEL, verbose_name='created by')),
                 ('function', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='phases', to='metarecord.Function', verbose_name='function')),
@@ -135,7 +135,7 @@ class Migration(migrations.Migration):
                 ('modified_at', models.DateTimeField(default=django.utils.timezone.now, editable=False, verbose_name='time of modification')),
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False)),
                 ('index', models.PositiveSmallIntegerField(db_index=True, editable=False, null=True)),
-                ('attributes', django_hstore.fields.DictionaryField(blank=True, null=True)),
+                ('attributes', HStoreField(blank=True, null=True)),
                 ('name', models.CharField(max_length=256, verbose_name='type specifier')),
                 ('action', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='records', to='metarecord.Action', verbose_name='action')),
                 ('created_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='record_created', to=settings.AUTH_USER_MODEL, verbose_name='created by')),

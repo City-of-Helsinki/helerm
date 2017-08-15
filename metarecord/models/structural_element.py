@@ -1,11 +1,10 @@
 import uuid
-from contextlib import ContextDecorator
 from copy import deepcopy
 
 from django.conf import settings
+from django.contrib.postgres.fields import HStoreField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django_hstore import hstore
 
 from .attribute import Attribute
 from .base import TimeStampedModel
@@ -18,7 +17,7 @@ class StructuralElement(TimeStampedModel):
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('modified by'),
                                     null=True, blank=True, related_name='%(class)s_modified', editable=False)
     index = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
-    attributes = hstore.DictionaryField(blank=True, null=True)
+    attributes = HStoreField(verbose_name=_('attributes'), blank=True, default=dict)
 
     _attribute_validations = {
         'allowed': None,
@@ -68,57 +67,6 @@ class StructuralElement(TimeStampedModel):
             if value in ('', None):
                 del self.attributes[key]
         return super().save(*args, **kwargs)
-
-
-def disable_attribute_schema():
-    """
-    Disable django-hstore schema for attributes.
-    """
-    for model in StructuralElement.__subclasses__():
-        data_field = model._meta.get_field('attributes')
-        data_field.reload_schema(None)
-
-
-def reload_attribute_schema():
-    """
-    Reload django-hstore schema for attributes.
-    """
-    whole_schema = []
-
-    for attribute in Attribute.objects.prefetch_related('values'):
-        attribute_schema = {
-            'name': attribute.identifier,
-            'class': 'CharField',
-            'kwargs': {
-                'max_length': 1024,
-                'blank': True,
-                'null': True,
-                'verbose_name': attribute.name,
-            }
-        }
-
-        values = attribute.values.all()
-        if len(values):
-            choices = [(value.value, value.value) for value in values]
-            attribute_schema['kwargs']['choices'] = choices
-
-        whole_schema.append(attribute_schema)
-
-    for model in StructuralElement.__subclasses__():
-        data_field = model._meta.get_field('attributes')
-        data_field.reload_schema(whole_schema)
-
-
-class use_attribute_schema(ContextDecorator):
-    """
-    Context manager / decorator to use django-hstore schema for attributes.
-    """
-    def __enter__(self):
-        reload_attribute_schema()
-        return self
-
-    def __exit__(self, *exc):
-        disable_attribute_schema()
 
 
 def get_attribute_json_schema(allowed=None, required=None, conditionally_required=None):

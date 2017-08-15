@@ -1,9 +1,26 @@
+import json
+
 from django.contrib import admin
+from django.contrib.postgres.forms.hstore import HStoreField
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 
 from .models import Action, Attribute, AttributeGroup, AttributeValue, Function, Phase, Record, MetadataVersion
+
+
+# disable non ascii char escaping in hstore field
+class UTF8HStoreField(HStoreField):
+    def prepare_value(self, value):
+        if isinstance(value, dict):
+            return json.dumps(value, ensure_ascii=False)
+        return value
+
+
+class StructuralElementAdmin(admin.ModelAdmin):
+    def get_form(self, request, obj=None, **kwargs):
+        kwargs['field_classes'] = {'attributes': UTF8HStoreField}
+        return super().get_form(request, obj, **kwargs)
 
 
 class MetadataVersionInline(admin.TabularInline):
@@ -18,7 +35,7 @@ class MetadataVersionInline(admin.TabularInline):
         return False
 
 
-class FunctionAdmin(admin.ModelAdmin):
+class FunctionAdmin(StructuralElementAdmin):
     list_display = ('get_function_id', 'name', 'state', 'version')
     list_filter = ('state',)
     search_fields = ('function_id', 'name')
@@ -40,7 +57,7 @@ class FunctionAdmin(admin.ModelAdmin):
             obj.create_metadata_version()
 
 
-class PhaseAdmin(admin.ModelAdmin):
+class PhaseAdmin(StructuralElementAdmin):
     fields = ('name', 'function', 'attributes')
     ordering = ('function__function_id', 'index')
     raw_id_fields = ('function',)
@@ -52,7 +69,7 @@ class PhaseAdmin(admin.ModelAdmin):
     name.short_description = _('name')
 
 
-class ActionAdmin(admin.ModelAdmin):
+class ActionAdmin(StructuralElementAdmin):
     fields = ('name', 'phase', 'attributes')
     ordering = ('phase__function__function_id', 'index')
     raw_id_fields = ('phase',)
@@ -64,7 +81,7 @@ class ActionAdmin(admin.ModelAdmin):
     name.short_description = _('name')
 
 
-class RecordAdmin(admin.ModelAdmin):
+class RecordAdmin(StructuralElementAdmin):
     fields = ('name', 'action', 'parent', 'attributes')
     ordering = ('action__phase__function__function_id', 'index')
     raw_id_fields = ('action', 'parent')
