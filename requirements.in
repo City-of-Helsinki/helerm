@@ -1,6 +1,6 @@
 pip-tools
 Django
--e git+https://github.com/City-of-Helsinki/django-helusers.git#egg=django-helusers
+django-helusers
 pytz
 psycopg2
 openpyxl
