@@ -162,6 +162,7 @@ class FunctionFilterSet(django_filters.FilterSet):
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     queryset = Function.objects.filter(is_template=False).select_related('modified_by').prefetch_related('phases')
+    queryset = queryset.order_by('function_id')
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)

@@ -21,10 +21,11 @@ class AttributeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Attribute
+        fields = '__all__'
 
 
 class AttributeFilterSet(django_filters.rest_framework.FilterSet):
-    identifier = django_filters.Filter(lookup_type='in', widget=django_filters.widgets.CSVWidget())
+    identifier = django_filters.Filter(lookup_expr='in', widget=django_filters.widgets.CSVWidget)
 
     class Meta:
         model = Attribute
