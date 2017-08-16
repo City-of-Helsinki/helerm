@@ -1,6 +1,6 @@
 pip-tools
 Django
--e git+https://github.com/City-of-Helsinki/django-helusers.git#egg=django-helusers
+django-helusers
 pytz
 psycopg2
 openpyxl
@@ -8,7 +8,6 @@ pyxb
 djangorestframework
 pytest-django
 django-cors-headers
-django-hstore
 django-filter
 django-allauth
 djangorestframework-jwt

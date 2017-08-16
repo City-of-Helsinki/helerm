@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-import django_hstore.fields
+from django.contrib.postgres.fields import HStoreField
 
 
 class Migration(migrations.Migration):
@@ -36,22 +36,22 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='action',
             name='attributes',
-            field=django_hstore.fields.DictionaryField(blank=True, null=True),
+            field=HStoreField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='function',
             name='attributes',
-            field=django_hstore.fields.DictionaryField(blank=True, editable=False, null=True),
+            field=HStoreField(blank=True, editable=False, null=True),
         ),
         migrations.AddField(
             model_name='phase',
             name='attributes',
-            field=django_hstore.fields.DictionaryField(blank=True, editable=False, null=True),
+            field=HStoreField(blank=True, editable=False, null=True),
         ),
         migrations.AddField(
             model_name='record',
             name='attributes',
-            field=django_hstore.fields.DictionaryField(blank=True, editable=False, null=True),
+            field=HStoreField(blank=True, editable=False, null=True),
         ),
         migrations.AlterUniqueTogether(
             name='attributevalue',

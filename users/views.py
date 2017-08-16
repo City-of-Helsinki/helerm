@@ -20,7 +20,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserSerializer
     lookup_field = 'uuid'
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = get_user_model().objects.all()
+    queryset = get_user_model().objects.all().order_by('id')
 
     def get_queryset(self, *args, **kwargs):
         return self.queryset.filter(pk=self.request.user.pk)
