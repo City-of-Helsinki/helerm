@@ -2,12 +2,13 @@ from django.db import connection, models, transaction
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
+from .classification import Classification
 from .structural_element import StructuralElement
 
 
 class FunctionQuerySet(models.QuerySet):
     def latest_version(self):
-        return self.order_by('function_id', '-version').distinct('function_id')
+        return self.order_by('classification__code', '-version').distinct('classification__code')
 
     def latest_approved(self):
         return self.filter(state=Function.APPROVED).latest_version()
@@ -30,15 +31,14 @@ class Function(StructuralElement):
     CAN_REVIEW = 'metarecord.can_review'
     CAN_APPROVE = 'metarecord.can_approve'
 
-    function_id = models.CharField(verbose_name=_('function ID'), max_length=16, db_index=True, null=True)
-    parent = models.ForeignKey('self', verbose_name=_('parent'), related_name='children', blank=True, null=True)
-    name = models.CharField(verbose_name=_('name'), max_length=256)
+    name = models.CharField(verbose_name=_('name'), max_length=256, blank=True)  # only templates use this field
     error_count = models.PositiveIntegerField(verbose_name=_('error count'), default=0)
     is_template = models.BooleanField(verbose_name=_('is template'), default=False)
     version = models.PositiveIntegerField(db_index=True, default=1, null=True, blank=True)
     state = models.CharField(verbose_name=_('state'), max_length=20, choices=STATE_CHOICES, default=DRAFT)
     valid_from = models.DateField(verbose_name=_('valid from'), null=True, blank=True)
     valid_to = models.DateField(verbose_name=_('valid to'), null=True, blank=True)
+    classification = models.ForeignKey(Classification, verbose_name=_('classification'), null=True, blank=True)
 
     # Function attribute validation rules, hardcoded at least for now
     _attribute_validations = {
@@ -61,7 +61,7 @@ class Function(StructuralElement):
     class Meta:
         verbose_name = _('function')
         verbose_name_plural = _('functions')
-        unique_together = (('function_id', 'version'), ('uuid', 'version'))
+        unique_together = (('uuid', 'version'),)
         permissions = (
             ('can_edit', _('Can edit')),
             ('can_review', _('Can review')),
@@ -72,20 +72,28 @@ class Function(StructuralElement):
 
     def __str__(self):
         if self.is_template:
-            return '* %s * %s' % (_('template').upper(), self.name)
+            return '* %s * %s' % (_('template').upper(), self.get_name())
 
-        return '%s %s' % (self.function_id, self.name)
+        return '%s %s' % (self.get_classification_code(), self.get_name())
+
+    def get_classification_code(self):
+        return self.classification.code if self.classification else ''
+
+    def get_name(self):
+        if self.is_template:
+            return self.name
+        return self.classification.title if self.classification else ''
 
     @transaction.atomic
     def save(self, *args, **kwargs):
         if self.is_template:
-            self.function_id = None
+            self.classification = None
             self.version = None
             super().save(*args, **kwargs)
             return
 
-        if not self.function_id:
-            raise Exception('function_id cannot be empty or null.')
+        if not self.classification:
+            raise Exception('Classification is required.')
 
         if not self.id:
 
@@ -93,7 +101,7 @@ class Function(StructuralElement):
             with connection.cursor() as cursor:
                 cursor.execute('LOCK TABLE %s' % self._meta.db_table)
             try:
-                latest = Function.objects.latest_version().get(function_id=self.function_id)
+                latest = Function.objects.latest_version().get(classification=self.classification)
                 self.version = latest.version + 1
                 self.uuid = latest.uuid
             except Function.DoesNotExist:

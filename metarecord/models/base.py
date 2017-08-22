@@ -1,7 +1,6 @@
 import uuid
 
-from django.db import models
-from django.utils import timezone
+from django.db import connection, models, transaction
 from django.utils.translation import ugettext_lazy as _
 
 

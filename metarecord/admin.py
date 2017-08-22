@@ -6,7 +6,9 @@ from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 
-from .models import Action, Attribute, AttributeGroup, AttributeValue, Function, Phase, Record, MetadataVersion
+from .models import (
+    Action, Attribute, AttributeGroup, AttributeValue, Classification, Function, Phase, Record, MetadataVersion
+)
 
 
 # disable non ascii char escaping in hstore field
@@ -36,19 +38,21 @@ class MetadataVersionInline(admin.TabularInline):
 
 
 class FunctionAdmin(StructuralElementAdmin):
-    list_display = ('get_function_id', 'name', 'state', 'version')
+    list_display = ('get_classification_code', 'get_name', 'state', 'version')
     list_filter = ('state',)
-    search_fields = ('function_id', 'name')
+    search_fields = ('classification__code', 'classification__title')
 
-    ordering = ('function_id', 'version')
-    fields = (
-        'parent', 'function_id', 'state', 'is_template', 'error_count', 'valid_from', 'valid_to', 'attributes'
-    )
+    ordering = ('classification__code', 'version')
+    fields = ('state', 'is_template', 'error_count', 'valid_from', 'valid_to', 'attributes')
     inlines = (MetadataVersionInline,)
 
-    def get_function_id(self, obj):
-        return obj.function_id if not obj.is_template else '* %s *' % _('template').upper()
-    get_function_id.short_description = _('function ID')
+    def get_classification_code(self, obj):
+        return obj.get_classification_code() if not obj.is_template else str(_('template')).upper()
+    get_classification_code.short_description = _('classification code')
+
+    def get_name(self, obj):
+        return obj.get_name()
+    get_name.short_description = _('name')
 
     @transaction.atomic
     def save_model(self, request, obj, form, change):
@@ -59,7 +63,7 @@ class FunctionAdmin(StructuralElementAdmin):
 
 class PhaseAdmin(StructuralElementAdmin):
     fields = ('name', 'function', 'attributes')
-    ordering = ('function__function_id', 'index')
+    ordering = ('function__classification__code', 'index')
     raw_id_fields = ('function',)
     readonly_fields = ('name',)
     search_fields = ('attributes',)
@@ -71,7 +75,7 @@ class PhaseAdmin(StructuralElementAdmin):
 
 class ActionAdmin(StructuralElementAdmin):
     fields = ('name', 'phase', 'attributes')
-    ordering = ('phase__function__function_id', 'index')
+    ordering = ('phase__function__classification__code', 'index')
     raw_id_fields = ('phase',)
     readonly_fields = ('name',)
     search_fields = ('attributes',)
@@ -83,7 +87,7 @@ class ActionAdmin(StructuralElementAdmin):
 
 class RecordAdmin(StructuralElementAdmin):
     fields = ('name', 'action', 'parent', 'attributes')
-    ordering = ('action__phase__function__function_id', 'index')
+    ordering = ('action__phase__function__classification__code', 'index')
     raw_id_fields = ('action', 'parent')
     readonly_fields = ('name',)
     search_fields = ('attributes',)
@@ -111,9 +115,15 @@ class AttributeGroupAdmin(admin.ModelAdmin):
     model = AttributeGroup
 
 
+class ClassificationAdmin(admin.ModelAdmin):
+    list_display = ('code', 'title')
+    ordering = ('code',)
+
+
 admin.site.register(Function, FunctionAdmin)
 admin.site.register(Phase, PhaseAdmin)
 admin.site.register(Action, ActionAdmin)
 admin.site.register(Record, RecordAdmin)
 admin.site.register(Attribute, AttributeAdmin)
 admin.site.register(AttributeGroup, AttributeGroupAdmin)
+admin.site.register(Classification, ClassificationAdmin)

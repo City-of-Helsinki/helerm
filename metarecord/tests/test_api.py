@@ -2,7 +2,7 @@ import datetime
 import uuid
 import pytest
 from rest_framework.reverse import reverse
-from metarecord.models import Action, Attribute, Function, Phase, Record
+from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
 from metarecord.tests.utils import assert_response_functions, check_attribute_errors, set_permissions
 
 
@@ -19,11 +19,11 @@ def get_attribute_detail_url(attribute):
 
 
 @pytest.fixture
-def function_data(parent_function, function, free_text_attribute, choice_attribute):
+def function_data(function, free_text_attribute, choice_attribute):
     return {
         'name': 'new function',
-        'function_id': function.function_id,
-        'parent': parent_function.uuid,
+        'function_id': function.classification.code,
+        'parent': 'xyz',
         'attributes': {
             free_text_attribute.identifier: 'new function attribute value',
         },
@@ -59,8 +59,6 @@ def disable_attribute_validations():
 def _check_function_object_matches_data(function_obj, data):
     new_function = function_obj
 
-    assert new_function.parent == Function.objects.latest_version().get(uuid=data['parent'])
-    assert new_function.name == data['name']
     assert new_function.attributes == data['attributes']
     assert new_function.phases.count() == 1
 
@@ -121,13 +119,17 @@ def test_get_attribute_schemas(api_client):
 
 
 @pytest.mark.django_db
-def test_function_versioning(api_client):
-    first_draft = Function.objects.create(name='first draft', function_id='00 00')
-    first_approved = Function.objects.create(name='first approved', function_id='00 00', state=Function.APPROVED)
-    second_approved = Function.objects.create(name='second approved', function_id='00 00', state=Function.APPROVED)
-    second_draft = Function.objects.create(name='second draft', function_id='00 00')
-    other_function = Function.objects.create(name='other function', function_id='00 01')
-    template = Function.objects.create(name='template', is_template=True)
+def test_function_versioning(api_client, classification, classification_2):
+    first_draft = Function.objects.create(classification=classification, attributes={'subject': 'first draft'})
+    first_approved = Function.objects.create(
+        classification=classification, state=Function.APPROVED, attributes={'subject': 'first approved'}
+    )
+    second_approved = Function.objects.create(
+        classification=classification, state=Function.APPROVED, attributes={'subject': 'second approved'}
+    )
+    second_draft = Function.objects.create(classification=classification, attributes={'subject': 'second draft'})
+    other_function = Function.objects.create(classification=classification_2, attributes={'subject': 'other function'})
+    template = Function.objects.create(is_template=True, attributes={'subject': 'template'})
 
     assert first_draft.uuid == first_approved.uuid == second_approved.uuid == second_draft.uuid
     assert first_draft.version == 1
@@ -142,12 +144,12 @@ def test_function_versioning(api_client):
     # /function/<uuid>/ should return the latest version
     response = api_client.get(url)
     assert response.status_code == 200
-    assert response.data['name'] == 'second draft'
+    assert response.data['attributes']['subject'] == 'second draft'
 
     # /function/<uuid>/?state=approved should return the latest approved version
     response = api_client.get(url + '?state=approved')
     assert response.status_code == 200
-    assert response.data['name'] == 'second approved'
+    assert response.data['attributes']['subject'] == 'second approved'
 
 
 @pytest.mark.django_db
@@ -192,7 +194,7 @@ def test_function_put(function_data, user_api_client, function, phase, action, r
 
 @pytest.mark.django_db
 def test_function_put_invalid_attributes(function_data, user_api_client, function):
-    function_data['function_id'] = function.function_id
+    function_data['function_id'] = function.classification.code
     function_data['attributes'] = {'InvalidFunctionAttribute': 'value'}
     function_data['phases'][0]['attributes'] = {'InvalidPhaseAttribute': 'value'}
 
@@ -209,7 +211,7 @@ def test_function_put_invalid_attributes(function_data, user_api_client, functio
 ])
 @pytest.mark.django_db
 def test_function_put_invalid_attributes_format(function_data, user_api_client, function, attributes):
-    function_data['function_id'] = function.function_id
+    function_data['function_id'] = function.classification.code
     function_data['phases'][0]['attributes'] = attributes
     response = user_api_client.put(get_function_detail_url(function), data=function_data)
     assert response.status_code == 400
@@ -219,18 +221,15 @@ def test_function_put_invalid_attributes_format(function_data, user_api_client, 
 def test_function_state_change(user_api_client, function):
     set_permissions(user_api_client, Function.CAN_EDIT)
     data = {'state': Function.SENT_FOR_REVIEW, 'name': 'this should be ignored'}
-    original_name = function.name
 
     response = user_api_client.patch(get_function_detail_url(function), data=data)
     assert response.status_code == 200
     assert response.data['version'] == 1
     assert response.data['state'] == Function.SENT_FOR_REVIEW
-    assert response.data['name'] == original_name
 
     function.refresh_from_db()
     assert function.version == 1
     assert function.state == Function.SENT_FOR_REVIEW
-    assert function.name == original_name
 
 
 @pytest.mark.django_db
@@ -551,22 +550,16 @@ def test_function_validation_date_validation(user_api_client, function, function
 ))
 @pytest.mark.django_db
 def test_function_validation_date_filtering(user_api_client, filtering, expected_indexes):
+    classifications = [
+        Classification.objects.get_or_create(code=code)[0]
+        for code in ('00', '01', '02', '03', '04')
+    ]
     functions = (
-        Function.objects.create(
-            name='function_0', function_id='00'
-        ),
-        Function.objects.create(
-            name='function_1', function_id='01', valid_from='2000-05-05'
-        ),
-        Function.objects.create(
-            name='function_2', function_id='02', valid_from='2002-05-05', valid_to='2004-05-05'
-        ),
-        Function.objects.create(
-            name='function_3', function_id='03', valid_from='2003-05-05', valid_to='2005-05-05'
-        ),
-        Function.objects.create(
-            name='function_4', function_id='04', valid_to='2006-05-05'
-        ),
+        Function.objects.create(classification=classifications[0]),
+        Function.objects.create(classification=classifications[1], valid_from='2000-05-05'),
+        Function.objects.create(classification=classifications[2], valid_from='2002-05-05', valid_to='2004-05-05'),
+        Function.objects.create(classification=classifications[3], valid_from='2003-05-05', valid_to='2005-05-05'),
+        Function.objects.create(classification=classifications[4], valid_to='2006-05-05'),
     )
 
     response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
@@ -641,12 +634,12 @@ def test_attribute_endpoints(user_api_client, choice_attribute, choice_value_1, 
         ('version=2', [1]),
 ))
 @pytest.mark.django_db
-def test_function_version_filter(user_api_client, filtering, expected_indexes):
+def test_function_version_filter(user_api_client, filtering, expected_indexes, classification, classification_2):
     functions = (
-        Function.objects.create(name='function_0', function_id='00'),
-        Function.objects.create(name='function_1', function_id='00'),
-        Function.objects.create(name='function_2', function_id='00'),
-        Function.objects.create(name='function_3', function_id='01'),
+        Function.objects.create(classification=classification),
+        Function.objects.create(classification=classification),
+        Function.objects.create(classification=classification),
+        Function.objects.create(classification=classification_2),
     )
 
     response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)

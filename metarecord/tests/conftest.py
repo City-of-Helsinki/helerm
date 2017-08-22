@@ -3,23 +3,33 @@ import uuid
 
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
-from metarecord.models import Action, Attribute, AttributeGroup, AttributeValue, Function, Phase, Record
+from metarecord.models import Action, Attribute, AttributeGroup, AttributeValue, Classification, Function, Phase, Record
 from metarecord.tests.utils import set_permissions
 
 
 @pytest.fixture
-def parent_function():
-    return Function.objects.create(name='test parent function', function_id='00')
+def parent_classification():
+    return Classification.objects.create(title='test parent classification', code='00')
 
 
 @pytest.fixture
-def function(parent_function):
-    return Function.objects.create(name='test function', function_id='00 00', parent=parent_function)
+def classification():
+    return Classification.objects.create(title='test classification', code='00 00')
 
 
 @pytest.fixture
-def second_function(parent_function):
-    return Function.objects.create(name='second test function', function_id='00 01', parent=parent_function)
+def classification_2():
+    return Classification.objects.create(title='test classification 2', code='00 01')
+
+
+@pytest.fixture
+def function(classification):
+    return Function.objects.create(classification=classification)
+
+
+@pytest.fixture
+def second_function(classification_2):
+    return Function.objects.create(classification=classification_2)
 
 
 @pytest.fixture
@@ -82,7 +92,7 @@ def choice_value_2_2(choice_attribute_2):
 
 @pytest.fixture
 def template():
-    return Function.objects.create(name='test template', is_template=True)
+    return Function.objects.create(is_template=True)
 
 
 @pytest.fixture
