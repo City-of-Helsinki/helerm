@@ -12,7 +12,7 @@ django-admin-sortable2==0.6.15
 django-allauth==0.33.0
 django-cors-headers==2.1.0
 django-filter==1.0.4
-django-helusers==0.4.1
+django-helusers==0.4.2
 django==1.11.4            # via django-allauth, django-helusers, drf-oidc-auth
 djangorestframework-jwt==1.11.0
 djangorestframework==3.6.3
