@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from openpyxl import load_workbook
 
-from metarecord.models import Action, Attribute, AttributeValue, Function, Phase, Record
+from metarecord.models import Action, Attribute, AttributeValue, Classification, Function, Phase, Record
 
 
 class TOSImporterException(Exception):
@@ -142,24 +142,23 @@ class TOSImporter:
 
         # get all four function id hierarchy levels
         # for example ['5', '05 01', '05 01 03', None]
-        function_ids = []
+        classification_codes = []
         for row in range(2, first_data_row):
             value = sheet.cell(row=row, column=1).value
             if value:
                 value = str(value).strip()
-            function_ids.append(value)
+            classification_codes.append(value)
 
         # find the last index before none (or the last one in the list if none doesn't exist)
         # that is the index of this function's id
-        index = len(function_ids) - 1
-        while function_ids[index] is None and index > 0:
+        index = len(classification_codes) - 1
+        while classification_codes[index] is None and index > 0:
             index -= 1
 
-        # get id, name and parent matching the index
         function_data = dict(
-            function_id=str(function_ids[index]),
-            name=sheet.cell(row=2+index, column=2).value,
-            parent_function_id=function_ids[index - 1] if index > 2 else None
+            classification_code=str(classification_codes[index]),
+            title=sheet.cell(row=2+index, column=2).value,
+            parent_classification_code=classification_codes[index - 1] if index > 2 else None
         )
 
         return function_data
@@ -169,31 +168,46 @@ class TOSImporter:
         if not function_data:
             return
 
-        parent_id = function_data.pop('parent_function_id')
-        if parent_id:
-            try:
-                function_data['parent'] = Function.objects.latest_version().get(function_id=parent_id)
-            except Function.DoesNotExist:
-                raise TOSImporterException(
-                    'Cannot set parent for function %s, function %s does not exist' %
-                    (function_data['function_id'], parent_id)
-                )
+        classification_code = function_data.pop('classification_code')
+        parent_classification_code = function_data.pop('parent_classification_code')
+        title = function_data.pop('title')
 
         try:
-            function = Function.objects.latest_version().get(function_id=function_data['function_id'])
-            if function.phases.count() != 0:
-                raise TOSImporterException(
-                    'Function %s seems to be populated already.' % function_data['function_id']
-                )
+            classification = Classification.objects.get(code=classification_code)
+        except Classification.DoesNotExist:
+            print('Classification %s not found.' % classification_code)
+            parent_classification = None
 
-            function.metadata_versions.all().delete()
-            for key, value in function_data.items():
-                setattr(function, key, value)
-            function.save()
-            function.create_metadata_version()
+            if parent_classification_code:
+                try:
+                    parent_classification = Classification.objects.get(code=parent_classification_code)
+                except Classification.DoesNotExist:
+                    raise TOSImporterException(
+                        'Parent classification %s does not exist' % parent_classification_code
+                    )
 
+            classification = Classification.objects.create(
+                code=classification_code,
+                parent=parent_classification,
+                title=title,
+            )
+
+        try:
+            function = Function.objects.latest_version().get(classification=classification)
         except Function.DoesNotExist:
-            function = Function.objects.create(**function_data)
+            return Function.objects.create(classification=classification, **function_data)
+
+        if function.phases.count() != 0:
+            raise TOSImporterException(
+                'Function %s seems to be populated already.' % classification_code
+            )
+
+        function.metadata_versions.all().delete()
+
+        for key, value in function_data.items():
+            setattr(function, key, value)
+        function.save()
+        function.create_metadata_version()
 
         return function
 
