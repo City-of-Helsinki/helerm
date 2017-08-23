@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'helusers.providers.helsinki',
     'adminsortable2',
+    'django_filters',
 
     'metarecord',
     'users',
