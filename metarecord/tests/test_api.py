@@ -89,9 +89,10 @@ def attribute(choice_attribute):
     'record',
     'attribute',
     'template',
+    'classification',
 ])
 @pytest.mark.django_db
-def test_get(api_client, resource, function, phase, action, record, attribute, template):
+def test_get(api_client, resource, function, phase, action, record, attribute, template, classification):
     """
     Test GET to every resource's list and detail endpoint.
     """

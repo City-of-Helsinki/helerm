@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 import django_filters
 from rest_framework import exceptions, serializers, viewsets
 
-from metarecord.models import Action, Attribute, Function, Phase, Record
+from metarecord.models import Action, Function, Phase, Record
 
 from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
 from .phase import PhaseDetailSerializer
@@ -22,6 +22,8 @@ class FunctionListSerializer(StructuralElementSerializer):
     name = serializers.ReadOnlyField(source='get_name')
     parent = serializers.SerializerMethodField()
 
+    classification = HexRelatedField(read_only=True)
+
     class Meta(StructuralElementSerializer.Meta):
         model = Function
         exclude = StructuralElementSerializer.Meta.exclude + ('index', 'is_template')
@@ -35,7 +37,7 @@ class FunctionListSerializer(StructuralElementSerializer):
         if obj.classification and obj.classification.parent:
             parent_functions = Function.objects.filter(classification=obj.classification.parent)
             if parent_functions.exists():
-                return parent_functions[0].uuid
+                return parent_functions[0].uuid.hex
         return None
 
 
