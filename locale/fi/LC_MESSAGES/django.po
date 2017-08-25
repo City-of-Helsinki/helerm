@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-26 14:27+0300\n"
+"POT-Creation-Date: 2017-08-25 16:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,21 +26,21 @@ msgstr "suomi"
 msgid "English"
 msgstr "englanti"
 
-#: metarecord/admin.py:11
+#: metarecord/admin.py:30
 msgid "State history"
 msgstr "Tilahistoria"
 
-#: metarecord/admin.py:30 metarecord/models/function.py:75
+#: metarecord/admin.py:50 metarecord/models/function.py:75
 msgid "template"
 msgstr "malli"
 
-#: metarecord/admin.py:31 metarecord/models/function.py:33
-msgid "function ID"
-msgstr "tehtäväluokkatunniste"
+#: metarecord/admin.py:51
+msgid "classification code"
+msgstr "luokitustunnus"
 
-#: metarecord/admin.py:48 metarecord/admin.py:59 metarecord/admin.py:70
-#: metarecord/models/attribute.py:13 metarecord/models/attribute.py:25
-#: metarecord/models/function.py:35
+#: metarecord/admin.py:55 metarecord/admin.py:73 metarecord/admin.py:85
+#: metarecord/admin.py:97 metarecord/models/attribute.py:13
+#: metarecord/models/attribute.py:25 metarecord/models/function.py:34
 msgid "name"
 msgstr "nimi"
 
@@ -80,7 +80,7 @@ msgstr "ohjeteksti"
 msgid "attribute"
 msgstr "attribuutti"
 
-#: metarecord/models/attribute.py:32
+#: metarecord/models/attribute.py:32 metarecord/models/structural_element.py:20
 msgid "attributes"
 msgstr "attribuutit"
 
@@ -92,70 +92,94 @@ msgstr "Epäkelpo attribuutti."
 msgid "value"
 msgstr "arvo"
 
-#: metarecord/models/attribute.py:70
+#: metarecord/models/attribute.py:71
 msgid "attribute value"
 msgstr "attribuutin arvo"
 
-#: metarecord/models/attribute.py:71
+#: metarecord/models/attribute.py:72
 msgid "attribute values"
 msgstr "attribuuttien arvot"
 
-#: metarecord/models/base.py:9
+#: metarecord/models/base.py:8
 msgid "time of creation"
 msgstr "lisäysaika"
 
-#: metarecord/models/base.py:10
+#: metarecord/models/base.py:9
 msgid "time of modification"
 msgstr "muokkausaika"
 
-#: metarecord/models/function.py:23
-msgid "Draft"
-msgstr "Luonnos"
-
-#: metarecord/models/function.py:24
-msgid "Sent for review"
-msgstr "Lähetetty hyväksyttäväksi"
-
-#: metarecord/models/function.py:25
-msgid "Waiting for approval"
-msgstr "Odottaa hyväksyntää"
-
-#: metarecord/models/function.py:26
-msgid "Approved"
-msgstr "Hyväksytty"
-
-#: metarecord/models/function.py:34 metarecord/models/record.py:10
+#: metarecord/models/classification.py:9 metarecord/models/record.py:10
 msgid "parent"
 msgstr "vanhempi"
 
-#: metarecord/models/function.py:36
+#: metarecord/models/classification.py:10
+msgid "code"
+msgstr "tunnus"
+
+#: metarecord/models/classification.py:11
+msgid "title"
+msgstr "nimeke"
+
+#: metarecord/models/classification.py:12
+msgid "description"
+msgstr "kuvaus"
+
+#: metarecord/models/classification.py:13
+msgid "description internal"
+msgstr "sisäinen kuvaus"
+
+#: metarecord/models/classification.py:16 metarecord/models/function.py:41
+msgid "classification"
+msgstr "tehtäväluokka"
+
+#: metarecord/models/classification.py:17
+msgid "classifications"
+msgstr "tehtäväluokat"
+
+#: metarecord/models/function.py:24
+msgid "Draft"
+msgstr "Luonnos"
+
+#: metarecord/models/function.py:25
+msgid "Sent for review"
+msgstr "Lähetetty hyväksyttäväksi"
+
+#: metarecord/models/function.py:26
+msgid "Waiting for approval"
+msgstr "Odottaa hyväksyntää"
+
+#: metarecord/models/function.py:27
+msgid "Approved"
+msgstr "Hyväksytty"
+
+#: metarecord/models/function.py:35
 msgid "error count"
 msgstr "virheiden määrä"
 
-#: metarecord/models/function.py:37
+#: metarecord/models/function.py:36
 msgid "is template"
 msgstr "malli"
 
-#: metarecord/models/function.py:39 metarecord/models/function.py:123
+#: metarecord/models/function.py:38 metarecord/models/function.py:131
 msgid "state"
 msgstr "tila"
 
-#: metarecord/models/function.py:40 metarecord/models/function.py:125
+#: metarecord/models/function.py:39 metarecord/models/function.py:133
 msgid "valid from"
 msgstr "voimassaoloaika alkaa"
 
-#: metarecord/models/function.py:41 metarecord/models/function.py:126
+#: metarecord/models/function.py:40 metarecord/models/function.py:134
 msgid "valid to"
 msgstr "voimassaoloaika päättyy"
 
-#: metarecord/models/function.py:62 metarecord/models/function.py:119
+#: metarecord/models/function.py:62 metarecord/models/function.py:127
 #: metarecord/models/phase.py:9
 msgid "function"
-msgstr "tehtäväluokka"
+msgstr "käsittelyprosessi"
 
 #: metarecord/models/function.py:63
 msgid "functions"
-msgstr "tehtäväluokat"
+msgstr "käsittelyprosessit"
 
 #: metarecord/models/function.py:66
 msgid "Can edit"
@@ -169,11 +193,11 @@ msgstr "Saa tarkastaa"
 msgid "Can approve"
 msgstr "Saa hyväksyä"
 
-#: metarecord/models/function.py:120
+#: metarecord/models/function.py:128
 msgid "modified at"
 msgstr "muokkausaika"
 
-#: metarecord/models/function.py:121 metarecord/models/structural_element.py:18
+#: metarecord/models/function.py:129 metarecord/models/structural_element.py:17
 msgid "modified by"
 msgstr "muokkaaja"
 
@@ -189,7 +213,7 @@ msgstr "asiakirja"
 msgid "records"
 msgstr "asiakirjat"
 
-#: metarecord/models/structural_element.py:16
+#: metarecord/models/structural_element.py:15
 msgid "created by"
 msgstr "lisääjä"
 
@@ -205,33 +229,30 @@ msgstr "Tämä attribuutti ei ole sallittu."
 msgid "Invalid value."
 msgstr "Epäkelpo arvo."
 
-#: metarecord/views/function.py:69
+#: metarecord/views/function.py:80
 msgid "\"valid_from\" cannot be after \"valid_to\"."
 msgstr "\"valid_from\" ei voi olla myöhemmin kuin \"valid_to\"."
 
-#: metarecord/views/function.py:73
+#: metarecord/views/function.py:84
 msgid "\"state\", \"valid_from\" or \"valid_to\" required."
 msgstr ""
 "Joku kentistä \"state\", \"valid_from\" tai \"valid_to\" on pakollinen."
 
-#: metarecord/views/function.py:103
+#: metarecord/views/function.py:114
 msgid "No permission to edit."
 msgstr "Ei lupaa muokata."
 
-#: metarecord/views/function.py:107
+#: metarecord/views/function.py:118
 msgid ""
 "Cannot edit while in state \"sent_for_review\" or \"waiting_for_approval\""
 msgstr ""
 "Muokkaus ei ole mahdollista kun tila on \"sent_for_review\" tai "
 "\"waiting_for_approval\""
 
-#: metarecord/views/function.py:129
+#: metarecord/views/function.py:140
 msgid "Invalid state change."
 msgstr "Virheellinen tilan vaihto."
 
-#: metarecord/views/function.py:141
+#: metarecord/views/function.py:152
 msgid "No permission for the state change."
 msgstr "Ei oikeutta tilan vaihtoon."
-
-#~ msgid "type specifier"
-#~ msgstr "tyypin tarkenne"
