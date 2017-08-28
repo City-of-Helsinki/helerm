@@ -119,8 +119,8 @@ class JHSExporter:
         )
         return jhs.Luokka(
             id=function.uuid,
-            Luokitustunnus=function.function_id,
-            Nimeke=jhs.Nimeke(jhs.NimekeKielella(function.name, kieliKoodi='fi')),
+            Luokitustunnus=function.get_classification_code(),
+            Nimeke=jhs.Nimeke(jhs.NimekeKielella(function.get_name(), kieliKoodi='fi')),
             KasittelyprosessiTiedot=handling_process_info
         )
 
@@ -135,7 +135,7 @@ class JHSExporter:
         )
 
         # at least for now include all functions that have data
-        function_qs = Function.objects.exclude(phases__isnull=True).latest_version()
+        function_qs = Function.objects.exclude(phases__isnull=True).exclude(is_template=True).latest_version()
         function_qs = function_qs.prefetch_related('phases', 'phases__actions', 'phases__actions__records')
 
         functions = []

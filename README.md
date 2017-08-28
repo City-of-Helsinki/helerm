@@ -63,10 +63,10 @@ API root will be located at http://127.0.0.1:8000/v1/
 
 ## Import
 
-- First you need to import functions and create attributes
+- First you need to import classifications and create attributes
 
 ```
-python manage.py import_functions data/helsinki-functions.csv
+python manage.py import_classifications data/helsinki-functions.csv
 python manage.py create_attributes
 ```
 
@@ -74,6 +74,12 @@ python manage.py create_attributes
 
 ```
 python manage.py import_attributes <excel file>
+```
+
+- Temporary step: the old data model requires a function object for every available function code even when there is no actual data for the function. Those initial functions can be created based on current classification by running
+
+```
+python manage.py create_initial_functions
 ```
 
 - Actual data can then be imported by running

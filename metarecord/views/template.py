@@ -7,9 +7,9 @@ from .phase import PhaseDetailSerializer
 
 
 class TemplateListSerializer(StructuralElementSerializer):
-    class Meta(StructuralElementSerializer.Meta):
+    class Meta:
         model = Function
-        exclude = ('is_template', 'index', 'parent', 'function_id')
+        fields = ('id', 'attributes', 'phases', 'created_at', 'modified_at', 'name')
 
     phases = HexRelatedField(many=True, read_only=True)
 
@@ -19,7 +19,7 @@ class TemplateDetailSerializer(TemplateListSerializer):
 
 
 class TemplateViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Function.objects.filter(is_template=True).prefetch_related('phases').order_by('name')
+    queryset = Function.objects.filter(is_template=True).prefetch_related('phases').order_by('created_at')
     serializer_class = TemplateListSerializer
     serializer_class_detail = TemplateDetailSerializer
     lookup_field = 'uuid'

@@ -5,17 +5,24 @@ from django.utils.translation import ugettext_lazy as _
 import django_filters
 from rest_framework import exceptions, serializers, viewsets
 
-from metarecord.models import Action, Attribute, Function, Phase, Record
+from metarecord.models import Action, Function, Phase, Record
 
 from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
 from .phase import PhaseDetailSerializer
 
 
 class FunctionListSerializer(StructuralElementSerializer):
-    parent = HexRelatedField(queryset=Function.objects.all(), required=False, allow_null=True)
     phases = HexRelatedField(many=True, read_only=True)
     version = serializers.IntegerField(read_only=True)
     modified_by = serializers.SerializerMethodField()
+
+    # TODO these three are here to maintain backwards compatibility,
+    # should be removed as soon as the UI doesn't need these anymore
+    function_id = serializers.ReadOnlyField(source='get_classification_code')
+    name = serializers.ReadOnlyField(source='get_name')
+    parent = serializers.SerializerMethodField()
+
+    classification = HexRelatedField(read_only=True)
 
     class Meta(StructuralElementSerializer.Meta):
         model = Function
@@ -26,12 +33,16 @@ class FunctionListSerializer(StructuralElementSerializer):
             return '{} {}'.format(obj.modified_by.first_name, obj.modified_by.last_name).strip()
         return None
 
+    def get_parent(self, obj):
+        if obj.classification and obj.classification.parent:
+            parent_functions = Function.objects.filter(classification=obj.classification.parent)
+            if parent_functions.exists():
+                return parent_functions[0].uuid.hex
+        return None
+
 
 class FunctionDetailSerializer(FunctionListSerializer):
     phases = PhaseDetailSerializer(many=True)
-
-    class Meta(FunctionListSerializer.Meta):
-        read_only_fields = ('function_id',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -107,7 +118,7 @@ class FunctionDetailSerializer(FunctionListSerializer):
                 _('Cannot edit while in state "sent_for_review" or "waiting_for_approval"')
             )
 
-        validated_data['function_id'] = instance.function_id
+        validated_data['classification'] = instance.classification
         new_function = self._create_new_version(validated_data)
         new_function.create_metadata_version(user)
 
@@ -162,7 +173,7 @@ class FunctionFilterSet(django_filters.FilterSet):
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     queryset = Function.objects.filter(is_template=False).select_related('modified_by').prefetch_related('phases')
-    queryset = queryset.order_by('function_id')
+    queryset = queryset.order_by('classification__code')
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)

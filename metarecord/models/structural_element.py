@@ -11,7 +11,7 @@ from .base import TimeStampedModel
 
 
 class StructuralElement(TimeStampedModel):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('created by'),
                                    null=True, blank=True, related_name='%(class)s_created', editable=False)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('modified by'),
