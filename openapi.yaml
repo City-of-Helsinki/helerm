@@ -1,0 +1,904 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://api.hel.fi/helerm-dev/v1'
+    description: Development server
+info:
+  title: Helerm
+  description: >
+    Helsinki Electronic Records Management Classification System (helerm) OpenAPI specification.
+  version: ''
+security:
+  - JWTAuth: []
+paths:
+  /classification/:
+    get:
+      tags:
+        - classification
+      summary: Get a list of classifications
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationPageSize'
+      responses:
+        '200':
+          description: An array of classifications with pagination meta data
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Classification'
+  '/classification/{classification_id}/':
+    get:
+      tags:
+        - classification
+      summary: Get a classification by its ID
+      parameters:
+        - name: classification_id
+          in: path
+          required: true
+          description: ID of the classification to fetch
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classification'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /function/:
+    get:
+      tags:
+        - function
+      summary: Get a list of functions
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationPageSize'
+        - name: valid_at
+          in: query
+          description: Return only functions that are valid at the given time
+          schema:
+            type: string
+            format: dateTime
+        - name: version
+          in: query
+          description: Return given version of the functions
+          schema:
+            type: integer
+        - name: state
+          in: query
+          description: With value "approved" return only the latest approved versions of the functions
+          schema:
+            type: string
+            enum:
+              - approved
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Function'
+  '/function/{function_id}/':
+    get:
+      tags:
+        - function
+      summary: Get a function by its ID
+      parameters:
+        - name: function_id
+          in: path
+          required: true
+          description: ID of the function to fetch
+          schema:
+            type: string
+        - name: valid_at
+          in: query
+          description: Return function only if it is valid at the given time
+          schema:
+            type: string
+            format: dateTime
+        - name: version
+          in: query
+          description: Return given version of the function
+          schema:
+            type: integer
+        - name: state
+          in: query
+          description: With value "approved" return the latest approved version of the function
+          schema:
+            type: string
+            enum:
+              - approved
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Function'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags:
+        - function
+      summary: Create a new version of a function
+      description: >-
+        To update a function ie. to create a new version of it, PUT method must
+        be used. All new versions start from state "draft", and this cannot be changed with PUT.
+      parameters:
+        - name: function_id
+          in: path
+          required: true
+          description: ID of the function to update
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Function'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/NotAuthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Function'
+        description: The new function version data
+        required: true
+    patch:
+      tags:
+        - function
+      summary: Change a function's metadata (state, validity times)
+      description: 'To change a function''s state or validity times, PATCH method must be used. This will not affect the function''s version number.'
+      parameters:
+        - name: function_id
+          in: path
+          required: true
+          description: ID of the function to update
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The function was updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Function'
+        '401':
+          $ref: '#/components/responses/NotAuthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                state:
+                  description: Function state
+                  type: string
+                  enum:
+                    - draft
+                    - sent_for_review
+                    - waiting_for_approval
+                    - approved
+                  example: sent_for_review
+        description: The new function version data
+        required: true
+  /phase/:
+    get:
+      tags:
+        - phase
+      summary: Get a list of phases
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationPageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Phase'
+  '/phase/{phase_id}/':
+    get:
+      tags:
+        - phase
+      summary: Get a phase by its ID
+      parameters:
+        - name: phase_id
+          in: path
+          required: true
+          description: ID of the phase to fetch
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phase'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /action/:
+    get:
+      tags:
+        - action
+      summary: Get a list of actions
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationPageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Action'
+  '/action/{action_id}/':
+    get:
+      tags:
+        - action
+      summary: Get an action by its ID
+      parameters:
+        - name: action_id
+          in: path
+          required: true
+          description: ID of the action to fetch
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Action'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /record/:
+    get:
+      tags:
+        - record
+      summary: Get a list of records
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationPageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Record'
+  '/record/{record_id}/':
+    get:
+      tags:
+        - record
+      summary: Get a record by its ID
+      parameters:
+        - name: record_id
+          in: path
+          required: true
+          description: ID of the record to fetch
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /attribute/:
+    get:
+      tags:
+        - attribute
+      summary: Get a list of attributes
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationPageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Attribute'
+  '/attribute/{attribute_id}/':
+    get:
+      tags:
+        - attribute
+      summary: Get a attribute by its ID
+      parameters:
+        - name: attribute_id
+          in: path
+          required: true
+          description: ID of the attribute to fetch
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attribute'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /attribute/schemas/:
+    get:
+      tags:
+        - attribute
+      summary: Get attribute schemas
+      description: >-
+        Fetch schemas for the attributes dictionary for each structural element
+        (Function, Phase, Action, Record) in JSON Schema draft v4 format.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  function:
+                    $ref: '#/components/schemas/AttributeSchema'
+                  phase:
+                    $ref: '#/components/schemas/AttributeSchema'
+                  action:
+                    $ref: '#/components/schemas/AttributeSchema'
+                  record:
+                    $ref: '#/components/schemas/AttributeSchema'
+  /template/:
+    get:
+      tags:
+        - template
+      summary: Get a list of function templates
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationPageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Template'
+  '/template/{template_id}/':
+    get:
+      tags:
+        - template
+      summary: Get a function template by its ID
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          description: ID of the function template to fetch
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /export/:
+    get:
+      tags:
+        - export
+      summary: Get an export of the data
+      description: >
+        Get an export of the data in JHS191 XML format.
+      externalDocs:
+        description: JHS191 Recommendation (in Finnish), contains the schema for the XML
+        url: https://www.jhs-suositukset.fi/web/guest/jhs/recommendations/191
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                type: string
+components:
+  securitySchemes:
+    # TODO this isn't completely correct, as this means Authorization: Bearer <JWT token> instead of helerm's Authorization: JWT <JWT token>
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Classification:
+      type: object
+      example:
+        id: 150c41a055804f7d97f1ee47be2d109d
+        created_at: '2017-08-28T09:25:22.097Z'
+        modified_at: '2017-08-28T09:25:22.190Z'
+        code: 00 00
+        title: Hallintoasioiden ohjaus
+        parent: 1d75967c89334bb5b61681e1a5118e6b
+        description: Hallintoasioiden ohjaus on tarkkaa puuhaa
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+        code:
+          description: Classification code
+          type: string
+        created_at:
+          description: Creation time
+          type: string
+          format: dateTime
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+        title:
+          description: Title
+          type: string
+        description:
+          description: Description
+          type: string
+        parent:
+          description: ID of the parent classification of this classification
+          type: string
+    Function:
+      type: object
+      description: Function represents a handling process (käsittelyprosessi) in the JHS 191 data model
+      example:
+        id: a45949a848b54573bdad856f8a524f12
+        attributes: {}
+        version: 4
+        function_id: '00'
+        name: Hallintoasiat
+        parent: null
+        classification: 112d25ac6dab4e59b9827f94ac2c06fe
+        created_at: '2017-08-25T10:10:00.346962Z'
+        modified_at: '2017-08-25T10:10:00.347001Z'
+        state: draft
+        valid_from: '2017-06-25'
+        valid_to: '2017-07-25'
+        modified_by: null
+        phases: []
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+          readOnly: true
+        version:
+          description: Function version number
+          type: integer
+          readOnly: true
+        function_id:
+          description: Classification code of the function's classification
+          type: string
+          deprecated: true
+        name:
+          description: Title of the function's classification
+          type: string
+          deprecated: true
+        parent:
+          description: ID of the parent of the function's classification
+          type: string
+          deprecated: true
+        classification:
+          description: ID of the function's classification
+          type: string
+        created_at:
+          description: Creation time
+          type: string
+          format: dateTime
+          readOnly: true
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+          readOnly: true
+        state:
+          description: Function state
+          type: string
+          enum:
+            - draft
+            - sent_for_review
+            - waiting_for_approval
+            - approved
+        phases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phase'
+        attributes:
+          $ref: '#/components/schemas/AttributeDict'
+        valid_from:
+          type: string
+          format: date
+          description: The function is valid starting from this date
+        valid_to:
+          type: string
+          format: date
+          description: The function is valid until this date
+    Phase:
+      description: |
+        Phase represents a top level action (toimenpide) in the JHS 191 data model.
+
+        In helerm there is a fixed two-tier structure Phase (parent) - Action (child), whereas in JHS an action can have 0..n levels of parent actions.
+      type: object
+      example:
+        id: 932284ee92004e77800abaeb90b3426f
+        attributes:
+          RetentionPeriodStart: Asian lopullinen ratkaisu
+          RetentionReason: >-
+            Ei sp: Yleishallinto 1 - kunnallisten asiakirjojen
+            säilytysaikasuositus
+          PublicityClass: Julkinen
+          TypeSpecifier: Neuvonta/Ohjaus
+        name: Neuvonta/Ohjaus
+        function: 20a6601de0bc4ca9a31755082e031282
+        actions: []
+        created_at: '2017-08-25T10:10:16.921Z'
+        modified_at: '2017-08-25T10:10:16.921Z'
+        index: 1
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+          readOnly: true
+        created_at:
+          description: Creation time
+          type: string
+          format: dateTime
+          readOnly: true
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+          readOnly: true
+        attributes:
+          description: Attributes
+          type: string
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+        index:
+          description: Index number
+          type: integer
+        function:
+          description: ID of the parent Function of the Phase
+          type: string
+        name:
+          description: Name, populated from TypeSpecifier or PhaseType attribute
+          type: string
+          readOnly: true
+    Action:
+      description: |
+        Action represents a top level action (toimenpide) in the JHS 191 data model.
+
+        In helerm there is a fixed two-tier structure Phase (parent) - Action (child), whereas in JHS an action can have 0..n levels of parent actions.
+      type: object
+      example:
+        id: c05f256a7a4e406cac5f194de7dd0df8
+        attributes:
+          TypeSpecifier: Neuvontapyynnön vastaanottaminen
+        name: Neuvontapyynnön vastaanottaminen
+        phase: 932284ee92004e77800abaeb90b3426f
+        records: []
+        created_at: '2017-08-25T10:10:16.925874Z'
+        modified_at: '2017-08-25T10:10:16.925901Z'
+        index: 1
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+          readOnly: true
+        created_at:
+          description: Creation time
+          type: string
+          format: dateTime
+          readOnly: true
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+        attributes:
+          $ref: '#/components/schemas/AttributeDict'
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record'
+        index:
+          description: Index number
+          type: integer
+        name:
+          description: Name, populated from TypeSpecifier or ActionType attribute
+          type: string
+          readOnly: true
+        phase:
+          description: ID of the parent Phase of the Action
+          type: string
+    Record:
+      type: object
+      example:
+        id: 05326c23c6cd4cce932ecd226e5424ec
+        attributes:
+          RetentionPeriodOffice: Säilytetään sähköisesti
+          TypeSpecifier: neuvontapyyntö
+          RecordType: pyyntö
+          ProtectionClass: 'Ei suojeluluokkaa, sähköinen asiakirja'
+          PublicityClass: Julkinen
+          SocialSecurityNumber: Ei sisällä henkilötunnusta
+          RetentionPeriodTotal: Säilytetään sähköisesti
+          InformationSystem: sähköposti
+          RetentionPeriodStart: Asian lopullinen ratkaisu
+          RetentionReason: >-
+            Ei sp: Yleishallinto 1 - kunnallisten asiakirjojen
+            säilytysaikasuositus
+          StorageOrder: Säilytetään sähköisesti
+          PersonalData: Sisältää henkilötietoja
+        name: neuvontapyyntö
+        action: c05f256a7a4e406cac5f194de7dd0df8
+        parent: null
+        created_at: '2017-08-25T10:10:16.927508Z'
+        modified_at: '2017-08-25T10:10:16.927535Z'
+        index: 1
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+          readOnly: true
+        created_at:
+          description: Creation time
+          type: string
+          format: dateTime
+          readOnly: true
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+          readOnly: true
+        attributes:
+          $ref: '#/components/schemas/AttributeDict'
+        index:
+          description: Index number
+          type: integer
+        name:
+          description: Name, populated from TypeSpecifier or RecordType attribute
+          type: string
+          readOnly: true
+        action:
+          description: ID of the parent Action of the Record
+          type: string
+        parent:
+          description: ID of the parent Record of the Record. Needed for Record attachments, they are declared as child Records.
+          type: string
+    Attribute:
+      type: object
+      example:
+        id: 8d4af5242cc64dad962fa0ab6b37ed58
+        values:
+          - id: 735c6cc11b8b4625a3e9eb80e3f490e9
+            created_at: '2017-08-28T20:46:34.796644Z'
+            modified_at: '2017-08-28T20:46:34.796669Z'
+            value: '1'
+            index: 1
+        group: Ryhmä X
+        created_at: '2017-08-28T20:45:23.163092Z'
+        modified_at: '2017-08-28T20:48:48.093356Z'
+        identifier: Restriction.ProtectionLevel
+        name: Suojaustaso
+        index: 9
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+        created_at:
+          description: Creation time
+          type: string
+          format: dateTime
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+        index:
+          description: Index number
+          type: integer
+        group:
+          description: Attribute group
+          type: string
+        identifier:
+          description: >-
+            The attribute identifier that is used in the attributes dictionary
+            when referring to this attribute
+          type: string
+        help_text:
+          description: Brief information about the attribute
+          type: string
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeValue'
+    AttributeValue:
+      type: object
+      example:
+        id: 735c6cc11b8b4625a3e9eb80e3f490e9
+        created_at: '2017-08-28T20:46:34.796644Z'
+        modified_at: '2017-08-28T20:46:34.796669Z'
+        value: '1'
+        index: 1
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+        created_at:
+          description: Creation time
+          type: string
+          format: dateTime
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+        value:
+          description: The actual value
+          type: string
+        index:
+          description: Index number
+          type: integer
+    AttributeDict:
+      type: object
+      description: |
+        Key value store that contains attributes and their values for a structural element. Keys are attribute identifiers.
+
+        An attribute cannot have empty or null value, in that case the whole field is omitted from the dict.
+
+        Example:
+        {
+          "StorageOrder": "Säilytetään sähköisesti",
+          "PersonalData": "Sisältää henkilötietoja"
+        }
+      example:
+        StorageOrder: Säilytetään sähköisesti
+        PersonalData: Sisältää henkilötietoja
+      additionalProperties: true
+    AttributeSchema:
+      example:
+        properties:
+          ProcessStatus:
+            type: string
+          ActionType:
+            type: string
+          InformationSystem:
+            type: string
+          AdditionalInformation:
+            type: string
+          TypeSpecifier:
+            type: string
+        $schema: 'http://json-schema.org/draft-04/schema#'
+        type: object
+        additionalProperties: false
+      type: object
+    Template:
+      type: object
+      example:
+        id: bb29ec518a5a4c0cbcb9606e86bc022f
+        attributes: {}
+        phases: []
+        created_at: '2017-08-25T10:11:49.788923Z'
+        modified_at: '2017-08-25T13:23:50.410024Z'
+        name: Ahjo-moduuli
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+        name:
+          description: Name of the function template
+          type: string
+        created_at:
+          description: Creation time
+          type: string
+          format: dateTime
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+        phases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phase'
+        attributes:
+          $ref: '#/components/schemas/AttributeDict'
+    Pagination:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+        previous:
+          type: string
+  responses:
+    BadRequest:
+      description: Bad request, details about the error in the request body
+    NotAuthenticated:
+      description: Authentication credentials were not provided
+    Forbidden:
+      description: Not authorized to perform the action
+    NotFound:
+      description: Object not found
+  parameters:
+    paginationPage:
+      name: page
+      in: query
+      description: Results page number
+      schema:
+        type: integer
+    paginationPageSize:
+      name: page_size
+      in: query
+      description: Number of results on a page
+      schema:
+        type: integer
