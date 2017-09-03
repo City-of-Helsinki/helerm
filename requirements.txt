@@ -34,7 +34,7 @@ pytest-django==3.1.2
 pytest==3.2.1             # via pytest-django
 python3-openid==3.1.0     # via django-allauth
 pytz==2017.2
-pyxb==1.2.5
+pyxb==1.2.6
 requests-oauthlib==0.8.0  # via django-allauth
 requests==2.18.4          # via django-allauth, django-helusers, pyjwkest, requests-oauthlib
 six==1.10.0               # via pip-tools, pyjwkest
