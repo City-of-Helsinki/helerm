@@ -13,7 +13,7 @@ django-allauth==0.33.0
 django-cors-headers==2.1.0
 django-filter==1.0.4
 django-helusers==0.4.2
-django==1.11.4
+django==1.11.5
 djangorestframework-jwt==1.11.0
 djangorestframework==3.6.4
 drf-oidc-auth==0.9        # via django-helusers
