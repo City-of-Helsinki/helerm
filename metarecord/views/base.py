@@ -2,7 +2,8 @@ from collections import defaultdict
 
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers
-from metarecord.models import Attribute
+
+from metarecord.models import Attribute, Function
 
 
 class BaseModelSerializer(serializers.ModelSerializer):
@@ -16,6 +17,21 @@ class StructuralElementSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ('index',)
         exclude = ('uuid', 'created_by', 'modified_by')
+
+    @property
+    def fields(self):
+        fields = super(StructuralElementSerializer, self).fields
+
+        if 'request' not in self._context:
+            return fields
+
+        request = self._context["request"]
+
+        for field_name, field in fields.items():
+            if field_name == 'modified_by' and not request.user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
+                fields.pop(field_name)
+
+        return fields
 
     def validate_attributes(self, attrs):
         # on PATCH requests we don't need to validate sent attributes,

@@ -384,6 +384,8 @@ def test_function_cannot_edit_states(function_data, user_api_client, function):
 
 @pytest.mark.django_db
 def test_function_modified_by(function, user_api_client, user):
+    set_permissions(user_api_client, Function.CAN_VIEW_MODIFIED_BY)
+
     response = user_api_client.get(get_function_detail_url(function))
     assert response.status_code == 200
     assert response.data['modified_by'] is None
@@ -394,6 +396,36 @@ def test_function_modified_by(function, user_api_client, user):
     response = user_api_client.get(get_function_detail_url(function))
     assert response.status_code == 200
     assert response.data['modified_by'] == '%s %s' % (user.first_name, user.last_name)
+
+
+@pytest.mark.django_db
+def test_function_anonymous_cannot_view_modified_by(function, api_client, user):
+    function.modified_by = user
+    function.save(update_fields=('modified_by',))
+
+    response = api_client.get(get_function_detail_url(function))
+    assert response.status_code == 200
+    assert 'modified_by' not in response.data
+
+
+@pytest.mark.django_db
+def test_function_user_cannot_view_modified_by(function, user_api_client, user):
+    function.modified_by = user
+    function.save(update_fields=('modified_by',))
+
+    response = user_api_client.get(get_function_detail_url(function))
+    assert response.status_code == 200
+    assert 'modified_by' not in response.data
+
+
+@pytest.mark.django_db
+def test_function_another_user_cannot_view_modified_by(function, user_2_api_client, user):
+    function.modified_by = user
+    function.save(update_fields=('modified_by',))
+
+    response = user_2_api_client.get(get_function_detail_url(function))
+    assert response.status_code == 200
+    assert 'modified_by' not in response.data
 
 
 @pytest.mark.django_db
