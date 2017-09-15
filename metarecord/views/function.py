@@ -158,6 +158,8 @@ class FunctionFilterSet(django_filters.FilterSet):
         fields = ('valid_at', 'version')
 
     valid_at = django_filters.DateFilter(method='filter_valid_at')
+    modified_at__lt = django_filters.DateTimeFilter(name='modified_at', lookup_expr='lt')
+    modified_at__gt = django_filters.DateTimeFilter(name='modified_at', lookup_expr='gt')
 
     def filter_valid_at(self, queryset, name, value):
         # if neither date is set the function is considered not valid
