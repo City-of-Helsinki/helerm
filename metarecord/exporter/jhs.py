@@ -135,11 +135,12 @@ class JHSExporter:
         )
 
         # at least for now include all functions that have data
-        function_qs = Function.objects.exclude(phases__isnull=True).exclude(is_template=True).latest_version()
-        function_qs = function_qs.prefetch_related('phases', 'phases__actions', 'phases__actions__records')
+        qs = Function.objects.exclude(phases__isnull=True).exclude(is_template=True).exclude(state=Function.DELETED)
+        qs = qs.latest_version()
+        qs = qs.prefetch_related('phases', 'phases__actions', 'phases__actions__records')
 
         functions = []
-        for function in function_qs:
+        for function in qs:
             self.msg('processing function %s' % function)
             phases = []
             handling = None

@@ -163,11 +163,8 @@ def test_unauthenticated_user_cannot_post_or_put_functions(function_data, api_cl
 
 
 @pytest.mark.django_db
-def test_cannot_post_or_delete_functions(user_api_client, function, function_data):
+def test_cannot_post_functions(user_api_client, function, function_data):
     response = user_api_client.post(FUNCTION_LIST_URL, data=function_data)
-    assert response.status_code == 405
-
-    response = user_api_client.delete(get_function_detail_url(function))
     assert response.status_code == 405
 
 
@@ -247,13 +244,14 @@ def test_function_put_state(function_data, user_api_client, function):
 
 @pytest.mark.django_db
 def test_state_change_validity(user_api_client, function):
-    set_permissions(user_api_client, (Function.CAN_EDIT, Function.CAN_REVIEW, Function.CAN_APPROVE))
+    set_permissions(user_api_client, (Function.CAN_EDIT, Function.CAN_REVIEW, Function.CAN_APPROVE,
+                                      'metarecord.delete_function'))
     url = get_function_detail_url(function)
 
     all_states = {Function.DRAFT, Function.SENT_FOR_REVIEW, Function.WAITING_FOR_APPROVAL, Function.APPROVED}
 
     valid_changes = {
-        Function.DRAFT: {Function.SENT_FOR_REVIEW},
+        Function.DRAFT: {Function.SENT_FOR_REVIEW, Function.DELETED},
         Function.SENT_FOR_REVIEW: {Function.WAITING_FOR_APPROVAL, Function.DRAFT},
         Function.WAITING_FOR_APPROVAL: {Function.APPROVED, Function.DRAFT},
         Function.APPROVED: {Function.DRAFT},
@@ -426,6 +424,56 @@ def test_function_another_user_cannot_view_modified_by(function, user_2_api_clie
     response = user_2_api_client.get(get_function_detail_url(function))
     assert response.status_code == 200
     assert 'modified_by' not in response.data
+
+
+@pytest.mark.django_db
+def test_function_anonymous_user_cannot_delete(function_data, api_client, function):
+    response = api_client.delete(get_function_detail_url(function))
+    assert response.status_code == 401
+
+
+@pytest.mark.django_db
+def test_function_user_cannot_delete(function_data, user_api_client, function):
+    response = user_api_client.delete(get_function_detail_url(function))
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_function_user_can_delete_own(function_data, user, user_api_client, function):
+    function.modified_by = user
+    function.save()
+
+    response = user_api_client.delete(get_function_detail_url(function))
+    assert response.status_code == 204
+
+    new_function = Function.objects.get(pk=function.id)
+    assert new_function.state == Function.DELETED
+    assert new_function.metadata_versions.filter(modified_by=user, state=Function.DELETED).exists(), \
+        'No metadata version created when deleting.'
+
+
+@pytest.mark.django_db
+def test_function_user_cannot_delete_other_users(function_data, user_2, user_api_client, function):
+    function.modified_by = user_2
+    function.save()
+
+    response = user_api_client.delete(get_function_detail_url(function))
+    assert response.status_code == 403
+
+    new_function = Function.objects.get(pk=function.id)
+    assert new_function.state == Function.DRAFT
+
+
+@pytest.mark.django_db
+def test_function_super_user_can_delete(function_data, super_user_api_client, function):
+    response = super_user_api_client.delete(get_function_detail_url(function))
+    assert response.status_code == 204
+
+    new_function = Function.objects.get(pk=function.id)
+    assert new_function.state == Function.DELETED
+    assert new_function.metadata_versions.filter(
+        modified_by=super_user_api_client.user, state=Function.DELETED).exists(), \
+        'No metadata version created when deleting.'
 
 
 @pytest.mark.django_db
