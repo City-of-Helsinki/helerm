@@ -37,5 +37,5 @@ pytz==2017.2
 pyxb==1.2.4
 requests-oauthlib==0.8.0  # via django-allauth
 requests==2.18.4          # via django-allauth, django-helusers, pyjwkest, requests-oauthlib
-six==1.10.0               # via pip-tools, pyjwkest
+six==1.11.0               # via pip-tools, pyjwkest
 urllib3==1.22             # via requests
