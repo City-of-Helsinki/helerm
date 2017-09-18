@@ -19,12 +19,14 @@ class Function(StructuralElement):
     SENT_FOR_REVIEW = 'sent_for_review'
     WAITING_FOR_APPROVAL = 'waiting_for_approval'
     APPROVED = 'approved'
+    DELETED = 'deleted'
 
     STATE_CHOICES = (
         (DRAFT, _('Draft')),
         (SENT_FOR_REVIEW, _('Sent for review')),
         (WAITING_FOR_APPROVAL, _('Waiting for approval')),
         (APPROVED, _('Approved')),
+        (DELETED, _('Deleted')),
     )
 
     CAN_EDIT = 'metarecord.can_edit'
@@ -85,6 +87,15 @@ class Function(StructuralElement):
         if self.is_template:
             return self.name
         return self.classification.title if self.classification else ''
+
+    def can_user_delete(self, user):
+        if self.state != Function.DRAFT:
+            return False
+
+        if user.has_perm('metarecord.delete_function') or self.modified_by == user:
+            return True
+
+        return False
 
     @transaction.atomic
     def save(self, *args, **kwargs):

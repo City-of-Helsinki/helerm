@@ -3,7 +3,8 @@ from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 import django_filters
-from rest_framework import exceptions, serializers, viewsets
+from rest_framework import exceptions, serializers, viewsets, status
+from rest_framework.response import Response
 
 from metarecord.models import Action, Function, Phase, Record
 
@@ -131,24 +132,26 @@ class FunctionDetailSerializer(FunctionListSerializer):
             return
 
         valid_changes = {
-            Function.DRAFT: {Function.SENT_FOR_REVIEW},
+            Function.DRAFT: {Function.SENT_FOR_REVIEW, Function.DELETED},
             Function.SENT_FOR_REVIEW: {Function.WAITING_FOR_APPROVAL, Function.DRAFT},
             Function.WAITING_FOR_APPROVAL: {Function.APPROVED, Function.DRAFT},
             Function.APPROVED: {Function.DRAFT},
+            Function.DELETED: {},
         }
+
         if new_state not in valid_changes[old_state]:
             raise exceptions.ValidationError({'state': [_('Invalid state change.')]})
 
-        state_change_required_perms = {
-            Function.SENT_FOR_REVIEW: Function.CAN_EDIT,
-            Function.WAITING_FOR_APPROVAL: Function.CAN_REVIEW,
-            Function.APPROVED: Function.CAN_APPROVE,
+        can_user_change_state_functions = {
+            Function.SENT_FOR_REVIEW: lambda user: user.has_perm(Function.CAN_EDIT),
+            Function.WAITING_FOR_APPROVAL: lambda user: user.has_perm(Function.CAN_REVIEW),
+            Function.APPROVED: lambda user: user.has_perm(Function.CAN_APPROVE),
+            Function.DELETED: lambda user: self.instance.can_user_delete(user),
         }
 
         relevant_state = new_state if new_state != Function.DRAFT else old_state
-        required_perm = state_change_required_perms[relevant_state]
 
-        if not user.has_perm(required_perm):
+        if not can_user_change_state_functions[relevant_state](user):
             raise exceptions.PermissionDenied(_('No permission for the state change.'))
 
 
@@ -174,14 +177,14 @@ class FunctionFilterSet(django_filters.FilterSet):
 
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
-    queryset = Function.objects.filter(is_template=False).select_related('modified_by').prefetch_related('phases')
-    queryset = queryset.order_by('classification__code')
+    queryset = Function.objects.filter(is_template=False).exclude(state=Function.DELETED)
+    queryset = queryset.select_related('modified_by').prefetch_related('phases').order_by('classification__code')
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_class = FunctionFilterSet
     lookup_field = 'uuid'
-    http_method_names = ['get', 'head', 'options', 'put', 'patch']
+    http_method_names = ['get', 'head', 'options', 'put', 'patch', 'delete']
 
     def get_queryset(self):
         if 'version' in self.request.query_params:
@@ -192,3 +195,16 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
             return self.queryset.latest_approved()
 
         return self.queryset.latest_version()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = request.user
+
+        if not instance.can_user_delete(user):
+            raise exceptions.PermissionDenied(_('No permission to delete or state is not "draft".'))
+
+        instance.state = Function.DELETED
+        instance.save()
+        instance.create_metadata_version(user)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
