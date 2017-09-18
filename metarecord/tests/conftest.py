@@ -151,7 +151,8 @@ def super_user_api_client(super_user):
     api_client = APIClient()
     api_client.force_authenticate(super_user)
     api_client.user = super_user
-    set_permissions(api_client, (Function.CAN_EDIT, Function.CAN_REVIEW, Function.CAN_APPROVE))
+    set_permissions(api_client, (Function.CAN_EDIT, Function.CAN_REVIEW, Function.CAN_APPROVE,
+                                 Function.CAN_VIEW_MODIFIED_BY, 'metarecord.delete_function'))
     return api_client
 
 

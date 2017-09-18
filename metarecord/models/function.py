@@ -30,6 +30,7 @@ class Function(StructuralElement):
     CAN_EDIT = 'metarecord.can_edit'
     CAN_REVIEW = 'metarecord.can_review'
     CAN_APPROVE = 'metarecord.can_approve'
+    CAN_VIEW_MODIFIED_BY = 'metarecord.can_view_modified_by'
 
     name = models.CharField(verbose_name=_('name'), max_length=256, blank=True)  # only templates use this field
     error_count = models.PositiveIntegerField(verbose_name=_('error count'), default=0)
@@ -65,7 +66,8 @@ class Function(StructuralElement):
         permissions = (
             ('can_edit', _('Can edit')),
             ('can_review', _('Can review')),
-            ('can_approve', _('Can approve'))
+            ('can_approve', _('Can approve')),
+            ('can_view_modified_by', _('Can view modified by')),
         )
 
     objects = FunctionQuerySet.as_manager()
