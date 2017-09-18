@@ -1,6 +1,7 @@
 import datetime
 import uuid
 import pytest
+import pytz
 from rest_framework.reverse import reverse
 from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
 from metarecord.tests.utils import assert_response_functions, check_attribute_errors, set_permissions
@@ -646,6 +647,51 @@ def test_function_validation_date_filtering(user_api_client, filtering, expected
     response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
     assert response.status_code == 200
     assert_response_functions(response, [functions[index] for index in expected_indexes])
+
+
+@pytest.mark.parametrize('filtering, expected_indexes', (
+    ('', [0, 1, 2, 3, 4]),
+    ('modified_at__lt=34234xyz', []),
+    ('modified_at__lt=1999-05-05 00:00:00', [0]),
+    ('modified_at__lt=2000-05-05 00:00:00', [0]),
+    ('modified_at__lt=2001-05-05 13:00:00', [0,1]),
+    ('modified_at__lt=2004-05-05 00:00:00', [0, 1, 2, 3]),
+    ('modified_at__lt=2007-05-05 00:00:00', [0, 1, 2, 3, 4]),
+    ('modified_at__gt=34234xyz', []),
+    ('modified_at__gt=1999-05-05 00:00:00', [1, 2, 3, 4]),
+    ('modified_at__gt=2000-05-05 00:00:00', [1, 2, 3, 4]),
+    ('modified_at__gt=2001-05-05 13:00:00', [2, 3, 4]),
+    ('modified_at__gt=2004-05-05 00:00:00', [4]),
+    ('modified_at__gt=2007-05-05 00:00:00', []),
+    ('modified_at__gt=1970-01-01 00:00:00&modified_at__lt=1971-05-05 00:00:00', [0]),
+    ('modified_at__gt=2000-05-05 00:00:00&modified_at__lt=2000-05-05 00:00:00', []),
+    ('modified_at__gt=2010-05-05 00:00:00&modified_at__lt=2000-05-05 00:00:00', []),
+    ('modified_at__gt=2002-05-05 00:00:00&modified_at__lt=2004-05-05 00:00:00', [2, 3]),
+    ('modified_at__gt=1970-05-05 00:00:00&modified_at__lt=2010-05-05 00:00:00', [1, 2, 3, 4]),
+))
+@pytest.mark.django_db
+def test_function_validation_modified_at_filtering(user_api_client, filtering, expected_indexes):
+    classifications = [
+        Classification.objects.get_or_create(code=code)[0]
+        for code in ('00', '01', '02', '03', '04')
+    ]
+    modified_at_values = [
+        pytz.utc.localize(datetime.datetime(year=1970, month=1, day=1, hour=12, minute=0, second=0)),
+        pytz.utc.localize(datetime.datetime(year=2000, month=5, day=5, hour=12, minute=0, second=0)),
+        pytz.utc.localize(datetime.datetime(year=2002, month=5, day=5, hour=12, minute=0, second=0)),
+        pytz.utc.localize(datetime.datetime(year=2003, month=5, day=5, hour=12, minute=0, second=0)),
+        pytz.utc.localize(datetime.datetime(year=2006, month=5, day=5, hour=12, minute=0, second=0)),
+    ]
+    functions = []
+    for i, modified_at_value in enumerate(modified_at_values):
+        function = Function.objects.create(classification=classifications[i])
+        Function.objects.filter(pk=function.pk).update(modified_at=modified_at_value)
+        functions.append(Function.objects.get(pk=function.pk))
+
+    response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
+    assert response.status_code == 200
+    assert_response_functions(response, [functions[index] for index in expected_indexes])
+
 
 
 @pytest.mark.django_db

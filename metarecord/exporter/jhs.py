@@ -124,23 +124,29 @@ class JHSExporter:
             KasittelyprosessiTiedot=handling_process_info
         )
 
-    def create_xml(self):
+    def get_queryset(self):
+        # at least for now include all functions that have data
+        qs = Function.objects.exclude(phases__isnull=True).exclude(is_template=True)
+        qs = qs.latest_version()
+        qs = qs.prefetch_related('phases', 'phases__actions', 'phases__actions__records')
+
+        return qs
+
+    def create_xml(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+
         pyxb.utils.domutils.BindingDOMSupport.DeclareNamespace(jhs.Namespace, self.NAMESPACE)
 
         tos_info = jhs.TosTiedot(
             id=uuid.uuid4(),
             Nimeke=jhs.Nimeke(jhs.NimekeKielella('TOS dokumentti', kieliKoodi='fi')),
-            YhteyshenkiloNimi='John Doe',  # TODO
+            YhteyshenkiloNimi='John Doe', # TODO
             TosVersio=self.TOS_VERSION
         )
 
-        # at least for now include all functions that have data
-        qs = Function.objects.exclude(phases__isnull=True).exclude(is_template=True).exclude(state=Function.DELETED)
-        qs = qs.latest_version()
-        qs = qs.prefetch_related('phases', 'phases__actions', 'phases__actions__records')
-
         functions = []
-        for function in qs:
+        for function in queryset:
             self.msg('processing function %s' % function)
             phases = []
             handling = None
