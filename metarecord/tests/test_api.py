@@ -55,6 +55,7 @@ def disable_attribute_validations():
         structural_element._attribute_validations['allowed'] = None
         structural_element._attribute_validations['required'] = None
         structural_element._attribute_validations['conditionally_required'] = None
+        structural_element._attribute_validations['multivalued'] = None
 
 
 def _check_function_object_matches_data(function_obj, data):
@@ -203,10 +204,70 @@ def test_function_put_invalid_attributes(function_data, user_api_client, functio
     assert response.data['phases'][0]['attributes']['InvalidPhaseAttribute'] == ['Invalid attribute.']
 
 
+@pytest.mark.django_db
+def test_function_multivalued_attribute(function_data, user_api_client, function, free_text_attribute):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+
+    Function._attribute_validations['allowed'] = [free_text_attribute.identifier]
+    Function._attribute_validations['required'] = [free_text_attribute.identifier]
+    Function._attribute_validations['multivalued'] = [free_text_attribute.identifier]
+
+    function_data['function_id'] = function.classification.code
+    function_data['attributes'] = {
+        free_text_attribute.identifier: ['value1', 'value2']
+    }
+
+    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 200
+
+    function_data['state'] = Function.SENT_FOR_REVIEW
+    response = user_api_client.patch(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_function_multivalued_attribute_allow_single(function_data, user_api_client, function, free_text_attribute):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+
+    Function._attribute_validations['allowed'] = [free_text_attribute.identifier]
+    Function._attribute_validations['required'] = [free_text_attribute.identifier]
+    Function._attribute_validations['multivalued'] = [free_text_attribute.identifier]
+
+    function_data['function_id'] = function.classification.code
+    function_data['attributes'] = {
+        free_text_attribute.identifier: 'value1'
+    }
+
+    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 200
+
+    function_data['state'] = Function.SENT_FOR_REVIEW
+    response = user_api_client.patch(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_function_multivalued_attribute_not_allowed(function_data, user_api_client, function, free_text_attribute):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+
+    function_data['function_id'] = function.classification.code
+    function_data['attributes'] = {
+        free_text_attribute.identifier: ['value1', 'value2']
+    }
+
+    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 200
+
+    function_data['state'] = Function.SENT_FOR_REVIEW
+    response = user_api_client.patch(get_function_detail_url(function), data=function_data)
+    assert response.status_code == 400
+    assert response.data['attributes'][free_text_attribute.identifier] == [
+        'This attribute does not allow multiple values.']
+
+
 @pytest.mark.parametrize('attributes', [
     'foo',
     ['foo'],
-    {'ChoiceAttr': ['foo']},
 ])
 @pytest.mark.django_db
 def test_function_put_invalid_attributes_format(function_data, user_api_client, function, attributes):

@@ -25,7 +25,10 @@ class Record(StructuralElement):
             'SecurityPeriod': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')},
             'Restriction.SecurityPeriodStart': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')},
             'SecurityReason': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')}
-        }
+        },
+        'multivalued': (
+            'DataGroup', 'InformationSystem', 'RetentionReason', 'SecurityReason', 'Subject', 'Subject.Scheme',
+        )
     }
 
     class Meta:

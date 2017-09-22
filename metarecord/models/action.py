@@ -12,6 +12,9 @@ class Action(StructuralElement):
     _attribute_validations = {
         'allowed': (
             'ActionType', 'AdditionalInformation', 'InformationSystem', 'ProcessStatus', 'TypeSpecifier'
+        ),
+        'multivalued': (
+            'InformationSystem',
         )
     }
 
