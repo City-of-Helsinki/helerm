@@ -484,6 +484,9 @@ components:
         title: Hallintoasioiden ohjaus
         parent: 1d75967c89334bb5b61681e1a5118e6b
         description: Hallintoasioiden ohjaus on tarkkaa puuhaa
+        description_internal: Hallintoasioiden ohjaus on tarkkaa puuhaa
+        related_classification: Katso myös tehtäväluokka 00
+        additional_information: Lisätietoja tehtäväluokasta
       properties:
         id:
           description: Unique identifier
@@ -504,6 +507,15 @@ components:
           type: string
         description:
           description: Description
+          type: string
+        description_internal:
+          description: Internal description
+          type: string
+        related_classification:
+          description: Notes about related classifications
+          type: string
+        additional_information:
+          description: Additional information
           type: string
         parent:
           description: ID of the parent classification of this classification
