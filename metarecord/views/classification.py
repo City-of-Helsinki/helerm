@@ -11,7 +11,8 @@ class ClassificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Classification
-        fields = ('id', 'created_at', 'modified_at', 'code', 'title', 'parent', 'description')
+        fields = ('id', 'created_at', 'modified_at', 'code', 'title', 'parent', 'description', 'description_internal',
+                  'related_classification', 'additional_information')
 
 
 class ClassificationViewSet(viewsets.ReadOnlyModelViewSet):

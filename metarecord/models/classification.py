@@ -13,6 +13,8 @@ class Classification(TimeStampedModel):
     title = models.CharField(verbose_name=_('title'), max_length=256)
     description = models.TextField(verbose_name=_('description'), blank=True)
     description_internal = models.TextField(verbose_name=_('description internal'), blank=True)
+    related_classification = models.TextField(verbose_name=_('related classification'), blank=True)
+    additional_information = models.TextField(verbose_name=_('additional information'), blank=True)
 
     class Meta:
         verbose_name = _('classification')
