@@ -2,7 +2,7 @@ import uuid
 from copy import deepcopy
 
 from django.conf import settings
-from django.contrib.postgres.fields import HStoreField
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -17,12 +17,13 @@ class StructuralElement(TimeStampedModel):
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('modified by'),
                                     null=True, blank=True, related_name='%(class)s_modified', editable=False)
     index = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
-    attributes = HStoreField(verbose_name=_('attributes'), blank=True, default=dict)
+    attributes = JSONField(verbose_name=_('attributes'), blank=True, default=dict)
 
     _attribute_validations = {
         'allowed': None,
         'required': None,
         'conditionally_required': None,
+        'multivalued': None,
     }
 
     class Meta:
@@ -36,6 +37,10 @@ class StructuralElement(TimeStampedModel):
     @classmethod
     def get_required_attributes(cls):
         return set(cls._attribute_validations.get('required') or [])
+
+    @classmethod
+    def get_multivalued_attributes(cls):
+        return set(cls._attribute_validations.get('multivalued') or [])
 
     @classmethod
     def get_conditionally_required_attributes(cls):
@@ -69,7 +74,7 @@ class StructuralElement(TimeStampedModel):
         return super().save(*args, **kwargs)
 
 
-def get_attribute_json_schema(allowed=None, required=None, conditionally_required=None):
+def get_attribute_json_schema(allowed=None, required=None, conditionally_required=None, multivalued=None):
     """
     Return schema for attributes in JSON schema draft 4 format.
 
@@ -104,7 +109,17 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
                 enum.append(value.value)
             properties.update({attribute.identifier: {'enum': enum}})
         else:
-            properties.update({attribute.identifier: {'type': 'string'}})
+            if not multivalued or attribute.identifier not in multivalued:
+                properties.update({attribute.identifier: {'type': 'string'}})
+            else:
+                properties.update({
+                    attribute.identifier: {
+                        "anyOf": [
+                            {'type': 'string'},
+                            {'type': 'array', 'items': {'type': 'string'}}
+                        ]
+                    }
+                })
 
     schema = {
         '$schema': 'http://json-schema.org/draft-04/schema#',

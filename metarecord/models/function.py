@@ -58,7 +58,11 @@ class Function(StructuralElement):
             'SecurityPeriod': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')},
             'Restriction.SecurityPeriodStart': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')},
             'SecurityReason': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')}
-        }
+        },
+        'multivalued': (
+            'CollectiveProcessIDSource', 'DataGroup', 'InformationSystem', 'ProcessOwner', 'RetentionReason',
+            'SecurityReason', 'Subject', 'Subject.Scheme',
+        )
     }
 
     class Meta:

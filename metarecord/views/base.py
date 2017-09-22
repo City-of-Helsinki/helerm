@@ -12,7 +12,8 @@ class BaseModelSerializer(serializers.ModelSerializer):
 
 class StructuralElementSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(source='uuid', format='hex', read_only=True)
-    attributes = serializers.DictField(child=serializers.CharField(), required=False)
+    # TODO: This DictFields child should allow only strings or array of strings.
+    attributes = serializers.DictField(required=False)
 
     class Meta:
         ordering = ('index',)
@@ -62,6 +63,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         attribute_errors = defaultdict(list)
         valid_attribute_dict = self.get_valid_attribute_dict()
         required_attributes = instance.get_required_attributes()
+        multivalued_attributes = instance.get_multivalued_attributes()
 
         # add conditionally required attributes to required attributes set
         for attribute, condition in instance.get_conditionally_required_attributes().items():
@@ -84,12 +86,23 @@ class StructuralElementSerializer(serializers.ModelSerializer):
                 attribute_errors[attribute].append(_("This attribute isn't allowed."))
                 continue
 
-            attribute_obj = valid_attribute_dict[attribute]
-            if attribute_obj.is_free_text():
+            if isinstance(value, list) and attribute not in multivalued_attributes:
+                attribute_errors[attribute].append(_("This attribute does not allow multiple values."))
                 continue
 
-            if value not in attribute_obj.values.values_list('value', flat=True):
-                attribute_errors[attribute].append(_('Invalid value.'))
+            if not isinstance(value, list):
+                value = [value]
+
+            attribute_obj = valid_attribute_dict[attribute]
+            if attribute_obj.is_free_text():
+                for one_value in value:
+                    if not isinstance(one_value, str):
+                        attribute_errors[attribute].append(_('Value must be a string.'))
+                continue
+
+            for one_value in value:
+                if one_value not in attribute_obj.values.values_list('value', flat=True):
+                    attribute_errors[attribute].append(_('Invalid value.'))
 
         if attribute_errors:
             all_errors['attributes'] = attribute_errors

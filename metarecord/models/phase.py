@@ -12,7 +12,11 @@ class Phase(StructuralElement):
     _attribute_validations = {
         'allowed': (
             'AdditionalInformation', 'InformationSystem', 'PhaseType', 'ProcessStatus', 'TypeSpecifier'
+        ),
+        'multivalued': (
+            'InformationSystem',
         )
+
     }
 
     class Meta:
