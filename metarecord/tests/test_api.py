@@ -50,12 +50,16 @@ def function_data(function, free_text_attribute, choice_attribute):
 # in tests unrelated to attribute validation, attribute validations are tested
 # explicitly in their own tests.
 @pytest.fixture(autouse=True)
-def disable_attribute_validations():
+def disable_attribute_validations(monkeypatch):
+    _attribute_validations = {
+        'allowed': None,
+        'required': None,
+        'conditionally_required': None,
+        'multivalued': None,
+    }
+
     for structural_element in (Function, Phase, Action, Record):
-        structural_element._attribute_validations['allowed'] = None
-        structural_element._attribute_validations['required'] = None
-        structural_element._attribute_validations['conditionally_required'] = None
-        structural_element._attribute_validations['multivalued'] = None
+        monkeypatch.setattr(structural_element, '_attribute_validations', _attribute_validations)
 
 
 def _check_function_object_matches_data(function_obj, data):
@@ -205,12 +209,10 @@ def test_function_put_invalid_attributes(function_data, user_api_client, functio
 
 
 @pytest.mark.django_db
-def test_function_multivalued_attribute(function_data, user_api_client, function, free_text_attribute):
+def test_function_multivalued_attribute(monkeypatch, function_data, user_api_client, function, free_text_attribute):
     set_permissions(user_api_client, Function.CAN_EDIT)
 
-    Function._attribute_validations['allowed'] = [free_text_attribute.identifier]
-    Function._attribute_validations['required'] = [free_text_attribute.identifier]
-    Function._attribute_validations['multivalued'] = [free_text_attribute.identifier]
+    monkeypatch.setitem(Function._attribute_validations, 'multivalued', [free_text_attribute.identifier])
 
     function_data['function_id'] = function.classification.code
     function_data['attributes'] = {
@@ -226,12 +228,11 @@ def test_function_multivalued_attribute(function_data, user_api_client, function
 
 
 @pytest.mark.django_db
-def test_function_multivalued_attribute_allow_single(function_data, user_api_client, function, free_text_attribute):
+def test_function_multivalued_attribute_allow_single(monkeypatch, function_data, user_api_client, function,
+                                                     free_text_attribute):
     set_permissions(user_api_client, Function.CAN_EDIT)
 
-    Function._attribute_validations['allowed'] = [free_text_attribute.identifier]
-    Function._attribute_validations['required'] = [free_text_attribute.identifier]
-    Function._attribute_validations['multivalued'] = [free_text_attribute.identifier]
+    monkeypatch.setitem(Function._attribute_validations, 'multivalued', [free_text_attribute.identifier])
 
     function_data['function_id'] = function.classification.code
     function_data['attributes'] = {
