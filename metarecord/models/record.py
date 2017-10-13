@@ -14,9 +14,10 @@ class Record(StructuralElement):
         'allowed': (
             'AdditionalInformation', 'DataGroup', 'DisposePreviousVersions', 'InformationSystem', 'PersonalData',
             'PublicityClass', 'PublicityClassChange', 'RecordType', 'Restriction.ProtectionLevel',
-            'Restriction.SecurityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionPeriodTotal',
-            'RetentionPeriodOffice', 'RetentionReason', 'ProtectionClass', 'SecurityPeriod', 'SocialSecurityNumber',
-            'StorageAccountable', 'StorageOrder', 'Subject.Scheme', 'Subject', 'TypeSpecifier'
+            'Restriction.SecurityClass', 'Restriction.SecurityPeriodStart', 'RetentionPeriod', 'RetentionPeriodStart',
+            'RetentionPeriodTotal', 'RetentionPeriodOffice', 'RetentionReason', 'ProtectionClass', 'SecurityPeriod',
+            'SecurityReason', 'SocialSecurityNumber', 'StorageAccountable', 'StorageOrder', 'Subject.Scheme', 'Subject',
+            'TypeSpecifier'
         ),
         'required': (
             'PersonalData', 'PublicityClass', 'RecordType', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
