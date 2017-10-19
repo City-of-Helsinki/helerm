@@ -11,7 +11,7 @@ defusedxml==0.5.0         # via python3-openid
 django-admin-sortable2==0.6.16
 django-allauth==0.33.0
 django-cors-headers==2.1.0
-django-filter==1.0.4
+django-filter==1.1.0
 django-helusers==0.4.2
 django==1.11.6            # via django-allauth, django-helusers, drf-oidc-auth
 djangorestframework-jwt==1.11.0
