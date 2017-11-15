@@ -31,7 +31,7 @@ pycryptodomex==3.4.7      # via pyjwkest
 pyjwkest==1.4.0           # via drf-oidc-auth
 pyjwt==1.5.3              # via djangorestframework-jwt
 pytest-django==3.1.2
-pytest==3.2.4             # via pytest-django
+pytest==3.2.5             # via pytest-django
 python3-openid==3.1.0     # via django-allauth
 pytz==2017.3
 pyxb==1.2.6
