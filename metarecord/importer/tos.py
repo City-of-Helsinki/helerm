@@ -221,6 +221,15 @@ class TOSImporter:
             if attribute_name not in all_attributes:
                 print('Illegal attribute: %s' % attribute_name)
                 continue
+            if attribute_name == 'Paperiasiakirjojen säilytysaika arkistossa':
+                continue
+            if (attribute_name, attribute_value) in (
+                ('Suojeluluokka', 'Ei suojeluluokkaa, sähköinen asiakirja'),
+                ('Paperiasiakirjojen säilytysjärjestys', 'Säilytetään sähköisesti'),
+                ('Paperiasiakirjojen säilytysaika työpisteessä', 'Säilytetään sähköisesti'),
+            ):
+                continue
+
             attributes[all_attributes[attribute_name]] = str(attribute_value)
 
         return attributes
