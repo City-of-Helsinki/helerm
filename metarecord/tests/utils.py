@@ -30,7 +30,9 @@ def check_attribute_errors(errors, attribute, expected_error):
     :param attribute: Attribute object to check
     :param expected_error: part of expected error message
     """
-    assert any(expected_error in error for error in errors['attributes'][attribute.identifier])
+    error_list = errors['attributes'].get(attribute.identifier)
+    assert error_list is not None, 'no attribute "%s" in errors' % attribute.identifier
+    assert any(expected_error in error for error in error_list), '"%s" not in %s' % (expected_error, errors)
 
 
 def assert_response_functions(response, objects):

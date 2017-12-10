@@ -560,7 +560,7 @@ def test_attribute_get_list_and_detail(choice_attribute, choice_value_1, attribu
 @pytest.mark.django_db
 def test_attribute_validations_when_sent_for_review(
         super_user_api_client, function, phase, action, record, free_text_attribute, free_text_attribute_2,
-        choice_attribute, choice_value_1, choice_attribute_2, choice_value_2_1, choice_value_2_2
+        choice_attribute, choice_value_1, choice_value_2, choice_attribute_2, choice_value_2_1, choice_value_2_2
 ):
 
     # set free text attribute required and choice attribute allowed for every structural element
@@ -572,8 +572,8 @@ def test_attribute_validations_when_sent_for_review(
         ]
         structural_element._attribute_validations['required'] = [free_text_attribute.identifier]
         structural_element._attribute_validations['conditionally_required'] = {
-            choice_attribute.identifier: {
-                choice_attribute_2.identifier: choice_value_2_2.value
+            choice_attribute_2.identifier: {
+                choice_attribute.identifier: choice_value_2.value
             }
         }
 
@@ -582,8 +582,8 @@ def test_attribute_validations_when_sent_for_review(
         choice_attribute.identifier: choice_value_1.value,
     }
 
-    # the function has a conditionally required attribute
-    function.attributes = {choice_attribute_2.identifier: choice_value_2_2.value}
+    # the function is missing a conditionally required attribute
+    function.attributes = {choice_attribute.identifier: choice_value_2.value}
     function.save(update_fields=('attributes',))
 
     # new phase with valid attributes
@@ -604,7 +604,7 @@ def test_attribute_validations_when_sent_for_review(
 
     # check function attribute errors
     check_attribute_errors(errors, free_text_attribute, 'required')
-    check_attribute_errors(errors, choice_attribute, 'required')  # this should be the conditionally required one
+    check_attribute_errors(errors, choice_attribute_2, 'required')  # this should be the conditionally required one
 
     # check phase attribute errors
     assert errors['phases'][1] == {}  # this should be the new phase with valid attributes
@@ -654,6 +654,35 @@ def test_attribute_validations_when_sent_for_review(
     function.save(update_fields=('attributes',))
     response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_conditionally_required_attribute_not_allowed_when_not_required(
+        monkeypatch, super_user_api_client, function, choice_attribute, choice_value_1, choice_attribute_2,
+        choice_value_2_1, choice_value_2_2
+):
+    monkeypatch.setitem(Function._attribute_validations, 'allowed', [choice_attribute.identifier])
+    monkeypatch.setitem(
+        Function._attribute_validations,
+        'conditionally_required',
+        {
+            choice_attribute.identifier: {
+                choice_attribute_2.identifier: choice_value_2_2.value
+            }
+        }
+    )
+
+    function.attributes = {
+        choice_attribute.identifier: choice_value_1.value,
+        choice_attribute_2.identifier: choice_value_2_1.value
+    }
+    function.save(update_fields=('attributes',))
+
+    response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
+    assert response.status_code == 400
+    errors = response.data
+
+    check_attribute_errors(errors, choice_attribute, 'allowed')
 
 
 @pytest.mark.django_db
