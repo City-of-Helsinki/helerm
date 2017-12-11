@@ -23,6 +23,7 @@ class StructuralElement(TimeStampedModel):
         'allowed': None,
         'required': None,
         'conditionally_required': None,
+        'conditionally_disallowed': None,
         'multivalued': None,
         'all_or_none': None,
     }
@@ -46,6 +47,10 @@ class StructuralElement(TimeStampedModel):
     @classmethod
     def get_conditionally_required_attributes(cls):
         return deepcopy(cls._attribute_validations.get('conditionally_required')) or {}
+
+    @classmethod
+    def get_conditionally_disallowed_attributes(cls):
+        return deepcopy(cls._attribute_validations.get('conditionally_disallowed')) or {}
 
     @classmethod
     def get_all_or_none_attributes(cls):
