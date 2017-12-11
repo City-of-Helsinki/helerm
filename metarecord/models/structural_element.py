@@ -24,6 +24,7 @@ class StructuralElement(TimeStampedModel):
         'required': None,
         'conditionally_required': None,
         'multivalued': None,
+        'all_or_none': None,
     }
 
     class Meta:
@@ -45,6 +46,13 @@ class StructuralElement(TimeStampedModel):
     @classmethod
     def get_conditionally_required_attributes(cls):
         return deepcopy(cls._attribute_validations.get('conditionally_required')) or {}
+
+    @classmethod
+    def get_all_or_none_attributes(cls):
+        return [
+            set(validation)
+            for validation in cls._attribute_validations.get('all_or_none') or []
+        ]
 
     @classmethod
     def is_attribute_allowed(cls, attribute_identifier):
@@ -74,7 +82,7 @@ class StructuralElement(TimeStampedModel):
         return super().save(*args, **kwargs)
 
 
-def get_attribute_json_schema(allowed=None, required=None, conditionally_required=None, multivalued=None):
+def get_attribute_json_schema(allowed=None, required=None, conditionally_required=None, multivalued=None, **kwargs):
     """
     Return schema for attributes in JSON schema draft 4 format.
 

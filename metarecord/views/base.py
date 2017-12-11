@@ -107,6 +107,11 @@ class StructuralElementSerializer(serializers.ModelSerializer):
                 if one_value not in attribute_obj.values.values_list('value', flat=True):
                     attribute_errors[attribute].append(_('Invalid value.'))
 
+        for all_or_none in instance.get_all_or_none_attributes():
+            for missing_attribute in all_or_none - instance.attributes.keys():
+                if _('This attribute is required.') not in attribute_errors[missing_attribute]:
+                    attribute_errors[missing_attribute].append(_('This attribute is required.'))
+
         if attribute_errors:
             all_errors['attributes'] = attribute_errors
 
