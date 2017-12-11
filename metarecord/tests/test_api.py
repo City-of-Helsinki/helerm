@@ -56,6 +56,7 @@ def disable_attribute_validations(monkeypatch):
         'required': None,
         'conditionally_required': None,
         'multivalued': None,
+        'all_or_none': None,
     }
 
     for structural_element in (Function, Phase, Action, Record):
@@ -683,6 +684,31 @@ def test_conditionally_required_attribute_not_allowed_when_not_required(
     errors = response.data
 
     check_attribute_errors(errors, choice_attribute, 'allowed')
+
+
+@pytest.mark.django_db
+def test_all_or_none_validation(monkeypatch, super_user_api_client, function, choice_attribute, choice_attribute_2,
+                                choice_value_1):
+    monkeypatch.setitem(
+        Function._attribute_validations,
+        'allowed',
+        (choice_attribute.identifier, choice_attribute_2.identifier)
+    )
+    monkeypatch.setitem(
+        Function._attribute_validations,
+        'all_or_none',
+        ((choice_attribute.identifier, choice_attribute_2.identifier),)
+    )
+
+    function.attributes = {
+        choice_attribute.identifier: choice_value_1.value,
+    }
+    function.save(update_fields=('attributes',))
+
+    response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
+    assert response.status_code == 400
+    errors = response.data
+    check_attribute_errors(errors, choice_attribute_2, 'required')
 
 
 @pytest.mark.django_db

@@ -16,8 +16,8 @@ class Record(StructuralElement):
             'PublicityClass', 'PublicityClassChange', 'RecordType', 'Restriction.ProtectionLevel',
             'Restriction.SecurityClass', 'Restriction.SecurityPeriodStart', 'RetentionPeriod', 'RetentionPeriodStart',
             'RetentionPeriodTotal', 'RetentionPeriodOffice', 'RetentionReason', 'ProtectionClass', 'SecurityPeriod',
-            'SecurityReason', 'SocialSecurityNumber', 'StorageAccountable', 'StorageOrder', 'Subject.Scheme', 'Subject',
-            'TypeSpecifier'
+            'SecurityReason', 'SocialSecurityNumber', 'StorageAccountable', 'StorageLocation', 'StorageOrder',
+            'Subject.Scheme', 'Subject', 'TypeSpecifier'
         ),
         'required': (
             'PersonalData', 'PublicityClass', 'RecordType', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
@@ -29,6 +29,9 @@ class Record(StructuralElement):
         },
         'multivalued': (
             'DataGroup', 'InformationSystem', 'RetentionReason', 'SecurityReason', 'Subject', 'Subject.Scheme',
+        ),
+        'all_or_none': (
+            ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
         )
     }
 

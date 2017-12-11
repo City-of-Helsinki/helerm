@@ -47,9 +47,10 @@ class Function(StructuralElement):
     _attribute_validations = {
         'allowed': (
             'AdditionalInformation', 'DataGroup', 'CollectiveProcessIDSource', 'InformationSystem', 'PersonalData',
-            'ProcessOwner', 'PublicityClass', 'Restriction.ProtectionLevel', 'Restriction.SecurityClass',
-            'Restriction.SecurityPeriodStart', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason',
-            'SecurityPeriod', 'SecurityReason', 'SocialSecurityNumber', 'Subject.Scheme', 'Subject'
+            'ProcessOwner', 'PublicityClass', 'ProtectionClass', 'Restriction.ProtectionLevel',
+            'Restriction.SecurityClass', 'Restriction.SecurityPeriodStart', 'RetentionPeriod', 'RetentionPeriodOffice',
+            'RetentionPeriodStart', 'RetentionReason', 'SecurityPeriod', 'SecurityReason', 'SocialSecurityNumber',
+            'StorageAccountable', 'StorageLocation', 'StorageOrder', 'Subject.Scheme', 'Subject'
         ),
         'required': (
             'PersonalData', 'PublicityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
@@ -62,6 +63,9 @@ class Function(StructuralElement):
         'multivalued': (
             'CollectiveProcessIDSource', 'DataGroup', 'InformationSystem', 'ProcessOwner', 'RetentionReason',
             'SecurityReason', 'Subject', 'Subject.Scheme',
+        ),
+        'all_or_none': (
+            ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
         )
     }
 
