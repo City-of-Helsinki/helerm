@@ -61,7 +61,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         """
         all_errors = {}
         attribute_errors = defaultdict(list)
-        conditionally_disallowed_attributes = set()
+        disallowed_attributes = set()
         valid_attribute_dict = self.get_valid_attribute_dict()
         required_attributes = instance.get_required_attributes()
         multivalued_attributes = instance.get_multivalued_attributes()
@@ -72,7 +72,13 @@ class StructuralElementSerializer(serializers.ModelSerializer):
             if condition_attribute in instance.attributes and instance.attributes[condition_attribute] == value:
                 required_attributes.add(attribute)
             else:
-                conditionally_disallowed_attributes.add(attribute)
+                disallowed_attributes.add(attribute)
+
+        # conditionally disallowed attributes
+        for attribute, condition in instance.get_conditionally_disallowed_attributes().items():
+            condition_attribute, value = next(iter(condition.items()))
+            if condition_attribute in instance.attributes and instance.attributes[condition_attribute] == value:
+                disallowed_attributes.add(attribute)
 
         required_attributes = required_attributes & valid_attribute_dict.keys()
 
@@ -85,7 +91,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
                 attribute_errors[attribute].append(_('Invalid attribute.'))
                 continue
 
-            if not instance.is_attribute_allowed(attribute) or attribute in conditionally_disallowed_attributes:
+            if not instance.is_attribute_allowed(attribute) or attribute in disallowed_attributes:
                 attribute_errors[attribute].append(_("This attribute isn't allowed."))
                 continue
 

@@ -28,6 +28,9 @@ class Record(StructuralElement):
             'Restriction.SecurityPeriodStart': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')},
             'SecurityReason': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')}
         },
+        'conditionally_disallowed': {
+            'RetentionPeriodStart': {'RetentionPeriod': ('-1',)}
+        },
         'multivalued': (
             'DataGroup', 'InformationSystem', 'RetentionReason', 'SecurityReason', 'Subject', 'Subject.Scheme',
         ),

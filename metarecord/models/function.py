@@ -63,9 +63,12 @@ class Function(StructuralElement):
             'Restriction.SecurityPeriodStart': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')},
             'SecurityReason': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')}
         },
+        'conditionally_disallowed': {
+            'RetentionPeriodStart': {'RetentionPeriod': ('-1',)}
+        },
         'multivalued': (
-            'CollectiveProcessIDSource', 'DataGroup', 'InformationSystem', 'ProcessOwner', 'RetentionReason',
-            'SecurityReason', 'Subject', 'Subject.Scheme',
+            'CollectiveProcessIDSource', 'DataGroup', 'InformationSystem', 'ProcessOwner', 'SecurityReason', 'Subject',
+            'Subject.Scheme',
         ),
         'all_or_none': (
             ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
