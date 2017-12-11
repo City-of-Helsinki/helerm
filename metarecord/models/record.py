@@ -20,7 +20,8 @@ class Record(StructuralElement):
             'Subject.Scheme', 'Subject', 'TypeSpecifier'
         ),
         'required': (
-            'PersonalData', 'PublicityClass', 'RecordType', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
+            'PersonalData', 'PublicityClass', 'RecordType', 'RetentionPeriod', 'RetentionPeriodStart',
+            'RetentionReason', 'SocialSecurityNumber'
         ),
         'conditionally_required': {
             'SecurityPeriod': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')},

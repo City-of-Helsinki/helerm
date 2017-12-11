@@ -55,7 +55,8 @@ class Function(StructuralElement):
             'StorageAccountable', 'StorageLocation', 'StorageOrder', 'Subject.Scheme', 'Subject'
         ),
         'required': (
-            'PersonalData', 'PublicityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason'
+            'PersonalData', 'PublicityClass', 'RetentionPeriod', 'RetentionPeriodStart', 'RetentionReason',
+            'SocialSecurityNumber'
         ),
         'conditionally_required': {
             'SecurityPeriod': {'PublicityClass': ('Salassa pidettävä', 'Osittain salassa pidettävä')},
