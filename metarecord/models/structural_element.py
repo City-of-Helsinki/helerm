@@ -86,6 +86,7 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
                 <condition attribute identifier>: <condition attribute value>
             }
         }
+    :param multivalued: list of multivalued attribute identifiers
     :return: dict containing JSON schema data
     """
 
@@ -103,23 +104,20 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
     for attribute in attributes:
         existing_identifiers.add(attribute.identifier)
 
-        if attribute.values.exists():
-            enum = []
-            for value in attribute.values.all():
-                enum.append(value.value)
-            properties.update({attribute.identifier: {'enum': enum}})
+        values = attribute.values.values_list('value', flat=True)  # lots of values here
+        attribute_type = {'enum': values} if values else {'type': 'string'}
+
+        if not multivalued or attribute.identifier not in multivalued:
+            properties.update({attribute.identifier: attribute_type})
         else:
-            if not multivalued or attribute.identifier not in multivalued:
-                properties.update({attribute.identifier: {'type': 'string'}})
-            else:
-                properties.update({
-                    attribute.identifier: {
-                        "anyOf": [
-                            {'type': 'string'},
-                            {'type': 'array', 'items': {'type': 'string'}}
-                        ]
-                    }
-                })
+            properties.update({
+                attribute.identifier: {
+                    "anyOf": [
+                        attribute_type,
+                        {'type': 'array', 'items': attribute_type}
+                    ]
+                }
+            })
 
     schema = {
         '$schema': 'http://json-schema.org/draft-04/schema#',
