@@ -6,9 +6,13 @@ from rest_framework.reverse import reverse
 from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
 from metarecord.tests.utils import assert_response_functions, check_attribute_errors, set_permissions
 
-
+CLASSIFICATION_LIST_URL = reverse('v1:classification-list')
 FUNCTION_LIST_URL = reverse('v1:function-list')
 ATTRIBUTE_LIST_URL = reverse('v1:attribute-list')
+
+
+def get_classification_detail_url(classification):
+    return reverse('v1:classification-detail', kwargs={'uuid': classification.uuid})
 
 
 def get_function_detail_url(function):
@@ -834,3 +838,24 @@ def test_function_version_filter(user_api_client, filtering, expected_indexes, c
     response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
     assert response.status_code == 200
     assert_response_functions(response, [functions[index] for index in expected_indexes])
+
+
+@pytest.mark.django_db
+def test_classification_function_field(user_api_client, classification, classification_2):
+    function = Function.objects.create(classification=classification)
+    Function.objects.create(classification=classification)
+    Function.objects.create(classification=classification_2)
+    classification_3 = Classification.objects.create(code='05')
+
+    response = user_api_client.get(CLASSIFICATION_LIST_URL)
+    assert response.status_code == 200
+    assert response.data['results'][0]['function'] == function.uuid.hex
+    assert response.data['results'][2]['function'] is None
+
+    response = user_api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert response.data['function'] == function.uuid.hex
+
+    response = user_api_client.get(get_classification_detail_url(classification_3))
+    assert response.status_code == 200
+    assert response.data['function'] is None
