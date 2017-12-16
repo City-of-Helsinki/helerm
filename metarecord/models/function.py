@@ -41,7 +41,9 @@ class Function(StructuralElement):
     state = models.CharField(verbose_name=_('state'), max_length=20, choices=STATE_CHOICES, default=DRAFT)
     valid_from = models.DateField(verbose_name=_('valid from'), null=True, blank=True)
     valid_to = models.DateField(verbose_name=_('valid to'), null=True, blank=True)
-    classification = models.ForeignKey(Classification, verbose_name=_('classification'), null=True, blank=True)
+    classification = models.ForeignKey(
+        Classification, verbose_name=_('classification'), null=True, blank=True, related_name='functions'
+    )
 
     # Function attribute validation rules, hardcoded at least for now
     _attribute_validations = {
