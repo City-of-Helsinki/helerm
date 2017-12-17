@@ -65,8 +65,7 @@ class Function(StructuralElement):
             'RetentionPeriodStart': {'RetentionPeriod': ('-1',)}
         },
         'multivalued': (
-            'CollectiveProcessIDSource', 'DataGroup', 'InformationSystem', 'ProcessOwner', 'SecurityReason', 'Subject',
-            'Subject.Scheme',
+            'CollectiveProcessIDSource', 'DataGroup', 'InformationSystem', 'ProcessOwner', 'Subject', 'Subject.Scheme'
         ),
         'all_or_none': (
             ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),

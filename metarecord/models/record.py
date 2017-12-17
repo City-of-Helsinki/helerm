@@ -32,7 +32,7 @@ class Record(StructuralElement):
             'RetentionPeriodStart': {'RetentionPeriod': ('-1',)}
         },
         'multivalued': (
-            'DataGroup', 'InformationSystem', 'RetentionReason', 'SecurityReason', 'Subject', 'Subject.Scheme',
+            'DataGroup', 'InformationSystem', 'Subject', 'Subject.Scheme',
         ),
         'all_or_none': (
             ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
