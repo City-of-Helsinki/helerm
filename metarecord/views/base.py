@@ -65,6 +65,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         valid_attribute_dict = self.get_valid_attribute_dict()
         required_attributes = instance.get_required_attributes()
         multivalued_attributes = instance.get_multivalued_attributes()
+        allow_values_outside_choices_attributes = instance.get_allow_values_outside_choices_attributes()
 
         # add conditionally required attributes to required attributes set
         for attribute, condition in instance.get_conditionally_required_attributes().items():
@@ -110,7 +111,8 @@ class StructuralElementSerializer(serializers.ModelSerializer):
                 continue
 
             for one_value in value:
-                if one_value not in attribute_obj.values.values_list('value', flat=True):
+                allowed_values = attribute_obj.values.values_list('value', flat=True)
+                if one_value not in allowed_values and attribute not in allow_values_outside_choices_attributes:
                     attribute_errors[attribute].append(_('Invalid value.'))
 
         for all_or_none in instance.get_all_or_none_attributes():

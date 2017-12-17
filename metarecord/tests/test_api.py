@@ -756,6 +756,43 @@ def test_all_or_none_validation(monkeypatch, super_user_api_client, function, ch
 
 
 @pytest.mark.django_db
+def test_allow_values_outside_choices_validation(monkeypatch, super_user_api_client, function, choice_attribute,
+                                                 choice_attribute_2, choice_value_1, choice_value_2_1):
+    monkeypatch.setitem(
+        Function._attribute_validations,
+        'allowed',
+        (choice_attribute.identifier, choice_attribute_2.identifier)
+    )
+
+    monkeypatch.setitem(
+        Function._attribute_validations,
+        'multivalued',
+        (choice_attribute_2.identifier,)
+    )
+
+    function.attributes = {
+        choice_attribute.identifier: 'foo',
+        choice_attribute_2.identifier: [choice_value_2_1.value, 'bar']
+    }
+    function.save(update_fields=('attributes',))
+
+    response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
+    assert response.status_code == 400
+    errors = response.data
+    check_attribute_errors(errors, choice_attribute, 'Invalid value')
+    check_attribute_errors(errors, choice_attribute_2, 'Invalid value')
+
+    monkeypatch.setitem(
+        Function._attribute_validations,
+        'allow_values_outside_choices',
+        (choice_attribute.identifier, choice_attribute_2.identifier)
+    )
+
+    response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_function_patch_required_fields(function_data, user_api_client, function):
     set_permissions(user_api_client, Function.CAN_REVIEW)
 
@@ -852,7 +889,6 @@ def test_function_validation_modified_at_filtering(user_api_client, filtering, e
     response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
     assert response.status_code == 200
     assert_response_functions(response, [functions[index] for index in expected_indexes])
-
 
 
 @pytest.mark.django_db
