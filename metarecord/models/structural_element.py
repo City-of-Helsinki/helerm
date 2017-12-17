@@ -26,6 +26,7 @@ class StructuralElement(TimeStampedModel):
         'conditionally_disallowed': None,
         'multivalued': None,
         'all_or_none': None,
+        'allow_values_outside_choices': None,
     }
 
     class Meta:
@@ -58,6 +59,10 @@ class StructuralElement(TimeStampedModel):
             set(validation)
             for validation in cls._attribute_validations.get('all_or_none') or []
         ]
+
+    @classmethod
+    def get_allow_values_outside_choices_attributes(cls):
+        return set(cls._attribute_validations.get('allow_values_outside_choices') or [])
 
     @classmethod
     def is_attribute_allowed(cls, attribute_identifier):
