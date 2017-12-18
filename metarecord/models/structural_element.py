@@ -85,6 +85,17 @@ class StructuralElement(TimeStampedModel):
         except KeyError:
             raise NotImplementedError()
 
+    @classmethod
+    def can_view_modified_by(cls, user):
+        if not user:
+            return False
+        return user.has_perm('metarecord.can_view_modified_by')
+
+    def get_modified_by_display(self):
+        if self.modified_by:
+            return '{} {}'.format(self.modified_by.first_name, self.modified_by.last_name).strip()
+        return None
+
     def save(self, *args, **kwargs):
         for key, value in self.attributes.copy().items():
             if value in ('', None):

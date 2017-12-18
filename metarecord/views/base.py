@@ -3,7 +3,7 @@ from collections import defaultdict
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers
 
-from metarecord.models import Attribute, Function
+from metarecord.models import Attribute, StructuralElement
 
 
 class BaseModelSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         request = self._context["request"]
 
         for field_name, field in fields.items():
-            if field_name == 'modified_by' and not request.user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
+            if field_name == 'modified_by' and not StructuralElement.can_view_modified_by(request.user):
                 fields.pop(field_name)
 
         return fields

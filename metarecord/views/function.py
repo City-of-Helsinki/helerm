@@ -44,11 +44,27 @@ class FunctionListSerializer(StructuralElementSerializer):
 
 class FunctionDetailSerializer(FunctionListSerializer):
     phases = PhaseDetailSerializer(many=True)
+    version_history = serializers.SerializerMethodField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not self.partial:
             self.fields['state'].read_only = True
+
+    def get_version_history(self, obj):
+        request = self.context['request']
+        functions = Function.objects.filter(uuid=obj.uuid).order_by('version')
+        ret = []
+
+        for function in functions:
+            version_data = {attr: getattr(function, attr) for attr in ('state', 'version', 'modified_at')}
+
+            if not request or function.can_view_modified_by(request.user):
+                version_data['modified_by'] = function.get_modified_by_display()
+
+            ret.append(version_data)
+
+        return ret
 
     def _create_new_version(self, function_data):
         user = self.context['request'].user
