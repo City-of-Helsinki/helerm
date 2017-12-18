@@ -994,3 +994,47 @@ def test_classification_function_field(user_api_client, classification, classifi
     response = user_api_client.get(get_classification_detail_url(classification_3))
     assert response.status_code == 200
     assert response.data['function'] is None
+
+
+@pytest.mark.django_db
+def test_function_version_history_field(user_api_client, classification):
+    functions = (
+        Function.objects.create(classification=classification),
+        Function.objects.create(classification=classification),
+        Function.objects.create(classification=classification),
+    )
+    Function.objects.filter(id=functions[2].id).update(
+        state=Function.SENT_FOR_REVIEW, modified_by=user_api_client.user
+    )
+
+    response = user_api_client.get(FUNCTION_LIST_URL)
+    assert response.status_code == 200
+    assert 'version_history' not in response.data['results'][0]
+
+    response = user_api_client.get(get_function_detail_url(functions[2]))
+    assert response.status_code == 200
+    version_history = response.data['version_history']
+
+    assert len(version_history) == 3
+
+    first_version = version_history[0]
+    assert first_version.get('modified_at')
+    assert first_version['state'] == 'draft'
+    assert first_version['version'] == 1
+    assert 'modified_by' not in version_history[0]
+
+    last_version = version_history[2]
+    assert last_version['state'] == 'sent_for_review'
+    assert last_version['version'] == 3
+
+    set_permissions(user_api_client, Function.CAN_VIEW_MODIFIED_BY)
+
+    response = user_api_client.get(get_function_detail_url(functions[2]))
+    assert response.status_code == 200
+    version_history = response.data['version_history']
+
+    first_version = version_history[0]
+    assert first_version['modified_by'] is None
+
+    last_version = version_history[2]
+    assert last_version['modified_by'] == 'John Rambo'
