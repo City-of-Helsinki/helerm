@@ -15,7 +15,7 @@ django-filter==1.1.0
 django-helusers==0.4.2
 django==2.0            # via django-allauth, django-helusers, drf-oidc-auth
 djangorestframework-jwt==1.11.0
-djangorestframework==3.7.3
+djangorestframework==3.7.4
 drf-oidc-auth==0.9        # via django-helusers
 et-xmlfile==1.0.1         # via openpyxl
 first==2.0.1              # via pip-tools
