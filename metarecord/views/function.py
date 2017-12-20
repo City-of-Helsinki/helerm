@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from metarecord.models import Action, Function, Phase, Record
 
 from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
+from .classification import Classification
 from .phase import PhaseDetailSerializer
 
 
@@ -16,6 +17,7 @@ class FunctionListSerializer(StructuralElementSerializer):
     phases = HexRelatedField(many=True, read_only=True)
     version = serializers.IntegerField(read_only=True)
     modified_by = serializers.SerializerMethodField()
+    state = serializers.CharField(read_only=True)
 
     # TODO these three are here to maintain backwards compatibility,
     # should be removed as soon as the UI doesn't need these anymore
@@ -23,48 +25,16 @@ class FunctionListSerializer(StructuralElementSerializer):
     name = serializers.ReadOnlyField(source='get_name')
     parent = serializers.SerializerMethodField()
 
-    classification = HexRelatedField(read_only=True)
+    classification = HexRelatedField(queryset=Classification.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.context['view'].action == 'create':
+            self.fields['phases'] = PhaseDetailSerializer(many=True, required=False)
 
     class Meta(StructuralElementSerializer.Meta):
         model = Function
         exclude = StructuralElementSerializer.Meta.exclude + ('index', 'is_template')
-
-    def get_modified_by(self, obj):
-        if obj.modified_by:
-            return '{} {}'.format(obj.modified_by.first_name, obj.modified_by.last_name).strip()
-        return None
-
-    def get_parent(self, obj):
-        if obj.classification and obj.classification.parent:
-            parent_functions = Function.objects.filter(classification=obj.classification.parent)
-            if parent_functions.exists():
-                return parent_functions[0].uuid.hex
-        return None
-
-
-class FunctionDetailSerializer(FunctionListSerializer):
-    phases = PhaseDetailSerializer(many=True)
-    version_history = serializers.SerializerMethodField()
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not self.partial:
-            self.fields['state'].read_only = True
-
-    def get_version_history(self, obj):
-        request = self.context['request']
-        functions = Function.objects.filter(uuid=obj.uuid).order_by('version')
-        ret = []
-
-        for function in functions:
-            version_data = {attr: getattr(function, attr) for attr in ('state', 'version', 'modified_at')}
-
-            if not request or function.can_view_modified_by(request.user):
-                version_data['modified_by'] = function.get_modified_by_display()
-
-            ret.append(version_data)
-
-        return ret
 
     def _create_new_version(self, function_data):
         user = self.context['request'].user
@@ -89,6 +59,49 @@ class FunctionDetailSerializer(FunctionListSerializer):
                     Record.objects.create(action=action, index=index, **record_datum)
 
         return function
+
+    def get_modified_by(self, obj):
+        if obj.modified_by:
+            return '{} {}'.format(obj.modified_by.first_name, obj.modified_by.last_name).strip()
+        return None
+
+    def get_parent(self, obj):
+        if obj.classification and obj.classification.parent:
+            parent_functions = Function.objects.filter(classification=obj.classification.parent)
+            if parent_functions.exists():
+                return parent_functions[0].uuid.hex
+        return None
+
+    def validate(self, data):
+        if Function.objects.filter(classification=data['classification']).exists():
+            raise exceptions.ValidationError(
+                _('Classification %s already has a function.') % data['classification'].uuid
+            )
+        return data
+
+    @transaction.atomic
+    def create(self, validated_data):
+        user = self.context['request'].user
+
+        if not user.has_perm(Function.CAN_EDIT):
+            raise exceptions.PermissionDenied(_('No permission to create.'))
+
+        new_function = self._create_new_version(validated_data)
+        new_function.create_metadata_version(user)
+
+        return new_function
+
+
+class FunctionDetailSerializer(FunctionListSerializer):
+    phases = PhaseDetailSerializer(many=True)
+    version_history = serializers.SerializerMethodField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['classification'].read_only = True
+
+        if self.partial:
+            self.fields['state'].read_only = False
 
     def validate(self, data):
         new_valid_from = data.get('valid_from')
@@ -170,6 +183,21 @@ class FunctionDetailSerializer(FunctionListSerializer):
         if not can_user_change_state_functions[relevant_state](user):
             raise exceptions.PermissionDenied(_('No permission for the state change.'))
 
+    def get_version_history(self, obj):
+        request = self.context['request']
+        functions = Function.objects.filter(uuid=obj.uuid).order_by('version')
+        ret = []
+
+        for function in functions:
+            version_data = {attr: getattr(function, attr) for attr in ('state', 'version', 'modified_at')}
+
+            if not request or function.can_view_modified_by(request.user):
+                version_data['modified_by'] = function.get_modified_by_display()
+
+            ret.append(version_data)
+
+        return ret
+
 
 class FunctionFilterSet(django_filters.FilterSet):
     class Meta:
@@ -200,7 +228,6 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_class = FunctionFilterSet
     lookup_field = 'uuid'
-    http_method_names = ['get', 'head', 'options', 'put', 'patch', 'delete']
 
     def get_queryset(self):
         if 'version' in self.request.query_params:
