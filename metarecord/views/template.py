@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from metarecord.models import Function
 
 from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
-from .phase import PhaseDetailSerializer
+from .function import PhaseSerializer
 
 
 class TemplateListSerializer(StructuralElementSerializer):
@@ -15,7 +15,7 @@ class TemplateListSerializer(StructuralElementSerializer):
 
 
 class TemplateDetailSerializer(TemplateListSerializer):
-    phases = PhaseDetailSerializer(many=True, read_only=True)
+    phases = PhaseSerializer(many=True, read_only=True)
 
 
 class TemplateViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):

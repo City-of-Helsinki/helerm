@@ -122,9 +122,6 @@ def attribute(choice_attribute):
 
 @pytest.mark.parametrize('resource', [
     'function',
-    'phase',
-    'action',
-    'record',
     'attribute',
     'template',
     'classification',
