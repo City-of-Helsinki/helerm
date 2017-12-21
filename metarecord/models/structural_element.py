@@ -103,15 +103,45 @@ class StructuralElement(TimeStampedModel):
         return super().save(*args, **kwargs)
 
 
-def get_attribute_json_schema(allowed=None, required=None, conditionally_required=None, multivalued=None, **kwargs):
+def _get_conditionally_required_schema(required_attributes, condition_attribute, condition_values):
+    return {
+        'oneOf': [
+            {
+                'properties': {
+                    condition_attribute: {
+                        'enum': condition_values
+                    }
+                },
+                'required': required_attributes
+            },
+            {
+                'properties': {
+                    condition_attribute: {
+                        'not': {'enum': condition_values}
+                    }
+                },
+                'required': []
+            },
+        ]
+    }
+
+
+def get_attribute_json_schema(allowed=None, required=None, conditionally_required=None, multivalued=None,
+                              conditionally_disallowed=None, **kwargs):
     """
     Return schema for attributes in JSON schema draft 4 format.
 
     :param allowed: list of allowed attribute identifiers
     :param required: list of required attribute identifiers
-    :param conditionally_required: conditionally required attribute, format:
+    :param conditionally_required: conditionally required attributes, format:
         {
             <conditionally required attribute identifier>: {
+                <condition attribute identifier>: <condition attribute value>
+            }
+        }
+    :param conditionally_disallowed: conditionally disallowed attributes, format:
+        {
+            <conditionally disallowed attribute identifier>: {
                 <condition attribute identifier>: <condition attribute value>
             }
         }
@@ -158,9 +188,9 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
     if required:
         schema['required'] = [attr for attr in required if attr in existing_identifiers]
 
-    if conditionally_required:
-        all_of = []
+    all_of = []
 
+    if conditionally_required:
         for required_attribute, condition in conditionally_required.items():
 
             condition_attribute, values = next(iter(condition.items()))
@@ -173,26 +203,30 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
             if not (required_attribute in existing_identifiers and condition_attribute in existing_identifiers):
                 continue
 
-            all_of.append({'oneOf': [
-                {
-                    'properties': {
-                        condition_attribute: {
-                            'enum': values
-                        }
-                    },
-                    'required': [required_attribute]
-                },
-                {
-                    'properties': {
-                        condition_attribute: {
-                            'not': {'enum': values}
-                        }
-                    },
-                    'required': []
-                },
-            ]})
+            all_of.append(_get_conditionally_required_schema([required_attribute], condition_attribute, values))
 
-        if all_of:
-            schema['allOf'] = all_of
+    if conditionally_disallowed:
+        for required_attribute, condition in conditionally_disallowed.items():
+
+            condition_attribute, values = next(iter(condition.items()))
+            if not (isinstance(values, list) or isinstance(values, tuple)):
+                values = (values,)
+
+            if len(condition) > 1:
+                raise NotImplementedError('Only one condition supported at the moment. ')
+
+            if not (required_attribute in existing_identifiers and condition_attribute in existing_identifiers):
+                continue
+
+            try:
+                attribute = next(attr for attr in attributes if attr.identifier == condition_attribute)
+            except StopIteration:
+                continue
+
+            not_values = set(attribute.values.values_list('value', flat=True)) - set(values)
+            all_of.append(_get_conditionally_required_schema([required_attribute], condition_attribute, not_values))
+
+    if all_of:
+        schema['allOf'] = all_of
 
     return schema
