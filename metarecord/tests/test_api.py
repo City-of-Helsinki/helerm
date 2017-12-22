@@ -222,6 +222,9 @@ def test_function_post(post_function_data, user_api_client):
     metadata_version = new_function.metadata_versions.last()
     assert metadata_version.state == Function.DRAFT
 
+    assert response.data['name'] == response.data['classification_title'] == new_function.classification.title
+    assert response.data['function_id'] == response.data['classification_code'] == new_function.classification.code
+
 
 @pytest.mark.django_db
 def test_function_post_empty_function(user_api_client, classification):
@@ -237,6 +240,9 @@ def test_function_post_empty_function(user_api_client, classification):
     assert new_function.metadata_versions.count() == 1
     metadata_version = new_function.metadata_versions.last()
     assert metadata_version.state == Function.DRAFT
+
+    assert response.data['name'] == response.data['classification_title'] == new_function.classification.title
+    assert response.data['function_id'] == response.data['classification_code'] == new_function.classification.code
 
 
 @pytest.mark.django_db

@@ -19,9 +19,13 @@ class FunctionListSerializer(StructuralElementSerializer):
     modified_by = serializers.SerializerMethodField()
     state = serializers.CharField(read_only=True)
 
+    classification_code = serializers.ReadOnlyField(source='get_classification_code')
+    classification_title = serializers.ReadOnlyField(source='get_name')
+
     # TODO these three are here to maintain backwards compatibility,
     # should be removed as soon as the UI doesn't need these anymore
     function_id = serializers.ReadOnlyField(source='get_classification_code')
+    # there is also Function.name field which should be hidden for other than templates when this is removed
     name = serializers.ReadOnlyField(source='get_name')
     parent = serializers.SerializerMethodField()
 
