@@ -69,9 +69,10 @@ class Function(StructuralElement):
         'multivalued': (
             'CollectiveProcessIDSource', 'DataGroup', 'InformationSystem', 'ProcessOwner', 'Subject', 'Subject.Scheme'
         ),
-        'all_or_none': (
-            ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
-        ),
+        # TODO temporarily disabled
+        #'all_or_none': (
+        #    ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
+        #),
         'allow_values_outside_choices': (
             'CollectiveProcessIDSource', 'DataGroup', 'InformationSystem', 'ProcessOwner', 'Subject', 'Subject.Scheme'
         )

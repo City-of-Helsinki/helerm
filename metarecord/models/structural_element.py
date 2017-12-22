@@ -58,6 +58,7 @@ class StructuralElement(TimeStampedModel):
         return [
             set(validation)
             for validation in cls._attribute_validations.get('all_or_none') or []
+            if validation
         ]
 
     @classmethod
@@ -185,9 +186,6 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
         'additionalProperties': False,
     }
 
-    if required:
-        schema['required'] = [attr for attr in required if attr in existing_identifiers]
-
     all_of = []
 
     if conditionally_required:
@@ -204,6 +202,8 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
                 continue
 
             all_of.append(_get_conditionally_required_schema([required_attribute], condition_attribute, values))
+
+    required_set = set(required or [])
 
     if conditionally_disallowed:
         for required_attribute, condition in conditionally_disallowed.items():
@@ -225,6 +225,10 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
 
             not_values = set(attribute.values.values_list('value', flat=True)) - set(values)
             all_of.append(_get_conditionally_required_schema([required_attribute], condition_attribute, not_values))
+            required_set.discard(required_attribute)
+
+    if required:
+        schema['required'] = [attr for attr in required_set if attr in existing_identifiers]
 
     if all_of:
         schema['allOf'] = all_of
