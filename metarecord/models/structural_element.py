@@ -58,6 +58,7 @@ class StructuralElement(TimeStampedModel):
         return [
             set(validation)
             for validation in cls._attribute_validations.get('all_or_none') or []
+            if validation
         ]
 
     @classmethod
