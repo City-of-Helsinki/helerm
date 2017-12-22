@@ -24,11 +24,9 @@ def get_attribute_detail_url(attribute):
 
 
 @pytest.fixture
-def function_data(function, free_text_attribute, choice_attribute):
+def post_function_data(classification, free_text_attribute, choice_attribute):
     return {
-        'name': 'new function',
-        'function_id': function.classification.code,
-        'parent': 'xyz',
+        'classification': str(classification.uuid),
         'attributes': {
             free_text_attribute.identifier: 'new function attribute value',
         },
@@ -40,6 +38,35 @@ def function_data(function, free_text_attribute, choice_attribute):
                             {
                                 'attributes': {
                                     choice_attribute.identifier: 'new record attribute value',
+                                },
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        'state': 'sent_for_review',  # should be ignored
+        'version': 7,  # should be ignored
+    }
+
+
+@pytest.fixture
+def put_function_data(function, free_text_attribute, choice_attribute):
+    return {
+        'name': 'new function version',
+        'function_id': function.classification.code,
+        'parent': 'xyz',
+        'attributes': {
+            free_text_attribute.identifier: 'new function version attribute value',
+        },
+        'phases': [
+            {
+                'actions': [
+                    {
+                        'records': [
+                            {
+                                'attributes': {
+                                    choice_attribute.identifier: 'new function version record attribute value',
                                 },
                             }
                         ]
@@ -165,32 +192,83 @@ def test_function_versioning(api_client, classification, classification_2):
 
 
 @pytest.mark.django_db
-def test_unauthenticated_user_cannot_post_or_put_functions(function_data, api_client, function):
-    response = api_client.post(FUNCTION_LIST_URL, data=function_data)
+def test_unauthenticated_user_cannot_post_or_put_functions(post_function_data, put_function_data, api_client, function):
+    response = api_client.post(FUNCTION_LIST_URL, data=post_function_data)
     assert response.status_code == 401
 
-    response = api_client.put(get_function_detail_url(function), data=function_data)
+    response = api_client.put(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 401
 
 
 @pytest.mark.django_db
-def test_cannot_post_functions(user_api_client, function, function_data):
-    response = user_api_client.post(FUNCTION_LIST_URL, data=function_data)
-    assert response.status_code == 405
+def test_function_post_requires_edit_permission(post_function_data, user_api_client):
+    response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
+    assert response.status_code == 403
 
 
 @pytest.mark.django_db
-def test_function_put(function_data, user_api_client, function, phase, action, record):
+def test_function_post(post_function_data, user_api_client):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+
+    response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
+    assert response.status_code == 201
+
+    new_function = Function.objects.last()
+    _check_function_object_matches_data(new_function, post_function_data)
+
+    assert new_function.state == Function.DRAFT
+    assert new_function.version == 1
+    assert new_function.metadata_versions.count() == 1
+    metadata_version = new_function.metadata_versions.last()
+    assert metadata_version.state == Function.DRAFT
+
+    assert response.data['name'] == response.data['classification_title'] == new_function.classification.title
+    assert response.data['function_id'] == response.data['classification_code'] == new_function.classification.code
+
+
+@pytest.mark.django_db
+def test_function_post_empty_function(user_api_client, classification):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    response = user_api_client.post(FUNCTION_LIST_URL, data={'classification': str(classification.uuid)})
+    assert response.status_code == 201
+
+    new_function = Function.objects.last()
+    assert not new_function.phases.exists()
+    assert new_function.attributes == {}
+    assert new_function.state == Function.DRAFT
+    assert new_function.version == 1
+    assert new_function.metadata_versions.count() == 1
+    metadata_version = new_function.metadata_versions.last()
+    assert metadata_version.state == Function.DRAFT
+
+    assert response.data['name'] == response.data['classification_title'] == new_function.classification.title
+    assert response.data['function_id'] == response.data['classification_code'] == new_function.classification.code
+
+
+@pytest.mark.django_db
+def test_cannot_post_more_than_one_function_for_classification(post_function_data, user_api_client):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+
+    response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
+    assert response.status_code == 201
+
+    response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
+    assert response.status_code == 400
+    assert 'Classification %s already has a function.' % post_function_data['classification'] in str(response.data)
+
+
+@pytest.mark.django_db
+def test_function_put(put_function_data, user_api_client, function, phase, action, record):
     set_permissions(user_api_client, Function.CAN_EDIT)
 
     models = (function, phase, action, record)
     modified_ats = [obj.modified_at for obj in models]  # store original modified_at timestamps
 
-    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 200
 
     new_function = Function.objects.last()
-    _check_function_object_matches_data(new_function, function_data)
+    _check_function_object_matches_data(new_function, put_function_data)
 
     assert new_function.version == 2
     assert new_function.uuid == function.uuid
@@ -202,70 +280,93 @@ def test_function_put(function_data, user_api_client, function, phase, action, r
 
 
 @pytest.mark.django_db
-def test_function_put_invalid_attributes(function_data, user_api_client, function):
-    function_data['function_id'] = function.classification.code
-    function_data['attributes'] = {'InvalidFunctionAttribute': 'value'}
-    function_data['phases'][0]['attributes'] = {'InvalidPhaseAttribute': 'value'}
+def test_function_post_invalid_attributes(post_function_data, user_api_client):
+    post_function_data['attributes'] = {'InvalidFunctionAttribute': 'value'}
+    post_function_data['phases'][0]['attributes'] = {'InvalidPhaseAttribute': 'value'}
 
-    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
     assert response.status_code == 400
     assert response.data['attributes']['InvalidFunctionAttribute'] == ['Invalid attribute.']
     assert response.data['phases'][0]['attributes']['InvalidPhaseAttribute'] == ['Invalid attribute.']
 
 
 @pytest.mark.django_db
-def test_function_multivalued_attribute(monkeypatch, function_data, user_api_client, function, free_text_attribute):
+def test_function_put_invalid_attributes(put_function_data, user_api_client, function):
+    put_function_data['function_id'] = function.classification.code
+    put_function_data['attributes'] = {'InvalidFunctionAttribute': 'value'}
+    put_function_data['phases'][0]['attributes'] = {'InvalidPhaseAttribute': 'value'}
+
+    response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
+    assert response.status_code == 400
+    assert response.data['attributes']['InvalidFunctionAttribute'] == ['Invalid attribute.']
+    assert response.data['phases'][0]['attributes']['InvalidPhaseAttribute'] == ['Invalid attribute.']
+
+
+@pytest.mark.django_db
+def test_function_put_not_able_to_change_classification(put_function_data, user_api_client, function, classification,
+                                                        classification_2):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    put_function_data['classification'] = str(classification_2.uuid)
+
+    response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
+    assert response.status_code == 200
+    new_function = Function.objects.last()
+    assert new_function.classification == classification
+
+
+@pytest.mark.django_db
+def test_function_multivalued_attribute(monkeypatch, put_function_data, user_api_client, function, free_text_attribute):
     set_permissions(user_api_client, Function.CAN_EDIT)
 
     monkeypatch.setitem(Function._attribute_validations, 'multivalued', [free_text_attribute.identifier])
 
-    function_data['function_id'] = function.classification.code
-    function_data['attributes'] = {
+    put_function_data['function_id'] = function.classification.code
+    put_function_data['attributes'] = {
         free_text_attribute.identifier: ['value1', 'value2']
     }
 
-    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 200
 
-    function_data['state'] = Function.SENT_FOR_REVIEW
-    response = user_api_client.patch(get_function_detail_url(function), data=function_data)
+    put_function_data['state'] = Function.SENT_FOR_REVIEW
+    response = user_api_client.patch(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_function_multivalued_attribute_allow_single(monkeypatch, function_data, user_api_client, function,
+def test_function_multivalued_attribute_allow_single(monkeypatch, put_function_data, user_api_client, function,
                                                      free_text_attribute):
     set_permissions(user_api_client, Function.CAN_EDIT)
 
     monkeypatch.setitem(Function._attribute_validations, 'multivalued', [free_text_attribute.identifier])
 
-    function_data['function_id'] = function.classification.code
-    function_data['attributes'] = {
+    put_function_data['function_id'] = function.classification.code
+    put_function_data['attributes'] = {
         free_text_attribute.identifier: 'value1'
     }
 
-    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 200
 
-    function_data['state'] = Function.SENT_FOR_REVIEW
-    response = user_api_client.patch(get_function_detail_url(function), data=function_data)
+    put_function_data['state'] = Function.SENT_FOR_REVIEW
+    response = user_api_client.patch(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_function_multivalued_attribute_not_allowed(function_data, user_api_client, function, free_text_attribute):
+def test_function_multivalued_attribute_not_allowed(put_function_data, user_api_client, function, free_text_attribute):
     set_permissions(user_api_client, Function.CAN_EDIT)
 
-    function_data['function_id'] = function.classification.code
-    function_data['attributes'] = {
+    put_function_data['function_id'] = function.classification.code
+    put_function_data['attributes'] = {
         free_text_attribute.identifier: ['value1', 'value2']
     }
 
-    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 200
 
-    function_data['state'] = Function.SENT_FOR_REVIEW
-    response = user_api_client.patch(get_function_detail_url(function), data=function_data)
+    put_function_data['state'] = Function.SENT_FOR_REVIEW
+    response = user_api_client.patch(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 400
     assert response.data['attributes'][free_text_attribute.identifier] == [
         'This attribute does not allow multiple values.']
@@ -276,10 +377,10 @@ def test_function_multivalued_attribute_not_allowed(function_data, user_api_clie
     ['foo'],
 ])
 @pytest.mark.django_db
-def test_function_put_invalid_attributes_format(function_data, user_api_client, function, attributes):
-    function_data['function_id'] = function.classification.code
-    function_data['phases'][0]['attributes'] = attributes
-    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+def test_function_put_invalid_attributes_format(put_function_data, user_api_client, function, attributes):
+    put_function_data['function_id'] = function.classification.code
+    put_function_data['phases'][0]['attributes'] = attributes
+    response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 400
 
 
@@ -299,11 +400,11 @@ def test_function_state_change(user_api_client, function):
 
 
 @pytest.mark.django_db
-def test_function_put_state(function_data, user_api_client, function):
+def test_function_put_state(put_function_data, user_api_client, function):
     set_permissions(user_api_client, Function.CAN_EDIT)
-    function_data['state'] = Function.SENT_FOR_REVIEW
+    put_function_data['state'] = Function.SENT_FOR_REVIEW
 
-    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+    response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 200
 
     new_function = Function.objects.last()
@@ -396,13 +497,13 @@ def test_state_change_permissions(user_api_client, function):
 
 
 @pytest.mark.django_db
-def test_metadata_version(user_api_client, user_2_api_client, function, function_data):
+def test_metadata_version(user_api_client, user_2_api_client, function, put_function_data):
     url = get_function_detail_url(function)
     set_permissions(user_api_client, Function.CAN_EDIT)
     set_permissions(user_2_api_client, Function.CAN_EDIT)
-    function_data['valid_from'] = '2015-01-01'
+    put_function_data['valid_from'] = '2015-01-01'
 
-    response = user_api_client.put(url, data=function_data)
+    response = user_api_client.put(url, data=put_function_data)
     assert response.status_code == 200
 
     new_function = Function.objects.last()
@@ -429,21 +530,21 @@ def test_metadata_version(user_api_client, user_2_api_client, function, function
 
 
 @pytest.mark.django_db
-def test_function_put_no_permission(function_data, user_api_client, function):
-    response = user_api_client.put(get_function_detail_url(function), data=function_data)
+def test_function_put_no_permission(put_function_data, user_api_client, function):
+    response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 403
     assert 'No permission to edit.' in str(response.data)
 
 
 @pytest.mark.django_db
-def test_function_cannot_edit_states(function_data, user_api_client, function):
+def test_function_cannot_edit_states(put_function_data, user_api_client, function):
     set_permissions(user_api_client, Function.CAN_EDIT)
 
     for state in (Function.SENT_FOR_REVIEW, Function.WAITING_FOR_APPROVAL):
         function.state = state
         function.save(update_fields=('state',))
 
-        response = user_api_client.put(get_function_detail_url(function), data=function_data)
+        response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
         assert response.status_code == 400
         assert 'Cannot edit while in state' in str(response.data)
 
@@ -495,19 +596,19 @@ def test_function_another_user_cannot_view_modified_by(function, user_2_api_clie
 
 
 @pytest.mark.django_db
-def test_function_anonymous_user_cannot_delete(function_data, api_client, function):
+def test_function_anonymous_user_cannot_delete(put_function_data, api_client, function):
     response = api_client.delete(get_function_detail_url(function))
     assert response.status_code == 401
 
 
 @pytest.mark.django_db
-def test_function_user_cannot_delete(function_data, user_api_client, function):
+def test_function_user_cannot_delete(put_function_data, user_api_client, function):
     response = user_api_client.delete(get_function_detail_url(function))
     assert response.status_code == 403
 
 
 @pytest.mark.django_db
-def test_function_user_can_delete_own(function_data, user, user_api_client, function):
+def test_function_user_can_delete_own(put_function_data, user, user_api_client, function):
     function.modified_by = user
     function.save()
 
@@ -521,7 +622,7 @@ def test_function_user_can_delete_own(function_data, user, user_api_client, func
 
 
 @pytest.mark.django_db
-def test_function_user_cannot_delete_other_users(function_data, user_2, user_api_client, function):
+def test_function_user_cannot_delete_other_users(put_function_data, user_2, user_api_client, function):
     function.modified_by = user_2
     function.save()
 
@@ -533,7 +634,7 @@ def test_function_user_cannot_delete_other_users(function_data, user_2, user_api
 
 
 @pytest.mark.django_db
-def test_function_super_user_can_delete(function_data, super_user_api_client, function):
+def test_function_super_user_can_delete(put_function_data, super_user_api_client, function):
     response = super_user_api_client.delete(get_function_detail_url(function))
     assert response.status_code == 204
 
@@ -797,29 +898,29 @@ def test_allow_values_outside_choices_validation(monkeypatch, super_user_api_cli
 
 
 @pytest.mark.django_db
-def test_function_patch_required_fields(function_data, user_api_client, function):
+def test_function_patch_required_fields(put_function_data, user_api_client, function):
     set_permissions(user_api_client, Function.CAN_REVIEW)
 
     function.state = Function.SENT_FOR_REVIEW
     function.save(update_fields=('state',))
 
-    response = user_api_client.patch(get_function_detail_url(function), data=function_data)
+    response = user_api_client.patch(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 400
     assert '"state", "valid_from" or "valid_to" required.' in str(response.data)
 
 
 @pytest.mark.django_db
-def test_function_validation_date_validation(user_api_client, function, function_data):
+def test_function_validation_date_validation(user_api_client, function, put_function_data):
     url = get_function_detail_url(function)
     set_permissions(user_api_client, (Function.CAN_EDIT, Function.CAN_REVIEW))
-    function_data['valid_from'] = '2015-01-02'
-    function_data['valid_to'] = '2015-01-01'
+    put_function_data['valid_from'] = '2015-01-02'
+    put_function_data['valid_to'] = '2015-01-01'
 
-    response = user_api_client.put(url, data=function_data)
+    response = user_api_client.put(url, data=put_function_data)
     assert response.status_code == 400
     assert '"valid_from" cannot be after "valid_to".' in str(response.data)
 
-    response = user_api_client.patch(url, data=function_data)
+    response = user_api_client.patch(url, data=put_function_data)
     assert response.status_code == 400
     assert '"valid_from" cannot be after "valid_to".' in str(response.data)
 
