@@ -1038,3 +1038,23 @@ def test_function_version_history_field(user_api_client, classification):
 
     last_version = version_history[2]
     assert last_version['modified_by'] == 'John Rambo'
+
+
+@pytest.mark.django_db
+def test_classification_function_state_field(user_api_client, classification, classification_2):
+    Function.objects.create(classification=classification, state=Function.DRAFT)
+    Function.objects.create(classification=classification, state=Function.SENT_FOR_REVIEW)
+    Function.objects.create(classification=classification_2, state=Function.WAITING_FOR_APPROVAL)
+    classification_3 = Classification.objects.create(code='05')
+
+    response = user_api_client.get(CLASSIFICATION_LIST_URL)
+    assert response.status_code == 200
+    assert response.data['results'][0]['function_state'] == Function.SENT_FOR_REVIEW
+    assert response.data['results'][2]['function_state'] is None
+
+    response = user_api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+
+    response = user_api_client.get(get_classification_detail_url(classification_3))
+    assert response.status_code == 200
+    assert response.data['function_state'] is None

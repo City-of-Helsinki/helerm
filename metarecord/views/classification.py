@@ -8,17 +8,16 @@ from .base import HexRelatedField
 class ClassificationSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(source='uuid', format='hex', read_only=True)
     parent = HexRelatedField(read_only=True)
-    function = serializers.SerializerMethodField()
 
     class Meta:
         model = Classification
         fields = ('id', 'created_at', 'modified_at', 'code', 'title', 'parent', 'description', 'description_internal',
-                  'related_classification', 'additional_information', 'function')
+                  'related_classification', 'additional_information')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def get_function(self, obj):
+    def _get_function(self, obj):
         functions = list(obj.functions.latest_version())
         num_of_functions = len(functions)
 
@@ -28,7 +27,18 @@ class ClassificationSerializer(serializers.ModelSerializer):
                 (obj.uuid, [function.uuid for function in functions])
             )
 
-        return functions[0].uuid.hex if num_of_functions else None
+        return functions[0] if num_of_functions else None
+
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        function = self._get_function(obj)
+        if function:
+            data['function'] = function.uuid.hex
+            data['function_state'] = function.state
+        else:
+            data['function'] = None
+            data['function_state'] = None
+        return data
 
 
 class ClassificationViewSet(viewsets.ReadOnlyModelViewSet):
