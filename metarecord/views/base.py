@@ -81,7 +81,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
             if condition_attribute in instance.attributes and instance.attributes[condition_attribute] == value:
                 disallowed_attributes.add(attribute)
 
-        required_attributes = required_attributes & valid_attribute_dict.keys()
+        required_attributes = (required_attributes & valid_attribute_dict.keys()) - disallowed_attributes
 
         for attribute in required_attributes:
             if attribute not in instance.attributes.keys():
