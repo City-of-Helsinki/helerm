@@ -792,6 +792,34 @@ def test_conditionally_required_attribute_not_allowed_when_not_required(
 
 
 @pytest.mark.django_db
+def test_conditionally_required_attribute_multiple_options(
+        monkeypatch, super_user_api_client, function, choice_attribute, choice_value_1, choice_attribute_2,
+        choice_value_2_1, choice_value_2_2
+):
+    monkeypatch.setitem(Function._attribute_validations, 'allowed', [
+        choice_attribute.identifier, choice_attribute_2.identifier
+    ])
+    monkeypatch.setitem(
+        Function._attribute_validations,
+        'conditionally_required',
+        {
+            choice_attribute.identifier: {
+                choice_attribute_2.identifier: (choice_value_2_1.value, choice_value_2_2.value)
+            }
+        }
+    )
+
+    function.attributes = {
+        choice_attribute_2.identifier: choice_value_2_2.value
+    }
+    function.save(update_fields=('attributes',))
+
+    response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
+    errors = response.data
+    check_attribute_errors(errors, choice_attribute, 'required')
+
+
+@pytest.mark.django_db
 def test_conditionally_disallowed_attributes_normal_situation(
         monkeypatch, super_user_api_client, function, choice_attribute, choice_value_1, choice_attribute_2,
         choice_value_2_1, choice_value_2_2
@@ -847,6 +875,40 @@ def test_conditionally_disallowed_attributes_are_not_required_when_disallowed(
         {
             choice_attribute.identifier: {
                 choice_attribute_2.identifier: choice_value_2_2.value
+            }
+        }
+    )
+
+    function.attributes = {
+        choice_attribute_2.identifier: choice_value_2_2.value
+    }
+    function.save(update_fields=('attributes',))
+
+    response = super_user_api_client.patch(get_function_detail_url(function), data={'state': Function.SENT_FOR_REVIEW})
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_conditionally_disallowed_attributes_are_not_required_when_disallowed_multiple_options(
+        monkeypatch, super_user_api_client, function, choice_attribute, choice_value_1, choice_attribute_2,
+        choice_value_2_1, choice_value_2_2
+):
+    monkeypatch.setitem(
+        Function._attribute_validations,
+        'allowed',
+        [choice_attribute.identifier, choice_attribute_2.identifier]
+    )
+    monkeypatch.setitem(
+        Function._attribute_validations,
+        'required',
+        [choice_attribute.identifier, choice_attribute_2.identifier]
+    )
+    monkeypatch.setitem(
+        Function._attribute_validations,
+        'conditionally_disallowed',
+        {
+            choice_attribute.identifier: {
+                choice_attribute_2.identifier: (choice_value_2_1.value, choice_value_2_2.value)
             }
         }
     )

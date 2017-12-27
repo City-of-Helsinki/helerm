@@ -1,3 +1,4 @@
+import collections
 from collections import defaultdict
 
 from django.utils.translation import ugettext_lazy as _
@@ -70,7 +71,11 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         # add conditionally required attributes to required attributes set
         for attribute, condition in instance.get_conditionally_required_attributes().items():
             condition_attribute, value = next(iter(condition.items()))
-            if condition_attribute in instance.attributes and instance.attributes[condition_attribute] == value:
+
+            if isinstance(value, str) or not isinstance(value, collections.Iterable):
+                value = (value, )
+
+            if condition_attribute in instance.attributes and instance.attributes[condition_attribute] in value:
                 required_attributes.add(attribute)
             else:
                 disallowed_attributes.add(attribute)
@@ -78,7 +83,11 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         # conditionally disallowed attributes
         for attribute, condition in instance.get_conditionally_disallowed_attributes().items():
             condition_attribute, value = next(iter(condition.items()))
-            if condition_attribute in instance.attributes and instance.attributes[condition_attribute] == value:
+
+            if isinstance(value, str) or not isinstance(value, collections.Iterable):
+                value = (value,)
+
+            if condition_attribute in instance.attributes and instance.attributes[condition_attribute] in value:
                 disallowed_attributes.add(attribute)
 
         required_attributes = (required_attributes & valid_attribute_dict.keys()) - disallowed_attributes
