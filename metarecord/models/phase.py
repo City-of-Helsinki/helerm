@@ -15,8 +15,10 @@ class Phase(StructuralElement):
         ),
         'multivalued': (
             'InformationSystem',
-        )
-
+        ),
+        'allow_values_outside_choices': (
+            'InformationSystem',
+        ),
     }
 
     class Meta:
