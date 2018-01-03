@@ -13,6 +13,11 @@ class FunctionQuerySet(models.QuerySet):
     def latest_approved(self):
         return self.filter(state=Function.APPROVED).latest_version()
 
+    def filter_for_user(self, user):
+        if not user.is_authenticated():
+            return self.filter(state=Function.APPROVED)
+        return self
+
 
 class Function(StructuralElement):
     DRAFT = 'draft'
@@ -113,12 +118,6 @@ class Function(StructuralElement):
             return True
 
         return False
-
-    @staticmethod
-    def can_user_view_other_than_latest_approved(user):
-        if not user:
-            return False
-        return user.is_authenticated()
 
     @transaction.atomic
     def save(self, *args, **kwargs):

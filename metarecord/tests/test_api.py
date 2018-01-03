@@ -1192,27 +1192,6 @@ def test_attribute_endpoints(user_api_client, choice_attribute, choice_value_1, 
     assert value_data['value'] == choice_value_1.value
 
 
-@pytest.mark.parametrize('filtering, expected_indexes', (
-        ('', [2, 3]),
-        ('version=', [2, 3]),
-        ('version=foo', []),
-        ('version=1', [0, 3]),
-        ('version=2', [1]),
-))
-@pytest.mark.django_db
-def test_function_version_filter(user_api_client, filtering, expected_indexes, classification, classification_2):
-    functions = (
-        Function.objects.create(classification=classification),
-        Function.objects.create(classification=classification),
-        Function.objects.create(classification=classification),
-        Function.objects.create(classification=classification_2),
-    )
-
-    response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
-    assert response.status_code == 200
-    assert_response_functions(response, [functions[index] for index in expected_indexes])
-
-
 @pytest.mark.django_db
 def test_classification_function_field(user_api_client, classification, classification_2):
     function = Function.objects.create(classification=classification)
@@ -1300,7 +1279,7 @@ def test_classification_function_state_field(user_api_client, classification, cl
 
 @pytest.mark.parametrize('authenticated', (False, True))
 @pytest.mark.django_db
-def test_other_than_latest_approved_function_visibility(api_client, user_api_client, classification, authenticated):
+def test_function_visibility(api_client, user_api_client, classification, authenticated):
     client = user_api_client if authenticated else api_client
 
     function = Function.objects.create(classification=classification, state=Function.DRAFT)
@@ -1348,8 +1327,7 @@ def test_other_than_latest_approved_function_visibility(api_client, user_api_cli
 
 @pytest.mark.parametrize('authenticated', (False, True))
 @pytest.mark.django_db
-def test_other_than_latest_approved_function_visibility_in_classification(api_client, user_api_client, classification,
-                                                                          authenticated):
+def test_function_visibility_in_classification(api_client, user_api_client, classification, authenticated):
     client = user_api_client if authenticated else api_client
 
     function = Function.objects.create(classification=classification, state=Function.DRAFT)
@@ -1371,3 +1349,40 @@ def test_other_than_latest_approved_function_visibility_in_classification(api_cl
         assert response.data['function'] == function.uuid.hex
     else:
         assert response.data['function'] is None
+
+    Function.objects.create(classification=classification, state=Function.APPROVED)
+    Function.objects.create(classification=classification, state=Function.DRAFT)
+    Function.objects.create(classification=classification, state=Function.APPROVED)
+
+    response = client.get(CLASSIFICATION_LIST_URL)
+    assert response.status_code == 200
+    assert response.data['results'][0]['function'] == function.uuid.hex
+
+    response = client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert response.data['function'] == function.uuid.hex
+
+
+@pytest.mark.parametrize('authenticated', (False, True))
+@pytest.mark.parametrize('index', (0, 1, 2, 3, 4, 5))
+@pytest.mark.django_db
+def test_function_version_filter(api_client, user_api_client, classification, authenticated, index):
+    client = user_api_client if authenticated else api_client
+
+    functions = [
+        Function.objects.create(classification=classification, state=Function.DRAFT),
+        Function.objects.create(classification=classification, state=Function.SENT_FOR_REVIEW),
+        Function.objects.create(classification=classification, state=Function.WAITING_FOR_APPROVAL),
+        Function.objects.create(classification=classification, state=Function.APPROVED),
+        Function.objects.create(classification=classification, state=Function.DRAFT),
+        Function.objects.create(classification=classification, state=Function.APPROVED),
+    ]
+
+    function = functions[index]
+    response = client.get(get_function_detail_url(function) + '?version={}'.format(index + 1))
+
+    if authenticated or function.state == Function.APPROVED:
+        assert response.status_code == 200
+        assert response.data['state'] == function.state
+    else:
+        assert response.status_code == 404
