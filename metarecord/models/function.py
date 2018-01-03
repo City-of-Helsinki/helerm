@@ -114,6 +114,12 @@ class Function(StructuralElement):
 
         return False
 
+    @staticmethod
+    def can_user_view_other_than_latest_approved(user):
+        if not user:
+            return False
+        return user.is_authenticated()
+
     @transaction.atomic
     def save(self, *args, **kwargs):
         if self.is_template:

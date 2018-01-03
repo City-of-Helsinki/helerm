@@ -263,6 +263,9 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     lookup_field = 'uuid'
 
     def get_queryset(self):
+        if not Function.can_user_view_other_than_latest_approved(self.request.user):
+            return self.queryset.latest_approved()
+
         if 'version' in self.request.query_params:
             return self.queryset
 
