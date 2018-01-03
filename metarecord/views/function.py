@@ -10,7 +10,36 @@ from metarecord.models import Action, Function, Phase, Record
 
 from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
 from .classification import Classification
-from .phase import PhaseDetailSerializer
+
+
+class RecordSerializer(StructuralElementSerializer):
+    class Meta(StructuralElementSerializer.Meta):
+        model = Record
+        read_only_fields = ('index',)
+
+    name = serializers.CharField(read_only=True, source='get_name')
+    action = HexRelatedField(read_only=True)
+    parent = HexRelatedField(read_only=True)
+
+
+class ActionSerializer(StructuralElementSerializer):
+    class Meta(StructuralElementSerializer.Meta):
+        model = Action
+        read_only_fields = ('index',)
+
+    name = serializers.CharField(read_only=True, source='get_name')
+    phase = HexRelatedField(read_only=True)
+    records = RecordSerializer(many=True)
+
+
+class PhaseSerializer(StructuralElementSerializer):
+    class Meta(StructuralElementSerializer.Meta):
+        model = Phase
+        read_only_fields = ('index',)
+
+    name = serializers.CharField(read_only=True, source='get_name')
+    function = HexRelatedField(read_only=True)
+    actions = ActionSerializer(many=True)
 
 
 class FunctionListSerializer(StructuralElementSerializer):
@@ -34,7 +63,7 @@ class FunctionListSerializer(StructuralElementSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.context['view'].action == 'create':
-            self.fields['phases'] = PhaseDetailSerializer(many=True, required=False)
+            self.fields['phases'] = PhaseSerializer(many=True, required=False)
 
     class Meta(StructuralElementSerializer.Meta):
         model = Function
@@ -97,7 +126,7 @@ class FunctionListSerializer(StructuralElementSerializer):
 
 
 class FunctionDetailSerializer(FunctionListSerializer):
-    phases = PhaseDetailSerializer(many=True)
+    phases = PhaseSerializer(many=True)
     version_history = serializers.SerializerMethodField()
 
     def __init__(self, *args, **kwargs):
