@@ -1,6 +1,6 @@
 from rest_framework import serializers, viewsets
 
-from metarecord.models import Classification
+from metarecord.models import Classification, Function
 
 from .base import HexRelatedField
 
@@ -18,7 +18,10 @@ class ClassificationSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
 
     def _get_function(self, obj):
-        functions = list(obj.functions.latest_version())
+        if Function.can_user_view_other_than_latest_approved(self.context['request'].user):
+            functions = list(obj.functions.latest_version())
+        else:
+            functions = list(obj.functions.latest_approved())
         num_of_functions = len(functions)
 
         if num_of_functions > 1:
