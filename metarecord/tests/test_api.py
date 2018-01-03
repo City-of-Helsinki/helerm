@@ -1386,3 +1386,36 @@ def test_function_version_filter(api_client, user_api_client, classification, au
         assert response.data['state'] == function.state
     else:
         assert response.status_code == 404
+
+
+@pytest.mark.parametrize('authenticated', (False, True))
+@pytest.mark.django_db
+def test_function_visibility_in_version_history(api_client, user_api_client, classification, authenticated):
+    client = user_api_client if authenticated else api_client
+
+    function = Function.objects.create(classification=classification, state=Function.DRAFT)
+    Function.objects.create(classification=classification, state=Function.SENT_FOR_REVIEW)
+    Function.objects.create(classification=classification, state=Function.WAITING_FOR_APPROVAL)
+    Function.objects.create(classification=classification, state=Function.APPROVED)
+    Function.objects.create(classification=classification, state=Function.DRAFT)
+    Function.objects.create(classification=classification, state=Function.APPROVED)
+
+    response = client.get(get_function_detail_url(function))
+    assert response.status_code == 200
+
+    version_history = response.data['version_history']
+    version_history_states = [vh['state'] for vh in version_history]
+
+    if authenticated:
+        assert version_history_states == [
+            Function.DRAFT,
+            Function.SENT_FOR_REVIEW,
+            Function.WAITING_FOR_APPROVAL,
+            Function.APPROVED,
+            Function.DRAFT,
+            Function.APPROVED,
+        ]
+    else:
+        assert version_history_states == [Function.APPROVED, Function.APPROVED]
+        assert version_history[0]['version'] == 4
+        assert version_history[1]['version'] == 6

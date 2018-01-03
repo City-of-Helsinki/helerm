@@ -218,7 +218,7 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
     def get_version_history(self, obj):
         request = self.context['request']
-        functions = Function.objects.filter(uuid=obj.uuid).order_by('version')
+        functions = Function.objects.filter_for_user(request.user).filter(uuid=obj.uuid).order_by('version')
         ret = []
 
         for function in functions:
