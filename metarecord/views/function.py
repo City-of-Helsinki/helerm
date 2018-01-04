@@ -218,7 +218,7 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
     def get_version_history(self, obj):
         request = self.context['request']
-        functions = Function.objects.filter(uuid=obj.uuid).order_by('version')
+        functions = Function.objects.filter_for_user(request.user).filter(uuid=obj.uuid).order_by('version')
         ret = []
 
         for function in functions:
@@ -263,17 +263,16 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     lookup_field = 'uuid'
 
     def get_queryset(self):
-        if not Function.can_user_view_other_than_latest_approved(self.request.user):
-            return self.queryset.latest_approved()
+        queryset = self.queryset.filter_for_user(self.request.user)
 
         if 'version' in self.request.query_params:
-            return self.queryset
+            return queryset
 
         state = self.request.query_params.get('state')
         if state == 'approved':
-            return self.queryset.latest_approved()
+            return queryset.latest_approved()
 
-        return self.queryset.latest_version()
+        return queryset.latest_version()
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
