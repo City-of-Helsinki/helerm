@@ -9,6 +9,7 @@ from metarecord.tests.utils import assert_response_functions, check_attribute_er
 CLASSIFICATION_LIST_URL = reverse('v1:classification-list')
 FUNCTION_LIST_URL = reverse('v1:function-list')
 ATTRIBUTE_LIST_URL = reverse('v1:attribute-list')
+PATCH_FIELDS = ('valid_from', 'valid_to', 'state')
 
 
 def get_classification_detail_url(classification):
@@ -525,7 +526,7 @@ def test_metadata_version(user_api_client, user_2_api_client, function, put_func
     assert metadata_version.state == Function.SENT_FOR_REVIEW
     assert metadata_version.modified_at == new_function.modified_at > original_modified_at
     assert metadata_version.modified_by == user_2_api_client.user
-    assert metadata_version.valid_from is None
+    assert metadata_version.valid_from == datetime.date(2015, 1, 1)
     assert metadata_version.valid_to == datetime.date(2016, 1, 1)
 
 
@@ -1044,6 +1045,37 @@ def test_function_patch_required_fields(put_function_data, user_api_client, func
     response = user_api_client.patch(get_function_detail_url(function), data=put_function_data)
     assert response.status_code == 400
     assert '"state", "valid_from" or "valid_to" required.' in str(response.data)
+
+
+@pytest.mark.parametrize('changes', (
+    {'valid_from': '2015-01-01'},
+    {'valid_to': '2015-01-02'},
+    {'valid_from': '2015-01-01', 'valid_to': '2015-01-02'},
+    {'state': Function.SENT_FOR_REVIEW},
+    {'state': Function.SENT_FOR_REVIEW, 'valid_to': '2015-01-02'},
+    {'valid_from': '2015-01-01', 'valid_to': '2015-01-02', 'state': Function.SENT_FOR_REVIEW}
+))
+@pytest.mark.django_db
+def test_function_patching(user_api_client, function, changes):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    function.valid_from = '2015-01-01'
+    function.save(update_fields=('valid_from',))
+
+    old_data = {field: getattr(function, field) for field in PATCH_FIELDS}
+
+    response = user_api_client.patch(get_function_detail_url(function), data=changes)
+    assert response.status_code == 200
+    function.refresh_from_db()
+
+    for field in PATCH_FIELDS:
+        new_value = getattr(function, field)
+        if new_value:
+            new_value = str(new_value)
+
+        if field in changes:
+            assert new_value == changes[field]
+        else:
+            assert new_value == old_data[field]
 
 
 @pytest.mark.django_db

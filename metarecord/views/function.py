@@ -153,12 +153,15 @@ class FunctionDetailSerializer(FunctionListSerializer):
         if self.partial:
             if not any(field in data for field in ('state', 'valid_from', 'valid_to')):
                 raise exceptions.ValidationError(_('"state", "valid_from" or "valid_to" required.'))
-            self.check_state_change(self.instance.state, data['state'])
 
-            if self.instance.state == Function.DRAFT and data['state'] != Function.DRAFT:
-                errors = self.get_attribute_validation_errors(self.instance)
-                if errors:
-                    raise exceptions.ValidationError(errors)
+            new_state = data.get('state')
+            if new_state:
+                self.check_state_change(self.instance.state, new_state)
+
+                if self.instance.state == Function.DRAFT and new_state != Function.DRAFT:
+                    errors = self.get_attribute_validation_errors(self.instance)
+                    if errors:
+                        raise exceptions.ValidationError(errors)
         return data
 
     @transaction.atomic
@@ -173,11 +176,8 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
             # ignore other fields than state, valid_from and valid_to
             # and do an actual update instead of a new version
-            new_function = super().update(instance, {
-                'state': validated_data.get('state'),
-                'valid_from': validated_data.get('valid_from'),
-                'valid_to': validated_data.get('valid_to'),
-            })
+            new_function = super().update(instance, data)
+
             new_function.create_metadata_version(user)
             return new_function
 
