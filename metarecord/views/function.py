@@ -106,14 +106,21 @@ class FunctionListSerializer(StructuralElementSerializer):
         return None
 
     def validate(self, data):
-        if Function.objects.filter(classification=data['classification']).exists():
-            raise exceptions.ValidationError(
-                _('Classification %s already has a function.') % data['classification'].uuid
-            )
-        if not data['classification'].function_allowed():
-            raise exceptions.ValidationError(
-                _('Classification %s does not allow function creation.') % data['classification'].uuid
-            )
+        new_valid_from = data.get('valid_from')
+        new_valid_to = data.get('valid_to')
+        if new_valid_from and new_valid_to and new_valid_from > new_valid_to:
+            raise exceptions.ValidationError(_('"valid_from" cannot be after "valid_to".'))
+
+        if not self.instance:
+            if Function.objects.filter(classification=data['classification']).exists():
+                raise exceptions.ValidationError(
+                    _('Classification %s already has a function.') % data['classification'].uuid
+                )
+            if not data['classification'].function_allowed():
+                raise exceptions.ValidationError(
+                    _('Classification %s does not allow function creation.') % data['classification'].uuid
+                )
+
         return data
 
     @transaction.atomic
@@ -141,10 +148,7 @@ class FunctionDetailSerializer(FunctionListSerializer):
             self.fields['state'].read_only = False
 
     def validate(self, data):
-        new_valid_from = data.get('valid_from')
-        new_valid_to = data.get('valid_to')
-        if new_valid_from and new_valid_to and new_valid_from > new_valid_to:
-            raise exceptions.ValidationError(_('"valid_from" cannot be after "valid_to".'))
+        data = super().validate(data)
 
         if self.partial:
             if not any(field in data for field in ('state', 'valid_from', 'valid_to')):

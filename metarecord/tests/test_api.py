@@ -1047,7 +1047,18 @@ def test_function_patch_required_fields(put_function_data, user_api_client, func
 
 
 @pytest.mark.django_db
-def test_function_validation_date_validation(user_api_client, function, put_function_data):
+def test_function_validation_date_validation_on_create(user_api_client, post_function_data):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    post_function_data['valid_from'] = '2015-01-02'
+    post_function_data['valid_to'] = '2015-01-01'
+
+    response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
+    assert response.status_code == 400
+    assert '"valid_from" cannot be after "valid_to".' in str(response.data)
+
+
+@pytest.mark.django_db
+def test_function_validation_date_validation_on_edit(user_api_client, function, put_function_data):
     url = get_function_detail_url(function)
     set_permissions(user_api_client, (Function.CAN_EDIT, Function.CAN_REVIEW))
     put_function_data['valid_from'] = '2015-01-02'
