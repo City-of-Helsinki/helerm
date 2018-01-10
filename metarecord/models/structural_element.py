@@ -1,4 +1,5 @@
 import uuid
+from collections import Iterable
 from copy import deepcopy
 
 from django.conf import settings
@@ -127,43 +128,24 @@ def _get_conditionally_required_schema(required_attributes, condition_attribute,
     }
 
 
-def get_attribute_json_schema(allowed=None, required=None, conditionally_required=None, multivalued=None,
-                              conditionally_disallowed=None, **kwargs):
-    """
-    Return schema for attributes in JSON schema draft 4 format.
+def get_attribute_json_schema(**kwargs):
+    if 'allowed' not in kwargs or kwargs['allowed'] is None:  # None means the validation isn't enabled
+        allowed_attributes = Attribute.objects.all()
+    else:
+        allowed_attributes = Attribute.objects.filter(identifier__in=kwargs['allowed'])
 
-    :param allowed: list of allowed attribute identifiers
-    :param required: list of required attribute identifiers
-    :param conditionally_required: conditionally required attributes, format:
-        {
-            <conditionally required attribute identifier>: {
-                <condition attribute identifier>: <condition attribute value>
-            }
-        }
-    :param conditionally_disallowed: conditionally disallowed attributes, format:
-        {
-            <conditionally disallowed attribute identifier>: {
-                <condition attribute identifier>: <condition attribute value>
-            }
-        }
-    :param multivalued: list of multivalued attribute identifiers
-    :return: dict containing JSON schema data
-    """
+    allowed = {attr.identifier for attr in allowed_attributes}
+    required = kwargs.get('required') or set()
+    conditionally_required = kwargs.get('conditionally_required') or {}
+    conditionally_disallowed = kwargs.get('conditionally_disallowed') or {}
+    multivalued = kwargs.get('multivalued') or set()
+    allow_values_outside_choices = kwargs.get('allow_values_outside_choices') or set()
 
-    assert set(allowed or []).issuperset(set(required or [])), '"required" contains value(s) not found in "allowed"'
+    assert set(allowed).issuperset(set(required)), '"required" contains value(s) not found in "allowed"'
 
     properties = {}
 
-    if allowed is None:
-        attributes = Attribute.objects.all()
-    else:
-        attributes = Attribute.objects.filter(identifier__in=allowed)
-
-    existing_identifiers = set()
-
-    for attribute in attributes:
-        existing_identifiers.add(attribute.identifier)
-
+    for attribute in allowed_attributes:
         values = attribute.values.values_list('value', flat=True)  # lots of values here
         attribute_type = {'enum': values} if values else {'type': 'string'}
 
@@ -188,49 +170,53 @@ def get_attribute_json_schema(allowed=None, required=None, conditionally_require
 
     all_of = []
 
-    if conditionally_required:
-        for required_attribute, condition in conditionally_required.items():
+    for required_attribute, condition in conditionally_required.items():
 
-            condition_attribute, values = next(iter(condition.items()))
-            if not (isinstance(values, list) or isinstance(values, tuple)):
-                values = (values,)
+        condition_attribute, values = next(iter(condition.items()))
+        if isinstance(values, str) or not isinstance(values, Iterable):
+            values = (values,)
 
-            if len(condition) > 1:
-                raise NotImplementedError('Only one condition supported at the moment. ')
+        if len(condition) > 1:
+            raise NotImplementedError('Only one condition supported at the moment. ')
 
-            if not (required_attribute in existing_identifiers and condition_attribute in existing_identifiers):
-                continue
+        if not (required_attribute in allowed and condition_attribute in allowed):
+            continue
 
-            all_of.append(_get_conditionally_required_schema([required_attribute], condition_attribute, values))
+        all_of.append(_get_conditionally_required_schema([required_attribute], condition_attribute, values))
 
-    required_set = set(required or [])
+    actually_required = set(required)
 
-    if conditionally_disallowed:
-        for required_attribute, condition in conditionally_disallowed.items():
+    for required_attribute, condition in conditionally_disallowed.items():
 
-            condition_attribute, values = next(iter(condition.items()))
-            if not (isinstance(values, list) or isinstance(values, tuple)):
-                values = (values,)
+        condition_attribute, values = next(iter(condition.items()))
+        if isinstance(values, str) or not isinstance(values, Iterable):
+            values = (values,)
 
-            if len(condition) > 1:
-                raise NotImplementedError('Only one condition supported at the moment. ')
+        if len(condition) > 1:
+            raise NotImplementedError('Only one condition supported at the moment. ')
 
-            if not (required_attribute in existing_identifiers and condition_attribute in existing_identifiers):
-                continue
+        if not (required_attribute in allowed and condition_attribute in allowed):
+            continue
 
-            try:
-                attribute = next(attr for attr in attributes if attr.identifier == condition_attribute)
-            except StopIteration:
-                continue
+        try:
+            attribute = next(attr for attr in allowed_attributes if attr.identifier == condition_attribute)
+        except StopIteration:
+            continue
 
-            not_values = set(attribute.values.values_list('value', flat=True)) - set(values)
-            all_of.append(_get_conditionally_required_schema([required_attribute], condition_attribute, not_values))
-            required_set.discard(required_attribute)
+        not_values = set(attribute.values.values_list('value', flat=True)) - set(values)
+        all_of.append(_get_conditionally_required_schema([required_attribute], condition_attribute, not_values))
+        actually_required.discard(required_attribute)
 
-    if required:
-        schema['required'] = [attr for attr in required_set if attr in existing_identifiers]
+    schema['required'] = actually_required
 
     if all_of:
         schema['allOf'] = all_of
+
+    extra_validations = {}
+
+    if allow_values_outside_choices:
+        extra_validations['allow_values_outside_choices'] = allow_values_outside_choices
+
+    schema['extra_validations'] = extra_validations
 
     return schema
