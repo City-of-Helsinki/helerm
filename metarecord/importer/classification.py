@@ -32,7 +32,7 @@ class ClassificationImporter:
             row = clean_row(row)
 
             count += 1
-            if len(row) < 2 or not re.match(r"^\d\d(?:\s\d\d)+$", row[0]):
+            if len(row) < 2 or not re.match(r"^\d\d(?:\s\d\d)*$", row[0]):
                 print('Skipping row number {}'.format(count))
                 continue
 

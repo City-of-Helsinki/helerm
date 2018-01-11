@@ -49,7 +49,8 @@ class TOSImporter:
 
     ATTACHMENT_RECORD_TYPE_NAME = 'liite'
 
-    def __init__(self, fname):
+    def __init__(self, fname, options=None):
+        self.options = options
         self.wb = load_workbook(fname, read_only=True)
 
     def _emit_error(self, text):
@@ -135,7 +136,7 @@ class TOSImporter:
             data.append(attrs)
         return data
 
-    def _get_function_data(self, sheet):
+    def _get_classification_code(self, sheet):
         first_data_row = self._get_first_data_row(sheet)
         if not first_data_row:
             return None
@@ -155,61 +156,26 @@ class TOSImporter:
         while classification_codes[index] is None and index > 0:
             index -= 1
 
-        function_data = dict(
-            classification_code=str(classification_codes[index]),
-            title=sheet.cell(row=2+index, column=2).value,
-            parent_classification_code=classification_codes[index - 1] if index > 2 else None
-        )
-
-        return function_data
+        return str(classification_codes[index])
 
     def _import_function(self, sheet):
-        function_data = self._get_function_data(sheet)
-        if not function_data:
+        classification_code = self._get_classification_code(sheet)
+        if not classification_code:
             return
-
-        classification_code = function_data.pop('classification_code')
-        parent_classification_code = function_data.pop('parent_classification_code')
-        title = function_data.pop('title')
 
         try:
             classification = Classification.objects.get(code=classification_code)
         except Classification.DoesNotExist:
-            print('Classification %s not found.' % classification_code)
-            parent_classification = None
-
-            if parent_classification_code:
-                try:
-                    parent_classification = Classification.objects.get(code=parent_classification_code)
-                except Classification.DoesNotExist:
-                    raise TOSImporterException(
-                        'Parent classification %s does not exist' % parent_classification_code
-                    )
-
-            classification = Classification.objects.create(
-                code=classification_code,
-                parent=parent_classification,
-                title=title,
-            )
-
-        try:
-            function = Function.objects.latest_version().get(classification=classification)
-        except Function.DoesNotExist:
-            return Function.objects.create(classification=classification, **function_data)
-
-        if function.phases.count() != 0:
             raise TOSImporterException(
-                'Function %s seems to be populated already.' % classification_code
+                'Classification %s does not exist' % classification_code
             )
 
-        function.metadata_versions.all().delete()
+        if Function.objects.latest_version().filter(classification=classification).exists():
+            raise TOSImporterException(
+                'Classification %s already has a function.' % classification_code
+            )
 
-        for key, value in function_data.items():
-            setattr(function, key, value)
-        function.save()
-        function.create_metadata_version()
-
-        return function
+        return Function.objects.create(classification=classification)
 
     def _get_attributes(self, data):
         all_attributes = dict(self.CHOICE_ATTRIBUTES, **self.FREE_TEXT_ATTRIBUTES)
@@ -308,6 +274,7 @@ class TOSImporter:
         self.current_function = function
         phase = action = None
         previous = None
+
         for row in data:
             name = None
             child_list = []
@@ -389,7 +356,6 @@ class TOSImporter:
 
             target['attributes'] = row
             child_list.append(target)
-
         self._save_function(function)
 
     def import_attributes(self):
@@ -457,20 +423,25 @@ class TOSImporter:
 
     def import_data(self):
         print('Importing data...')
-
         for sheet in self.wb:
-            print('Processing sheet %s' % sheet.title)
-            if (sheet.max_column <= 2 or sheet.max_row <= 2 or sheet.cell('A1').value != 'Tehtäväluokka' or
-                    sheet.cell('A2').value == 'Kaikki Ahjo-luokat'):
-                print('Skipping')
-                continue
+            try:
+                print('Processing sheet %s' % sheet.title)
+                if (sheet.max_column <= 2 or sheet.max_row <= 2 or sheet.cell('A1').value != 'Tehtäväluokka' or
+                        sheet.cell('A2').value == 'Kaikki Ahjo-luokat'):
+                    print('Skipping')
+                    continue
 
-            # process function
-            function = self._import_function(sheet)
+                # process function
+                function = self._import_function(sheet)
 
-            # process data
-            if function:
-                self._process_data(sheet, function)
+                # process data
+                if function:
+                    self._process_data(sheet, function)
+            except TOSImporterException as e:
+                if self.options.get('ignore_errors'):
+                    print('Skipping, got exception: %s' % e)
+                else:
+                    raise
 
         print('Done.')
 

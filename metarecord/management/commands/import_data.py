@@ -12,17 +12,17 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('filename', type=str)
+        parser.add_argument('--ignore-errors', action='store_true')
 
     def handle(self, *args, **options):
         filename = options['filename']
         try:
-            tos_importer = TOSImporter(filename)
+            tos_importer = TOSImporter(filename, options)
         except Exception as e:
-            self.stderr.write(self.style.ERROR("Cannot open file '%s': %s" % (filename, e)))
-            return
+            raise CommandError("Cannot open file '%s': %s" % (filename, e))
 
         try:
             with transaction.atomic():
                 tos_importer.import_data()
         except TOSImporterException as e:
-            self.stderr.write(self.style.ERROR(e))
+            raise CommandError(e)
