@@ -6,7 +6,7 @@ from .structural_element import StructuralElement
 
 
 class Action(StructuralElement):
-    phase = models.ForeignKey(Phase, verbose_name=_('phase'), related_name='actions')
+    phase = models.ForeignKey(Phase, verbose_name=_('phase'), related_name='actions', on_delete=models.CASCADE)
 
     # Action attribute validation rules, hardcoded at least for now
     _attribute_validations = {

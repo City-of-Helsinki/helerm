@@ -8,7 +8,9 @@ from .base import TimeStampedModel
 
 class Classification(TimeStampedModel):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
-    parent = models.ForeignKey('self', verbose_name=_('parent'), related_name='children', blank=True, null=True)
+    parent = models.ForeignKey(
+        'self', verbose_name=_('parent'), related_name='children', blank=True, null=True, on_delete=models.SET_NULL
+    )
     code = models.CharField(verbose_name=_('code'), max_length=16, db_index=True)
     title = models.CharField(verbose_name=_('title'), max_length=256)
     description = models.TextField(verbose_name=_('description'), blank=True)

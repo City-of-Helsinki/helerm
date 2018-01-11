@@ -6,22 +6,22 @@ from rest_framework.reverse import reverse
 from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
 from metarecord.tests.utils import assert_response_functions, check_attribute_errors, set_permissions
 
-CLASSIFICATION_LIST_URL = reverse('v1:classification-list')
-FUNCTION_LIST_URL = reverse('v1:function-list')
-ATTRIBUTE_LIST_URL = reverse('v1:attribute-list')
+CLASSIFICATION_LIST_URL = reverse('classification-list')
+FUNCTION_LIST_URL = reverse('function-list')
+ATTRIBUTE_LIST_URL = reverse('attribute-list')
 PATCH_FIELDS = ('valid_from', 'valid_to', 'state')
 
 
 def get_classification_detail_url(classification):
-    return reverse('v1:classification-detail', kwargs={'uuid': classification.uuid})
+    return reverse('classification-detail', kwargs={'uuid': classification.uuid})
 
 
 def get_function_detail_url(function):
-    return reverse('v1:function-detail', kwargs={'uuid': function.uuid})
+    return reverse('function-detail', kwargs={'uuid': function.uuid})
 
 
 def get_attribute_detail_url(attribute):
-    return reverse('v1:attribute-detail', kwargs={'pk': attribute.id})
+    return reverse('attribute-detail', kwargs={'pk': attribute.id})
 
 
 @pytest.fixture
@@ -135,14 +135,14 @@ def test_get(api_client, resource, function, phase, action, record, attribute, t
     function.state = Function.APPROVED
     function.save(update_fields=('state',))
 
-    list_url = reverse('v1:%s-list' % resource)
+    list_url = reverse('%s-list' % resource)
     response = api_client.get(list_url)
     assert response.status_code == 200
     assert len(response.data['results'])
 
     id_field = 'pk' if resource is 'attribute' else 'uuid'
     id_value = getattr(locals().get(resource), id_field)
-    detail_url = reverse('v1:%s-detail' % resource.replace('_', ''), kwargs={id_field: id_value})
+    detail_url = reverse('%s-detail' % resource.replace('_', ''), kwargs={id_field: id_value})
     response = api_client.get(detail_url)
     assert response.status_code == 200
     assert response.data
@@ -150,7 +150,7 @@ def test_get(api_client, resource, function, phase, action, record, attribute, t
 
 @pytest.mark.django_db
 def test_get_attribute_schemas(api_client):
-    url = '{}schemas/'.format(reverse('v1:attribute-list'))
+    url = '{}schemas/'.format(reverse('attribute-list'))
     response = api_client.get(url)
     assert response.status_code == 200
 
@@ -179,7 +179,7 @@ def test_function_versioning(user_api_client, classification, classification_2):
     assert other_function.version == 1
     assert template.version is None
 
-    url = reverse('v1:function-detail', kwargs={'uuid': first_draft.uuid})
+    url = reverse('function-detail', kwargs={'uuid': first_draft.uuid})
 
     # /function/<uuid>/ should return the latest version
     response = user_api_client.get(url)
@@ -215,6 +215,7 @@ def test_function_post(post_function_data, user_api_client):
     assert response.status_code == 201
 
     new_function = Function.objects.last()
+
     _check_function_object_matches_data(new_function, post_function_data)
 
     assert new_function.state == Function.DRAFT

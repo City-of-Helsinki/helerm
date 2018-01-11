@@ -18,20 +18,20 @@ class StructuralElementSerializer(serializers.ModelSerializer):
 
     class Meta:
         ordering = ('index',)
-        exclude = ('uuid', 'created_by', 'modified_by')
+        exclude = ('uuid', 'created_by')
 
-    @property
-    def fields(self):
-        fields = super(StructuralElementSerializer, self).fields
+    def get_fields(self):
+        fields = super().get_fields()
 
         if 'request' not in self._context:
             return fields
 
         request = self._context["request"]
 
-        for field_name, field in fields.items():
-            if field_name == 'modified_by' and not StructuralElement.can_view_modified_by(request.user):
-                fields.pop(field_name)
+        fields = {
+            field_name: field for field_name, field in fields.items()
+            if field_name != 'modified_by' or StructuralElement.can_view_modified_by(request.user)
+        }
 
         return fields
 

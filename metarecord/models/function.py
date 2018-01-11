@@ -14,7 +14,7 @@ class FunctionQuerySet(models.QuerySet):
         return self.filter(state=Function.APPROVED).latest_version()
 
     def filter_for_user(self, user):
-        if not user.is_authenticated():
+        if not user.is_authenticated:
             return self.filter(state=Function.APPROVED)
         return self
 
@@ -47,7 +47,8 @@ class Function(StructuralElement):
     valid_from = models.DateField(verbose_name=_('valid from'), null=True, blank=True)
     valid_to = models.DateField(verbose_name=_('valid to'), null=True, blank=True)
     classification = models.ForeignKey(
-        Classification, verbose_name=_('classification'), null=True, blank=True, related_name='functions'
+        Classification, verbose_name=_('classification'), null=True, blank=True, related_name='functions',
+        on_delete=models.SET_NULL
     )
 
     # Function attribute validation rules, hardcoded at least for now
@@ -159,9 +160,13 @@ class MetadataVersion(models.Model):
     """
     Stores history of Function's "internal" meta data ie. information not meant for an operational system.
     """
-    function = models.ForeignKey(Function, verbose_name=_('function'), related_name='metadata_versions')
+    function = models.ForeignKey(
+        Function, verbose_name=_('function'), related_name='metadata_versions', on_delete=models.CASCADE
+    )
     modified_at = models.DateTimeField(verbose_name=_('modified at'))
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('modified by'), blank=True, null=True)
+    modified_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name=_('modified by'), blank=True, null=True, on_delete=models.SET_NULL
+    )
     state = models.CharField(
         verbose_name=_('state'), max_length=20, choices=Function.STATE_CHOICES, default=Function.DRAFT
     )

@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'users',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -58,7 +58,6 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -198,28 +197,27 @@ REST_FRAMEWORK = {
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
-f = os.path.join(BASE_DIR, "local_settings.py")
-if os.path.exists(f):
-    import sys
-    import imp
-    module_name = "%s.local_settings" % ROOT_URLCONF.split('.')[0]
-    module = imp.new_module(module_name)
-    module.__file__ = f
-    sys.modules[module_name] = module
-    exec(open(f, "rb").read())
+local_settings_path = os.path.join(BASE_DIR, "local_settings.py")
+if os.path.exists(local_settings_path):
+    with open(local_settings_path) as fp:
+        code = compile(fp.read(), local_settings_path, 'exec')
+    exec(code, globals(), locals())
 
+# If a secret key was not supplied from elsewhere, generate a random one
+# and store it into a file called .django_secret.
 if 'SECRET_KEY' not in locals():
     secret_file = os.path.join(BASE_DIR, '.django_secret')
     try:
-        SECRET_KEY = open(secret_file).read().strip()
+        with open(secret_file) as f:
+            SECRET_KEY = f.read().strip()
     except IOError:
         import random
         system_random = random.SystemRandom()
         try:
-            SECRET_KEY = ''.join([system_random.choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)')
-                                  for i in range(64)])
+            SECRET_KEY = ''.join(
+                [system_random.choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(64)]
+            )
             secret = open(secret_file, 'w')
-            import os
             os.chmod(secret_file, 0o0600)
             secret.write(SECRET_KEY)
             secret.close()
