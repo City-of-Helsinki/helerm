@@ -1,9 +1,8 @@
+import django_filters
 from django.db import transaction
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
-
-import django_filters
-from rest_framework import exceptions, serializers, viewsets, status
+from rest_framework import exceptions, serializers, status, viewsets
 from rest_framework.response import Response
 
 from metarecord.models import Action, Function, Phase, Record

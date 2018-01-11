@@ -1,10 +1,9 @@
 from django.urls import include, path
-from rest_framework.routers import DefaultRouter
 from helusers import admin
+from rest_framework.routers import DefaultRouter
 
-from metarecord.views import AttributeViewSet, ClassificationViewSet, FunctionViewSet, ExportView, TemplateViewSet
+from metarecord.views import AttributeViewSet, ClassificationViewSet, ExportView, FunctionViewSet, TemplateViewSet
 from users.views import UserViewSet
-
 
 router = DefaultRouter()
 router.register(r'function', FunctionViewSet)

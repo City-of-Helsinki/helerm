@@ -1,7 +1,7 @@
 from .action import Action  # noqa
-from .record import Record  # noqa
+from .attribute import Attribute, AttributeGroup, AttributeValue  # noqa
+from .classification import Classification  # noqa
 from .function import Function, MetadataVersion  # noqa
 from .phase import Phase  # noqa
-from .attribute import Attribute, AttributeGroup, AttributeValue  # noqa
+from .record import Record  # noqa
 from .structural_element import StructuralElement  # noqa
-from .classification import Classification

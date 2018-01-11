@@ -1,5 +1,5 @@
-from django.db import connection, models, transaction
 from django.conf import settings
+from django.db import connection, models, transaction
 from django.utils.translation import ugettext_lazy as _
 
 from .classification import Classification
@@ -76,9 +76,11 @@ class Function(StructuralElement):
             'CollectiveProcessIDSource', 'DataGroup', 'InformationSystem', 'ProcessOwner', 'Subject', 'Subject.Scheme'
         ),
         # TODO temporarily disabled
-        #'all_or_none': (
-        #    ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
-        #),
+        """
+        'all_or_none': (
+            ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
+        ),
+        """
         'allow_values_outside_choices': (
             'CollectiveProcessIDSource', 'DataGroup', 'InformationSystem', 'ProcessOwner', 'Subject', 'Subject.Scheme'
         )

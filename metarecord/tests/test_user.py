@@ -1,7 +1,7 @@
 import pytest
-from rest_framework.reverse import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
+from rest_framework.reverse import reverse
 
 User = get_user_model()
 

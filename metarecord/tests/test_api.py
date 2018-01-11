@@ -1,8 +1,10 @@
 import datetime
 import uuid
+
 import pytest
 import pytz
 from rest_framework.reverse import reverse
+
 from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
 from metarecord.tests.utils import assert_response_functions, check_attribute_errors, set_permissions
 
