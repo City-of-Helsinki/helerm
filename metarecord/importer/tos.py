@@ -49,7 +49,8 @@ class TOSImporter:
 
     ATTACHMENT_RECORD_TYPE_NAME = 'liite'
 
-    def __init__(self, fname):
+    def __init__(self, fname, options=None):
+        self.options = options
         self.wb = load_workbook(fname, read_only=True)
 
     def _emit_error(self, text):
@@ -355,7 +356,6 @@ class TOSImporter:
 
             target['attributes'] = row
             child_list.append(target)
-
         self._save_function(function)
 
     def import_attributes(self):
@@ -423,20 +423,25 @@ class TOSImporter:
 
     def import_data(self):
         print('Importing data...')
-
         for sheet in self.wb:
-            print('Processing sheet %s' % sheet.title)
-            if (sheet.max_column <= 2 or sheet.max_row <= 2 or sheet.cell('A1').value != 'Tehtäväluokka' or
-                    sheet.cell('A2').value == 'Kaikki Ahjo-luokat'):
-                print('Skipping')
-                continue
+            try:
+                print('Processing sheet %s' % sheet.title)
+                if (sheet.max_column <= 2 or sheet.max_row <= 2 or sheet.cell('A1').value != 'Tehtäväluokka' or
+                        sheet.cell('A2').value == 'Kaikki Ahjo-luokat'):
+                    print('Skipping')
+                    continue
 
-            # process function
-            function = self._import_function(sheet)
+                # process function
+                function = self._import_function(sheet)
 
-            # process data
-            if function:
-                self._process_data(sheet, function)
+                # process data
+                if function:
+                    self._process_data(sheet, function)
+            except TOSImporterException as e:
+                if self.options.get('ignore_errors'):
+                    print('Skipping, got exception: %s' % e)
+                else:
+                    raise
 
         print('Done.')
 
