@@ -22,3 +22,7 @@ class Classification(TimeStampedModel):
 
     def __str__(self):
         return self.code
+
+    # only applies to API
+    def function_allowed(self):
+        return not self.children.exists()

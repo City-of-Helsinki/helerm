@@ -9,6 +9,7 @@ from metarecord.tests.utils import assert_response_functions, check_attribute_er
 CLASSIFICATION_LIST_URL = reverse('v1:classification-list')
 FUNCTION_LIST_URL = reverse('v1:function-list')
 ATTRIBUTE_LIST_URL = reverse('v1:attribute-list')
+PATCH_FIELDS = ('valid_from', 'valid_to', 'state')
 
 
 def get_classification_detail_url(classification):
@@ -525,7 +526,7 @@ def test_metadata_version(user_api_client, user_2_api_client, function, put_func
     assert metadata_version.state == Function.SENT_FOR_REVIEW
     assert metadata_version.modified_at == new_function.modified_at > original_modified_at
     assert metadata_version.modified_by == user_2_api_client.user
-    assert metadata_version.valid_from is None
+    assert metadata_version.valid_from == datetime.date(2015, 1, 1)
     assert metadata_version.valid_to == datetime.date(2016, 1, 1)
 
 
@@ -1046,8 +1047,50 @@ def test_function_patch_required_fields(put_function_data, user_api_client, func
     assert '"state", "valid_from" or "valid_to" required.' in str(response.data)
 
 
+@pytest.mark.parametrize('changes', (
+    {'valid_from': '2015-01-01'},
+    {'valid_to': '2015-01-02'},
+    {'valid_from': '2015-01-01', 'valid_to': '2015-01-02'},
+    {'state': Function.SENT_FOR_REVIEW},
+    {'state': Function.SENT_FOR_REVIEW, 'valid_to': '2015-01-02'},
+    {'valid_from': '2015-01-01', 'valid_to': '2015-01-02', 'state': Function.SENT_FOR_REVIEW}
+))
 @pytest.mark.django_db
-def test_function_validation_date_validation(user_api_client, function, put_function_data):
+def test_function_patching(user_api_client, function, changes):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    function.valid_from = '2015-01-01'
+    function.save(update_fields=('valid_from',))
+
+    old_data = {field: getattr(function, field) for field in PATCH_FIELDS}
+
+    response = user_api_client.patch(get_function_detail_url(function), data=changes)
+    assert response.status_code == 200
+    function.refresh_from_db()
+
+    for field in PATCH_FIELDS:
+        new_value = getattr(function, field)
+        if new_value:
+            new_value = str(new_value)
+
+        if field in changes:
+            assert new_value == changes[field]
+        else:
+            assert new_value == old_data[field]
+
+
+@pytest.mark.django_db
+def test_function_validation_date_validation_on_create(user_api_client, post_function_data):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    post_function_data['valid_from'] = '2015-01-02'
+    post_function_data['valid_to'] = '2015-01-01'
+
+    response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
+    assert response.status_code == 400
+    assert '"valid_from" cannot be after "valid_to".' in str(response.data)
+
+
+@pytest.mark.django_db
+def test_function_validation_date_validation_on_edit(user_api_client, function, put_function_data):
     url = get_function_detail_url(function)
     set_permissions(user_api_client, (Function.CAN_EDIT, Function.CAN_REVIEW))
     put_function_data['valid_from'] = '2015-01-02'
@@ -1419,3 +1462,75 @@ def test_function_visibility_in_version_history(api_client, user_api_client, cla
         assert version_history_states == [Function.APPROVED, Function.APPROVED]
         assert version_history[0]['version'] == 4
         assert version_history[1]['version'] == 6
+
+
+@pytest.mark.parametrize('endpoint', ('list', 'detail'))
+@pytest.mark.django_db
+def test_classification_allow_function_field(user_api_client, classification, endpoint):
+    url = CLASSIFICATION_LIST_URL if endpoint == 'list' else get_classification_detail_url(classification)
+
+    response = user_api_client.get(url)
+    assert response.status_code == 200
+    result = response.data['results'][0] if endpoint == 'list' else response.data
+
+    assert result['function_allowed'] == True
+
+    classification_2 = Classification.objects.create(parent=classification, code='00 01')
+
+    if endpoint == 'list':
+        response = user_api_client.get(CLASSIFICATION_LIST_URL)
+        assert response.status_code == 200
+        parent_result = response.data['results'][0]
+        child_result = response.data['results'][1]
+    else:
+        response = user_api_client.get(get_classification_detail_url(classification))
+        assert response.status_code == 200
+        parent_result = response.data
+        response = user_api_client.get(get_classification_detail_url(classification_2))
+        assert response.status_code == 200
+        child_result = response.data
+
+    assert parent_result['function_allowed'] == False
+    assert child_result['function_allowed'] == True
+
+
+@pytest.mark.parametrize('endpoint', ('list', 'detail'))
+@pytest.mark.django_db
+def test_classification_allow_function_field(user_api_client, classification, endpoint):
+    url = CLASSIFICATION_LIST_URL if endpoint == 'list' else get_classification_detail_url(classification)
+
+    response = user_api_client.get(url)
+    assert response.status_code == 200
+    result = response.data['results'][0] if endpoint == 'list' else response.data
+
+    assert result['function_allowed'] == True
+
+    classification_2 = Classification.objects.create(parent=classification, code='00 01')
+
+    if endpoint == 'list':
+        response = user_api_client.get(CLASSIFICATION_LIST_URL)
+        assert response.status_code == 200
+        parent_result = response.data['results'][0]
+        child_result = response.data['results'][1]
+    else:
+        response = user_api_client.get(get_classification_detail_url(classification))
+        assert response.status_code == 200
+        parent_result = response.data
+        response = user_api_client.get(get_classification_detail_url(classification_2))
+        assert response.status_code == 200
+        child_result = response.data
+
+    assert parent_result['function_allowed'] == False
+    assert child_result['function_allowed'] == True
+
+
+@pytest.mark.django_db
+def test_function_post_when_not_allowed(post_function_data, user_api_client):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    parent_classification = Classification.objects.get(uuid=post_function_data['classification'])
+    Classification.objects.create(parent=parent_classification, code='00 01')
+
+    response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
+    assert response.status_code == 400
+    expected_error = 'Classification %s does not allow function creation.' % parent_classification.uuid
+    assert expected_error in response.data['non_field_errors']

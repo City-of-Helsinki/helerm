@@ -8,11 +8,12 @@ from .base import HexRelatedField
 class ClassificationSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(source='uuid', format='hex', read_only=True)
     parent = HexRelatedField(read_only=True)
+    function_allowed = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Classification
         fields = ('id', 'created_at', 'modified_at', 'code', 'title', 'parent', 'description', 'description_internal',
-                  'related_classification', 'additional_information')
+                  'related_classification', 'additional_information', 'function_allowed')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
