@@ -1,6 +1,7 @@
 import uuid
+from collections import Iterable
 
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
 
 from .base import TimeStampedModel
@@ -17,6 +18,7 @@ class Classification(TimeStampedModel):
     description_internal = models.TextField(verbose_name=_('description internal'), blank=True)
     related_classification = models.TextField(verbose_name=_('related classification'), blank=True)
     additional_information = models.TextField(verbose_name=_('additional information'), blank=True)
+    function_allowed = models.BooleanField(verbose_name=_('function allowed'), default=False)
 
     class Meta:
         verbose_name = _('classification')
@@ -25,6 +27,12 @@ class Classification(TimeStampedModel):
     def __str__(self):
         return self.code
 
-    # only applies to API
-    def function_allowed(self):
-        return not self.children.exists()
+
+@transaction.atomic
+def update_function_allowed(classifications):
+    if not isinstance(classifications, Iterable):
+        classifications = (classifications,)
+
+    for classification in classifications:
+        classification.function_allowed = not classification.children.exists()
+        classification.save(update_fields=('function_allowed',))

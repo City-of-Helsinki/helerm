@@ -119,7 +119,7 @@ class FunctionListSerializer(StructuralElementSerializer):
                 raise exceptions.ValidationError(
                     _('Classification %s already has a function.') % data['classification'].uuid
                 )
-            if not data['classification'].function_allowed():
+            if not data['classification'].function_allowed:
                 raise exceptions.ValidationError(
                     _('Classification %s does not allow function creation.') % data['classification'].uuid
                 )
