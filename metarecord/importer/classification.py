@@ -2,6 +2,7 @@ import csv
 import re
 
 from metarecord.models import Classification
+from metarecord.models.classification import update_function_allowed
 
 
 def clean_row(row):
@@ -28,6 +29,7 @@ class ClassificationImporter:
         print('Importing classifications...')
 
         count = 0
+        classications = []
         for row in self.csv_data:
             row = clean_row(row)
 
@@ -68,5 +70,8 @@ class ClassificationImporter:
             obj, created = Classification.objects.update_or_create(code=code, defaults=defaults)
 
             print(obj)
+            classications.append(obj)
+
+        update_function_allowed(classications)
 
         print('Done.')
