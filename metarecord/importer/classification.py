@@ -11,7 +11,7 @@ def clean_row(row):
 
 class ClassificationImporter:
     def __init__(self, filename):
-        with open(filename, 'r') as csvfile:
+        with open(filename, 'r', encoding='utf8') as csvfile:
             sniffer = csv.Sniffer()
             sniffer.preferred = [',', ';', '\t']
 
