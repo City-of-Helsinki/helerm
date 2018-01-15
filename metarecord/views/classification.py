@@ -1,6 +1,8 @@
+from django.db.models import Prefetch
+
 from rest_framework import serializers, viewsets
 
-from metarecord.models import Classification
+from metarecord.models import Classification, Function
 
 from .base import HexRelatedField
 
@@ -19,8 +21,7 @@ class ClassificationSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
 
     def _get_function(self, obj):
-        user = self.context['request'].user
-        functions = list(obj.functions.filter_for_user(user).latest_version())
+        functions = obj.prefetched_functions
         num_of_functions = len(functions)
 
         if num_of_functions > 1:
@@ -44,6 +45,16 @@ class ClassificationSerializer(serializers.ModelSerializer):
 
 
 class ClassificationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Classification.objects.order_by('code').prefetch_related('functions')
+    queryset = Classification.objects.order_by('code').select_related('parent').prefetch_related('children')
     serializer_class = ClassificationSerializer
     lookup_field = 'uuid'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        return super().get_queryset().prefetch_related(
+            Prefetch(
+                'functions', queryset=Function.objects.filter_for_user(user).latest_version(),
+                to_attr='prefetched_functions'
+            )
+        )
