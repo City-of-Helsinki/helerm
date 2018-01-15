@@ -6,7 +6,7 @@ from .structural_element import StructuralElement
 
 
 class Phase(StructuralElement):
-    function = models.ForeignKey(Function, verbose_name=_('function'), related_name='phases')
+    function = models.ForeignKey(Function, verbose_name=_('function'), related_name='phases', on_delete=models.CASCADE)
 
     # Phase attribute validation rules, hardcoded at least for now
     _attribute_validations = {

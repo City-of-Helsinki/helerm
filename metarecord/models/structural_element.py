@@ -14,9 +14,11 @@ from .base import TimeStampedModel
 class StructuralElement(TimeStampedModel):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('created by'),
-                                   null=True, blank=True, related_name='%(class)s_created', editable=False)
+                                   null=True, blank=True, related_name='%(class)s_created', editable=False,
+                                   on_delete=models.SET_NULL)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('modified by'),
-                                    null=True, blank=True, related_name='%(class)s_modified', editable=False)
+                                    null=True, blank=True, related_name='%(class)s_modified', editable=False,
+                                    on_delete=models.SET_NULL)
     index = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
     attributes = JSONField(verbose_name=_('attributes'), blank=True, default=dict)
 

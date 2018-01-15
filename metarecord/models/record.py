@@ -6,8 +6,10 @@ from .structural_element import StructuralElement
 
 
 class Record(StructuralElement):
-    action = models.ForeignKey(Action, verbose_name=_('action'), related_name='records')
-    parent = models.ForeignKey('self', verbose_name=_('parent'), related_name='children', null=True, blank=True)
+    action = models.ForeignKey(Action, verbose_name=_('action'), related_name='records', on_delete=models.CASCADE)
+    parent = models.ForeignKey(
+        'self', verbose_name=_('parent'), related_name='children', null=True, blank=True, on_delete=models.CASCADE
+    )
 
     # Record attribute validation rules, hardcoded at least for now
     _attribute_validations = {
@@ -35,9 +37,11 @@ class Record(StructuralElement):
             'DataGroup', 'InformationSystem', 'Subject', 'Subject.Scheme',
         ),
         # TODO temporarily disabled
-        #'all_or_none': (
-        #    ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
-        #),
+        """
+        'all_or_none': (
+            ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
+        ),
+        """
         'allow_values_outside_choices': (
             'DataGroup', 'InformationSystem', 'Subject', 'Subject.Scheme',
         )

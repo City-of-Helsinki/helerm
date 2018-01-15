@@ -17,12 +17,14 @@ before_cache:
 
 install:
 - pip install --upgrade pip
-- pip install coveralls -r requirements.txt
+- pip install coveralls -r requirements.txt -r dev-requirements.txt
 
 before_script:
   - psql template1 -c 'create extension hstore;'
 
-script: py.test metarecord
+script:
+  - flake8
+  - pytest -ra -vvv
 
 notifications:
   slack:

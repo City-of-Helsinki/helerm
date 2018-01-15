@@ -1,13 +1,13 @@
 import json
 
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
 from django.contrib.postgres.forms.hstore import HStoreField
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
-from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 
 from .models import (
-    Action, Attribute, AttributeGroup, AttributeValue, Classification, Function, Phase, Record, MetadataVersion
+    Action, Attribute, AttributeGroup, AttributeValue, Classification, Function, MetadataVersion, Phase, Record
 )
 
 

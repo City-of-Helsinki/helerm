@@ -17,7 +17,7 @@ def set_permissions(api_client, permissions):
     codenames = [perm.split('.')[1] for perm in permissions]
 
     user = api_client.user
-    user.user_permissions = Permission.objects.filter(codename__in=codenames)
+    user.user_permissions.set(Permission.objects.filter(codename__in=codenames))
     user = get_user_model().objects.get(pk=user.pk)
     api_client.force_authenticate(user)
 

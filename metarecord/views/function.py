@@ -1,9 +1,8 @@
+import django_filters
 from django.db import transaction
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
-
-import django_filters
-from rest_framework import exceptions, serializers, viewsets, status
+from rest_framework import exceptions, serializers, status, viewsets
 from rest_framework.response import Response
 
 from metarecord.models import Action, Function, Phase, Record
@@ -43,7 +42,6 @@ class PhaseSerializer(StructuralElementSerializer):
 
 
 class FunctionListSerializer(StructuralElementSerializer):
-    phases = HexRelatedField(many=True, read_only=True)
     version = serializers.IntegerField(read_only=True)
     modified_by = serializers.SerializerMethodField()
     state = serializers.CharField(read_only=True)
@@ -60,14 +58,19 @@ class FunctionListSerializer(StructuralElementSerializer):
 
     classification = HexRelatedField(queryset=Classification.objects.all())
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.context['view'].action == 'create':
-            self.fields['phases'] = PhaseSerializer(many=True, required=False)
-
     class Meta(StructuralElementSerializer.Meta):
         model = Function
         exclude = StructuralElementSerializer.Meta.exclude + ('index', 'is_template')
+
+    def get_fields(self):
+        fields = super().get_fields()
+
+        if self.context['view'].action == 'create':
+            fields['phases'] = PhaseSerializer(many=True, required=False)
+        else:
+            fields['phases'] = HexRelatedField(many=True, read_only=True)
+
+        return fields
 
     def _create_new_version(self, function_data):
         user = self.context['request'].user
@@ -137,8 +140,12 @@ class FunctionListSerializer(StructuralElementSerializer):
 
 
 class FunctionDetailSerializer(FunctionListSerializer):
-    phases = PhaseSerializer(many=True)
     version_history = serializers.SerializerMethodField()
+
+    def get_fields(self):
+        fields = super().get_fields()
+        fields['phases'] = PhaseSerializer(many=True)
+        return fields
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -246,8 +253,8 @@ class FunctionFilterSet(django_filters.FilterSet):
         fields = ('valid_at', 'version')
 
     valid_at = django_filters.DateFilter(method='filter_valid_at')
-    modified_at__lt = django_filters.DateTimeFilter(name='modified_at', lookup_expr='lt')
-    modified_at__gt = django_filters.DateTimeFilter(name='modified_at', lookup_expr='gt')
+    modified_at__lt = django_filters.DateTimeFilter(field_name='modified_at', lookup_expr='lt')
+    modified_at__gt = django_filters.DateTimeFilter(field_name='modified_at', lookup_expr='gt')
 
     def filter_valid_at(self, queryset, name, value):
         # if neither date is set the function is considered not valid

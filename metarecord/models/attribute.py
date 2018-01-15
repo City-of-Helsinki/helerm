@@ -24,7 +24,10 @@ class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
     identifier = models.CharField(verbose_name=_('identifier'), max_length=64, unique=True, db_index=True)
     name = models.CharField(verbose_name=_('name'), max_length=256)
     index = models.PositiveSmallIntegerField(db_index=True)
-    group = models.ForeignKey(AttributeGroup, verbose_name=_('group'), related_name='attributes', null=True, blank=True)
+    group = models.ForeignKey(
+        AttributeGroup, verbose_name=_('group'), related_name='attributes', null=True, blank=True,
+        on_delete=models.SET_NULL
+    )
     help_text = models.TextField(verbose_name=_('help text'), blank=True)
 
     class Meta:
@@ -63,7 +66,9 @@ class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
 
 
 class AttributeValue(TimeStampedModel, UUIDPrimaryKeyModel):
-    attribute = models.ForeignKey(Attribute, verbose_name=_('attribute'), related_name='values')
+    attribute = models.ForeignKey(
+        Attribute, verbose_name=_('attribute'), related_name='values', on_delete=models.CASCADE
+    )
     value = models.CharField(verbose_name=_('value'), max_length=1024)
     index = models.PositiveSmallIntegerField(db_index=True)
 

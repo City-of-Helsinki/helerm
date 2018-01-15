@@ -141,7 +141,7 @@ class JHSExporter:
         tos_info = jhs.TosTiedot(
             id=uuid.uuid4(),
             Nimeke=jhs.Nimeke(jhs.NimekeKielella('TOS dokumentti', kieliKoodi='fi')),
-            YhteyshenkiloNimi='John Doe', # TODO
+            YhteyshenkiloNimi='John Doe',  # TODO
             TosVersio=self.TOS_VERSION
         )
 

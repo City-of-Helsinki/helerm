@@ -1,15 +1,15 @@
 import pytest
-from rest_framework.reverse import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
+from rest_framework.reverse import reverse
 
 User = get_user_model()
 
-LIST_URL = reverse('v1:user-list')
+LIST_URL = reverse('user-list')
 
 
 def get_detail_url(user):
-    return reverse('v1:user-detail', kwargs={'uuid': user.uuid})
+    return reverse('user-detail', kwargs={'uuid': user.uuid})
 
 
 def _check_user_object_matches_data(user_obj, data, permissions=None):

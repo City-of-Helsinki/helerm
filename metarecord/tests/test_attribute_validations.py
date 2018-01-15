@@ -1,4 +1,5 @@
 import pytest
+
 from metarecord.models import Action, Function, Phase, Record
 
 
