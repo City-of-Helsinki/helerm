@@ -38,6 +38,8 @@ class TOSImporter:
         'Paperiasiakirjojen säilytyksen vastuuhenkilö': 'StorageAccountable',
     }
 
+    ALL_ATTRIBUTES = dict(CHOICE_ATTRIBUTES, **FREE_TEXT_ATTRIBUTES)
+
     MODEL_MAPPING = OrderedDict([
         ('Asian metatiedot', Function),
         ('Käsittelyvaiheen metatiedot', Phase),
@@ -53,7 +55,9 @@ class TOSImporter:
         self.options = options
         self.wb = load_workbook(fname, read_only=True)
 
-    def _emit_error(self, text):
+    def _emit_error(self, text, row_num=None):
+        if row_num is not None:
+            text = '{}: {}'.format(row_num, text)
         print(text)
         self.current_function['error_count'] = self.current_function.get('error_count', 0) + 1
 
@@ -111,7 +115,7 @@ class TOSImporter:
         while sheet.cell(row=data_row, column=1).value != 'Asian metatiedot':
             data_row += 1
             if data_row > sheet.max_row:
-                print('Cannot find first data row')
+                self._emit_error('Cannot find first data row')
                 return None
         return data_row
 
@@ -129,8 +133,6 @@ class TOSImporter:
             attrs = {}
             for col, attr in enumerate(headers):
                 cleaned_value = self._clean_attribute_value(row[col].value)
-                if col == 0 and not cleaned_value:
-                    break
                 if cleaned_value:
                     attrs[attr] = cleaned_value
             data.append(attrs)
@@ -169,6 +171,7 @@ class TOSImporter:
             raise TOSImporterException(
                 'Classification %s does not exist' % classification_code
             )
+        Function.objects.filter(classification=classification).delete()
 
         if not classification.function_allowed:
             print('Skipping, classification %s does not allow function creation.' % classification_code)
@@ -181,15 +184,17 @@ class TOSImporter:
 
         return Function.objects.create(classification=classification)
 
-    def _get_attributes(self, data):
-        all_attributes = dict(self.CHOICE_ATTRIBUTES, **self.FREE_TEXT_ATTRIBUTES)
+    def _clean_attributes(self, original_attribute_data, row_num=None):
+        cleaned_attribute_data = {}
 
-        attributes = {}
-        for attribute_name, attribute_value in data['attributes'].items():
+        for attribute_name, attribute_value in original_attribute_data.items():
             if attribute_name == 'Asiakirjan tyyppi':
                 attribute_name = 'Asiakirjatyyppi'
-            if attribute_name not in all_attributes:
-                print('Illegal attribute: %s' % attribute_name)
+            if attribute_name in ('Säilytysaika', 'Paperiasiakirjojen säilytysaika arkistossa'):
+                if str(attribute_value).startswith('-1'):
+                    attribute_value = '-1'
+            if attribute_name not in self.ALL_ATTRIBUTES:
+                self._emit_error('Illegal attribute: "%s"' % attribute_name, row_num)
                 continue
             if attribute_name == 'Paperiasiakirjojen säilytysaika arkistossa':
                 continue
@@ -200,9 +205,9 @@ class TOSImporter:
             ):
                 continue
 
-            attributes[all_attributes[attribute_name]] = str(attribute_value)
+            cleaned_attribute_data[self.ALL_ATTRIBUTES[attribute_name]] = str(attribute_value)
 
-        return attributes
+        return cleaned_attribute_data
 
     def _save_structural_element(self, model, parent, data, index, parent_record=None):
         model_attributes = {}  # model specific attributes
@@ -242,7 +247,7 @@ class TOSImporter:
         new_obj = model(**model_attributes)
 
         new_obj.attributes = name_attribute
-        new_obj.attributes.update(self._get_attributes(data))
+        new_obj.attributes.update(data['attributes'])
 
         new_obj.save()
         return new_obj
@@ -265,12 +270,17 @@ class TOSImporter:
                         record_idx += 1
                         self._save_structural_element(Record, action_obj, attachment, record_idx, record_obj)
 
-        function_obj.attributes = self._get_attributes(function)
+        function_obj.attributes = function['attributes']
         function_obj.error_count = function.get('error_count', 0)
         function_obj.save()
 
     def _process_data(self, sheet, function_obj):
         data = self._get_data(sheet)
+
+        if not data:
+            return
+
+        first_data_row = self._get_first_data_row(sheet)
 
         # Parse data with a state machine
         function = {'phases': []}
@@ -279,14 +289,19 @@ class TOSImporter:
         phase = action = None
         previous = None
 
-        for row in data:
+        for row_num, row in enumerate(data, first_data_row):
             name = None
             child_list = []
 
             if not row:
                 continue
 
-            type_info = str(row.pop('Tehtäväluokka')).strip()
+            try:
+                type_info = str(row.pop('Tehtäväluokka')).strip()
+            except KeyError:
+                self._emit_error('Cannot determine target', row_num)
+                continue
+
             if type_info == 'Asian metatiedot':
                 target['obj'] = function_obj
                 name = function_obj.name
@@ -299,7 +314,7 @@ class TOSImporter:
                 continue
             elif type_info == 'Käsittelyvaiheen metatiedot':
                 if previous is None:
-                    print('Parent of phase %s missing' % row.get('Käsittelyvaihe'))
+                    self._emit_error('Parent of phase %s missing' % row.get('Käsittelyvaihe'), row_num)
                     continue
                 phase = {}
                 child_list = function['phases']
@@ -311,7 +326,7 @@ class TOSImporter:
                 previous = Phase
             elif type_info == 'Toimenpiteen metatiedot':
                 if previous == Function:
-                    print('Parent of action %s missing' % row.get('Toimenpide'))
+                    self._emit_error('Parent of action %s missing' % row.get('Toimenpide'), row_num)
                     continue
                 action = {}
                 child_list = phase['actions']
@@ -321,7 +336,7 @@ class TOSImporter:
                 previous = Action
             elif type_info == 'Asiakirjan metatiedot':
                 if previous in (Function, Phase):
-                    print('Parent of record %s missing' % row.get('Asiakirjatyypin tarkenne'))
+                    self._emit_error('Parent of record %s missing' % row.get('Asiakirjatyypin tarkenne'), row_num)
                     continue
                 record = {}
                 child_list = action['records']
@@ -331,7 +346,7 @@ class TOSImporter:
                 previous = Record
             elif type_info == 'Asiakirjan liitteen metatiedot':
                 if previous in (Function, Phase, Action):
-                    print('Parent of attachment %s missing' % row.get('Asiakirjan liitteet'))
+                    self._emit_error('Parent of attachment %s missing' % row.get('Asiakirjan liitteet'), row_num)
                 attachment = {}
                 child_list = record['attachments']
                 target = attachment
@@ -339,15 +354,13 @@ class TOSImporter:
                 row.pop('Asiakirjatyypin tarkenne', None)
 
             if type_info not in self.MODEL_MAPPING:
-                self._emit_error('Skipping row with type %s' % type_info)
+                self._emit_error('Unknown type %s' % type_info, row_num)
                 continue
             target_model = self.MODEL_MAPPING[type_info]
-            if not target_model:
-                continue
 
             if target_model != Function and (not name or len(name) <= 2):
                 if row:
-                    self._emit_error('No name for %s, data: %s' % (target_model._meta.verbose_name, row))
+                    self._emit_error('No name for %s, data: %s' % (target_model._meta.verbose_name, row), row_num)
                 continue
 
             target['name'] = name
@@ -358,7 +371,7 @@ class TOSImporter:
                 if isinstance(s, str) and s.startswith('-1'):
                     row[name] = '-1'
 
-            target['attributes'] = row
+            target['attributes'] = self._clean_attributes(row, row_num)
             child_list.append(target)
         self._save_function(function)
 
@@ -377,24 +390,21 @@ class TOSImporter:
         for attr, values in codesets.items():
             print('\nProcessing %s' % attr)
 
-            all_attributes = self.CHOICE_ATTRIBUTES.copy()
-            all_attributes.update(self.FREE_TEXT_ATTRIBUTES)
-
             if attr == 'Asiakirjatyypit':
                 attr = 'Asiakirjatyyppi'
 
-            if attr not in all_attributes:
+            if attr not in self.ALL_ATTRIBUTES:
                 print('    skipping ')
                 continue
 
             try:
                 attribute_obj, created = Attribute.objects.update_or_create(
-                    identifier=all_attributes.get(attr), defaults={'name': attr}
+                    identifier=self.ALL_ATTRIBUTES.get(attr), defaults={'name': attr}
                 )
             except ValueError as e:
                 print('    !!!! Cannot create attribute: %s' % e)
                 continue
-            handled_attrs.add(all_attributes.get(attr))
+            handled_attrs.add(self.ALL_ATTRIBUTES.get(attr))
 
             if attr in self.FREE_TEXT_ATTRIBUTES:
                 print('    free text attribute')
@@ -430,8 +440,8 @@ class TOSImporter:
         for sheet in self.wb:
             try:
                 print('Processing sheet %s' % sheet.title)
-                if (sheet.max_column <= 2 or sheet.max_row <= 2 or sheet.cell('A1').value != 'Tehtäväluokka' or
-                        sheet.cell('A2').value == 'Kaikki Ahjo-luokat'):
+                if (sheet.max_column <= 2 or sheet.max_row <= 2 or sheet['A1'].value != 'Tehtäväluokka' or
+                        'ahjo' in str(sheet['A2'].value).lower()):
                     print('Skipping')
                     continue
 
