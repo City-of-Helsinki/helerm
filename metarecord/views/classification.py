@@ -1,5 +1,4 @@
 from django.db.models import Prefetch
-
 from rest_framework import serializers, viewsets
 
 from metarecord.models import Classification, Function
