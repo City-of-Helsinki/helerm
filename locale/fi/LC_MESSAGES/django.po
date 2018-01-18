@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-12 15:15+0200\n"
+"POT-Creation-Date: 2018-01-22 08:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,20 +26,20 @@ msgstr "suomi"
 msgid "English"
 msgstr "englanti"
 
-#: metarecord/admin.py:30
+#: metarecord/admin.py:32
 msgid "State history"
 msgstr "Tilahistoria"
 
-#: metarecord/admin.py:50 metarecord/models/function.py:104
+#: metarecord/admin.py:52 metarecord/models/function.py:104
 msgid "template"
 msgstr "malli"
 
-#: metarecord/admin.py:51
+#: metarecord/admin.py:53
 msgid "classification code"
 msgstr "luokitustunnus"
 
-#: metarecord/admin.py:55 metarecord/admin.py:73 metarecord/admin.py:85
-#: metarecord/admin.py:97 metarecord/models/attribute.py:13
+#: metarecord/admin.py:57 metarecord/admin.py:82 metarecord/admin.py:94
+#: metarecord/admin.py:106 metarecord/models/attribute.py:13
 #: metarecord/models/attribute.py:25 metarecord/models/function.py:42
 msgid "name"
 msgstr "nimi"
@@ -194,6 +194,7 @@ msgid "function"
 msgstr "käsittelyprosessi"
 
 #: metarecord/models/function.py:91
+#: metarecord/templates/admin/metarecord/function/import_tos.html:55
 msgid "functions"
 msgstr "käsittelyprosessit"
 
@@ -236,6 +237,37 @@ msgstr "asiakirjat"
 #: metarecord/models/structural_element.py:16
 msgid "created by"
 msgstr "lisääjä"
+
+#: metarecord/templates/admin/metarecord/function/change_list.html:9
+#: metarecord/templates/admin/metarecord/function/import_tos.html:25
+msgid "Import TOS Excel"
+msgstr "Tuo TOS Excel"
+
+#: metarecord/templates/admin/metarecord/function/import_tos.html:7
+msgid "Previous import log"
+msgstr "Edellisen tuonnin loki"
+
+#: metarecord/templates/admin/metarecord/function/import_tos.html:22
+msgid "Import another TOS Excel"
+msgstr "Tuo toinen TOS Excel"
+
+#: metarecord/templates/admin/metarecord/function/import_tos.html:53
+msgid "Home"
+msgstr "Etusivu"
+
+#: metarecord/templates/admin/metarecord/function/import_tos.html:56
+msgid "TOS import"
+msgstr "TOS-tuonti"
+
+#: metarecord/views/admin.py:37
+#, python-format
+msgid "File \"%s\" was imported successfully!"
+msgstr "Tiedosto \"%s\" tuotu onnistuneesti!"
+
+#: metarecord/views/admin.py:39
+#, python-format
+msgid "Error importing file \"%s\""
+msgstr "Tiedoston \"%s\" tuonti epäonnistui"
 
 #: metarecord/views/base.py:97 metarecord/views/base.py:129
 #: metarecord/views/base.py:130
@@ -300,6 +332,6 @@ msgstr "Virheellinen tilan vaihto."
 msgid "No permission for the state change."
 msgstr "Ei oikeutta tilan vaihtoon."
 
-#: metarecord/views/function.py:297
+#: metarecord/views/function.py:298
 msgid "No permission to delete or state is not \"draft\"."
 msgstr "Ei oikeutta poistaa tai tila ei ole luonnos."

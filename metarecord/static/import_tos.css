@@ -1,0 +1,41 @@
+.loading-modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('spinner.gif')
+                50% 50%
+                no-repeat;
+    background-size: 7.5%
+}
+
+body.loading {
+    overflow: hidden;
+}
+
+body.loading .loading-modal {
+    display: block;
+}
+
+#log-container {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px;
+    border-color: lightgray;
+    border-style: double;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.log-warning {
+    color: red;
+}
+
+.log-error {
+    color: white;
+    background-color: red;
+}
