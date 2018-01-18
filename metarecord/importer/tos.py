@@ -8,7 +8,15 @@ from metarecord.models import Action, Attribute, AttributeValue, Classification,
 
 
 class TOSImporterException(Exception):
-    pass
+    def __init__(self, message, row_num=None):
+        self.message = message
+        self.row_num = row_num
+
+    def __str__(self):
+        message = self.message
+        if self.row_num is not None:
+            message = '{}: {}'.format(self.row_num, self.message)
+        return message
 
 
 class TOSImporter:
@@ -57,17 +65,13 @@ class TOSImporter:
         self.wb = None
         self.logger = logging.getLogger(__name__)
 
-    def open_file(self, filename):
-        self.wb = load_workbook(filename, read_only=True)
+    def open(self, excel):
+        self.wb = load_workbook(excel, read_only=True)
 
-    def read_data(self, data):
-        self.wb = load_workbook(data, read_only=True)
-
-    def _emit_error(self, text, row_num=None):
+    def _emit_warning(self, text, row_num=None):
         if row_num is not None:
             text = '{}: {}'.format(row_num, text)
         self.logger.warning(text)
-        self.current_function['error_count'] = self.current_function.get('error_count', 0) + 1
 
     def _clean_header(self, s):
         if not s:
@@ -123,8 +127,7 @@ class TOSImporter:
         while sheet.cell(row=data_row, column=1).value != 'Asian metatiedot':
             data_row += 1
             if data_row > sheet.max_row:
-                self._emit_error('Cannot find first data row')
-                return None
+                raise TOSImporterException('Cannot find first data row')
         return data_row
 
     def _get_data(self, sheet):
@@ -202,7 +205,7 @@ class TOSImporter:
                 if str(attribute_value).startswith('-1'):
                     attribute_value = '-1'
             if attribute_name not in self.ALL_ATTRIBUTES:
-                self._emit_error('Illegal attribute: "%s"' % attribute_name, row_num)
+                self._emit_warning('Illegal attribute: "%s"' % attribute_name, row_num)
                 continue
             if attribute_name == 'Paperiasiakirjojen säilytysaika arkistossa':
                 continue
@@ -307,8 +310,7 @@ class TOSImporter:
             try:
                 type_info = str(row.pop('Tehtäväluokka')).strip()
             except KeyError:
-                self._emit_error('Cannot determine target', row_num)
-                continue
+                raise TOSImporterException('Cannot determine target', row_num)
 
             if type_info == 'Asian metatiedot':
                 target['obj'] = function_obj
@@ -322,8 +324,7 @@ class TOSImporter:
                 continue
             elif type_info == 'Käsittelyvaiheen metatiedot':
                 if previous is None:
-                    self._emit_error('Parent of phase %s missing' % row.get('Käsittelyvaihe'), row_num)
-                    continue
+                    raise TOSImporterException('Parent of phase %s missing' % row.get('Käsittelyvaihe'), row_num)
                 phase = {}
                 child_list = function['phases']
                 phase['actions'] = []
@@ -334,8 +335,7 @@ class TOSImporter:
                 previous = Phase
             elif type_info == 'Toimenpiteen metatiedot':
                 if previous == Function:
-                    self._emit_error('Parent of action %s missing' % row.get('Toimenpide'), row_num)
-                    continue
+                    raise TOSImporterException('Parent of action %s missing' % row.get('Toimenpide'), row_num)
                 action = {}
                 child_list = phase['actions']
                 action['records'] = []
@@ -344,8 +344,9 @@ class TOSImporter:
                 previous = Action
             elif type_info == 'Asiakirjan metatiedot':
                 if previous in (Function, Phase):
-                    self._emit_error('Parent of record %s missing' % row.get('Asiakirjatyypin tarkenne'), row_num)
-                    continue
+                    raise TOSImporterException(
+                        'Parent of record %s missing' % row.get('Asiakirjatyypin tarkenne'), row_num
+                    )
                 record = {}
                 child_list = action['records']
                 record['attachments'] = []
@@ -354,7 +355,9 @@ class TOSImporter:
                 previous = Record
             elif type_info == 'Asiakirjan liitteen metatiedot':
                 if previous in (Function, Phase, Action):
-                    self._emit_error('Parent of attachment %s missing' % row.get('Asiakirjan liitteet'), row_num)
+                    raise TOSImporterException(
+                        'Parent of attachment %s missing' % row.get('Asiakirjan liitteet'), row_num
+                    )
                 attachment = {}
                 child_list = record['attachments']
                 target = attachment
@@ -362,13 +365,12 @@ class TOSImporter:
                 row.pop('Asiakirjatyypin tarkenne', None)
 
             if type_info not in self.MODEL_MAPPING:
-                self._emit_error('Unknown type %s' % type_info, row_num)
-                continue
+                raise TOSImporterException('Unknown type %s' % type_info, row_num)
             target_model = self.MODEL_MAPPING[type_info]
 
             if target_model != Function and (not name or len(name) <= 2):
                 if row:
-                    self._emit_error('No name for %s, data: %s' % (target_model._meta.verbose_name, row), row_num)
+                    raise TOSImporterException('Cannot determine name', row_num)
                 continue
 
             target['name'] = name

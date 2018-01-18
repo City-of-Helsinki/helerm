@@ -17,7 +17,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         filename = options['filename']
         try:
-            tos_importer = TOSImporter(filename, options)
+            tos_importer = TOSImporter(options)
+            tos_importer.open(filename)
         except Exception as e:
             raise CommandError("Cannot open file '%s': %s" % (filename, e))
 
