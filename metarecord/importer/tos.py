@@ -1,3 +1,4 @@
+import logging
 import re
 from collections import OrderedDict
 
@@ -51,14 +52,21 @@ class TOSImporter:
 
     ATTACHMENT_RECORD_TYPE_NAME = 'liite'
 
-    def __init__(self, fname, options=None):
-        self.options = options
-        self.wb = load_workbook(fname, read_only=True)
+    def __init__(self, options=None):
+        self.options = options or {}
+        self.wb = None
+        self.logger = logging.getLogger(__name__)
+
+    def open_file(self, filename):
+        self.wb = load_workbook(filename, read_only=True)
+
+    def read_data(self, data):
+        self.wb = load_workbook(data, read_only=True)
 
     def _emit_error(self, text, row_num=None):
         if row_num is not None:
             text = '{}: {}'.format(row_num, text)
-        print(text)
+        self.logger.warning(text)
         self.current_function['error_count'] = self.current_function.get('error_count', 0) + 1
 
     def _clean_header(self, s):
@@ -376,25 +384,25 @@ class TOSImporter:
         self._save_function(function)
 
     def import_attributes(self):
-        print('Importing attributes...')
+        self.logger.info('Importing attributes...')
 
         try:
             sheet = self.wb['Koodistot']
         except KeyError:
-            print('Cannot import attributes, the workbook does not contain sheet "Koodistot".')
+            self.logger.info('Cannot import attributes, the workbook does not contain sheet "Koodistot".')
             return
 
         codesets = self._get_codesets(sheet)
         handled_attrs = set()
 
         for attr, values in codesets.items():
-            print('\nProcessing %s' % attr)
+            self.logger.info('\nProcessing %s' % attr)
 
             if attr == 'Asiakirjatyypit':
                 attr = 'Asiakirjatyyppi'
 
             if attr not in self.ALL_ATTRIBUTES:
-                print('    skipping ')
+                self.logger.info('    skipping ')
                 continue
 
             try:
@@ -402,12 +410,12 @@ class TOSImporter:
                     identifier=self.ALL_ATTRIBUTES.get(attr), defaults={'name': attr}
                 )
             except ValueError as e:
-                print('    !!!! Cannot create attribute: %s' % e)
+                self.logger.info('    !!!! Cannot create attribute: %s' % e)
                 continue
             handled_attrs.add(self.ALL_ATTRIBUTES.get(attr))
 
             if attr in self.FREE_TEXT_ATTRIBUTES:
-                print('    free text attribute')
+                self.logger.info('    free text attribute')
                 continue
 
             for value in values:
@@ -417,12 +425,12 @@ class TOSImporter:
                         raise ValueError('Invalid value: "%s"' % value)
                     obj, created = AttributeValue.objects.get_or_create(attribute=attribute_obj, value=cleaned_value)
                 except ValueError as e:
-                    # TODO just printing errors and continuing here for now
-                    print('    !!!! Cannot create attribute value: %s' % e)
+                    # TODO just self.logger.infoing errors and continuing here for now
+                    self.logger.info('    !!!! Cannot create attribute value: %s' % e)
                     continue
 
                 info_str = 'Created' if created else 'Already exist'
-                print('    %s: %s' % (info_str, value))
+                self.logger.info('    %s: %s' % (info_str, value))
 
         # add also free text attributes that don't exist in the codesets sheet
         for name, identifier in self.FREE_TEXT_ATTRIBUTES.items():
@@ -431,18 +439,18 @@ class TOSImporter:
                     identifier=identifier, defaults={'name': name}
                 )
                 info_str = 'Created' if created else 'Already exist'
-                print("\n%s: free text attribute %s that doesn't exist in the sheet" % (info_str, name))
+                self.logger.info("\n%s: free text attribute %s that doesn't exist in the sheet" % (info_str, name))
 
-        print('\nDone.')
+        self.logger.info('\nDone.')
 
     def import_data(self):
-        print('Importing data...')
+        self.logger.info('Importing data...')
         for sheet in self.wb:
             try:
-                print('Processing sheet %s' % sheet.title)
+                self.logger.info('Processing sheet %s' % sheet.title)
                 if (sheet.max_column <= 2 or sheet.max_row <= 2 or sheet['A1'].value != 'Tehtäväluokka' or
                         'ahjo' in str(sheet['A2'].value).lower()):
-                    print('Skipping')
+                    self.logger.info('Skipping')
                     continue
 
                 # process function
@@ -453,14 +461,14 @@ class TOSImporter:
                     self._process_data(sheet, function)
             except TOSImporterException as e:
                 if self.options.get('ignore_errors'):
-                    print('Skipping, got exception: %s' % e)
+                    self.logger.info('Skipping, got exception: %s' % e)
                 else:
                     raise
 
-        print('Done.')
+        self.logger.info('Done.')
 
     def import_template(self, sheet_name, template_name):
-        print('Importing template...')
+        self.logger.info('Importing template...')
 
         sheet = self.wb.get_sheet_by_name(sheet_name)
         template_name = template_name or sheet_name
@@ -468,10 +476,10 @@ class TOSImporter:
         function, created = Function.objects.get_or_create(name=template_name, is_template=True)
 
         if created:
-            print('Creating new template %s' % template_name)
+            self.logger.info('Creating new template %s' % template_name)
         else:
-            print('Updating template %s' % template_name)
+            self.logger.info('Updating template %s' % template_name)
 
         self._process_data(sheet, function)
 
-        print('Done.')
+        self.logger.info('Done.')
