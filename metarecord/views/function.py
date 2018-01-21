@@ -119,7 +119,7 @@ class FunctionListSerializer(StructuralElementSerializer):
                 raise exceptions.ValidationError(
                     _('Classification %s already has a function.') % data['classification'].uuid
                 )
-            if not data['classification'].function_allowed():
+            if not data['classification'].function_allowed:
                 raise exceptions.ValidationError(
                     _('Classification %s does not allow function creation.') % data['classification'].uuid
                 )
@@ -270,7 +270,8 @@ class FunctionFilterSet(django_filters.FilterSet):
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     queryset = Function.objects.filter(is_template=False).exclude(state=Function.DELETED)
-    queryset = queryset.select_related('modified_by', 'classification').prefetch_related('phases').order_by('classification__code')
+    queryset = queryset.select_related('modified_by', 'classification').prefetch_related('phases')
+    queryset = queryset.order_by('classification__code')
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)

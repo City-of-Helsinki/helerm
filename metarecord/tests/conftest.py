@@ -10,17 +10,17 @@ from metarecord.tests.utils import set_permissions
 
 @pytest.fixture
 def parent_classification():
-    return Classification.objects.create(title='test parent classification', code='00')
+    return Classification.objects.create(title='test parent classification', code='00', function_allowed=False)
 
 
 @pytest.fixture
 def classification():
-    return Classification.objects.create(title='test classification', code='00 00')
+    return Classification.objects.create(title='test classification', code='00 00', function_allowed=True)
 
 
 @pytest.fixture
 def classification_2():
-    return Classification.objects.create(title='test classification 2', code='00 01')
+    return Classification.objects.create(title='test classification 2', code='00 01', function_allowed=True)
 
 
 @pytest.fixture

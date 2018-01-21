@@ -1,5 +1,4 @@
 from django.db.models import Prefetch
-
 from rest_framework import serializers, viewsets
 
 from metarecord.models import Classification, Function
@@ -10,7 +9,6 @@ from .base import HexRelatedField
 class ClassificationSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(source='uuid', format='hex', read_only=True)
     parent = HexRelatedField(read_only=True)
-    function_allowed = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Classification

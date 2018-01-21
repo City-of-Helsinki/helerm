@@ -116,7 +116,7 @@ class AttributeGroupAdmin(admin.ModelAdmin):
 
 
 class ClassificationAdmin(admin.ModelAdmin):
-    list_display = ('code', 'title')
+    list_display = ('code', 'title', 'function_allowed')
     ordering = ('code',)
 
 

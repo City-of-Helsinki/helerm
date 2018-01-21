@@ -1467,71 +1467,12 @@ def test_function_visibility_in_version_history(api_client, user_api_client, cla
         assert version_history[1]['version'] == 6
 
 
-@pytest.mark.parametrize('endpoint', ('list', 'detail'))
-@pytest.mark.django_db
-def test_classification_allow_function_field(user_api_client, classification, endpoint):
-    url = CLASSIFICATION_LIST_URL if endpoint == 'list' else get_classification_detail_url(classification)
-
-    response = user_api_client.get(url)
-    assert response.status_code == 200
-    result = response.data['results'][0] if endpoint == 'list' else response.data
-
-    assert result['function_allowed'] == True
-
-    classification_2 = Classification.objects.create(parent=classification, code='00 01')
-
-    if endpoint == 'list':
-        response = user_api_client.get(CLASSIFICATION_LIST_URL)
-        assert response.status_code == 200
-        parent_result = response.data['results'][0]
-        child_result = response.data['results'][1]
-    else:
-        response = user_api_client.get(get_classification_detail_url(classification))
-        assert response.status_code == 200
-        parent_result = response.data
-        response = user_api_client.get(get_classification_detail_url(classification_2))
-        assert response.status_code == 200
-        child_result = response.data
-
-    assert parent_result['function_allowed'] == False
-    assert child_result['function_allowed'] == True
-
-
-@pytest.mark.parametrize('endpoint', ('list', 'detail'))
-@pytest.mark.django_db
-def test_classification_allow_function_field(user_api_client, classification, endpoint):
-    url = CLASSIFICATION_LIST_URL if endpoint == 'list' else get_classification_detail_url(classification)
-
-    response = user_api_client.get(url)
-    assert response.status_code == 200
-    result = response.data['results'][0] if endpoint == 'list' else response.data
-
-    assert result['function_allowed'] == True
-
-    classification_2 = Classification.objects.create(parent=classification, code='00 01')
-
-    if endpoint == 'list':
-        response = user_api_client.get(CLASSIFICATION_LIST_URL)
-        assert response.status_code == 200
-        parent_result = response.data['results'][0]
-        child_result = response.data['results'][1]
-    else:
-        response = user_api_client.get(get_classification_detail_url(classification))
-        assert response.status_code == 200
-        parent_result = response.data
-        response = user_api_client.get(get_classification_detail_url(classification_2))
-        assert response.status_code == 200
-        child_result = response.data
-
-    assert parent_result['function_allowed'] == False
-    assert child_result['function_allowed'] == True
-
-
 @pytest.mark.django_db
 def test_function_post_when_not_allowed(post_function_data, user_api_client):
     set_permissions(user_api_client, Function.CAN_EDIT)
     parent_classification = Classification.objects.get(uuid=post_function_data['classification'])
-    Classification.objects.create(parent=parent_classification, code='00 01')
+    parent_classification.function_allowed = False
+    parent_classification.save(update_fields=('function_allowed',))
 
     response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
     assert response.status_code == 400
