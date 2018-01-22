@@ -2,6 +2,7 @@ import logging
 from io import BytesIO
 
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 from django.utils.translation import gettext as _
 
@@ -18,6 +19,9 @@ class CaptureLogRecordsHandler(logging.Handler):
 
 
 def tos_import_view(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        raise PermissionDenied
+
     context = {}
     if request.method == 'POST':
         importer = TOSImporter()
@@ -27,11 +31,11 @@ def tos_import_view(request):
         handler.setLevel(logging.DEBUG)
         logger.addHandler(handler)
         importer.logger = logger
-
-        data = request.FILES['tosfile'].read()
-        filename = request.FILES['tosfile'].name
+        filename = ''
 
         try:
+            data = request.FILES['tosfile'].read()
+            filename = request.FILES['tosfile'].name
             importer.open(BytesIO(data))
             importer.import_data()
             messages.add_message(request, messages.INFO, _('File "%s" was imported successfully!') % filename)
