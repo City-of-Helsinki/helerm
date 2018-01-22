@@ -13,7 +13,7 @@
           {% if log.levelname == 'WARNING' %} class="log-warning"
           {% elif log.levelname == 'ERROR' %} class="log-error"
           {% endif %}>
-          {{ log.message }}
+          {{ log.getMessage }}
         </span>
         <br>
       {% endfor %}
