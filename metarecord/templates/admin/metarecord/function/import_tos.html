@@ -1,0 +1,58 @@
+{% extends 'admin/base_site.html' %}
+
+{% load i18n static %}
+
+{% block content %}
+  {% if logs %}
+  <h1>{% trans "Previous import log" %}</h1>
+
+  <div id="log-container">
+    <code>
+      {% for log in logs %}
+        <span
+          {% if log.levelname == 'WARNING' %} class="log-warning"
+          {% elif log.levelname == 'ERROR' %} class="log-error"
+          {% endif %}>
+          {{ log.message }}
+        </span>
+        <br>
+      {% endfor %}
+    </code>
+  </div>
+  <h1>{% trans "Import another TOS Excel" %}</h1>
+
+  {% else %}
+    <h1>{% trans "Import TOS Excel" %}</h1>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <input id="tos-file-input" type="file" name="tosfile">
+  </form>
+
+<div class="loading-modal"></div>
+
+{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'import_tos.css' %}" />
+{% endblock %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
+  <script src="{% static 'import_tos.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label='metarecord' %}">Metarecord</a>
+&rsaquo; <a href="{% url 'admin:metarecord_function_changelist' %}">{% trans "functions"|capfirst %}</a>
+&rsaquo; {% trans "TOS import" %}
+</div>
+{% endblock %}

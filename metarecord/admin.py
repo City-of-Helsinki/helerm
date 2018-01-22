@@ -4,11 +4,13 @@ from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
 from django.contrib.postgres.forms.hstore import HStoreField
 from django.db import transaction
+from django.urls import path
 from django.utils.translation import ugettext_lazy as _
 
 from .models import (
     Action, Attribute, AttributeGroup, AttributeValue, Classification, Function, MetadataVersion, Phase, Record
 )
+from .views.admin import tos_import_view
 
 
 # disable non ascii char escaping in hstore field
@@ -59,6 +61,13 @@ class FunctionAdmin(StructuralElementAdmin):
         super().save_model(request, obj, form, change)
         if obj.pk is None:
             obj.create_metadata_version()
+
+    def get_urls(self):
+        urls = super().get_urls()
+        urls = [
+            path('import-tos/', self.admin_site.admin_view(tos_import_view), name='import-tos')
+        ] + urls
+        return urls
 
 
 class PhaseAdmin(StructuralElementAdmin):
