@@ -39,6 +39,12 @@ class ClassificationSerializer(serializers.ModelSerializer):
         else:
             data['function'] = None
             data['function_state'] = None
+
+        request = self.context['request']
+        if request and not request.user.is_authenticated:
+            data.pop('description_internal', None)
+            data.pop('additional_information', None)
+
         return data
 
 
