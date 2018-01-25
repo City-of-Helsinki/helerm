@@ -1478,3 +1478,19 @@ def test_function_post_when_not_allowed(post_function_data, user_api_client):
     assert response.status_code == 400
     expected_error = 'Classification %s does not allow function creation.' % parent_classification.uuid
     assert expected_error in response.data['non_field_errors']
+
+
+@pytest.mark.parametrize('authenticated', (False, True))
+@pytest.mark.django_db
+def test_classification_fields_visibility(api_client, user_api_client, classification, authenticated):
+    client = user_api_client if authenticated else api_client
+
+    response = client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+
+    if authenticated:
+        assert response.data['description_internal'] == classification.description_internal
+        assert response.data['additional_information'] == classification.additional_information
+    else:
+        assert 'description_internal' not in response.data
+        assert 'additional_information' not in response.data
