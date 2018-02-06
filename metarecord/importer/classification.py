@@ -11,11 +11,13 @@ def clean_row(row):
 
 class ClassificationImporter:
     def __init__(self, filename):
-        with open(filename, 'r', encoding='utf8') as csvfile:
+        with open(filename, 'r', encoding='utf8', newline='') as csvfile:
             sniffer = csv.Sniffer()
             sniffer.preferred = [',', ';', '\t']
 
-            dialect = sniffer.sniff(csvfile.readline())
+            dialect = sniffer.sniff(csvfile.read())
+            # Sniffer gets this wrong for our data
+            dialect.doublequote = True
             csvfile.seek(0)
 
             self.csv_data = list(csv.reader(csvfile, dialect=dialect))
@@ -36,6 +38,7 @@ class ClassificationImporter:
             count += 1
             if len(row) < 2 or not re.match(r"^\d\d(?:\s\d\d)*$", row[0]):
                 print('Skipping row number {}'.format(count))
+                print('Newline cleaned content was:\n{}'.format(row))
                 continue
 
             code = row[0]
