@@ -11,11 +11,11 @@ def clean_row(row):
 
 class ClassificationImporter:
     def __init__(self, filename):
-        with open(filename, 'r', encoding='utf8') as csvfile:
+        with open(filename, 'r', encoding='utf8', newline='') as csvfile:
             sniffer = csv.Sniffer()
             sniffer.preferred = [',', ';', '\t']
 
-            dialect = sniffer.sniff(csvfile.readline())
+            dialect = sniffer.sniff(csvfile.read())
             csvfile.seek(0)
 
             self.csv_data = list(csv.reader(csvfile, dialect=dialect))
