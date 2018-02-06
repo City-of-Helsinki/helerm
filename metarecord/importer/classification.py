@@ -16,10 +16,13 @@ class ClassificationImporter:
             sniffer.preferred = [',', ';', '\t']
 
             dialect = sniffer.sniff(csvfile.read())
+            # Sniffer gets this wrong for our data
+            dialect.doublequote=True
             csvfile.seek(0)
 
             self.csv_data = list(csv.reader(csvfile, dialect=dialect))
-
+            import pprint
+            pprint.pprint(self.csv_data)
     def _get_parent_code(self, code):
         if len(code) == 2:
             return None
