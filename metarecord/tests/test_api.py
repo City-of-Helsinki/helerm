@@ -223,6 +223,7 @@ def test_function_post(post_function_data, user_api_client):
     assert new_function.state == Function.DRAFT
     assert new_function.version == 1
     assert new_function.metadata_versions.count() == 1
+    assert new_function.modified_by == user_api_client.user
     metadata_version = new_function.metadata_versions.last()
     assert metadata_version.state == Function.DRAFT
 
@@ -531,6 +532,7 @@ def test_metadata_version(user_api_client, user_2_api_client, function, put_func
     assert metadata_version.modified_by == user_2_api_client.user
     assert metadata_version.valid_from == datetime.date(2015, 1, 1)
     assert metadata_version.valid_to == datetime.date(2016, 1, 1)
+    assert new_function.modified_by == user_2_api_client.user
 
 
 @pytest.mark.django_db
@@ -1260,15 +1262,17 @@ def test_classification_function_field(user_api_client, classification, classifi
 
 
 @pytest.mark.django_db
-def test_function_version_history_field(user_api_client, classification):
+def test_function_version_history_field(user_api_client, classification, user_2):
     functions = (
-        Function.objects.create(classification=classification),
-        Function.objects.create(classification=classification),
-        Function.objects.create(classification=classification),
+        Function.objects.create(classification=classification, modified_by=None),
+        Function.objects.create(classification=classification, modified_by=user_api_client.user),
+        Function.objects.create(classification=classification, state=Function.SENT_FOR_REVIEW, modified_by=user_2),
     )
+
     Function.objects.filter(id=functions[2].id).update(
-        state=Function.SENT_FOR_REVIEW, modified_by=user_api_client.user
+        state=Function.SENT_FOR_REVIEW, modified_by=user_2
     )
+    functions[2].create_metadata_version()
 
     response = user_api_client.get(FUNCTION_LIST_URL)
     assert response.status_code == 200
@@ -1299,8 +1303,11 @@ def test_function_version_history_field(user_api_client, classification):
     first_version = version_history[0]
     assert first_version['modified_by'] is None
 
+    middle_version = version_history[1]
+    assert middle_version['modified_by'] == 'John Rambo'
+
     last_version = version_history[2]
-    assert last_version['modified_by'] == 'John Rambo'
+    assert last_version['modified_by'] == 'Rocky Balboa'
 
 
 @pytest.mark.django_db
@@ -1494,3 +1501,21 @@ def test_classification_fields_visibility(api_client, user_api_client, classific
     else:
         assert 'description_internal' not in response.data
         assert 'additional_information' not in response.data
+
+
+@pytest.mark.django_db
+def test_version_history_modified_by(user_2_api_client, super_user_api_client, function, classification, user):
+    set_permissions(user_2_api_client, Function.CAN_EDIT)
+    Function.objects.create(classification=classification, state=Function.DRAFT, modified_by=user)
+    Function.objects.create(classification=classification, state=Function.DRAFT, modified_by=user)
+    data = {'state': Function.SENT_FOR_REVIEW}
+
+    response = user_2_api_client.patch(get_function_detail_url(function), data=data)
+    assert response.status_code == 200
+
+    response = super_user_api_client.get(get_function_detail_url(function))
+    assert response.status_code == 200
+    version_history = response.data['version_history']
+    assert version_history[0]['modified_by'] is None
+    assert version_history[1]['modified_by'] == 'John Rambo'
+    assert version_history[2]['modified_by'] == 'Rocky Balboa'

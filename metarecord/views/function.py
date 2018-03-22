@@ -133,8 +133,9 @@ class FunctionListSerializer(StructuralElementSerializer):
         if not user.has_perm(Function.CAN_EDIT):
             raise exceptions.PermissionDenied(_('No permission to create.'))
 
+        validated_data['modified_by'] = user
         new_function = self._create_new_version(validated_data)
-        new_function.create_metadata_version(user)
+        new_function.create_metadata_version()
 
         return new_function
 
@@ -180,12 +181,13 @@ class FunctionDetailSerializer(FunctionListSerializer):
             data = {field: validated_data[field] for field in allowed_fields if field in validated_data}
             if not data:
                 return instance
+            data['modified_by'] = user
 
             # ignore other fields than state, valid_from and valid_to
             # and do an actual update instead of a new version
             new_function = super().update(instance, data)
 
-            new_function.create_metadata_version(user)
+            new_function.create_metadata_version()
             return new_function
 
         if not user.has_perm(Function.CAN_EDIT):
@@ -197,8 +199,9 @@ class FunctionDetailSerializer(FunctionListSerializer):
             )
 
         validated_data['classification'] = instance.classification
+        validated_data['modified_by'] = user
         new_function = self._create_new_version(validated_data)
-        new_function.create_metadata_version(user)
+        new_function.create_metadata_version()
 
         return new_function
 
@@ -298,7 +301,8 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
             raise exceptions.PermissionDenied(_('No permission to delete or state is not "draft".'))
 
         instance.state = Function.DELETED
+        instance.modified_by = user
         instance.save()
-        instance.create_metadata_version(user)
+        instance.create_metadata_version()
 
         return Response(status=status.HTTP_204_NO_CONTENT)

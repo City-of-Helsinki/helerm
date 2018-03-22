@@ -147,15 +147,21 @@ class Function(StructuralElement):
 
         super().save(*args, **kwargs)
 
-    def create_metadata_version(self, modified_by=None):
+    def create_metadata_version(self):
         MetadataVersion.objects.create(
             function=self,
             modified_at=self.modified_at,
-            modified_by=modified_by,
+            modified_by=self.modified_by,
             state=self.state,
             valid_from=self.valid_from,
             valid_to=self.valid_to,
         )
+
+    def get_latest_metadata_version(self):
+        try:
+            return list(self.metadata_versions.all())[-1]
+        except IndexError:
+            return None
 
 
 class MetadataVersion(models.Model):
