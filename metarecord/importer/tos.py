@@ -87,7 +87,7 @@ class TOSImporter:
         return s
 
     def _clean_attribute_value(self, s):
-        if not s:
+        if s is None:
             return None
         return re.sub(r'\s\s+', ' ', str(s)).strip() or None
 
@@ -144,7 +144,7 @@ class TOSImporter:
             attrs = {}
             for col, attr in enumerate(headers):
                 cleaned_value = self._clean_attribute_value(row[col].value)
-                if cleaned_value:
+                if cleaned_value is not None:
                     attrs[attr] = cleaned_value
             data.append(attrs)
         return data
