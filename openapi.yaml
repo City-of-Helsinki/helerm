@@ -210,135 +210,6 @@ paths:
                   example: sent_for_review
         description: The new function version data
         required: true
-  /phase/:
-    get:
-      tags:
-        - phase
-      summary: Get a list of phases
-      parameters:
-        - $ref: '#/components/parameters/paginationPage'
-        - $ref: '#/components/parameters/paginationPageSize'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/Pagination'
-                  - type: object
-                    properties:
-                      results:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Phase'
-  '/phase/{phase_id}/':
-    get:
-      tags:
-        - phase
-      summary: Get a phase by its ID
-      parameters:
-        - name: phase_id
-          in: path
-          required: true
-          description: ID of the phase to fetch
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Phase'
-        '404':
-          $ref: '#/components/responses/NotFound'
-  /action/:
-    get:
-      tags:
-        - action
-      summary: Get a list of actions
-      parameters:
-        - $ref: '#/components/parameters/paginationPage'
-        - $ref: '#/components/parameters/paginationPageSize'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/Pagination'
-                  - type: object
-                    properties:
-                      results:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Action'
-  '/action/{action_id}/':
-    get:
-      tags:
-        - action
-      summary: Get an action by its ID
-      parameters:
-        - name: action_id
-          in: path
-          required: true
-          description: ID of the action to fetch
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Action'
-        '404':
-          $ref: '#/components/responses/NotFound'
-  /record/:
-    get:
-      tags:
-        - record
-      summary: Get a list of records
-      parameters:
-        - $ref: '#/components/parameters/paginationPage'
-        - $ref: '#/components/parameters/paginationPageSize'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/Pagination'
-                  - type: object
-                    properties:
-                      results:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Record'
-  '/record/{record_id}/':
-    get:
-      tags:
-        - record
-      summary: Get a record by its ID
-      parameters:
-        - name: record_id
-          in: path
-          required: true
-          description: ID of the record to fetch
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Record'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /attribute/:
     get:
       tags:
@@ -487,6 +358,9 @@ components:
         description_internal: Hallintoasioiden ohjaus on tarkkaa puuhaa
         related_classification: Katso myös tehtäväluokka 00
         additional_information: Lisätietoja tehtäväluokasta
+        function_allowed: true
+        function: ffb1c68e3d024464bdb85a1876cfe446
+        function_state: draft
       properties:
         id:
           description: Unique identifier
@@ -520,6 +394,20 @@ components:
         parent:
           description: ID of the parent classification of this classification
           type: string
+        function_allowed:
+          description: Is it possible to create a function for this classification
+          type: boolean
+        function:
+          description: ID of the function that is related to this classification
+          type: string
+        function_state:
+          description: State of the function that is related to this classification
+          type: string
+          enum:
+            - draft
+            - sent_for_review
+            - waiting_for_approval
+            - approved
     Function:
       type: object
       description: Function represents a handling process (käsittelyprosessi) in the JHS 191 data model
@@ -537,6 +425,8 @@ components:
         valid_from: '2017-06-25'
         valid_to: '2017-07-25'
         modified_by: null
+        classification_code: 01 00 00
+        classification_title: Työnantaja- ja henkilöstöpolitiikka
         phases: []
       properties:
         id:
@@ -594,6 +484,11 @@ components:
           type: string
           format: date
           description: The function is valid until this date
+        classification_code:
+          description: Classification code of this function's classification
+          type: string
+        classifition_title:
+          description: Title of this function's classification
     Phase:
       description: |
         Phase represents a top level action (toimenpide) in the JHS 191 data model.
