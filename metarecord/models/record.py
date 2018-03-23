@@ -34,17 +34,11 @@ class Record(StructuralElement):
             'RetentionPeriodStart': {'RetentionPeriod': ('-1',)}
         },
         'multivalued': (
-            'DataGroup', 'InformationSystem', 'Subject', 'Subject.Scheme',
+            'InformationSystem', 'Subject'
         ),
-        # TODO temporarily disabled
-        """
-        'all_or_none': (
-            ('StorageLocation', 'RetentionPeriodOffice', 'StorageAccountable', 'StorageOrder', 'ProtectionClass'),
-        ),
-        """
         'allow_values_outside_choices': (
-            'DataGroup', 'InformationSystem', 'Subject', 'Subject.Scheme',
-        )
+            'InformationSystem', 'Subject'
+        ),
     }
 
     class Meta:
