@@ -75,7 +75,7 @@ class AttributeValue(TimeStampedModel, UUIDPrimaryKeyModel):
     class Meta:
         verbose_name = _('attribute value')
         verbose_name_plural = _('attribute values')
-        unique_together = (('attribute', 'value'), ('attribute', 'index'))
+        unique_together = ('attribute', 'value')
         ordering = ('index',)
 
     def __str__(self):
