@@ -2,7 +2,7 @@ pip-tools
 Django
 django-helusers
 pytz
-psycopg2
+psycopg2-binary
 openpyxl
 pyxb
 djangorestframework
