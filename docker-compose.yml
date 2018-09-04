@@ -1,0 +1,27 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: helerm
+    ports:
+      - '5432:5432'
+    volumes:
+      - helerm_postgres96-data-volume:/var/lib/postgresql/data
+    container_name: helerm_postgres96
+
+  django:
+    build: .
+    command: bash -c 'tail -f /dev/null'
+    volumes:
+      - .:/code
+    ports:
+      - '8000:8000'
+    depends_on:
+      - postgres
+    container_name: helerm
+
+volumes:
+  helerm_postgres96-data-volume:
