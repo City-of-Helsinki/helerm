@@ -7,6 +7,8 @@
 
 ## Installation
 
+### Manual setup
+
 - Setup and activate a virtualenv ([virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/) is a nice tool to handle virtualenvs)
  
 - Install required Python packages
@@ -41,6 +43,47 @@ python manage.py compilemessages
 ```
 python manage.py createsuperuser
 ```
+
+### Docker compose setup
+
+- Build and start the containers. The `--build` flag is needed only for first time setup **or** if something in the Dockerfile changes.
+
+```
+docker-compose up --build
+```
+
+- Create `local_settings.py` to checkout root
+
+```python
+DEBUG = True
+
+SECRET_KEY = 'xxx'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'helerm',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'PORT': 5432,
+        'HOST': 'helerm_postgres96',
+    }
+}
+```
+
+- Access the application container shell
+
+```
+docker-compose exec django bash
+```
+
+- Enable necessary postgresql extensions for the database
+
+```
+echo 'CREATE EXTENSION hstore; \q' | ./manage.py dbshell
+```
+
+- Run `migrate`, `compilemessages`, and `createsuperuser` as usual. Detailed info in manual setup steps.
 
 ## Development
 
