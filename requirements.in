@@ -12,3 +12,5 @@ django-filter
 django-allauth
 djangorestframework-jwt
 django-admin-sortable2
+django-sanitized-dump>=0.2.0
+database-sanitizer>=0.4.0

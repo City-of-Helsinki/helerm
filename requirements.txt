@@ -8,12 +8,14 @@ attrs==17.4.0             # via pytest
 certifi==2018.1.18        # via requests
 chardet==3.0.4            # via requests
 click==6.7                # via pip-tools
+database-sanitizer==0.4.0
 defusedxml==0.5.0         # via python3-openid
 django-admin-sortable2==0.6.19
 django-allauth==0.35.0
 django-cors-headers==2.2.0
 django-filter==1.1.0
 django-helusers==0.4.2
+django-sanitized-dump==0.2.1
 django==2.0.4
 djangorestframework-jwt==1.11.0
 djangorestframework==3.8.0
@@ -38,7 +40,8 @@ pytest==3.5.0             # via pytest-django
 python3-openid==3.1.0     # via django-allauth
 pytz==2018.3
 pyxb==1.2.6
+pyyaml==3.13              # via database-sanitizer, django-sanitized-dump
 requests-oauthlib==0.8.0  # via django-allauth
 requests==2.18.4          # via django-allauth, django-helusers, pyjwkest, requests-oauthlib
-six==1.11.0               # via more-itertools, pip-tools, pyjwkest, pytest
+six==1.11.0               # via database-sanitizer, django-sanitized-dump, more-itertools, pip-tools, pyjwkest, pytest
 urllib3==1.22             # via requests

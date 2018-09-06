@@ -1,0 +1,118 @@
+config:
+  addons: []
+strategy:
+  account_emailaddress:
+    email: user.email
+    id: null
+    primary: null
+    user_id: null
+    verified: null
+  account_emailconfirmation:
+    created: times.random_past_timestamp
+    email_address_id: null
+    id: null
+    key: string.random
+    sent: null
+  auth_group:
+    id: null
+    name: null
+  auth_group_permissions:
+    group_id: null
+    id: null
+    permission_id: null
+  auth_permission:
+    codename: null
+    content_type_id: null
+    id: null
+    name: null
+  authtoken_token:
+    created: null
+    key: string.random
+    user_id: null
+  django_admin_log:
+    action_flag: null
+    action_time: null
+    change_message: null
+    content_type_id: null
+    id: null
+    object_id: null
+    object_repr: string.empty
+    user_id: null
+  django_content_type:
+    app_label: null
+    id: null
+    model: null
+  django_session:
+    expire_date: null
+    session_data: string.empty
+    session_key: string.random
+  django_site:
+    domain: null
+    id: null
+    name: null
+  helusers_adgroup:
+    display_name: null
+    id: null
+    name: null
+  helusers_adgroupmapping:
+    ad_group_id: null
+    group_id: null
+    id: null
+  socialaccount_socialaccount:
+    date_joined: times.random_past_timestamp
+    extra_data: constant.empty_json_dict
+    id: null
+    last_login: times.random_past_timestamp
+    provider: null
+    uid: string.zfill
+    user_id: null
+  socialaccount_socialapp:
+    client_id: string.random
+    id: null
+    key: string.random
+    name: null
+    provider: null
+    secret: string.random
+  socialaccount_socialapp_sites:
+    id: null
+    site_id: null
+    socialapp_id: null
+  socialaccount_socialtoken:
+    account_id: null
+    app_id: null
+    expires_at: null
+    id: null
+    token: string.empty
+    token_secret: string.empty
+  users_user:
+    date_joined: times.random_past_timestamp
+    department_name: null
+    email: user.email
+    first_name: user.given_name_en_gb
+    ical_token: string.random
+    id: null
+    is_active: null
+    is_staff: null
+    is_superuser: null
+    last_login: constant.null
+    last_name: user.surname_en_gb
+    password: constant.invalid_django_password
+    preferred_language: null
+    username: respa_user.username
+    uuid: derived.uuid4
+  users_user_ad_groups:
+    adgroup_id: null
+    id: null
+    user_id: null
+  users_user_favorite_resources:
+    id: null
+    resource_id: null
+    user_id: null
+  users_user_groups:
+    group_id: null
+    id: null
+    user_id: null
+  users_user_user_permissions:
+    id: null
+    permission_id: null
+    user_id: null

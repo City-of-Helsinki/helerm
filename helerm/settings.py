@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'helusers.providers.helsinki',
     'adminsortable2',
     'django_filters',
+    # For creating anonymized database dumps
+    'sanitized_dump',
 
     'metarecord',
     'users',
