@@ -365,9 +365,6 @@ components:
         id:
           description: Unique identifier
           type: string
-        code:
-          description: Classification code
-          type: string
         created_at:
           description: Creation time
           type: string
@@ -376,8 +373,14 @@ components:
           description: Last modification time
           type: string
           format: dateTime
+        code:
+          description: Classification code
+          type: string
         title:
           description: Title
+          type: string
+        parent:
+          description: ID of the parent classification of this classification
           type: string
         description:
           description: Description
@@ -390,9 +393,6 @@ components:
           type: string
         additional_information:
           description: Additional information
-          type: string
-        parent:
-          description: ID of the parent classification of this classification
           type: string
         function_allowed:
           description: Is it possible to create a function for this classification
@@ -433,6 +433,8 @@ components:
           description: Unique identifier
           type: string
           readOnly: true
+        attributes:
+          $ref: '#/components/schemas/AttributeDict'
         version:
           description: Function version number
           type: integer
@@ -470,12 +472,6 @@ components:
             - sent_for_review
             - waiting_for_approval
             - approved
-        phases:
-          type: array
-          items:
-            $ref: '#/components/schemas/Phase'
-        attributes:
-          $ref: '#/components/schemas/AttributeDict'
         valid_from:
           type: string
           format: date
@@ -489,6 +485,10 @@ components:
           type: string
         classifition_title:
           description: Title of this function's classification
+        phases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phase'
     Phase:
       description: |
         Phase represents a top level action (toimenpide) in the JHS 191 data model.
@@ -515,6 +515,20 @@ components:
           description: Unique identifier
           type: string
           readOnly: true
+        attributes:
+          description: Attributes
+          type: string
+        name:
+          description: Name, populated from TypeSpecifier or PhaseType attribute
+          type: string
+          readOnly: true
+        function:
+          description: ID of the parent Function of the Phase
+          type: string
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
         created_at:
           description: Creation time
           type: string
@@ -525,23 +539,9 @@ components:
           type: string
           format: dateTime
           readOnly: true
-        attributes:
-          description: Attributes
-          type: string
-        actions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Action'
         index:
           description: Index number
           type: integer
-        function:
-          description: ID of the parent Function of the Phase
-          type: string
-        name:
-          description: Name, populated from TypeSpecifier or PhaseType attribute
-          type: string
-          readOnly: true
     Action:
       description: |
         Action represents a top level action (toimenpide) in the JHS 191 data model.
@@ -563,6 +563,19 @@ components:
           description: Unique identifier
           type: string
           readOnly: true
+        attributes:
+          $ref: '#/components/schemas/AttributeDict'
+        name:
+          description: Name, populated from TypeSpecifier or ActionType attribute
+          type: string
+          readOnly: true
+        phase:
+          description: ID of the parent Phase of the Action
+          type: string
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record'
         created_at:
           description: Creation time
           type: string
@@ -572,22 +585,9 @@ components:
           description: Last modification time
           type: string
           format: dateTime
-        attributes:
-          $ref: '#/components/schemas/AttributeDict'
-        records:
-          type: array
-          items:
-            $ref: '#/components/schemas/Record'
         index:
           description: Index number
           type: integer
-        name:
-          description: Name, populated from TypeSpecifier or ActionType attribute
-          type: string
-          readOnly: true
-        phase:
-          description: ID of the parent Phase of the Action
-          type: string
     Record:
       type: object
       example:
@@ -618,21 +618,8 @@ components:
           description: Unique identifier
           type: string
           readOnly: true
-        created_at:
-          description: Creation time
-          type: string
-          format: dateTime
-          readOnly: true
-        modified_at:
-          description: Last modification time
-          type: string
-          format: dateTime
-          readOnly: true
         attributes:
           $ref: '#/components/schemas/AttributeDict'
-        index:
-          description: Index number
-          type: integer
         name:
           description: Name, populated from TypeSpecifier or RecordType attribute
           type: string
@@ -643,6 +630,19 @@ components:
         parent:
           description: ID of the parent Record of the Record. Needed for Record attachments, they are declared as child Records.
           type: string
+        created_at:
+          description: Creation time
+          type: string
+          format: dateTime
+          readOnly: true
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+          readOnly: true
+        index:
+          description: Index number
+          type: integer
     Attribute:
       type: object
       example:
@@ -659,9 +659,17 @@ components:
         identifier: Restriction.ProtectionLevel
         name: Suojaustaso
         index: 9
+        help_text: ''
       properties:
         id:
           description: Unique identifier
+          type: string
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeValue'
+        group:
+          description: Attribute group
           type: string
         created_at:
           description: Creation time
@@ -671,24 +679,20 @@ components:
           description: Last modification time
           type: string
           format: dateTime
-        index:
-          description: Index number
-          type: integer
-        group:
-          description: Attribute group
-          type: string
         identifier:
           description: >-
             The attribute identifier that is used in the attributes dictionary
             when referring to this attribute
           type: string
+        name:
+          description: Title of the attribute
+          type: string
+        index:
+          description: Index number
+          type: integer
         help_text:
           description: Brief information about the attribute
           type: string
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/AttributeValue'
     AttributeValue:
       type: object
       example:
@@ -761,9 +765,12 @@ components:
         id:
           description: Unique identifier
           type: string
-        name:
-          description: Name of the function template
-          type: string
+        attributes:
+          $ref: '#/components/schemas/AttributeDict'
+        phases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phase'
         created_at:
           description: Creation time
           type: string
@@ -772,12 +779,9 @@ components:
           description: Last modification time
           type: string
           format: dateTime
-        phases:
-          type: array
-          items:
-            $ref: '#/components/schemas/Phase'
-        attributes:
-          $ref: '#/components/schemas/AttributeDict'
+        name:
+          description: Name of the function template
+          type: string
     Pagination:
       type: object
       properties:
