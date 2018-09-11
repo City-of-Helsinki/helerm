@@ -1,6 +1,6 @@
-from .action import ActionAdmin
-from .attribute import AttributeAdmin, AttributeGroupAdmin
-from .classification import ClassificationAdmin
-from .function import FunctionAdmin
-from .phase import PhaseAdmin
-from .record import RecordAdmin
+from .action import ActionAdmin  # noqa
+from .attribute import AttributeAdmin, AttributeGroupAdmin  # noqa
+from .classification import ClassificationAdmin  # noqa
+from .function import FunctionAdmin  # noqa
+from .phase import PhaseAdmin  # noqa
+from .record import RecordAdmin  # noqa
