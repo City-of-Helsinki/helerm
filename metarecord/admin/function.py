@@ -23,7 +23,7 @@ class MetadataVersionInline(admin.TabularInline):
 @admin.register(Function)
 class FunctionAdmin(StructuralElementAdmin):
     list_display = ('get_classification_code', 'get_name', 'state', 'version')
-    list_filter = ('state',)
+    list_filter = ('state', 'classification__code')
     search_fields = ('classification__code', 'classification__title')
 
     ordering = ('classification__code', 'version')
