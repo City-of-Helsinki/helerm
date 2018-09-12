@@ -30,15 +30,22 @@ class ClassificationSerializer(serializers.ModelSerializer):
 
         return functions[0] if num_of_functions else None
 
-    def to_representation(self, obj):
-        data = super().to_representation(obj)
+    def _append_function_fields_to_repr(self, obj, data):
         function = self._get_function(obj)
         if function:
             data['function'] = function.uuid.hex
             data['function_state'] = function.state
+            data['function_attributes'] = function.attributes
         else:
             data['function'] = None
             data['function_state'] = None
+            data['function_attributes'] = None
+
+        return data
+
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        data = self._append_function_fields_to_repr(obj, data)
 
         request = self.context['request']
         if request and not request.user.is_authenticated:
