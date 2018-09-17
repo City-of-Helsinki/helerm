@@ -425,7 +425,7 @@ def test_state_change_validity(user_api_client, function):
     all_states = {Function.DRAFT, Function.SENT_FOR_REVIEW, Function.WAITING_FOR_APPROVAL, Function.APPROVED}
 
     valid_changes = {
-        Function.DRAFT: {Function.SENT_FOR_REVIEW, Function.DELETED},
+        Function.DRAFT: {Function.SENT_FOR_REVIEW},
         Function.SENT_FOR_REVIEW: {Function.WAITING_FOR_APPROVAL, Function.DRAFT},
         Function.WAITING_FOR_APPROVAL: {Function.APPROVED, Function.DRAFT},
         Function.APPROVED: {Function.DRAFT},
@@ -622,10 +622,8 @@ def test_function_user_can_delete_own(put_function_data, user, user_api_client, 
     response = user_api_client.delete(get_function_detail_url(function))
     assert response.status_code == 204
 
-    new_function = Function.objects.get(pk=function.id)
-    assert new_function.state == Function.DELETED
-    assert new_function.metadata_versions.filter(modified_by=user, state=Function.DELETED).exists(), \
-        'No metadata version created when deleting.'
+    with pytest.raises(Function.DoesNotExist):
+        Function.objects.get(pk=function.id)
 
 
 @pytest.mark.django_db
@@ -645,11 +643,8 @@ def test_function_super_user_can_delete(put_function_data, super_user_api_client
     response = super_user_api_client.delete(get_function_detail_url(function))
     assert response.status_code == 204
 
-    new_function = Function.objects.get(pk=function.id)
-    assert new_function.state == Function.DELETED
-    assert new_function.metadata_versions.filter(
-        modified_by=super_user_api_client.user, state=Function.DELETED).exists(), \
-        'No metadata version created when deleting.'
+    with pytest.raises(Function.DoesNotExist):
+        Function.objects.get(pk=function.id)
 
 
 @pytest.mark.django_db
