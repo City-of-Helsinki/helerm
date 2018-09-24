@@ -12,3 +12,4 @@ local_settings.py
 htmlcov
 .cache
 .DS_Store
+.pytest_cache/
