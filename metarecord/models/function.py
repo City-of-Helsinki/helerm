@@ -18,6 +18,12 @@ class FunctionQuerySet(models.QuerySet):
             return self.filter(state=Function.APPROVED)
         return self
 
+    def previous_versions(self, function):
+        return self.filter(
+            version__lt=function.version,
+            classification=function.classification
+        )
+
 
 class Function(StructuralElement):
     DRAFT = 'draft'
