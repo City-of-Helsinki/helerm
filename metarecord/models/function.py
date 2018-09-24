@@ -24,14 +24,12 @@ class Function(StructuralElement):
     SENT_FOR_REVIEW = 'sent_for_review'
     WAITING_FOR_APPROVAL = 'waiting_for_approval'
     APPROVED = 'approved'
-    DELETED = 'deleted'
 
     STATE_CHOICES = (
         (DRAFT, _('Draft')),
         (SENT_FOR_REVIEW, _('Sent for review')),
         (WAITING_FOR_APPROVAL, _('Waiting for approval')),
         (APPROVED, _('Approved')),
-        (DELETED, _('Deleted')),
     )
 
     CAN_EDIT = 'metarecord.can_edit'
