@@ -148,6 +148,16 @@ class Function(StructuralElement):
 
         super().save(*args, **kwargs)
 
+        if self.state == Function.APPROVED:
+            # Delete old non-approved versions leading to current version if newly saved version is approved.
+            self.delete_old_non_approved_versions()
+
+    def delete_old_non_approved_versions(self):
+        if self.state != Function.APPROVED:
+            raise Exception('Function must be approved before old non-approved versions can be deleted.')
+
+        Function.objects.previous_versions(self).non_approved().delete()
+
     def create_metadata_version(self):
         MetadataVersion.objects.create(
             function=self,
