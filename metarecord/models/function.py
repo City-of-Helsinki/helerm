@@ -24,6 +24,9 @@ class FunctionQuerySet(models.QuerySet):
             classification=function.classification
         )
 
+    def non_approved(self):
+        return self.exclude(state=Function.APPROVED)
+
 
 class Function(StructuralElement):
     DRAFT = 'draft'
