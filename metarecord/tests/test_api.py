@@ -425,7 +425,7 @@ def test_state_change_validity(user_api_client, function):
     all_states = {Function.DRAFT, Function.SENT_FOR_REVIEW, Function.WAITING_FOR_APPROVAL, Function.APPROVED}
 
     valid_changes = {
-        Function.DRAFT: {Function.SENT_FOR_REVIEW, Function.DELETED},
+        Function.DRAFT: {Function.SENT_FOR_REVIEW},
         Function.SENT_FOR_REVIEW: {Function.WAITING_FOR_APPROVAL, Function.DRAFT},
         Function.WAITING_FOR_APPROVAL: {Function.APPROVED, Function.DRAFT},
         Function.APPROVED: {Function.DRAFT},
@@ -622,10 +622,8 @@ def test_function_user_can_delete_own(put_function_data, user, user_api_client, 
     response = user_api_client.delete(get_function_detail_url(function))
     assert response.status_code == 204
 
-    new_function = Function.objects.get(pk=function.id)
-    assert new_function.state == Function.DELETED
-    assert new_function.metadata_versions.filter(modified_by=user, state=Function.DELETED).exists(), \
-        'No metadata version created when deleting.'
+    with pytest.raises(Function.DoesNotExist):
+        Function.objects.get(pk=function.id)
 
 
 @pytest.mark.django_db
@@ -645,11 +643,8 @@ def test_function_super_user_can_delete(put_function_data, super_user_api_client
     response = super_user_api_client.delete(get_function_detail_url(function))
     assert response.status_code == 204
 
-    new_function = Function.objects.get(pk=function.id)
-    assert new_function.state == Function.DELETED
-    assert new_function.metadata_versions.filter(
-        modified_by=super_user_api_client.user, state=Function.DELETED).exists(), \
-        'No metadata version created when deleting.'
+    with pytest.raises(Function.DoesNotExist):
+        Function.objects.get(pk=function.id)
 
 
 @pytest.mark.django_db
@@ -1423,18 +1418,21 @@ def test_function_version_filter(api_client, user_api_client, classification, au
     client = user_api_client if authenticated else api_client
 
     functions = [
+        Function.objects.create(classification=classification, state=Function.APPROVED),
+        Function.objects.create(classification=classification, state=Function.DRAFT),
+        Function.objects.create(classification=classification, state=Function.APPROVED),
         Function.objects.create(classification=classification, state=Function.DRAFT),
         Function.objects.create(classification=classification, state=Function.SENT_FOR_REVIEW),
         Function.objects.create(classification=classification, state=Function.WAITING_FOR_APPROVAL),
-        Function.objects.create(classification=classification, state=Function.APPROVED),
-        Function.objects.create(classification=classification, state=Function.DRAFT),
-        Function.objects.create(classification=classification, state=Function.APPROVED),
     ]
 
     function = functions[index]
     response = client.get(get_function_detail_url(function) + '?version={}'.format(index + 1))
 
-    if authenticated or function.state == Function.APPROVED:
+    if index == 1:
+        # Drafts leading to new approved version will be deleted after approved version is saved.
+        assert response.status_code == 404
+    elif authenticated or function.state == Function.APPROVED:
         assert response.status_code == 200
         assert response.data['state'] == function.state
     else:
@@ -1446,12 +1444,12 @@ def test_function_version_filter(api_client, user_api_client, classification, au
 def test_function_visibility_in_version_history(api_client, user_api_client, classification, authenticated):
     client = user_api_client if authenticated else api_client
 
-    function = Function.objects.create(classification=classification, state=Function.DRAFT)
-    Function.objects.create(classification=classification, state=Function.SENT_FOR_REVIEW)
-    Function.objects.create(classification=classification, state=Function.WAITING_FOR_APPROVAL)
-    Function.objects.create(classification=classification, state=Function.APPROVED)
+    function = Function.objects.create(classification=classification, state=Function.APPROVED)
     Function.objects.create(classification=classification, state=Function.DRAFT)
     Function.objects.create(classification=classification, state=Function.APPROVED)
+    Function.objects.create(classification=classification, state=Function.DRAFT)
+    Function.objects.create(classification=classification, state=Function.SENT_FOR_REVIEW)
+    Function.objects.create(classification=classification, state=Function.WAITING_FOR_APPROVAL)
 
     response = client.get(get_function_detail_url(function))
     assert response.status_code == 200
@@ -1460,18 +1458,46 @@ def test_function_visibility_in_version_history(api_client, user_api_client, cla
     version_history_states = [vh['state'] for vh in version_history]
 
     if authenticated:
+        # The drafts leading up to a approved version will be deleted. Only drafts that don't have
+        # later approved version are not deleted automatically.
         assert version_history_states == [
+            Function.APPROVED,
+            Function.APPROVED,
             Function.DRAFT,
             Function.SENT_FOR_REVIEW,
             Function.WAITING_FOR_APPROVAL,
-            Function.APPROVED,
-            Function.DRAFT,
-            Function.APPROVED,
         ]
     else:
         assert version_history_states == [Function.APPROVED, Function.APPROVED]
-        assert version_history[0]['version'] == 4
-        assert version_history[1]['version'] == 6
+        assert version_history[0]['version'] == 1
+        assert version_history[1]['version'] == 3
+
+
+@pytest.mark.django_db
+def test_function_delete_on_approve(user_api_client, classification):
+    function = Function.objects.create(classification=classification, state=Function.DRAFT)
+    Function.objects.create(classification=classification, state=Function.SENT_FOR_REVIEW)
+    Function.objects.create(classification=classification, state=Function.WAITING_FOR_APPROVAL)
+    Function.objects.create(classification=classification, state=Function.APPROVED)
+    Function.objects.create(classification=classification, state=Function.DRAFT)
+    Function.objects.create(classification=classification, state=Function.APPROVED)
+    Function.objects.create(classification=classification, state=Function.DRAFT)
+    Function.objects.create(classification=classification, state=Function.SENT_FOR_REVIEW)
+    Function.objects.create(classification=classification, state=Function.WAITING_FOR_APPROVAL)
+
+    response = user_api_client.get(get_function_detail_url(function))
+    assert response.status_code == 200
+
+    version_history = response.data['version_history']
+    version_history_states = [vh['state'] for vh in version_history]
+
+    assert version_history_states == [
+        Function.APPROVED,
+        Function.APPROVED,
+        Function.DRAFT,
+        Function.SENT_FOR_REVIEW,
+        Function.WAITING_FOR_APPROVAL,
+    ]
 
 
 @pytest.mark.django_db

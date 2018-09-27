@@ -18,20 +18,27 @@ class FunctionQuerySet(models.QuerySet):
             return self.filter(state=Function.APPROVED)
         return self
 
+    def previous_versions(self, function):
+        return self.filter(
+            version__lt=function.version,
+            classification=function.classification
+        )
+
+    def non_approved(self):
+        return self.exclude(state=Function.APPROVED)
+
 
 class Function(StructuralElement):
     DRAFT = 'draft'
     SENT_FOR_REVIEW = 'sent_for_review'
     WAITING_FOR_APPROVAL = 'waiting_for_approval'
     APPROVED = 'approved'
-    DELETED = 'deleted'
 
     STATE_CHOICES = (
         (DRAFT, _('Draft')),
         (SENT_FOR_REVIEW, _('Sent for review')),
         (WAITING_FOR_APPROVAL, _('Waiting for approval')),
         (APPROVED, _('Approved')),
-        (DELETED, _('Deleted')),
     )
 
     CAN_EDIT = 'metarecord.can_edit'
@@ -140,6 +147,16 @@ class Function(StructuralElement):
                 self.version = 1
 
         super().save(*args, **kwargs)
+
+        if self.state == Function.APPROVED:
+            # Delete old non-approved versions leading to current version if newly saved version is approved.
+            self.delete_old_non_approved_versions()
+
+    def delete_old_non_approved_versions(self):
+        if self.state != Function.APPROVED:
+            raise Exception('Function must be approved before old non-approved versions can be deleted.')
+
+        Function.objects.previous_versions(self).non_approved().delete()
 
     def create_metadata_version(self):
         MetadataVersion.objects.create(

@@ -212,26 +212,25 @@ class FunctionDetailSerializer(FunctionListSerializer):
             return
 
         valid_changes = {
-            Function.DRAFT: {Function.SENT_FOR_REVIEW, Function.DELETED},
+            Function.DRAFT: {Function.SENT_FOR_REVIEW},
             Function.SENT_FOR_REVIEW: {Function.WAITING_FOR_APPROVAL, Function.DRAFT},
             Function.WAITING_FOR_APPROVAL: {Function.APPROVED, Function.DRAFT},
             Function.APPROVED: {Function.DRAFT},
-            Function.DELETED: {},
         }
 
         if new_state not in valid_changes[old_state]:
             raise exceptions.ValidationError({'state': [_('Invalid state change.')]})
 
-        can_user_change_state_functions = {
-            Function.SENT_FOR_REVIEW: lambda user: user.has_perm(Function.CAN_EDIT),
-            Function.WAITING_FOR_APPROVAL: lambda user: user.has_perm(Function.CAN_REVIEW),
-            Function.APPROVED: lambda user: user.has_perm(Function.CAN_APPROVE),
-            Function.DELETED: lambda user: self.instance.can_user_delete(user),
+        state_change_required_permissions = {
+            Function.SENT_FOR_REVIEW: Function.CAN_EDIT,
+            Function.WAITING_FOR_APPROVAL: Function.CAN_REVIEW,
+            Function.APPROVED: Function.CAN_APPROVE,
         }
 
         relevant_state = new_state if new_state != Function.DRAFT else old_state
+        required_permission = state_change_required_permissions[relevant_state]
 
-        if not can_user_change_state_functions[relevant_state](user):
+        if not user.has_perm(required_permission):
             raise exceptions.PermissionDenied(_('No permission for the state change.'))
 
     def get_version_history(self, obj):
@@ -272,7 +271,7 @@ class FunctionFilterSet(django_filters.FilterSet):
 
 
 class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
-    queryset = Function.objects.filter(is_template=False).exclude(state=Function.DELETED)
+    queryset = Function.objects.filter(is_template=False)
     queryset = queryset.select_related('modified_by', 'classification').prefetch_related('phases')
     queryset = queryset.order_by('classification__code')
     serializer_class = FunctionListSerializer
@@ -300,9 +299,6 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
         if not instance.can_user_delete(user):
             raise exceptions.PermissionDenied(_('No permission to delete or state is not "draft".'))
 
-        instance.state = Function.DELETED
-        instance.modified_by = user
-        instance.save()
-        instance.create_metadata_version()
+        instance.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
