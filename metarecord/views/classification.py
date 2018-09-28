@@ -2,6 +2,7 @@ from django.db.models import Prefetch
 from rest_framework import serializers, viewsets
 
 from metarecord.models import Classification, Function
+from metarecord.views.function import PhaseSerializer
 
 from .base import HexRelatedField
 
@@ -9,11 +10,12 @@ from .base import HexRelatedField
 class ClassificationSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(source='uuid', format='hex', read_only=True)
     parent = HexRelatedField(read_only=True)
+    phases = serializers.SerializerMethodField(method_name='_get_phases')
 
     class Meta:
         model = Classification
         fields = ('id', 'created_at', 'modified_at', 'code', 'title', 'parent', 'description', 'description_internal',
-                  'related_classification', 'additional_information', 'function_allowed')
+                  'related_classification', 'additional_information', 'function_allowed', 'phases')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -42,6 +44,17 @@ class ClassificationSerializer(serializers.ModelSerializer):
             data['function_attributes'] = None
 
         return data
+
+    def _get_phases(self, obj):
+        phases = None
+        function = self._get_function(obj)
+
+        if function:
+            phases = function.phases.all()
+
+        serializer = PhaseSerializer(phases, many=True)
+
+        return serializer.data
 
     def to_representation(self, obj):
         data = super().to_representation(obj)
