@@ -78,7 +78,13 @@ class ClassificationViewSet(viewsets.ReadOnlyModelViewSet):
 
         return super().get_queryset().prefetch_related(
             Prefetch(
-                'functions', queryset=Function.objects.filter_for_user(user).latest_version(),
+                'functions',
+                queryset=(
+                    Function.objects
+                    .filter_for_user(user)
+                    .latest_version()
+                    .prefetch_related('phases', 'phases__actions', 'phases__actions__records')
+                ),
                 to_attr='prefetched_functions'
             )
         )
