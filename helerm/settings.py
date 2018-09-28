@@ -192,6 +192,24 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'metarecord.pagination.MetaRecordPagination',
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+
+    'DEFAULT_PARSER_CLASSES': (
+        # Django REST framework's default parser settings
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+
+        # Parser settings for djangorestframework-xml
+        'rest_framework_xml.parsers.XMLParser',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        # Django REST framework's default renderer settings
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+
+        # Renderer settings for djangorestframework-xml
+        'rest_framework_xml.renderers.XMLRenderer',
+    ),
 }
 
 
