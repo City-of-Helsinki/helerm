@@ -1439,6 +1439,26 @@ def test_function_version_filter(api_client, user_api_client, classification, au
         assert response.status_code == 404
 
 
+@pytest.mark.django_db
+def test_function_classification_code_filtering(api_client, classification, classification_2):
+    Function.objects.create(classification=classification, state=Function.APPROVED)
+    Function.objects.create(classification=classification_2, state=Function.APPROVED)
+
+    list_response = api_client.get(FUNCTION_LIST_URL)
+    list_results = list_response.data['results']
+    response = api_client.get(FUNCTION_LIST_URL + '?classification_code=' + classification.code)
+    results = response.data['results']
+
+    assert list_response.status_code == 200
+    assert len(list_results) == 2
+    assert list_results[0]['classification_code'] == classification.code
+    assert list_results[1]['classification_code'] == classification_2.code
+
+    assert response.status_code == 200
+    assert len(results) == 1
+    assert list_results[0]['classification_code'] == classification.code
+
+
 @pytest.mark.parametrize('authenticated', (False, True))
 @pytest.mark.django_db
 def test_function_visibility_in_version_history(api_client, user_api_client, classification, authenticated):

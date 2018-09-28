@@ -255,11 +255,12 @@ class FunctionDetailSerializer(FunctionListSerializer):
 class FunctionFilterSet(django_filters.FilterSet):
     class Meta:
         model = Function
-        fields = ('valid_at', 'version')
+        fields = ('valid_at', 'version', 'classification_code')
 
     valid_at = django_filters.DateFilter(method='filter_valid_at')
     modified_at__lt = django_filters.DateTimeFilter(field_name='modified_at', lookup_expr='lt')
     modified_at__gt = django_filters.DateTimeFilter(field_name='modified_at', lookup_expr='gt')
+    classification_code = django_filters.CharFilter(field_name='classification__code')
 
     def filter_valid_at(self, queryset, name, value):
         # if neither date is set the function is considered not valid
