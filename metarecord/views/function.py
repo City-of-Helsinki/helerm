@@ -239,10 +239,13 @@ class FunctionDetailSerializer(FunctionListSerializer):
         ret = []
 
         for function in functions:
-            version_data = {attr: getattr(function, attr) for attr in ('state', 'version', 'modified_at')}
+            version_data = {attr: getattr(function, attr) for attr in ('state', 'modified_at')}
 
             if not request or function.can_view_modified_by(request.user):
                 version_data['modified_by'] = function.get_modified_by_display()
+
+            if request and request.user.is_authenticated:
+                version_data['version'] = function.version
 
             ret.append(version_data)
 
