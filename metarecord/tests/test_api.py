@@ -1257,6 +1257,25 @@ def test_classification_function_field(user_api_client, classification, classifi
 
 
 @pytest.mark.django_db
+def test_classification_phase_field(user_api_client, classification, classification_2):
+    function = Function.objects.create(classification=classification)
+    function_2 = Function.objects.create(classification=classification_2)
+    phase = Phase.objects.create(function=function)
+    phase_2 = Phase.objects.create(function=function)
+
+    response = user_api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert response.data['function'] == function.uuid.hex
+    assert response.data['phases'][0]['id'] == phase.uuid.hex
+    assert response.data['phases'][1]['id'] == phase_2.uuid.hex
+
+    response = user_api_client.get(get_classification_detail_url(classification_2))
+    assert response.status_code == 200
+    assert response.data['function'] == function_2.uuid.hex
+    assert response.data['phases'] == []
+
+
+@pytest.mark.django_db
 def test_function_version_history_field(user_api_client, classification, user_2):
     functions = (
         Function.objects.create(classification=classification, modified_by=None),
