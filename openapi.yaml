@@ -358,9 +358,11 @@ components:
         description_internal: Hallintoasioiden ohjaus on tarkkaa puuhaa
         related_classification: Katso myös tehtäväluokka 00
         additional_information: Lisätietoja tehtäväluokasta
+        phases: []
         function_allowed: true
         function: ffb1c68e3d024464bdb85a1876cfe446
         function_state: draft
+        function_attributes: {}
       properties:
         id:
           description: Unique identifier
@@ -394,6 +396,10 @@ components:
         additional_information:
           description: Additional information
           type: string
+        phases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phase'
         function_allowed:
           description: Is it possible to create a function for this classification
           type: boolean
@@ -408,6 +414,8 @@ components:
             - sent_for_review
             - waiting_for_approval
             - approved
+        function_attributes:
+          $ref: '#/components/schemas/AttributeDict'
     Function:
       type: object
       description: Function represents a handling process (käsittelyprosessi) in the JHS 191 data model
@@ -424,7 +432,7 @@ components:
         state: draft
         valid_from: '2017-06-25'
         valid_to: '2017-07-25'
-        modified_by: null
+        modified_by: 'Matti Meikäläinen'
         classification_code: 01 00 00
         classification_title: Työnantaja- ja henkilöstöpolitiikka
         phases: []
@@ -480,6 +488,10 @@ components:
           type: string
           format: date
           description: The function is valid until this date
+        modified_by:
+          description: First and last name of User
+          type: string
+          nullable: true
         classification_code:
           description: Classification code of this function's classification
           type: string
