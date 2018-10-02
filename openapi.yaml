@@ -432,7 +432,7 @@ components:
         state: draft
         valid_from: '2017-06-25'
         valid_to: '2017-07-25'
-        modified_by: null
+        modified_by: 'Matti Meikäläinen'
         classification_code: 01 00 00
         classification_title: Työnantaja- ja henkilöstöpolitiikka
         phases: []
@@ -488,6 +488,10 @@ components:
           type: string
           format: date
           description: The function is valid until this date
+        modified_by:
+          description: First and last name of User
+          type: string
+          nullable: true
         classification_code:
           description: Classification code of this function's classification
           type: string
