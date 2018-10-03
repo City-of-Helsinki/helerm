@@ -1458,6 +1458,52 @@ def test_function_version_filter(api_client, user_api_client, classification, au
         assert response.status_code == 404
 
 
+@pytest.mark.django_db
+def test_function_classification_code_filtering(api_client, classification, classification_2):
+    Function.objects.create(classification=classification, state=Function.APPROVED)
+    Function.objects.create(classification=classification_2, state=Function.APPROVED)
+
+    list_response = api_client.get(FUNCTION_LIST_URL)
+    list_results = list_response.data['results']
+    response = api_client.get(FUNCTION_LIST_URL + '?classification_code=' + classification.code)
+    results = response.data['results']
+
+    assert list_response.status_code == 200
+    assert len(list_results) == 2
+    assert list_results[0]['classification_code'] == classification.code
+    assert list_results[1]['classification_code'] == classification_2.code
+
+    assert response.status_code == 200
+    assert len(results) == 1
+    assert list_results[0]['classification_code'] == classification.code
+
+
+@pytest.mark.django_db
+def test_function_information_system_filtering(api_client, classification):
+
+    function = Function.objects.create(classification=classification, state=Function.APPROVED)
+    function_2 = Function.objects.create(classification=classification, state=Function.APPROVED)
+    function_3 = Function.objects.create(classification=classification, state=Function.APPROVED)
+
+    phase = Phase.objects.create(attributes={'TypeSpecifier': 'test phase'}, function=function, index=1)
+    phase_2 = Phase.objects.create(attributes={'TypeSpecifier': 'test phase'}, function=function_2, index=1)
+    phase_3 = Phase.objects.create(attributes={'TypeSpecifier': 'test phase'}, function=function_3, index=1)
+
+    action = Action.objects.create(attributes={'TypeSpecifier': 'test action'}, phase=phase, index=1)
+    action_2 = Action.objects.create(attributes={'TypeSpecifier': 'test action'}, phase=phase_2, index=1)
+    action_3 = Action.objects.create(attributes={'TypeSpecifier': 'test action'}, phase=phase_3, index=1)
+
+    Record.objects.create(attributes={'InformationSystem': 'xyz'}, action=action, index=1)
+    Record.objects.create(attributes={'InformationSystem': '123'}, action=action_2, index=1)
+    Record.objects.create(attributes={'NotAnInformationSystem': 'xyz'}, action=action_3, index=1)
+
+    response = api_client.get(FUNCTION_LIST_URL + '?information_system=xyz')
+    assert response.status_code == 200
+    results = response.data['results']
+    assert len(results) == 1
+    assert results[0]['id'] == function.uuid.hex
+    
+
 @pytest.mark.parametrize('authenticated', (False, True))
 @pytest.mark.django_db
 def test_function_visibility_in_version_history(api_client, user_api_client, classification, authenticated):
