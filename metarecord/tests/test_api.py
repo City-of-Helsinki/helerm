@@ -1532,13 +1532,10 @@ def test_function_visibility_in_version_history(api_client, user_api_client, cla
             Function.SENT_FOR_REVIEW,
             Function.WAITING_FOR_APPROVAL,
         ]
-        assert version_history[0]['version'] == 1
-        assert version_history[1]['version'] == 3
-        assert version_history[4]['version'] == 6
     else:
         assert version_history_states == [Function.APPROVED, Function.APPROVED]
-        assert 'version' not in version_history[0]
-        assert 'version' not in version_history[1]
+        assert version_history[0]['version'] == 1
+        assert version_history[1]['version'] == 3
 
 
 @pytest.mark.django_db

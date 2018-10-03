@@ -26,15 +26,12 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         if 'request' not in self._context:
             return fields
 
-        request = self._context['request']
+        request = self._context["request"]
 
-        # Hide modified_by if user doesn't have necessary permissions
-        if 'modified_by' in fields and not StructuralElement.can_view_modified_by(request.user):
-            fields.pop('modified_by')
-
-        # Hide version number from unauthenticated users.
-        if 'version' in fields and not request.user.is_authenticated:
-            fields.pop('version')
+        fields = {
+            field_name: field for field_name, field in fields.items()
+            if field_name != 'modified_by' or StructuralElement.can_view_modified_by(request.user)
+        }
 
         return fields
 
