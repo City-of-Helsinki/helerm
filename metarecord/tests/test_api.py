@@ -7,6 +7,7 @@ from rest_framework.reverse import reverse
 
 from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
 from metarecord.tests.utils import assert_response_functions, check_attribute_errors, set_permissions
+from metarecord.views.classification import include_related
 
 CLASSIFICATION_LIST_URL = reverse('classification-list')
 FUNCTION_LIST_URL = reverse('function-list')
@@ -1256,6 +1257,20 @@ def test_classification_function_field(user_api_client, classification, classifi
     assert response.data['function'] is None
 
 
+def test_include_related(rf):
+    request_1 = rf.get('/test/?include_related=true')
+    request_2 = rf.get('/test/?include_related=True')
+    request_3 = rf.get('/test/?include_related=1')
+    request_4 = rf.get('/test/?include_related=foo')
+    request_5 = rf.get('/test/')
+
+    assert include_related(request_1)
+    assert include_related(request_2)
+    assert not include_related(request_3)
+    assert not include_related(request_4)
+    assert not include_related(request_5)
+
+
 @pytest.mark.django_db
 def test_classification_phase_field(user_api_client, classification, classification_2):
     function = Function.objects.create(classification=classification)
@@ -1266,10 +1281,15 @@ def test_classification_phase_field(user_api_client, classification, classificat
     response = user_api_client.get(get_classification_detail_url(classification))
     assert response.status_code == 200
     assert response.data['function'] == function.uuid.hex
+    assert 'phases' not in response.data
+
+    response = user_api_client.get('%s?include_related=True' % get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert response.data['function'] == function.uuid.hex
     assert response.data['phases'][0]['id'] == phase.uuid.hex
     assert response.data['phases'][1]['id'] == phase_2.uuid.hex
 
-    response = user_api_client.get(get_classification_detail_url(classification_2))
+    response = user_api_client.get('%s?include_related=true' % get_classification_detail_url(classification_2))
     assert response.status_code == 200
     assert response.data['function'] == function_2.uuid.hex
     assert response.data['phases'] == []
