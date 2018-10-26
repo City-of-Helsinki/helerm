@@ -7,18 +7,37 @@ from metarecord.views.function import PhaseSerializer
 from .base import HexRelatedField
 
 
+def include_related(request):
+    """
+    Convert 'include_related' GET parameter value to boolean.
+    Accept 'true' and 'True' as valid values.
+    """
+    query_param_value = request.GET.get('include_related')
+    return (query_param_value in ['true', 'True'])
+
+
 class ClassificationSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(source='uuid', format='hex', read_only=True)
     parent = HexRelatedField(read_only=True)
-    phases = serializers.SerializerMethodField(method_name='_get_phases')
 
     class Meta:
         model = Classification
         fields = ('id', 'created_at', 'modified_at', 'code', 'title', 'parent', 'description', 'description_internal',
-                  'related_classification', 'additional_information', 'function_allowed', 'phases')
+                  'related_classification', 'additional_information', 'function_allowed')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        request = self.context['request']
+        self.include_related = include_related(request)
+
+    def get_fields(self):
+        fields = super().get_fields()
+
+        if self.include_related:
+            fields['phases'] = serializers.SerializerMethodField(method_name='_get_phases')
+
+        return fields
 
     def _get_function(self, obj):
         functions = obj.prefetched_functions
@@ -75,16 +94,19 @@ class ClassificationViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+        queryset = Function.objects.filter_for_user(user).latest_version()
+
+        if include_related(self.request):
+            queryset = queryset.prefetch_related(
+                'phases',
+                'phases__actions',
+                'phases__actions__records'
+            )
 
         return super().get_queryset().prefetch_related(
             Prefetch(
                 'functions',
-                queryset=(
-                    Function.objects
-                    .filter_for_user(user)
-                    .latest_version()
-                    .prefetch_related('phases', 'phases__actions', 'phases__actions__records')
-                ),
+                queryset=queryset,
                 to_attr='prefetched_functions'
             )
         )

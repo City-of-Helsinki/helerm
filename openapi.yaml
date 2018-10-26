@@ -18,6 +18,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/paginationPage'
         - $ref: '#/components/parameters/paginationPageSize'
+        - $ref: '#/components/parameters/includeRelated'
       responses:
         '200':
           description: An array of classifications with pagination meta data
@@ -397,6 +398,7 @@ components:
           description: Additional information
           type: string
         phases:
+          description: Phases related to the function. Served only on demand with 'include_related' query parameter.
           type: array
           items:
             $ref: '#/components/schemas/Phase'
@@ -825,3 +827,11 @@ components:
       description: Number of results on a page
       schema:
         type: integer
+    includeRelated:
+      name: include_related
+      in: query
+      description: Include related Phases, Actions, and Records to response with 'true' or 'True' value
+      schema:
+        type:
+          - string
+          - null
