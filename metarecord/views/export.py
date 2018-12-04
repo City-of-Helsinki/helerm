@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 def create_saved_jhs_xml():
     try:
-        exporter = JHSExporter(output=True)
+        exporter = JHSExporter(output=False)
         xml = exporter.create_xml()
         save_jhs_export_to_file(xml)
 
