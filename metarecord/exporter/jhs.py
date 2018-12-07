@@ -143,9 +143,9 @@ class JHSExporter:
             Nimeke=jhs.Nimeke(jhs.NimekeKielella('Helsingin kaupungin Tiedonohjaussuunnitelma', kieliKoodi='fi')),
             OrganisaatioNimi='Helsingin kaupunki',
             YhteyshenkiloNimi='Tiedonhallinta',
-            LisatiedotTeksti='Tiedonohjaustiedot JHS 191 XML rakenteena. Ei sisällä luokituspuurakenneta kokonaan. %date% %time% voimassaolevat ja hyväksytyt käsittelyprosessin kuvaukset',
-            TilaKoodi='3', #  approved fi Käytössä
-            TosVersio=self.TOS_VERSION #  TODO full structure version always 1
+            LisatiedotTeksti='JHS 191 XML DATE TIME kaikki hyvaksytyt voimassaolevat kasittelyprosessit ei luokkia',
+            TilaKoodi='3',
+            TosVersio=self.TOS_VERSION
         )
 
         functions = []
