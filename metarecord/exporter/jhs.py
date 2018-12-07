@@ -2,6 +2,10 @@ import uuid
 
 import pyxb
 
+from django.conf import settings
+from datetime import datetime
+import pytz
+
 from metarecord.binding import jhs
 from metarecord.models import Function
 
@@ -140,8 +144,12 @@ class JHSExporter:
 
         tos_info = jhs.TosTiedot(
             id=uuid.uuid4(),
-            Nimeke=jhs.Nimeke(jhs.NimekeKielella('TOS dokumentti', kieliKoodi='fi')),
-            YhteyshenkiloNimi='John Doe',  # TODO
+            Nimeke=jhs.Nimeke(jhs.NimekeKielella('Helsingin kaupungin Tiedonohjaussuunnitelma', kieliKoodi='fi')),
+            OrganisaatioNimi='Helsingin kaupunki',
+            YhteyshenkiloNimi='Tiedonhallinta',
+            LisatiedotTeksti='JHS 191 XML {:%Y-%m-%d %H:%M%Z} kaikki hyvaksytyt voimassaolevat kasittelyprosessit '
+                             'ei luokkia'.format(datetime.now(tz=pytz.timezone(settings.TIME_ZONE))),
+            TilaKoodi='3',
             TosVersio=self.TOS_VERSION
         )
 
