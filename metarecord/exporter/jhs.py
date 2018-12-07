@@ -9,6 +9,7 @@ import pytz
 from metarecord.binding import jhs
 from metarecord.models import Function
 
+
 class JHSExporterException(Exception):
     pass
 
@@ -146,7 +147,7 @@ class JHSExporter:
             Nimeke=jhs.Nimeke(jhs.NimekeKielella('Helsingin kaupungin Tiedonohjaussuunnitelma', kieliKoodi='fi')),
             OrganisaatioNimi='Helsingin kaupunki',
             YhteyshenkiloNimi='Tiedonhallinta',
-            LisatiedotTeksti='JHS 191 XML {:%Y-%m-%d %H:%M%Z} kaikki hyvaksytyt voimassaolevat kasittelyprosessit '\
+            LisatiedotTeksti='JHS 191 XML {:%Y-%m-%d %H:%M%Z} kaikki hyvaksytyt voimassaolevat kasittelyprosessit '
                              'ei luokkia'.format(datetime.now(tz=pytz.timezone(settings.TIME_ZONE))),
             TilaKoodi='3',
             TosVersio=self.TOS_VERSION
