@@ -130,8 +130,7 @@ class JHSExporter:
 
     def get_queryset(self):
         # at least for now include all functions that have data
-        qs = Function.objects.exclude(phases__isnull=True).exclude(is_template=True)
-        qs = qs.latest_version()
+        qs = Function.objects.latest_approved()
         qs = qs.prefetch_related('phases', 'phases__actions', 'phases__actions__records')
 
         return qs
