@@ -8,7 +8,7 @@ pyxb
 djangorestframework
 pytest-django
 django-cors-headers
-django-filter
+django-filter<2
 django-allauth
 djangorestframework-jwt
 django-admin-sortable2
