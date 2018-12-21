@@ -1,14 +1,18 @@
 pip-tools
-Django
+# next upgrade should be to Django 2.2 LTS
+Django~=2.0.0
 django-helusers
 pytz
-psycopg2-binary
+psycopg2
 openpyxl
 pyxb
 djangorestframework
 pytest-django
 django-cors-headers
-django-filter<2
+# django-filter 2.x causes change in behaviour with invalid date
+# arguments and might have other incompabitilies. Good point
+# for upgrading should be Django 2.2 upgrade.
+django-filter~=1.1
 django-allauth
 djangorestframework-jwt
 django-admin-sortable2
