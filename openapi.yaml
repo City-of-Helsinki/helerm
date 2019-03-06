@@ -1,7 +1,7 @@
 openapi: 3.0.0
 servers:
   - url: 'https://api.hel.fi/helerm/v1'
-    description: Development server
+    description: Production endpoint
 info:
   title: Helerm
   description: >
