@@ -1,28 +1,30 @@
-language: python
-
-python:
-- '3.6'
-addons:
-  postgresql: "9.5"
-
+dist: xenial
 sudo: false
-
+language: python
+python: '3.6'
+services:
+  - postgresql
 cache:
   directories:
   - $HOME/.cache/pip
-before_cache:
-- rm -f $HOME/.cache/pip/log/debug.log
 
-install:
-- pip install --upgrade pip
-- pip install coveralls -r requirements.txt -r dev-requirements.txt
+addons:
+  postgresql: "10"
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
 
 before_script:
   - psql template1 -c 'create extension hstore;'
-
+install:
+- pip install --upgrade pip
+- pip install coveralls -r requirements.txt -r dev-requirements.txt
 script:
   - flake8
   - pytest -ra -vvv
+before_cache:
+- rm -f $HOME/.cache/pip/log/debug.log
 
 notifications:
   slack:

@@ -1,7 +1,7 @@
 version: '3'
 services:
   postgres:
-    image: postgres:9.6
+    image: postgres:10.6
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
@@ -9,8 +9,8 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - helerm_postgres96-data-volume:/var/lib/postgresql/data
-    container_name: helerm_postgres96
+      - helerm_postgres-data-volume:/var/lib/postgresql/data
+    container_name: helerm_postgres
 
   django:
     build: .
@@ -24,4 +24,4 @@ services:
     container_name: helerm
 
 volumes:
-  helerm_postgres96-data-volume:
+  helerm_postgres-data-volume:
