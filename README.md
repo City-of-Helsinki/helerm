@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-- Python 3.4+
-- PostgreSQL 9.1+
+- Python 3.6
+- PostgreSQL 10.6
 
 ## Installation
 
