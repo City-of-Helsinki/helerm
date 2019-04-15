@@ -1,3 +1,8 @@
+from django.db import transaction
+
+from metarecord.models import Function, Phase, Action, Record
+
+
 def model_to_dict(instance, fields=None, exclude=None):
     """
     Return a dict containing the data in instance.
@@ -21,6 +26,32 @@ def model_to_dict(instance, fields=None, exclude=None):
     return data
 
 
+@transaction.atomic
+def create_new_function_version(function, user):
+    user_data = {'created_by': user, 'modified_by': user}
+
+    function_data = model_to_dict(function, exclude=('id', 'bulk_update'))
+    function_data.update(user_data)
+    new_function = Function.objects.create(**function_data)
+
+    for phase in function.phases.all():
+        phase_data = model_to_dict(phase, exclude=('id', 'function'))
+        phase_data.update(user_data)
+        new_phase = Phase.objects.create(function=new_function, **phase_data)
+
+        for action in phase.actions.all():
+            action_data = model_to_dict(action, exclude=('id', 'phase'))
+            action_data.update(user_data)
+            new_action = Action.objects.create(phase=new_phase, **action_data)
+
+            for record in action.records.all():
+                record_data = model_to_dict(record, exclude=('id', 'action'))
+                record_data.update(user_data)
+                Record.objects.create(action=new_action, **record_data)
+
+    return new_function
+
+
 def update_nested_dictionary(old, new):
     """
     Update dictionary with the values from other dictionary. Recursively update
@@ -34,7 +65,7 @@ def update_nested_dictionary(old, new):
     :rtype: dict
     """
     for key, new_value in new.items():
-        old_value = old.get(key, None)
+        old_value = old.get(key)
 
         if (isinstance(old_value, dict) and
                 isinstance(new_value, dict)):

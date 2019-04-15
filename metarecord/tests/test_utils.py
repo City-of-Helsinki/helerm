@@ -1,6 +1,6 @@
 import pytest
 
-from metarecord.utils import model_to_dict, update_nested_dictionary
+from metarecord.utils import create_new_function_version, model_to_dict, update_nested_dictionary
 
 
 def test_simple_dict_update():
@@ -128,3 +128,30 @@ def test_model_to_dict_exclude(function):
     assert d  # The result isn't empty
     assert 'id' not in d.keys()
     assert 'uuid' not in d.keys()
+
+
+@pytest.mark.django_db
+def test_create_new_function_version(super_user, function, phase, action, record):
+    new_function = create_new_function_version(function, super_user)
+    new_phase = new_function.phases.first()
+    new_action = new_phase.actions.first()
+    new_record = new_action.records.first()
+
+    assert new_function.uuid == function.uuid
+    assert new_function.version == function.version + 1
+    assert new_function.classification == function.classification
+    assert new_function.name == function.name
+    assert new_function.attributes == function.attributes
+    assert new_function.modified_by == super_user
+
+    assert new_phase.uuid == phase.uuid
+    assert new_phase.attributes == phase.attributes
+    assert new_phase.modified_by == super_user
+
+    assert new_action.uuid == action.uuid
+    assert new_action.attributes == action.attributes
+    assert new_action.modified_by == super_user
+
+    assert new_record.uuid == record.uuid
+    assert new_record.attributes == record.attributes
+    assert new_record.modified_by == super_user
