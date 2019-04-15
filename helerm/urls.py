@@ -2,8 +2,10 @@ from django.urls import include, path
 from helusers import admin
 from rest_framework.routers import DefaultRouter
 
-from metarecord.views import AttributeViewSet, ClassificationViewSet, ExportView, FunctionViewSet, TemplateViewSet
-from metarecord.views.export import JHSExportViewSet
+from metarecord.views import (
+    AttributeViewSet, BulkUpdateViewSet, ClassificationViewSet, ExportView, FunctionViewSet,
+    JHSExportViewSet, TemplateViewSet
+)
 from users.views import UserViewSet
 
 router = DefaultRouter()
@@ -13,6 +15,7 @@ router.register(r'template', TemplateViewSet, base_name='template')
 router.register(r'user', UserViewSet)
 router.register(r'classification', ClassificationViewSet)
 router.register(r'export/jhs191', JHSExportViewSet, base_name='jhs191_export')
+router.register(r'bulk-update', BulkUpdateViewSet)
 
 urlpatterns = [
     path('v1/', include(router.urls)),
