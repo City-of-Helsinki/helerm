@@ -122,6 +122,7 @@ def super_user():
         username='test_super_user',
         first_name='Kurt',
         last_name='Sloane',
+        is_superuser=True,
         uuid=uuid.UUID('e96d474b-6eee-45af-94f8-7d48292036f4')
     )
 
