@@ -1,8 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 
-from metarecord.models import Function
-
 
 def set_permissions(api_client, permissions):
     """
@@ -49,3 +47,7 @@ def assert_response_functions(response, objects):
     expected_ids = {obj.uuid.hex for obj in objects}
     actual_ids = {str(obj['id']) for obj in data}
     assert expected_ids == actual_ids, '%s does not match %s' % (expected_ids, actual_ids)
+
+
+def get_bulk_update_function_key(function):
+    return '{uuid}__{version}'.format(uuid=function.uuid.hex, version=function.version)

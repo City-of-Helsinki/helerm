@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 from metarecord.models import Action, Attribute, AttributeGroup, AttributeValue, Classification, Function, Phase, Record
+from metarecord.models.bulk_update import BulkUpdate
 from metarecord.tests.utils import set_permissions
 
 
@@ -46,6 +47,15 @@ def action(phase):
 @pytest.fixture
 def record(action):
     return Record.objects.create(attributes={'TypeSpecifier': 'test record'}, action=action, index=1)
+
+
+@pytest.fixture
+def bulk_update():
+    return BulkUpdate.objects.create(
+        description='Lorem ipsum dolor sit amet',
+        state=Function.DRAFT,
+        changes={}
+    )
 
 
 @pytest.fixture
