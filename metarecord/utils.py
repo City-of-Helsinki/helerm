@@ -1,3 +1,26 @@
+def model_to_dict(instance, fields=None, exclude=None):
+    """
+    Return a dict containing the data in instance.
+
+    This differs from django.forms.model_to_dict by containing non-editable
+    fields and relation values being the related objects instead of pk of those
+    objects.
+
+    :param instance: Model instance
+    :param fields: list of fields in dict
+    :param exclude: list of fields not in dict
+    :return: dictionary of instance fields and values
+    """
+    data = {}
+    for field in instance._meta.fields:
+        if fields and field.name not in fields:
+            continue
+        if exclude and field.name in exclude:
+            continue
+        data[field.name] = getattr(instance, field.name)
+    return data
+
+
 def update_nested_dictionary(old, new):
     """
     Update dictionary with the values from other dictionary. Recursively update

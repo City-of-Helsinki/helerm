@@ -1,4 +1,6 @@
-from metarecord.utils import update_nested_dictionary
+import pytest
+
+from metarecord.utils import model_to_dict, update_nested_dictionary
 
 
 def test_simple_dict_update():
@@ -99,3 +101,30 @@ def test_nested_dict_update():
             },
         },
     }
+
+
+@pytest.mark.django_db
+def test_model_to_dict(function):
+    d = model_to_dict(function)
+
+    assert d['id'] == function.id
+    assert d['uuid'] == function.uuid
+    assert d['classification'] == function.classification
+
+
+@pytest.mark.django_db
+def test_model_to_dict_fields(function):
+    d = model_to_dict(function, fields=('id', 'uuid'))
+
+    assert len(d) == 2
+    assert 'id' in d.keys()
+    assert 'uuid' in d.keys()
+
+
+@pytest.mark.django_db
+def test_model_to_dict_exclude(function):
+    d = model_to_dict(function, exclude=('id', 'uuid'))
+
+    assert d  # The result isn't empty
+    assert 'id' not in d.keys()
+    assert 'uuid' not in d.keys()
