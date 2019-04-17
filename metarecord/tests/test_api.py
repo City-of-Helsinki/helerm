@@ -1380,6 +1380,64 @@ def test_classification_function_state_field(user_api_client, classification, cl
     assert response.data['function_state'] is None
 
 
+@pytest.mark.django_db
+def test_classification_function_version_fields(user_api_client, classification, classification_2):
+    Function.objects.create(classification=classification)
+    Function.objects.create(classification=classification)
+    Function.objects.create(classification=classification_2)
+    classification_3 = Classification.objects.create(code='05')
+
+    response = user_api_client.get(CLASSIFICATION_LIST_URL)
+    assert response.status_code == 200
+    assert response.data['results'][0]['function_version'] == 2
+    assert response.data['results'][1]['function_version'] == 1
+    assert not response.data['results'][2]['function_version']
+
+    response = user_api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert response.data['function_version'] == 2
+
+    response = user_api_client.get(get_classification_detail_url(classification_3))
+    assert response.status_code == 200
+    assert not response.data['function_version']
+
+
+@pytest.mark.django_db
+def test_classification_function_validity_date_fields(user_api_client, classification, classification_2):
+    Function.objects.create(
+        classification=classification,
+        valid_from=datetime.date(2019, 1, 1),
+        valid_to=datetime.date(2019, 4, 1))
+    Function.objects.create(
+        classification=classification,
+        valid_from=datetime.date(2019, 1, 2),
+        valid_to=datetime.date(2019, 4, 2))
+    Function.objects.create(
+        classification=classification_2,
+        valid_from=datetime.date(2019, 1, 3),
+        valid_to=datetime.date(2019, 4, 3))
+    classification_3 = Classification.objects.create(code='05')
+
+    response = user_api_client.get(CLASSIFICATION_LIST_URL)
+    assert response.status_code == 200
+    assert response.data['results'][0]['function_valid_from'] == datetime.date(2019, 1, 2)
+    assert response.data['results'][0]['function_valid_to'] == datetime.date(2019, 4, 2)
+    assert response.data['results'][1]['function_valid_from'] == datetime.date(2019, 1, 3)
+    assert response.data['results'][1]['function_valid_to'] == datetime.date(2019, 4, 3)
+    assert not response.data['results'][2]['function_valid_from']
+    assert not response.data['results'][2]['function_valid_to']
+
+    response = user_api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert response.data['function_valid_from'] == datetime.date(2019, 1, 2)
+    assert response.data['function_valid_to'] == datetime.date(2019, 4, 2)
+
+    response = user_api_client.get(get_classification_detail_url(classification_3))
+    assert response.status_code == 200
+    assert not response.data['function_valid_from']
+    assert not response.data['function_valid_to']
+
+
 @pytest.mark.parametrize('authenticated', (False, True))
 @pytest.mark.django_db
 def test_function_visibility(api_client, user_api_client, classification, authenticated):
