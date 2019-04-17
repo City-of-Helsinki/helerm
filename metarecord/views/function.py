@@ -280,7 +280,7 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     serializer_class = FunctionListSerializer
     serializer_class_detail = FunctionDetailSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
-    filter_class = FunctionFilterSet
+    filterset_class = FunctionFilterSet
     lookup_field = 'uuid'
 
     def get_queryset(self):
