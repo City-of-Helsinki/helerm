@@ -57,10 +57,16 @@ class ClassificationSerializer(serializers.ModelSerializer):
             data['function'] = function.uuid.hex
             data['function_state'] = function.state
             data['function_attributes'] = function.attributes
+            data['function_version'] = function.version
+            data['function_valid_from'] = function.valid_from
+            data['function_valid_to'] = function.valid_to
         else:
             data['function'] = None
             data['function_state'] = None
             data['function_attributes'] = None
+            data['function_version'] = None
+            data['function_valid_from'] = None
+            data['function_valid_to'] = None
 
         return data
 
