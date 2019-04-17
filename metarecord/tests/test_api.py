@@ -1796,6 +1796,7 @@ def test_bulk_update_create(function, super_user_api_client):
     assert bulk_update.changes == post_data['changes']
     assert bulk_update.created_at == datetime.datetime(2019, 4, 1, 12, 0, tzinfo=pytz.UTC)
     assert bulk_update.modified_at == datetime.datetime(2019, 4, 1, 12, 0, tzinfo=pytz.UTC)
+    assert bulk_update.modified_by == super_user_api_client.user
 
 
 @pytest.mark.django_db
@@ -1826,6 +1827,7 @@ def test_bulk_update_change(bulk_update, function, super_user_api_client):
     assert get_response_data['changes'] != patch_response_data['changes']
 
     assert patch_response_data['changes'] == patch_data['changes']
+    assert patch_response_data['modified_by'] == 'Kurt Sloane'
 
 
 @pytest.mark.parametrize('permission', (None, 'delete', 'superuser'))
@@ -1845,3 +1847,25 @@ def test_bulk_update_delete_permission(bulk_update, user_api_client, permission)
     else:
         assert response.status_code == 204
         assert not BulkUpdate.objects.filter(pk=bulk_update.pk).exists()
+
+
+@pytest.mark.parametrize('permission', (None, 'view_modified_by', 'superuser'))
+@pytest.mark.django_db
+def test_bulk_update_modified_by_display(bulk_update, user_api_client, permission):
+    if permission == 'view_modified_by':
+        set_permissions(user_api_client, Function.CAN_VIEW_MODIFIED_BY)
+    elif permission == 'superuser':
+        user_api_client.user.is_superuser = True
+        user_api_client.user.save(update_fields=['is_superuser'])
+
+    bulk_update.created_by = user_api_client.user
+    bulk_update.modified_by = user_api_client.user
+    bulk_update.save(update_fields=['modified_by'])
+
+    response = user_api_client.get(get_bulk_update_detail_url(bulk_update))
+    response_data = json.loads(response.content.decode('utf-8'))
+
+    if not permission:
+        assert 'modified_by' not in response_data.keys()
+    else:
+        assert response_data['modified_by'] == 'John Rambo'

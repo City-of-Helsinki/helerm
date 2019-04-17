@@ -4,19 +4,44 @@ from rest_framework import serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from metarecord.models import Function
 from metarecord.models.bulk_update import BulkUpdate
-from metarecord.views.base import DetailSerializerMixin
 
 
-class BulkUpdateListSerializer(serializers.ModelSerializer):
+class BulkUpdateSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(format='hex', read_only=True)
     changes = serializers.DictField(required=False)
     is_approved = serializers.BooleanField(read_only=True)
+    modified_by = serializers.SerializerMethodField()
 
     class Meta:
         model = BulkUpdate
         ordering = ('created_at',)
-        exclude = ('created_by', 'modified_by')
+        exclude = ('created_by',)
+
+    def get_fields(self):
+        fields = super().get_fields()
+
+        if 'request' not in self._context:
+            return fields
+
+        user = self._context['request'].user
+
+        if not user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
+            del fields['modified_by']
+
+        return fields
+
+    def _get_user_name_display(self, user):
+        return '{} {}'.format(user.first_name, user.last_name).strip()
+
+    def get_modified_by(self, obj):
+        user = self.context['request'].user
+
+        if obj.modified_by and user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
+            return self._get_user_name_display(obj.modified_by)
+
+        return None
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -28,17 +53,6 @@ class BulkUpdateListSerializer(serializers.ModelSerializer):
         validated_data.update(user_data)
 
         return super().create(validated_data)
-
-
-class BulkUpdateDetailSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField(format='hex', read_only=True)
-    changes = serializers.DictField(required=False)
-    is_approved = serializers.BooleanField(read_only=True)
-
-    class Meta:
-        model = BulkUpdate
-        ordering = ('created_at',)
-        exclude = ('created_by',)
 
     def update(self, instance, validated_data):
         user = self.context['request'].user
@@ -52,10 +66,9 @@ class BulkUpdateDetailSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class BulkUpdateViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
+class BulkUpdateViewSet(viewsets.ModelViewSet):
     queryset = BulkUpdate.objects.all().prefetch_related('functions').order_by('created_at')
-    serializer_class = BulkUpdateListSerializer
-    serializer_class_detail = BulkUpdateDetailSerializer
+    serializer_class = BulkUpdateSerializer
     lookup_field = 'pk'
 
     def get_queryset(self):
