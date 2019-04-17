@@ -1,17 +1,25 @@
 import datetime
+import json
 import uuid
 
+import freezegun
 import pytest
 import pytz
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from rest_framework.reverse import reverse
 
 from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
-from metarecord.tests.utils import assert_response_functions, check_attribute_errors, set_permissions
+from metarecord.models.bulk_update import BulkUpdate
+from metarecord.tests.utils import (
+    assert_response_functions, check_attribute_errors, set_permissions,
+    get_bulk_update_function_key)
 from metarecord.views.classification import include_related
 
 CLASSIFICATION_LIST_URL = reverse('classification-list')
 FUNCTION_LIST_URL = reverse('function-list')
 ATTRIBUTE_LIST_URL = reverse('attribute-list')
+BULK_UPDATE_LIST_URL = reverse('bulkupdate-list')
 PATCH_FIELDS = ('valid_from', 'valid_to', 'state')
 
 
@@ -25,6 +33,14 @@ def get_function_detail_url(function):
 
 def get_attribute_detail_url(attribute):
     return reverse('attribute-detail', kwargs={'pk': attribute.id})
+
+
+def get_bulk_update_detail_url(bulk_update):
+    return reverse('bulkupdate-detail', kwargs={'pk': bulk_update.pk})
+
+
+def get_bulk_update_approve_url(bulk_update):
+    return reverse('bulkupdate-approve', kwargs={'pk': bulk_update.pk})
 
 
 @pytest.fixture
@@ -1522,7 +1538,7 @@ def test_function_information_system_filtering(api_client, classification):
     results = response.data['results']
     assert len(results) == 1
     assert results[0]['id'] == function.uuid.hex
-    
+
 
 @pytest.mark.parametrize('authenticated', (False, True))
 @pytest.mark.django_db
@@ -1630,3 +1646,153 @@ def test_version_history_modified_by(user_2_api_client, super_user_api_client, f
     assert version_history[0]['modified_by'] is None
     assert version_history[1]['modified_by'] == 'John Rambo'
     assert version_history[2]['modified_by'] == 'Rocky Balboa'
+
+
+@pytest.mark.django_db
+def test_bulk_update_add_permission(user_api_client, user_2_api_client, super_user_api_client):
+    set_permissions(user_2_api_client, BulkUpdate.CAN_ADD)
+    request_payload = {
+        'description': 'Lorem ipsum dolor sit amet',
+        'state': 'approved',
+        'changes': {},
+    }
+    user_response = user_api_client.post(BULK_UPDATE_LIST_URL, request_payload)
+    user_2_response = user_2_api_client.post(BULK_UPDATE_LIST_URL, request_payload)
+    super_user_response = super_user_api_client.post(BULK_UPDATE_LIST_URL, request_payload)
+
+    assert user_response.status_code == 403
+    assert user_2_response.status_code == 201
+    assert super_user_response.status_code == 201
+
+
+@pytest.mark.parametrize('permission', (None, 'change', 'superuser'))
+@pytest.mark.django_db
+def test_bulk_update_change_permission(bulk_update, user_api_client, permission):
+    if permission == 'change':
+        set_permissions(user_api_client, BulkUpdate.CAN_CHANGE)
+    elif permission == 'superuser':
+        user_api_client.user.is_superuser = True
+        user_api_client.user.save(update_fields=['is_superuser'])
+
+    url = get_bulk_update_detail_url(bulk_update)
+    response = user_api_client.patch(url, {'changes': {'foo': 'bar'}})
+    bulk_update.refresh_from_db()
+
+    if not permission:
+        assert response.status_code == 403
+        assert bulk_update.modified_by == None
+    else:
+        assert response.status_code == 200
+        assert bulk_update.modified_by == user_api_client.user
+
+
+@pytest.mark.parametrize('permission', (None, 'approve', 'superuser'))
+@pytest.mark.django_db
+def test_bulk_update_approve_permission(bulk_update, function, user_api_client, permission):
+    ct = ContentType.objects.get_for_model(BulkUpdate)
+    Permission.objects.create(
+        name='Can approve bulk update',
+        content_type=ct,
+        codename='approve_bulkupdate'
+    )
+
+    if permission == 'approve':
+        set_permissions(user_api_client, BulkUpdate.CAN_APPROVE)
+    elif permission == 'superuser':
+        user_api_client.user.is_superuser = True
+        user_api_client.user.save(update_fields=['is_superuser'])
+
+    function_key = get_bulk_update_function_key(function)
+    bulk_update.changes = {
+        function_key: {
+            'attributes': {'TypeSpecifier': 'bulk updated test thing'}
+        }
+    }
+    bulk_update.save(update_fields=['changes'])
+
+    url = get_bulk_update_approve_url(bulk_update)
+    response = user_api_client.post(url, {})
+    bulk_update.refresh_from_db()
+
+    if not permission:
+        assert response.status_code == 403
+        assert bulk_update.is_approved == False
+    else:
+        assert response.status_code == 200
+        assert bulk_update.is_approved == True
+
+
+@pytest.mark.django_db
+def test_bulk_update_create(function, super_user_api_client):
+    function_key = get_bulk_update_function_key(function)
+    post_data = {
+        'description': 'Bulk update description',
+        'state': Function.APPROVED,
+        'changes': {
+            function_key: {
+                'attributes': {'TypeSpecifier': 'bulk updated test thing'},
+            }
+        },
+    }
+
+    with freezegun.freeze_time('2019-04-01 12:00'):
+        response = super_user_api_client.post(BULK_UPDATE_LIST_URL, post_data)
+
+    bulk_update = BulkUpdate.objects.first()
+    response_content = json.loads(response.content)
+    assert response.status_code == 201
+    assert response_content['id'] == bulk_update.pk.hex
+    assert bulk_update.description == post_data['description']
+    assert bulk_update.state == Function.APPROVED
+    assert bulk_update.changes == post_data['changes']
+    assert bulk_update.created_at == datetime.datetime(2019, 4, 1, 12, 0, tzinfo=pytz.UTC)
+    assert bulk_update.modified_at == datetime.datetime(2019, 4, 1, 12, 0, tzinfo=pytz.UTC)
+
+
+@pytest.mark.django_db
+def test_bulk_update_change(bulk_update, function, super_user_api_client):
+    url = get_bulk_update_detail_url(bulk_update)
+    function_key = get_bulk_update_function_key(function)
+    patch_data = {
+        'changes': {
+            function_key: {
+                'attributes': {'TypeSpecifier': 'bulk updated test thing'},
+            }
+        }
+    }
+    get_response = super_user_api_client.get(url)
+    patch_response = super_user_api_client.patch(url, patch_data)
+
+    get_response_data = json.loads(get_response.content)
+    patch_response_data = json.loads(patch_response.content)
+
+    assert get_response_data['id'] == patch_response_data['id']
+    assert get_response_data['description'] == patch_response_data['description']
+    assert get_response_data['created_at'] == patch_response_data['created_at']
+    assert get_response_data['is_approved'] == patch_response_data['is_approved']
+    assert get_response_data['state'] == patch_response_data['state']
+
+    assert get_response_data['modified_by'] != patch_response_data['modified_by']
+    assert get_response_data['modified_at'] != patch_response_data['modified_at']
+    assert get_response_data['changes'] != patch_response_data['changes']
+
+    assert patch_response_data['changes'] == patch_data['changes']
+
+
+@pytest.mark.parametrize('permission', (None, 'delete', 'superuser'))
+@pytest.mark.django_db
+def test_bulk_update_delete_permission(bulk_update, user_api_client, permission):
+    if permission == 'delete':
+        set_permissions(user_api_client, BulkUpdate.CAN_DELETE)
+    elif permission == 'superuser':
+        user_api_client.user.is_superuser = True
+        user_api_client.user.save(update_fields=['is_superuser'])
+
+    response = user_api_client.delete(get_bulk_update_detail_url(bulk_update))
+
+    if not permission:
+        assert response.status_code == 403
+        assert BulkUpdate.objects.filter(pk=bulk_update.pk).exists()
+    else:
+        assert response.status_code == 204
+        assert not BulkUpdate.objects.filter(pk=bulk_update.pk).exists()

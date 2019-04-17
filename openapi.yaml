@@ -141,12 +141,7 @@ paths:
         To update a function ie. to create a new version of it, PUT method must
         be used. All new versions start from state "draft", and this cannot be changed with PUT.
       parameters:
-        - name: function_id
-          in: path
-          required: true
-          description: ID of the function to update
-          schema:
-            type: string
+        - $ref: '#/components/parameters/includeApproved'
       responses:
         '200':
           description: OK
@@ -338,6 +333,113 @@ paths:
             application/xml:
               schema:
                 type: string
+  /bulk-update/:
+    get:
+      tags:
+        - bulk-update
+      summary: Get a list of bulk updates
+      parameters:
+        - name: include_approved
+          in: query
+          description: Return all bulk updates. By default approved bulk updates are left out
+          schema:
+            type: integer
+            format: boolean
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/BulkUpdate'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      tags:
+        - bulk-update
+      summary: Create new bulk update
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdate'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/NotAuthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /bulk-update/{bulk_update_id}/:
+    get:
+      tags:
+        - bulk_update
+      summary: Get a bulk update by its ID
+      parameters:
+        - name: bulk_update_id
+          in: path
+          required: true
+          description: ID of the bulk update to fetch
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdate'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags:
+        - bulk_update
+      description: Change a bulk update's metadata and changeset
+      parameters:
+        - name: bulk_update_id
+          in: path
+          required: true
+          description: ID of the bulk update to update
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The bulk update was updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdate'
+        '401':
+          $ref: '#/components/responses/NotAuthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /bulk-update/{bulk_update_id}/approve/:
+    post:
+      tags:
+        - bulk_update
+      description: Approve bulk update and apply its changes
+      responses:
+        '200':
+          description: The bulk update was approved succesfully
+        '400':
+          $ref: '#/component/responses/BadRequest'
+        '401':
+          $ref: '#/component/responses/NotAuthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
 components:
   securitySchemes:
     # TODO this isn't completely correct, as this means Authorization: Bearer <JWT token> instead of helerm's Authorization: JWT <JWT token>
@@ -805,6 +907,87 @@ components:
           type: string
         previous:
           type: string
+    BulkUpdate:
+      type: object
+      description: Bulk update that contains changes to Functions and any related Phases, Actions, and Records
+      example:
+        id: a45949a848b54573bdad856f8a524f12
+        changes: {}
+        created_at: '2019-04-15T10:10:00.346962Z'
+        modified_at: '2019-04-15T10:10:00.346962Z'
+        description: Change something
+        is_approved: false
+        state: draft
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+        changes:
+          $ref: '#/components/schemas/BulkUpdateChanges'
+        created_at:
+          description: Creation time
+          type: string
+          format: dateTime
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+        description:
+          description: Description of the bulk update
+          type: string
+        is_approved:
+          description: Is the change set approved
+          type: boolean
+        state:
+          description: State bulk updated functions will be set at
+          type: string
+          enum:
+            - draft
+            - sent_for_review
+            - waiting_for_approval
+            - approved
+    BulkUpdateChanges:
+      type: object
+      description: |
+        Key value store that contains the change set that's to be applied to functions and its related phases actions,
+        and records.
+
+        Top level keys of the are function uuid and version number separated by two underscores. Values paired with
+        these keys are another key value stores that contain any attribute changes and changes to the function's phases.
+
+        Phases are similar key value store with attribute changes and any changes to phase's actions. Actions again are
+        similar key value store with attributes changes and changes to the action's records. Records are key value store
+        that contain only the attribute changes.
+
+        Example:
+        {
+          "a45949a848b54573bdad856f8a524f12__15": {
+            "attributes": {
+              "StorageOrder": "Säilytetään sähköisesti"
+            },
+            "phases": {
+              "7b776d35f8354ac0b408978c5a205ab7": {
+                "attributes": {
+                  "StorageOrder": "Säilytetään sähköisesti"
+                },
+                "actions": {
+                  "ea198f3ce0134277a835315755186a61": {
+                    "attributes": {
+                      "StorageOrder": "Säilytetään sähköisesti"
+                    },
+                    "records": {
+                      "a64dc83454894a558ebf70befb0c6574": {
+                        "attributes": {
+                          "StorageOrder": "Säilytetään sähköisesti"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
   responses:
     BadRequest:
       description: Bad request, details about the error in the request body
@@ -832,6 +1015,12 @@ components:
       in: query
       description: Include related Phases, Actions, and Records to response with 'true' or 'True' value
       schema:
-        type:
-          - string
-          - null
+        nullable: true
+        type: boolean
+    includeApproved:
+      name: include_approved
+      in: query
+      description: Include approved bulk updates in list of bulk updates
+      schema:
+        nullable: true
+        type: boolean

@@ -57,6 +57,14 @@ class Function(StructuralElement):
         Classification, verbose_name=_('classification'), null=True, blank=True, related_name='functions',
         on_delete=models.SET_NULL
     )
+    bulk_update = models.ForeignKey(
+        'metarecord.BulkUpdate',
+        verbose_name=_('bulk update'),
+        null=True,
+        blank=True,
+        related_name='functions',
+        on_delete=models.SET_NULL,
+    )
 
     # Function attribute validation rules, hardcoded at least for now
     _attribute_validations = {
