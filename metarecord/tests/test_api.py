@@ -5,8 +5,6 @@ import uuid
 import freezegun
 import pytest
 import pytz
-from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
 from rest_framework.reverse import reverse
 
 from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
@@ -1747,13 +1745,6 @@ def test_bulk_update_change_permission(bulk_update, user_api_client, permission)
 @pytest.mark.parametrize('permission', (None, 'approve', 'superuser'))
 @pytest.mark.django_db
 def test_bulk_update_approve_permission(bulk_update, function, user_api_client, permission):
-    ct = ContentType.objects.get_for_model(BulkUpdate)
-    Permission.objects.create(
-        name='Can approve bulk update',
-        content_type=ct,
-        codename='approve_bulkupdate'
-    )
-
     if permission == 'approve':
         set_permissions(user_api_client, BulkUpdate.CAN_APPROVE)
     elif permission == 'superuser':
