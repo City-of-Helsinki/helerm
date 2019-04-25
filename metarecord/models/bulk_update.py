@@ -51,7 +51,7 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
         verbose_name = _('bulk update')
         verbose_name_plural = _('bulk updates')
         permissions = (
-            ('metarecord.approve_bulkupdate', _('Can approve bulk update')),
+            ('approve_bulkupdate', _('Can approve bulk update')),
         )
 
     def _apply_changes_to_instance(self, instance, changes, fields=()):
