@@ -42,4 +42,4 @@ pyxb==1.2.6
 requests-oauthlib==1.0.0  # via django-allauth
 requests==2.21.0          # via django-allauth, django-helusers, pyjwkest, requests-oauthlib
 six==1.11.0               # via more-itertools, pip-tools, pyjwkest, pytest
-urllib3==1.23             # via requests
+urllib3==1.24.3           # via requests
