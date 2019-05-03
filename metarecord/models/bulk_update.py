@@ -97,7 +97,7 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
             function = create_new_function_version(base_function, user)
             function.bulk_update = self
             function.state = self.state
-            self._apply_changes_to_instance(function, function_updates, fields=('attributes',))
+            self._apply_changes_to_instance(function, function_updates, fields=('attributes', 'valid_from', 'valid_to'))
             function.save()
 
             for phase_uuid, phase_updates in phases.items():

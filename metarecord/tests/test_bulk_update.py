@@ -1,4 +1,5 @@
 import uuid
+from datetime import date
 
 import pytest
 from django.core.exceptions import ObjectDoesNotExist
@@ -30,6 +31,29 @@ def test_simple_bulk_update_approve(super_user, bulk_update, function, second_fu
 
     for updated_function in updated_functions:
         assert updated_function.attributes == {'TypeSpecifier': 'bulk updated test thing'}
+
+
+@pytest.mark.django_db
+def test_bulk_update_valid_dates(super_user, bulk_update, function):
+    function.valid_from = date(2018, 1, 1)
+    function.valid_to = date(2019, 1, 1)
+    function.save(update_fields=['valid_from', 'valid_to'])
+
+    function_1_key = get_bulk_update_function_key(function)
+    bulk_update.changes = {
+        function_1_key: {
+            'valid_from': '2019-04-01',
+            'valid_to': '2019-05-01',
+        },
+    }
+    bulk_update.save(update_fields=['changes'])
+
+    bulk_update.approve(super_user)
+    updated_function = Function.objects.filter(bulk_update=bulk_update).first()
+
+    assert bulk_update.is_approved
+    assert updated_function.valid_from == date(2019, 4, 1)
+    assert updated_function.valid_to == date(2019, 5, 1)
 
 
 @pytest.mark.django_db
