@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
@@ -70,3 +72,16 @@ def test_user_detail_endpoint(user, user_2, user_api_client):
 def test_cannot_see_other_user_data(user, user_2, user_api_client):
     response = user_api_client.get(get_detail_url(user_2))
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_user_permission_list(user, user_api_client):
+    permissions = Permission.objects.filter(codename__in=(
+        'can_view_modified_by', 'add_bulkupdate', 'approve_bulkupdate'))
+    user.user_permissions.add(*permissions)
+
+    response = user_api_client.get(get_detail_url(user))
+    response_data = json.loads(response.content)
+
+    assert response.status_code == 200
+    assert response_data['permissions'] == ['can_view_modified_by', 'add_bulkupdate', 'approve_bulkupdate']
