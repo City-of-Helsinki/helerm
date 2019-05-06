@@ -918,6 +918,8 @@ components:
         description: Change something
         is_approved: false
         state: draft
+        modified_by: Matti Meikäläinen
+        approved_by: Maija Meikäläinen
       properties:
         id:
           description: Unique identifier
@@ -946,6 +948,14 @@ components:
             - sent_for_review
             - waiting_for_approval
             - approved
+        modified_by:
+          description: First and last name of User who last modified the object
+          type: string
+          nullable: true
+        approved_by:
+          description: First and last name of User who approved the changes
+          type: string
+          nullable: true
     BulkUpdateChanges:
       type: object
       description: |

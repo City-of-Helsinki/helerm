@@ -26,6 +26,7 @@ def test_simple_bulk_update_approve(super_user, bulk_update, function, second_fu
     updated_functions = Function.objects.filter(bulk_update=bulk_update)
 
     assert bulk_update.is_approved
+    assert bulk_update.approved_by == super_user
     assert Function.objects.count() == 4  # Old versions should still exist
     assert updated_functions.count() == 2
 
@@ -89,6 +90,7 @@ def test_nested_bulk_update_approve(super_user, bulk_update, function, phase, ac
     updated_record = updated_action.records.first()
 
     assert bulk_update.is_approved
+    assert bulk_update.approved_by == super_user
     assert updated_function.attributes == attributes
     assert updated_phase.attributes == attributes
     assert updated_action.attributes == attributes
@@ -151,6 +153,8 @@ def test_invalid_bulk_update_approve(super_user, bulk_update, function, phase, a
     bulk_update.refresh_from_db()
 
     # Check that nothing has been written to the database
+    assert not bulk_update.is_approved
+    assert not bulk_update.approved_by
     assert bulk_update.state == Function.DRAFT
     assert not Function.objects.filter(uuid=function.uuid, version__gt=function.version).exists()
     assert Function.objects.count() == function_count
