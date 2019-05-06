@@ -1120,16 +1120,16 @@ def test_function_validation_date_validation_on_edit(user_api_client, function, 
     assert '"valid_from" cannot be after "valid_to".' in str(response.data)
 
 
-@pytest.mark.parametrize('filtering, expected_indexes', (
-        ('', [0, 1, 2, 3, 4]),
-        ('valid_at=34234xyz', []),
-        ('valid_at=1999-05-05', [4]),
-        ('valid_at=2000-05-05', [1, 4]),
-        ('valid_at=2004-05-05', [1, 2, 3, 4]),
-        ('valid_at=2007-05-05', [1]),
+@pytest.mark.parametrize('filtering, expected_indexes, valid', (
+    ('', [0, 1, 2, 3, 4], True),
+    ('valid_at=34234xyz', [], False),
+    ('valid_at=1999-05-05', [4], True),
+    ('valid_at=2000-05-05', [1, 4], True),
+    ('valid_at=2004-05-05', [1, 2, 3, 4], True),
+    ('valid_at=2007-05-05', [1], True),
 ))
 @pytest.mark.django_db
-def test_function_validation_date_filtering(user_api_client, filtering, expected_indexes):
+def test_function_validation_date_filtering(user_api_client, filtering, expected_indexes, valid):
     classifications = [
         Classification.objects.get_or_create(code=code)[0]
         for code in ('00', '01', '02', '03', '04')
@@ -1143,32 +1143,36 @@ def test_function_validation_date_filtering(user_api_client, filtering, expected
     )
 
     response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
-    assert response.status_code == 200
-    assert_response_functions(response, [functions[index] for index in expected_indexes])
+    if valid:
+        assert response.status_code == 200
+        assert_response_functions(response, [functions[index] for index in expected_indexes])
+    else:
+        assert response.status_code == 400
+        assert json.loads(response.content) == {"valid_at": ["Enter a valid date."]}
 
 
-@pytest.mark.parametrize('filtering, expected_indexes', (
-    ('', [0, 1, 2, 3, 4]),
-    ('modified_at__lt=34234xyz', []),
-    ('modified_at__lt=1999-05-05 00:00:00', [0]),
-    ('modified_at__lt=2000-05-05 00:00:00', [0]),
-    ('modified_at__lt=2001-05-05 13:00:00', [0,1]),
-    ('modified_at__lt=2004-05-05 00:00:00', [0, 1, 2, 3]),
-    ('modified_at__lt=2007-05-05 00:00:00', [0, 1, 2, 3, 4]),
-    ('modified_at__gt=34234xyz', []),
-    ('modified_at__gt=1999-05-05 00:00:00', [1, 2, 3, 4]),
-    ('modified_at__gt=2000-05-05 00:00:00', [1, 2, 3, 4]),
-    ('modified_at__gt=2001-05-05 13:00:00', [2, 3, 4]),
-    ('modified_at__gt=2004-05-05 00:00:00', [4]),
-    ('modified_at__gt=2007-05-05 00:00:00', []),
-    ('modified_at__gt=1970-01-01 00:00:00&modified_at__lt=1971-05-05 00:00:00', [0]),
-    ('modified_at__gt=2000-05-05 00:00:00&modified_at__lt=2000-05-05 00:00:00', []),
-    ('modified_at__gt=2010-05-05 00:00:00&modified_at__lt=2000-05-05 00:00:00', []),
-    ('modified_at__gt=2002-05-05 00:00:00&modified_at__lt=2004-05-05 00:00:00', [2, 3]),
-    ('modified_at__gt=1970-05-05 00:00:00&modified_at__lt=2010-05-05 00:00:00', [1, 2, 3, 4]),
+@pytest.mark.parametrize('filtering, expected_indexes, valid', (
+    ('', [0, 1, 2, 3, 4], True),
+    ('modified_at__lt=34234xyz', [], False),
+    ('modified_at__lt=1999-05-05 00:00:00', [0], True),
+    ('modified_at__lt=2000-05-05 00:00:00', [0], True),
+    ('modified_at__lt=2001-05-05 13:00:00', [0,1], True),
+    ('modified_at__lt=2004-05-05 00:00:00', [0, 1, 2, 3], True),
+    ('modified_at__lt=2007-05-05 00:00:00', [0, 1, 2, 3, 4], True),
+    ('modified_at__gt=34234xyz', [], False),
+    ('modified_at__gt=1999-05-05 00:00:00', [1, 2, 3, 4], True),
+    ('modified_at__gt=2000-05-05 00:00:00', [1, 2, 3, 4], True),
+    ('modified_at__gt=2001-05-05 13:00:00', [2, 3, 4], True),
+    ('modified_at__gt=2004-05-05 00:00:00', [4], True),
+    ('modified_at__gt=2007-05-05 00:00:00', [], True),
+    ('modified_at__gt=1970-01-01 00:00:00&modified_at__lt=1971-05-05 00:00:00', [0], True),
+    ('modified_at__gt=2000-05-05 00:00:00&modified_at__lt=2000-05-05 00:00:00', [], True),
+    ('modified_at__gt=2010-05-05 00:00:00&modified_at__lt=2000-05-05 00:00:00', [], True),
+    ('modified_at__gt=2002-05-05 00:00:00&modified_at__lt=2004-05-05 00:00:00', [2, 3], True),
+    ('modified_at__gt=1970-05-05 00:00:00&modified_at__lt=2010-05-05 00:00:00', [1, 2, 3, 4], True),
 ))
 @pytest.mark.django_db
-def test_function_validation_modified_at_filtering(user_api_client, filtering, expected_indexes):
+def test_function_validation_modified_at_filtering(user_api_client, filtering, expected_indexes, valid):
     classifications = [
         Classification.objects.get_or_create(code=code)[0]
         for code in ('00', '01', '02', '03', '04')
@@ -1187,8 +1191,14 @@ def test_function_validation_modified_at_filtering(user_api_client, filtering, e
         functions.append(Function.objects.get(pk=function.pk))
 
     response = user_api_client.get(FUNCTION_LIST_URL + '?' + filtering)
-    assert response.status_code == 200
-    assert_response_functions(response, [functions[index] for index in expected_indexes])
+
+    if valid:
+        assert response.status_code == 200
+        assert_response_functions(response, [functions[index] for index in expected_indexes])
+    else:
+        assert response.status_code == 400
+        filter = filtering.split('=')[0]
+        assert json.loads(response.content) == {filter: ["Enter a valid date/time."]}
 
 
 @pytest.mark.django_db
