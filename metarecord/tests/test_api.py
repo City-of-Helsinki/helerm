@@ -1766,9 +1766,11 @@ def test_bulk_update_approve_permission(bulk_update, function, user_api_client, 
     if not permission:
         assert response.status_code == 403
         assert bulk_update.is_approved == False
+        assert bulk_update.approved_by == None
     else:
         assert response.status_code == 200
         assert bulk_update.is_approved == True
+        assert bulk_update.approved_by == user_api_client.user
 
 
 @pytest.mark.django_db

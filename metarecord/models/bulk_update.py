@@ -37,6 +37,15 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
         editable=False,
         on_delete=models.SET_NULL
     )
+    approved_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_('approved by'),
+        null=True,
+        blank=True,
+        related_name='%(class)s_approved',
+        editable=False,
+        on_delete=models.SET_NULL
+    )
 
     is_approved = models.BooleanField(verbose_name=_('is approved'), default=False)
     changes = JSONField(verbose_name=_('changes'), blank=True, default=dict)
@@ -71,7 +80,8 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
 
         self.apply_changes(user)
         self.is_approved = True
-        self.save(update_fields=['is_approved'])
+        self.approved_by = user
+        self.save(update_fields=['is_approved', 'approved_by'])
 
     @transaction.atomic
     def apply_changes(self, user):

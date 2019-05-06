@@ -13,6 +13,7 @@ class BulkUpdateSerializer(serializers.ModelSerializer):
     changes = serializers.DictField(required=False)
     is_approved = serializers.BooleanField(read_only=True)
     modified_by = serializers.SerializerMethodField()
+    approved_by = serializers.SerializerMethodField()
 
     class Meta:
         model = BulkUpdate
@@ -29,11 +30,20 @@ class BulkUpdateSerializer(serializers.ModelSerializer):
 
         if not user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
             del fields['modified_by']
+            del fields['approved_by']
 
         return fields
 
     def _get_user_name_display(self, user):
         return '{} {}'.format(user.first_name, user.last_name).strip()
+
+    def get_approved_by(self, obj):
+        user = self.context['request'].user
+
+        if obj.approved_by and user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
+            return self._get_user_name_display(obj.approved_by)
+
+        return None
 
     def get_modified_by(self, obj):
         user = self.context['request'].user
