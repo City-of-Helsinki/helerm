@@ -8,6 +8,15 @@ from metarecord.models import Function
 from metarecord.models.bulk_update import BulkUpdate
 
 
+def include_approved(request):
+    """
+    Convert 'include_approved' GET parameter value to boolean.
+    Accept 'true' and 'True' as valid values.
+    """
+    query_param_value = request.GET.get('include_approved')
+    return (query_param_value in ['true', 'True'])
+
+
 class BulkUpdateSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(format='hex', read_only=True)
     changes = serializers.DictField(required=False)
@@ -84,7 +93,7 @@ class BulkUpdateViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = self.queryset
 
-        if 'include_approved' not in self.request.query_params:
+        if not include_approved(self.request):
             queryset = queryset.exclude(is_approved=True)
 
         return queryset
