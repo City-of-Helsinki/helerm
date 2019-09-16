@@ -16,7 +16,7 @@ class MetadataVersionInline(admin.TabularInline):
     extra = 0
     readonly_fields = ('modified_at', 'modified_by', 'state', 'valid_from', 'valid_to')
 
-    def has_add_permission(self, request):
+    def has_add_permission(self, request, obj=None):
         return False
 
 
