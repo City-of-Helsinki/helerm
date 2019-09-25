@@ -1,5 +1,7 @@
 # helerm - Helsinki Electronic Records Management Classification System
 
+[![Requirements](https://requires.io/github/City-of-Helsinki/helerm/requirements.svg?branch=master)](https://requires.io/github/City-of-Helsinki/helerm/requirements/?branch=master)
+
 ## Prerequisites
 
 - Python 3.6
