@@ -20,7 +20,7 @@ djangorestframework-jwt==1.11.0
 djangorestframework-xml==1.4.0
 djangorestframework==3.9.4
 drf-oidc-auth==0.9        # via django-helusers
-ecdsa==0.13.2             # via python-jose
+ecdsa==0.13.3             # via python-jose
 et-xmlfile==1.0.1         # via openpyxl
 future==0.17.1            # via pyjwkest, python-jose
 idna==2.8                 # via requests
@@ -50,4 +50,4 @@ sqlparse==0.3.0           # via django
 urllib3==1.24.3           # via requests
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.2.0        # via pytest
+# setuptools==41.6.0        # via pytest
