@@ -1,6 +1,7 @@
 import django_filters
 from django.db import transaction
 from django.db.models import Q
+from django.http import Http404
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers, status, viewsets
 from rest_framework.response import Response
@@ -9,6 +10,7 @@ from metarecord.models import Action, Function, Phase, Record
 
 from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
 from .classification import Classification
+from ..utils import validate_uuid4
 
 
 class RecordSerializer(StructuralElementSerializer):
@@ -294,6 +296,35 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
             return queryset.latest_approved()
 
         return queryset.latest_version()
+
+    def retrieve(self, request, *args, **kwargs):
+        if not validate_uuid4(self.kwargs.get('uuid')):
+            raise exceptions.ValidationError(_('Invalid UUID'))
+
+        try:
+            instance = self.get_object()
+        except (Function.DoesNotExist, Http404):
+            instance = None
+
+        if not instance:
+            filter_kwargs = {self.lookup_field: self.kwargs[self.lookup_field]}
+
+            if 'version' in self.request.query_params:
+                filter_kwargs = {**filter_kwargs, 'version': self.request.query_params['version']}
+
+            qs = Function.objects.filter(**filter_kwargs)
+
+            # When unauthenticated user is requesting object, the get_object will filter out functions
+            # that are not approved. Here we are checking is there requested function with any state
+            # in the database, if there are we return not authenticated. This was requested feature by
+            # users and product owner to notify users that they should log in.
+            if qs.exists():
+                raise exceptions.NotAuthenticated
+
+            raise exceptions.NotFound
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
