@@ -1484,7 +1484,7 @@ def test_function_visibility(api_client, user_api_client, classification, authen
         assert response.status_code == 200
         assert response.data['state'] == Function.WAITING_FOR_APPROVAL
     else:
-        assert response.status_code == 404
+        assert response.status_code == 401
 
     Function.objects.create(classification=classification, state=Function.APPROVED)
     Function.objects.create(classification=classification, state=Function.DRAFT)
@@ -1571,7 +1571,7 @@ def test_function_version_filter(api_client, user_api_client, classification, au
         assert response.status_code == 200
         assert response.data['state'] == function.state
     else:
-        assert response.status_code == 404
+        assert response.status_code == 401
 
 
 @pytest.mark.django_db
