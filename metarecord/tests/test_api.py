@@ -1462,6 +1462,19 @@ def test_function_not_exist(api_client, user_api_client, authenticated):
 
 @pytest.mark.parametrize('authenticated', (False, True))
 @pytest.mark.django_db
+def test_function_invalid_uuid(api_client, user_api_client, authenticated):
+    client = user_api_client if authenticated else api_client
+
+    mock_function = mock.Mock(spec=Function)
+    mock_function.uuid = "does-not-exist"
+
+    response = client.get(get_function_detail_url(mock_function))
+
+    assert response.status_code == 400
+
+
+@pytest.mark.parametrize('authenticated', (False, True))
+@pytest.mark.django_db
 def test_function_visibility_in_list(api_client, user_api_client, classification, classification_2, authenticated):
     client = user_api_client if authenticated else api_client
 
