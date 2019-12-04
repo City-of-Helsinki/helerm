@@ -1,6 +1,7 @@
 import datetime
 import json
 import uuid
+from unittest import mock
 
 import freezegun
 import pytest
@@ -1444,6 +1445,19 @@ def test_classification_function_validity_date_fields(user_api_client, classific
     assert response.status_code == 200
     assert not response.data['function_valid_from']
     assert not response.data['function_valid_to']
+
+
+@pytest.mark.parametrize('authenticated', (False, True))
+@pytest.mark.django_db
+def test_function_not_exist(api_client, user_api_client, authenticated):
+    client = user_api_client if authenticated else api_client
+
+    mock_function = mock.Mock(spec=Function)
+    mock_function.uuid = "41418bd7-8cf8-443c-9bdf-8837bde2e73a"
+
+    response = client.get(get_function_detail_url(mock_function))
+
+    assert response.status_code == 404
 
 
 @pytest.mark.parametrize('authenticated', (False, True))
