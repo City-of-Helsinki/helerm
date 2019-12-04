@@ -1462,6 +1462,53 @@ def test_function_not_exist(api_client, user_api_client, authenticated):
 
 @pytest.mark.parametrize('authenticated', (False, True))
 @pytest.mark.django_db
+def test_function_visibility_in_list(api_client, user_api_client, classification, classification_2, authenticated):
+    client = user_api_client if authenticated else api_client
+
+    Function.objects.create(classification=classification, state=Function.DRAFT)
+    Function.objects.create(classification=classification_2, state=Function.APPROVED)
+
+    response = client.get(FUNCTION_LIST_URL)
+    assert response.status_code == 200
+
+    results = response.data['results']
+
+    if authenticated:
+        assert len(results) == 2
+    else:
+        assert len(results) == 1
+
+
+@pytest.mark.parametrize('authenticated', (False, True))
+@pytest.mark.parametrize('version', ('', 1))
+@pytest.mark.django_db
+def test_function_visibility_in_list_with_version(api_client, user_api_client, classification, classification_2, authenticated, version):
+    client = user_api_client if authenticated else api_client
+
+    Function.objects.create(classification=classification, state=Function.APPROVED)
+    Function.objects.create(classification=classification_2, state=Function.DRAFT)
+    Function.objects.create(classification=classification_2, state=Function.APPROVED)
+    Function.objects.create(classification=Classification.objects.create(code='05'), state=Function.SENT_FOR_REVIEW)
+
+    response = client.get(FUNCTION_LIST_URL + f'?version={version}')
+    assert response.status_code == 200
+
+    results = response.data['results']
+
+    if version == 1:
+        if authenticated:
+            assert len(results) == 2
+        else:
+            assert len(results) == 1
+    else:
+        if authenticated:
+            assert len(results) == 3
+        else:
+            assert len(results) == 2
+
+
+@pytest.mark.parametrize('authenticated', (False, True))
+@pytest.mark.django_db
 def test_function_visibility(api_client, user_api_client, classification, authenticated):
     client = user_api_client if authenticated else api_client
 
