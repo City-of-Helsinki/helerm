@@ -1,7 +1,7 @@
 # ./metarecord/binding/_jhs.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:567ab21ac37a6d7db45f717b194c27c1e22858bd
-# Generated 2017-06-06 17:55:12.151275 by PyXB version 1.2.4 using Python 3.5.1.final.0
+# Generated 2019-12-11 14:34:21.681636 by PyXB version 1.2.6 using Python 3.6.8.final.0
 # Namespace http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19 [xmlns:jhs]
 
 from __future__ import unicode_literals
@@ -13,15 +13,18 @@ import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
-
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:24344192-4ac8-11e7-bc04-a0999b00698b')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:521cb998-1c23-11ea-8e24-0242ac180003')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'
 # Generated bindings are not compatible across PyXB versions
 if pyxb.__version__ != _PyXBVersion:
     raise pyxb.PyXBVersionError(_PyXBVersion)
+
+# A holder for module-level binding classes so we can access them from
+# inside class definitions where property names may conflict.
+_module_typeBindings = pyxb.utils.utility.Object()
 
 # Import bindings for namespaces imported into schema
 import pyxb.binding.datatypes
@@ -83,6 +86,7 @@ class AlayksikkoNimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 AlayksikkoNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'AlayksikkoNimiTyyppi', AlayksikkoNimiTyyppi)
+_module_typeBindings.AlayksikkoNimiTyyppi = AlayksikkoNimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}AlkuHetkiTyyppi
 class AlkuHetkiTyyppi (pyxb.binding.datatypes.dateTime):
@@ -94,6 +98,7 @@ class AlkuHetkiTyyppi (pyxb.binding.datatypes.dateTime):
     _Documentation = None
 AlkuHetkiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'AlkuHetkiTyyppi', AlkuHetkiTyyppi)
+_module_typeBindings.AlkuHetkiTyyppi = AlkuHetkiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}AlkuPvmTyyppi
 class AlkuPvmTyyppi (pyxb.binding.datatypes.date):
@@ -105,6 +110,7 @@ class AlkuPvmTyyppi (pyxb.binding.datatypes.date):
     _Documentation = None
 AlkuPvmTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'AlkuPvmTyyppi', AlkuPvmTyyppi)
+_module_typeBindings.AlkuPvmTyyppi = AlkuPvmTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}AmmattiKoodiTyyppi
 class AmmattiKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -116,6 +122,7 @@ class AmmattiKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 AmmattiKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'AmmattiKoodiTyyppi', AmmattiKoodiTyyppi)
+_module_typeBindings.AmmattiKoodiTyyppi = AmmattiKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}BICKoodiTyyppi
 class BICKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -127,6 +134,7 @@ class BICKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 BICKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'BICKoodiTyyppi', BICKoodiTyyppi)
+_module_typeBindings.BICKoodiTyyppi = BICKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}CareOfTekstiTyyppi
 class CareOfTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -138,6 +146,7 @@ class CareOfTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 CareOfTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'CareOfTekstiTyyppi', CareOfTekstiTyyppi)
+_module_typeBindings.CareOfTekstiTyyppi = CareOfTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}EdellinenSukuNimiTyyppi
 class EdellinenSukuNimiTyyppi (pyxb.binding.datatypes.string):
@@ -149,6 +158,7 @@ class EdellinenSukuNimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 EdellinenSukuNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'EdellinenSukuNimiTyyppi', EdellinenSukuNimiTyyppi)
+_module_typeBindings.EdellinenSukuNimiTyyppi = EdellinenSukuNimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}EnsimmainenRiviTekstiTyyppi
 class EnsimmainenRiviTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -160,6 +170,7 @@ class EnsimmainenRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 EnsimmainenRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'EnsimmainenRiviTekstiTyyppi', EnsimmainenRiviTekstiTyyppi)
+_module_typeBindings.EnsimmainenRiviTekstiTyyppi = EnsimmainenRiviTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}EtunimetNimiTyyppi
 class EtunimetNimiTyyppi (pyxb.binding.datatypes.string):
@@ -171,6 +182,7 @@ class EtunimetNimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 EtunimetNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'EtunimetNimiTyyppi', EtunimetNimiTyyppi)
+_module_typeBindings.EtunimetNimiTyyppi = EtunimetNimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}EtuNimiTyyppi
 class EtuNimiTyyppi (pyxb.binding.datatypes.string):
@@ -182,6 +194,7 @@ class EtuNimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 EtuNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'EtuNimiTyyppi', EtuNimiTyyppi)
+_module_typeBindings.EtuNimiTyyppi = EtuNimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}FaksinumeroTekstiTyyppi
 class FaksinumeroTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -193,6 +206,7 @@ class FaksinumeroTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 FaksinumeroTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'FaksinumeroTekstiTyyppi', FaksinumeroTekstiTyyppi)
+_module_typeBindings.FaksinumeroTekstiTyyppi = FaksinumeroTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}HenkiloTunnusTyyppi
 class HenkiloTunnusTyyppi (pyxb.binding.datatypes.string):
@@ -204,6 +218,7 @@ class HenkiloTunnusTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 HenkiloTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'HenkiloTunnusTyyppi', HenkiloTunnusTyyppi)
+_module_typeBindings.HenkiloTunnusTyyppi = HenkiloTunnusTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}HuoltosuhdeTekstiTyyppi
 class HuoltosuhdeTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -215,6 +230,7 @@ class HuoltosuhdeTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 HuoltosuhdeTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'HuoltosuhdeTekstiTyyppi', HuoltosuhdeTekstiTyyppi)
+_module_typeBindings.HuoltosuhdeTekstiTyyppi = HuoltosuhdeTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}HuoneistotunnisteNumeroTyyppi
 class HuoneistotunnisteNumeroTyyppi (pyxb.binding.datatypes.decimal):
@@ -226,6 +242,7 @@ class HuoneistotunnisteNumeroTyyppi (pyxb.binding.datatypes.decimal):
     _Documentation = None
 HuoneistotunnisteNumeroTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'HuoneistotunnisteNumeroTyyppi', HuoneistotunnisteNumeroTyyppi)
+_module_typeBindings.HuoneistotunnisteNumeroTyyppi = HuoneistotunnisteNumeroTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}HuoneistotunnisteJakokirjainTekstiTyyppi
 class HuoneistotunnisteJakokirjainTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -237,6 +254,7 @@ class HuoneistotunnisteJakokirjainTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 HuoneistotunnisteJakokirjainTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'HuoneistotunnisteJakokirjainTekstiTyyppi', HuoneistotunnisteJakokirjainTekstiTyyppi)
+_module_typeBindings.HuoneistotunnisteJakokirjainTekstiTyyppi = HuoneistotunnisteJakokirjainTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}HuoneistotunnisteKirjainTekstiTyyppi
 class HuoneistotunnisteKirjainTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -248,6 +266,7 @@ class HuoneistotunnisteKirjainTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 HuoneistotunnisteKirjainTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'HuoneistotunnisteKirjainTekstiTyyppi', HuoneistotunnisteKirjainTekstiTyyppi)
+_module_typeBindings.HuoneistotunnisteKirjainTekstiTyyppi = HuoneistotunnisteKirjainTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}IBANTunnusTyyppi
 class IBANTunnusTyyppi (pyxb.binding.datatypes.string):
@@ -259,6 +278,7 @@ class IBANTunnusTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 IBANTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'IBANTunnusTyyppi', IBANTunnusTyyppi)
+_module_typeBindings.IBANTunnusTyyppi = IBANTunnusTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}IkaluokkaTekstiTyyppi
 class IkaluokkaTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -270,6 +290,7 @@ class IkaluokkaTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 IkaluokkaTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'IkaluokkaTekstiTyyppi', IkaluokkaTekstiTyyppi)
+_module_typeBindings.IkaluokkaTekstiTyyppi = IkaluokkaTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}KansalaisuusKoodiTyyppi
 class KansalaisuusKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -281,6 +302,7 @@ class KansalaisuusKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 KansalaisuusKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KansalaisuusKoodiTyyppi', KansalaisuusKoodiTyyppi)
+_module_typeBindings.KansalaisuusKoodiTyyppi = KansalaisuusKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}KatuNimiTyyppi
 class KatuNimiTyyppi (pyxb.binding.datatypes.string):
@@ -292,6 +314,7 @@ class KatuNimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 KatuNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KatuNimiTyyppi', KatuNimiTyyppi)
+_module_typeBindings.KatuNimiTyyppi = KatuNimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}KieliKoodiTyyppi
 class KieliKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -303,6 +326,7 @@ class KieliKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 KieliKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KieliKoodiTyyppi', KieliKoodiTyyppi)
+_module_typeBindings.KieliKoodiTyyppi = KieliKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}KolmasRiviTekstiTyyppi
 class KolmasRiviTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -314,6 +338,7 @@ class KolmasRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 KolmasRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KolmasRiviTekstiTyyppi', KolmasRiviTekstiTyyppi)
+_module_typeBindings.KolmasRiviTekstiTyyppi = KolmasRiviTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}KuntaKoodiTyyppi
 class KuntaKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -325,6 +350,7 @@ class KuntaKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 KuntaKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KuntaKoodiTyyppi', KuntaKoodiTyyppi)
+_module_typeBindings.KuntaKoodiTyyppi = KuntaKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}KuntaNumeroTyyppi
 class KuntaNumeroTyyppi (pyxb.binding.datatypes.decimal):
@@ -336,6 +362,7 @@ class KuntaNumeroTyyppi (pyxb.binding.datatypes.decimal):
     _Documentation = None
 KuntaNumeroTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KuntaNumeroTyyppi', KuntaNumeroTyyppi)
+_module_typeBindings.KuntaNumeroTyyppi = KuntaNumeroTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}KuolemaPvmTyyppi
 class KuolemaPvmTyyppi (pyxb.binding.datatypes.date):
@@ -347,6 +374,7 @@ class KuolemaPvmTyyppi (pyxb.binding.datatypes.date):
     _Documentation = None
 KuolemaPvmTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KuolemaPvmTyyppi', KuolemaPvmTyyppi)
+_module_typeBindings.KuolemaPvmTyyppi = KuolemaPvmTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}KutsumaNimiTyyppi
 class KutsumaNimiTyyppi (pyxb.binding.datatypes.string):
@@ -358,6 +386,7 @@ class KutsumaNimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 KutsumaNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KutsumaNimiTyyppi', KutsumaNimiTyyppi)
+_module_typeBindings.KutsumaNimiTyyppi = KutsumaNimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}KuudesRiviTekstiTyyppi
 class KuudesRiviTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -369,6 +398,7 @@ class KuudesRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 KuudesRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KuudesRiviTekstiTyyppi', KuudesRiviTekstiTyyppi)
+_module_typeBindings.KuudesRiviTekstiTyyppi = KuudesRiviTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}KuvausTekstiTyyppi
 class KuvausTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -380,6 +410,7 @@ class KuvausTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 KuvausTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'KuvausTekstiTyyppi', KuvausTekstiTyyppi)
+_module_typeBindings.KuvausTekstiTyyppi = KuvausTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}LajiKoodiTyyppi
 class LajiKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -391,6 +422,7 @@ class LajiKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 LajiKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'LajiKoodiTyyppi', LajiKoodiTyyppi)
+_module_typeBindings.LajiKoodiTyyppi = LajiKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}LajiTekstiTyyppi
 class LajiTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -402,6 +434,7 @@ class LajiTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 LajiTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'LajiTekstiTyyppi', LajiTekstiTyyppi)
+_module_typeBindings.LajiTekstiTyyppi = LajiTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}LoppuHetkiTyyppi
 class LoppuHetkiTyyppi (pyxb.binding.datatypes.dateTime):
@@ -413,6 +446,7 @@ class LoppuHetkiTyyppi (pyxb.binding.datatypes.dateTime):
     _Documentation = None
 LoppuHetkiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'LoppuHetkiTyyppi', LoppuHetkiTyyppi)
+_module_typeBindings.LoppuHetkiTyyppi = LoppuHetkiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}LoppuPvmTyyppi
 class LoppuPvmTyyppi (pyxb.binding.datatypes.date):
@@ -424,6 +458,7 @@ class LoppuPvmTyyppi (pyxb.binding.datatypes.date):
     _Documentation = None
 LoppuPvmTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'LoppuPvmTyyppi', LoppuPvmTyyppi)
+_module_typeBindings.LoppuPvmTyyppi = LoppuPvmTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}MaatunnusKoodiTyyppi
 class MaatunnusKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -435,6 +470,7 @@ class MaatunnusKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 MaatunnusKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'MaatunnusKoodiTyyppi', MaatunnusKoodiTyyppi)
+_module_typeBindings.MaatunnusKoodiTyyppi = MaatunnusKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}NeljasRiviTekstiTyyppi
 class NeljasRiviTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -446,6 +482,7 @@ class NeljasRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 NeljasRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'NeljasRiviTekstiTyyppi', NeljasRiviTekstiTyyppi)
+_module_typeBindings.NeljasRiviTekstiTyyppi = NeljasRiviTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}NimilajiKoodiTyyppi
 class NimilajiKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -457,6 +494,7 @@ class NimilajiKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 NimilajiKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'NimilajiKoodiTyyppi', NimilajiKoodiTyyppi)
+_module_typeBindings.NimilajiKoodiTyyppi = NimilajiKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}NimiTyyppi
 class NimiTyyppi (pyxb.binding.datatypes.string):
@@ -468,6 +506,7 @@ class NimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 NimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'NimiTyyppi', NimiTyyppi)
+_module_typeBindings.NimiTyyppi = NimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}OsoiteNumeroTyyppi
 class OsoiteNumeroTyyppi (pyxb.binding.datatypes.decimal):
@@ -479,6 +518,7 @@ class OsoiteNumeroTyyppi (pyxb.binding.datatypes.decimal):
     _Documentation = None
 OsoiteNumeroTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'OsoiteNumeroTyyppi', OsoiteNumeroTyyppi)
+_module_typeBindings.OsoiteNumeroTyyppi = OsoiteNumeroTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}PaayksikkoNimiTyyppi
 class PaayksikkoNimiTyyppi (pyxb.binding.datatypes.string):
@@ -490,6 +530,7 @@ class PaayksikkoNimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 PaayksikkoNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PaayksikkoNimiTyyppi', PaayksikkoNimiTyyppi)
+_module_typeBindings.PaayksikkoNimiTyyppi = PaayksikkoNimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}PankkitiliTunnusTyyppi
 class PankkitiliTunnusTyyppi (pyxb.binding.datatypes.string):
@@ -501,6 +542,7 @@ class PankkitiliTunnusTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 PankkitiliTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PankkitiliTunnusTyyppi', PankkitiliTunnusTyyppi)
+_module_typeBindings.PankkitiliTunnusTyyppi = PankkitiliTunnusTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}PostilokerolyhenneTekstiTyyppi
 class PostilokerolyhenneTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -512,6 +554,7 @@ class PostilokerolyhenneTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 PostilokerolyhenneTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PostilokerolyhenneTekstiTyyppi', PostilokerolyhenneTekstiTyyppi)
+_module_typeBindings.PostilokerolyhenneTekstiTyyppi = PostilokerolyhenneTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}PostilokeroTekstiTyyppi
 class PostilokeroTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -523,6 +566,7 @@ class PostilokeroTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 PostilokeroTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PostilokeroTekstiTyyppi', PostilokeroTekstiTyyppi)
+_module_typeBindings.PostilokeroTekstiTyyppi = PostilokeroTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}PostinumeroKoodiTyyppi
 class PostinumeroKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -534,6 +578,7 @@ class PostinumeroKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 PostinumeroKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PostinumeroKoodiTyyppi', PostinumeroKoodiTyyppi)
+_module_typeBindings.PostinumeroKoodiTyyppi = PostinumeroKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}PostitoimipaikkaNimiTyyppi
 class PostitoimipaikkaNimiTyyppi (pyxb.binding.datatypes.string):
@@ -545,6 +590,7 @@ class PostitoimipaikkaNimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 PostitoimipaikkaNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PostitoimipaikkaNimiTyyppi', PostitoimipaikkaNimiTyyppi)
+_module_typeBindings.PostitoimipaikkaNimiTyyppi = PostitoimipaikkaNimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}PuhelinnumeroTekstiTyyppi
 class PuhelinnumeroTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -556,6 +602,7 @@ class PuhelinnumeroTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 PuhelinnumeroTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'PuhelinnumeroTekstiTyyppi', PuhelinnumeroTekstiTyyppi)
+_module_typeBindings.PuhelinnumeroTekstiTyyppi = PuhelinnumeroTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}SahkoinenAsiointiTunnusTyyppi
 class SahkoinenAsiointiTunnusTyyppi (pyxb.binding.datatypes.string):
@@ -567,6 +614,7 @@ class SahkoinenAsiointiTunnusTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 SahkoinenAsiointiTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SahkoinenAsiointiTunnusTyyppi', SahkoinenAsiointiTunnusTyyppi)
+_module_typeBindings.SahkoinenAsiointiTunnusTyyppi = SahkoinenAsiointiTunnusTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}SahkopostiosoiteTekstiTyyppi
 class SahkopostiosoiteTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -578,6 +626,7 @@ class SahkopostiosoiteTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 SahkopostiosoiteTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SahkopostiosoiteTekstiTyyppi', SahkopostiosoiteTekstiTyyppi)
+_module_typeBindings.SahkopostiosoiteTekstiTyyppi = SahkopostiosoiteTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}SiviilisaatyTekstiTyyppi
 class SiviilisaatyTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -589,6 +638,7 @@ class SiviilisaatyTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 SiviilisaatyTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SiviilisaatyTekstiTyyppi', SiviilisaatyTekstiTyyppi)
+_module_typeBindings.SiviilisaatyTekstiTyyppi = SiviilisaatyTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}StatusryhmaTekstiTyyppi
 class StatusryhmaTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -600,6 +650,7 @@ class StatusryhmaTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 StatusryhmaTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'StatusryhmaTekstiTyyppi', StatusryhmaTekstiTyyppi)
+_module_typeBindings.StatusryhmaTekstiTyyppi = StatusryhmaTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}SukuNimiTyyppi
 class SukuNimiTyyppi (pyxb.binding.datatypes.string):
@@ -611,6 +662,7 @@ class SukuNimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 SukuNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SukuNimiTyyppi', SukuNimiTyyppi)
+_module_typeBindings.SukuNimiTyyppi = SukuNimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}SukupuoliKoodiTyyppi
 class SukupuoliKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -622,6 +674,7 @@ class SukupuoliKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 SukupuoliKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SukupuoliKoodiTyyppi', SukupuoliKoodiTyyppi)
+_module_typeBindings.SukupuoliKoodiTyyppi = SukupuoliKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}SyntymaPvmTyyppi
 class SyntymaPvmTyyppi (pyxb.binding.datatypes.date):
@@ -633,6 +686,7 @@ class SyntymaPvmTyyppi (pyxb.binding.datatypes.date):
     _Documentation = None
 SyntymaPvmTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'SyntymaPvmTyyppi', SyntymaPvmTyyppi)
+_module_typeBindings.SyntymaPvmTyyppi = SyntymaPvmTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}ToinenRiviTekstiTyyppi
 class ToinenRiviTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -644,6 +698,7 @@ class ToinenRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 ToinenRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'ToinenRiviTekstiTyyppi', ToinenRiviTekstiTyyppi)
+_module_typeBindings.ToinenRiviTekstiTyyppi = ToinenRiviTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}TurvakieltoKytkinTyyppi
 class TurvakieltoKytkinTyyppi (pyxb.binding.datatypes.boolean):
@@ -655,6 +710,7 @@ class TurvakieltoKytkinTyyppi (pyxb.binding.datatypes.boolean):
     _Documentation = None
 TurvakieltoKytkinTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'TurvakieltoKytkinTyyppi', TurvakieltoKytkinTyyppi)
+_module_typeBindings.TurvakieltoKytkinTyyppi = TurvakieltoKytkinTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}UlkomaaHenkiloTunnusTyyppi
 class UlkomaaHenkiloTunnusTyyppi (pyxb.binding.datatypes.string):
@@ -666,6 +722,7 @@ class UlkomaaHenkiloTunnusTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 UlkomaaHenkiloTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'UlkomaaHenkiloTunnusTyyppi', UlkomaaHenkiloTunnusTyyppi)
+_module_typeBindings.UlkomaaHenkiloTunnusTyyppi = UlkomaaHenkiloTunnusTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}UlkomaaPostitoimipaikkaNimiTyyppi
 class UlkomaaPostitoimipaikkaNimiTyyppi (pyxb.binding.datatypes.string):
@@ -677,6 +734,7 @@ class UlkomaaPostitoimipaikkaNimiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 UlkomaaPostitoimipaikkaNimiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'UlkomaaPostitoimipaikkaNimiTyyppi', UlkomaaPostitoimipaikkaNimiTyyppi)
+_module_typeBindings.UlkomaaPostitoimipaikkaNimiTyyppi = UlkomaaPostitoimipaikkaNimiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}VakinainenKytkinTyyppi
 class VakinainenKytkinTyyppi (pyxb.binding.datatypes.boolean):
@@ -688,6 +746,7 @@ class VakinainenKytkinTyyppi (pyxb.binding.datatypes.boolean):
     _Documentation = None
 VakinainenKytkinTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'VakinainenKytkinTyyppi', VakinainenKytkinTyyppi)
+_module_typeBindings.VakinainenKytkinTyyppi = VakinainenKytkinTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}ValiaikainenHenkiloTunnusTyyppi
 class ValiaikainenHenkiloTunnusTyyppi (pyxb.binding.datatypes.string):
@@ -699,6 +758,7 @@ class ValiaikainenHenkiloTunnusTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 ValiaikainenHenkiloTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'ValiaikainenHenkiloTunnusTyyppi', ValiaikainenHenkiloTunnusTyyppi)
+_module_typeBindings.ValiaikainenHenkiloTunnusTyyppi = ValiaikainenHenkiloTunnusTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}ValtiotunnusKoodiTyyppi
 class ValtiotunnusKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -710,6 +770,7 @@ class ValtiotunnusKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 ValtiotunnusKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'ValtiotunnusKoodiTyyppi', ValtiotunnusKoodiTyyppi)
+_module_typeBindings.ValtiotunnusKoodiTyyppi = ValtiotunnusKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}ViidesRiviTekstiTyyppi
 class ViidesRiviTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -721,6 +782,7 @@ class ViidesRiviTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 ViidesRiviTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'ViidesRiviTekstiTyyppi', ViidesRiviTekstiTyyppi)
+_module_typeBindings.ViidesRiviTekstiTyyppi = ViidesRiviTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}VoimassaoloKytkinTyyppi
 class VoimassaoloKytkinTyyppi (pyxb.binding.datatypes.boolean):
@@ -732,6 +794,7 @@ class VoimassaoloKytkinTyyppi (pyxb.binding.datatypes.boolean):
     _Documentation = None
 VoimassaoloKytkinTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'VoimassaoloKytkinTyyppi', VoimassaoloKytkinTyyppi)
+_module_typeBindings.VoimassaoloKytkinTyyppi = VoimassaoloKytkinTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19}YritysTunnusTyyppi
 class YritysTunnusTyyppi (pyxb.binding.datatypes.string):
@@ -743,6 +806,7 @@ class YritysTunnusTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 YritysTunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'YritysTunnusTyyppi', YritysTunnusTyyppi)
+_module_typeBindings.YritysTunnusTyyppi = YritysTunnusTyyppi
 
 AlayksikkoNimi = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AlayksikkoNimi'), AlayksikkoNimiTyyppi, location=None)
 Namespace.addCategoryObject('elementBinding', AlayksikkoNimi.name().localName(), AlayksikkoNimi)

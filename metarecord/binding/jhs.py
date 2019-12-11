@@ -1,7 +1,7 @@
 # ./metarecord/binding/jhs.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:0bcf4fe07fa483312851437fc9b3f33582a4d3fa
-# Generated 2017-06-06 17:55:12.152058 by PyXB version 1.2.4 using Python 3.5.1.final.0
+# Generated 2019-12-11 14:34:21.681909 by PyXB version 1.2.6 using Python 3.6.8.final.0
 # Namespace http://skeemat.jhs-suositukset.fi/tos/2015/01/15
 
 from __future__ import unicode_literals
@@ -13,9 +13,8 @@ import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
-
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:24344192-4ac8-11e7-bc04-a0999b00698b')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:521cb998-1c23-11ea-8e24-0242ac180003')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'
@@ -23,9 +22,13 @@ _PyXBVersion = '1.2.6'
 if pyxb.__version__ != _PyXBVersion:
     raise pyxb.PyXBVersionError(_PyXBVersion)
 
+# A holder for module-level binding classes so we can access them from
+# inside class definitions where property names may conflict.
+_module_typeBindings = pyxb.utils.utility.Object()
+
 # Import bindings for namespaces imported into schema
-import metarecord.binding._jhs as _ImportedBinding_metarecord_binding__jhs
 import pyxb.binding.datatypes
+import metarecord.binding._jhs as _ImportedBinding_metarecord_binding__jhs
 
 # NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI('http://skeemat.jhs-suositukset.fi/tos/2015/01/15', create_if_missing=True)
@@ -84,6 +87,7 @@ class idTyyppi (pyxb.binding.datatypes.string):
     _Documentation = 'Rakenneosan yksilöivä id-tunnus. Formaattia ei ole määritelty.'
 idTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'idTyyppi', idTyyppi)
+_module_typeBindings.idTyyppi = idTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}kieliKoodiTyyppi
 class kieliKoodiTyyppi (pyxb.binding.datatypes.string):
@@ -95,6 +99,7 @@ class kieliKoodiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = 'Kielikoodin avulla elementti voi ilmetä usealla eri kielellä. Suositellaan käytettäväksi standardeja kielikoodeja (fi, se, en).\t\t'
 kieliKoodiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'kieliKoodiTyyppi', kieliKoodiTyyppi)
+_module_typeBindings.kieliKoodiTyyppi = kieliKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}tilaKoodiTyyppi
 class tilaKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.basis.enumeration_mixin):
@@ -104,7 +109,7 @@ class tilaKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.basis.enumer
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'tilaKoodiTyyppi')
     _XSDLocation = None
     _Documentation = None
-tilaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=tilaKoodiTyyppi)
+tilaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=tilaKoodiTyyppi, enum_prefix=None)
 tilaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 tilaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 tilaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
@@ -112,6 +117,7 @@ tilaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='4', tag=None)
 tilaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='5', tag=None)
 tilaKoodiTyyppi._InitializeFacetMap(tilaKoodiTyyppi._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'tilaKoodiTyyppi', tilaKoodiTyyppi)
+_module_typeBindings.tilaKoodiTyyppi = tilaKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}versioTyyppi
 class versioTyyppi (pyxb.binding.datatypes.string):
@@ -123,6 +129,7 @@ class versioTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 versioTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'versioTyyppi', versioTyyppi)
+_module_typeBindings.versioTyyppi = versioTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}luokitustunnusTyyppi
 class luokitustunnusTyyppi (pyxb.binding.datatypes.string):
@@ -134,6 +141,7 @@ class luokitustunnusTyyppi (pyxb.binding.datatypes.string):
     _Documentation = 'Käytettäessä julkisen hallinnon yhteisiä luokituksia, tunnuksena pitää käyttää yhteisen luokituksen mukaista tunnusta.'
 luokitustunnusTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'luokitustunnusTyyppi', luokitustunnusTyyppi)
+_module_typeBindings.luokitustunnusTyyppi = luokitustunnusTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}nimekeTekstiTyyppi
 class nimekeTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -145,6 +153,7 @@ class nimekeTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 nimekeTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'nimekeTekstiTyyppi', nimekeTekstiTyyppi)
+_module_typeBindings.nimekeTekstiTyyppi = nimekeTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}kuvausTekstiTyyppi
 class kuvausTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -156,6 +165,7 @@ class kuvausTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 kuvausTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'kuvausTekstiTyyppi', kuvausTekstiTyyppi)
+_module_typeBindings.kuvausTekstiTyyppi = kuvausTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}lisatiedotTekstiTyyppi
 class lisatiedotTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -167,6 +177,7 @@ class lisatiedotTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 lisatiedotTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'lisatiedotTekstiTyyppi', lisatiedotTekstiTyyppi)
+_module_typeBindings.lisatiedotTekstiTyyppi = lisatiedotTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}julkisuusluokkaKoodiTyyppi
 class julkisuusluokkaKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.basis.enumeration_mixin):
@@ -176,13 +187,14 @@ class julkisuusluokkaKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.b
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'julkisuusluokkaKoodiTyyppi')
     _XSDLocation = None
     _Documentation = None
-julkisuusluokkaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=julkisuusluokkaKoodiTyyppi)
+julkisuusluokkaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=julkisuusluokkaKoodiTyyppi, enum_prefix=None)
 julkisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 julkisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 julkisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
 julkisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='4', tag=None)
 julkisuusluokkaKoodiTyyppi._InitializeFacetMap(julkisuusluokkaKoodiTyyppi._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'julkisuusluokkaKoodiTyyppi', julkisuusluokkaKoodiTyyppi)
+_module_typeBindings.julkisuusluokkaKoodiTyyppi = julkisuusluokkaKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}salassapitoAikaArvoTyyppi
 class salassapitoAikaArvoTyyppi (pyxb.binding.datatypes.integer):
@@ -194,6 +206,7 @@ class salassapitoAikaArvoTyyppi (pyxb.binding.datatypes.integer):
     _Documentation = None
 salassapitoAikaArvoTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'salassapitoAikaArvoTyyppi', salassapitoAikaArvoTyyppi)
+_module_typeBindings.salassapitoAikaArvoTyyppi = salassapitoAikaArvoTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}salassapitoPerusteTekstiTyyppi
 class salassapitoPerusteTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -205,6 +218,7 @@ class salassapitoPerusteTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 salassapitoPerusteTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'salassapitoPerusteTekstiTyyppi', salassapitoPerusteTekstiTyyppi)
+_module_typeBindings.salassapitoPerusteTekstiTyyppi = salassapitoPerusteTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}salassapidonLaskentaperusteTekstiTyyppi
 class salassapidonLaskentaperusteTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -216,6 +230,7 @@ class salassapidonLaskentaperusteTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = None
 salassapidonLaskentaperusteTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'salassapidonLaskentaperusteTekstiTyyppi', salassapidonLaskentaperusteTekstiTyyppi)
+_module_typeBindings.salassapidonLaskentaperusteTekstiTyyppi = salassapidonLaskentaperusteTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}suojaustasoKoodiTyyppi
 class suojaustasoKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.basis.enumeration_mixin):
@@ -225,13 +240,14 @@ class suojaustasoKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.basis
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'suojaustasoKoodiTyyppi')
     _XSDLocation = None
     _Documentation = None
-suojaustasoKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=suojaustasoKoodiTyyppi)
+suojaustasoKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=suojaustasoKoodiTyyppi, enum_prefix=None)
 suojaustasoKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 suojaustasoKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 suojaustasoKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
 suojaustasoKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='4', tag=None)
 suojaustasoKoodiTyyppi._InitializeFacetMap(suojaustasoKoodiTyyppi._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'suojaustasoKoodiTyyppi', suojaustasoKoodiTyyppi)
+_module_typeBindings.suojaustasoKoodiTyyppi = suojaustasoKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}turvallisuusluokkaKoodiTyyppi
 class turvallisuusluokkaKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.basis.enumeration_mixin):
@@ -241,13 +257,14 @@ class turvallisuusluokkaKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.bindin
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'turvallisuusluokkaKoodiTyyppi')
     _XSDLocation = None
     _Documentation = None
-turvallisuusluokkaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=turvallisuusluokkaKoodiTyyppi)
+turvallisuusluokkaKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=turvallisuusluokkaKoodiTyyppi, enum_prefix=None)
 turvallisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 turvallisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 turvallisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
 turvallisuusluokkaKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='4', tag=None)
 turvallisuusluokkaKoodiTyyppi._InitializeFacetMap(turvallisuusluokkaKoodiTyyppi._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'turvallisuusluokkaKoodiTyyppi', turvallisuusluokkaKoodiTyyppi)
+_module_typeBindings.turvallisuusluokkaKoodiTyyppi = turvallisuusluokkaKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}henkilotietoluonneKoodiTyyppi
 class henkilotietoluonneKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.binding.basis.enumeration_mixin):
@@ -257,12 +274,13 @@ class henkilotietoluonneKoodiTyyppi (pyxb.binding.datatypes.integer, pyxb.bindin
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'henkilotietoluonneKoodiTyyppi')
     _XSDLocation = None
     _Documentation = None
-henkilotietoluonneKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=henkilotietoluonneKoodiTyyppi)
+henkilotietoluonneKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=henkilotietoluonneKoodiTyyppi, enum_prefix=None)
 henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
 henkilotietoluonneKoodiTyyppi._InitializeFacetMap(henkilotietoluonneKoodiTyyppi._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'henkilotietoluonneKoodiTyyppi', henkilotietoluonneKoodiTyyppi)
+_module_typeBindings.henkilotietoluonneKoodiTyyppi = henkilotietoluonneKoodiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}sailytysajanPituusArvoTyyppi
 class sailytysajanPituusArvoTyyppi (pyxb.binding.datatypes.integer):
@@ -274,6 +292,7 @@ class sailytysajanPituusArvoTyyppi (pyxb.binding.datatypes.integer):
     _Documentation = 'Suositeltavat arvot: 0, 3, 6, 10, 20, 50, 120 tai -1 (pysyvä säilytys)'
 sailytysajanPituusArvoTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'sailytysajanPituusArvoTyyppi', sailytysajanPituusArvoTyyppi)
+_module_typeBindings.sailytysajanPituusArvoTyyppi = sailytysajanPituusArvoTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}sailytysajanPerusteTekstiTyyppi
 class sailytysajanPerusteTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -285,6 +304,7 @@ class sailytysajanPerusteTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = 'Säilytysaika voi perustua lakiin tai olla organisaation oma päätös. Pysyvä säilytys perustuu arkistolaitoksen päätökseen.'
 sailytysajanPerusteTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'sailytysajanPerusteTekstiTyyppi', sailytysajanPerusteTekstiTyyppi)
+_module_typeBindings.sailytysajanPerusteTekstiTyyppi = sailytysajanPerusteTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}sailytysajanLaskentaperusteTekstiTyyppi
 class sailytysajanLaskentaperusteTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -296,6 +316,7 @@ class sailytysajanLaskentaperusteTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = 'Suositeltavat arvot käsittelyprosessille: Asian lopullinen ratkaisu. Suositeltavat arvot asiakirjalle: Asian lopullinen ratkaisu, Asiakirjan päivämäärä.'
 sailytysajanLaskentaperusteTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'sailytysajanLaskentaperusteTekstiTyyppi', sailytysajanLaskentaperusteTekstiTyyppi)
+_module_typeBindings.sailytysajanLaskentaperusteTekstiTyyppi = sailytysajanLaskentaperusteTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}toimenpideluokkaTekstiTyyppi
 class toimenpideluokkaTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -309,6 +330,7 @@ class toimenpideluokkaTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = '\n\tSuositeltavat arvot: ohjaus, vireilletulo , valmistelu, päätöksenteko, toimeenpano, tiedoksianto, muutoksenhaku, seuranta.\n\t    '
 toimenpideluokkaTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'toimenpideluokkaTekstiTyyppi', toimenpideluokkaTekstiTyyppi)
+_module_typeBindings.toimenpideluokkaTekstiTyyppi = toimenpideluokkaTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}toimenpideluokkaTarkenneTekstiTyyppi
 class toimenpideluokkaTarkenneTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -322,6 +344,7 @@ class toimenpideluokkaTarkenneTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = '\n\tSuositeltavat arvot: ohjaus, vireilletulo , valmistelu, päätöksenteko, toimeenpano, tiedoksianto, muutoksenhaku, seuranta.\n\t        '
 toimenpideluokkaTarkenneTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'toimenpideluokkaTarkenneTekstiTyyppi', toimenpideluokkaTarkenneTekstiTyyppi)
+_module_typeBindings.toimenpideluokkaTarkenneTekstiTyyppi = toimenpideluokkaTarkenneTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}asiakirjaLuokkaTekstiTyyppi
 class asiakirjaLuokkaTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -336,6 +359,7 @@ class asiakirjaLuokkaTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = '\n\tSuositeltavia arvoja ovat: Aloite, Asetus, Ehdotus, Esitys, Esityslista, Hakemus, Ilmoitus, Julkaisu, Kannanotto, Kantelu, Kartta, Kertomus, Kirje, Kutsu, Kuulutus, Kuva, Laki, Lasku, Lausunto, Lausuntopyyntö, Liite, Luettelo, Lupa, Mietintö, Muistio, Määräys, Nimittämiskirja, Ohje, Ohjelma, Oikaisuvaatimus, Ote, Piirustus, Pyyntö, Päätös, Pöytäkirja, Raportti, Seloste, Selvitys, Sopimus, Strategia, Suositus, Suunnitelma, Talousarvio, Tarjous, Tarjouspyyntö, Teos, Tiedote, Tilasto, Tilaus, Tilinpäätös, Todistus, Tosite, Valitus, Valtakirja, Vastine, Yhteenveto.\n\tAsiakirjatyypit ilmaistaan aina yksikkömuodossa.\n\t    '
 asiakirjaLuokkaTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'asiakirjaLuokkaTekstiTyyppi', asiakirjaLuokkaTekstiTyyppi)
+_module_typeBindings.asiakirjaLuokkaTekstiTyyppi = asiakirjaLuokkaTekstiTyyppi
 
 # Atomic simple type: {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}kasittelyprosessinTilaTekstiTyyppi
 class kasittelyprosessinTilaTekstiTyyppi (pyxb.binding.datatypes.string):
@@ -349,6 +373,7 @@ class kasittelyprosessinTilaTekstiTyyppi (pyxb.binding.datatypes.string):
     _Documentation = '\n\tSuositeltavia arvoja ovat: Avattu, Vireillä, Valmistelussa, Ratkaistavana, Toimitettu tiedoksi, Toimeenpantava, Päätetty, Avattu uudelleen, Muutoksenhaku, Seurannassa, Siirretty, Hävitetty.\n\t\t\t'
 kasittelyprosessinTilaTekstiTyyppi._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'kasittelyprosessinTilaTekstiTyyppi', kasittelyprosessinTilaTekstiTyyppi)
+_module_typeBindings.kasittelyprosessinTilaTekstiTyyppi = kasittelyprosessinTilaTekstiTyyppi
 
 # Complex type [anonymous] with content type ELEMENT_ONLY
 class CTD_ANON (pyxb.binding.basis.complexTypeDefinition):
@@ -390,7 +415,7 @@ class CTD_ANON (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         
     })
-
+_module_typeBindings.CTD_ANON = CTD_ANON
 
 
 # Complex type [anonymous] with content type ELEMENT_ONLY
@@ -411,7 +436,7 @@ class CTD_ANON_ (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         
     })
-
+_module_typeBindings.CTD_ANON_ = CTD_ANON_
 
 
 # Complex type {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}nimekeTyyppi with content type ELEMENT_ONLY
@@ -446,6 +471,7 @@ class nimekeTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         
     })
+_module_typeBindings.nimekeTyyppi = nimekeTyyppi
 Namespace.addCategoryObject('typeBinding', 'nimekeTyyppi', nimekeTyyppi)
 
 
@@ -481,6 +507,7 @@ class asiasanatTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         
     })
+_module_typeBindings.asiasanatTyyppi = asiasanatTyyppi
 Namespace.addCategoryObject('typeBinding', 'asiasanatTyyppi', asiasanatTyyppi)
 
 
@@ -540,6 +567,7 @@ class kasittelysaannotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         
     })
+_module_typeBindings.kasittelysaannotTyyppi = kasittelysaannotTyyppi
 Namespace.addCategoryObject('typeBinding', 'kasittelysaannotTyyppi', kasittelysaannotTyyppi)
 
 
@@ -623,6 +651,7 @@ class kayttorajoitusTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         
     })
+_module_typeBindings.kayttorajoitusTiedotTyyppi = kayttorajoitusTiedotTyyppi
 Namespace.addCategoryObject('typeBinding', 'kayttorajoitusTiedotTyyppi', kayttorajoitusTiedotTyyppi)
 
 
@@ -674,6 +703,7 @@ class sailytysaikaTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         
     })
+_module_typeBindings.sailytysaikaTiedotTyyppi = sailytysaikaTiedotTyyppi
 Namespace.addCategoryObject('typeBinding', 'sailytysaikaTiedotTyyppi', sailytysaikaTiedotTyyppi)
 
 
@@ -795,7 +825,7 @@ class TosTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}id uses Python identifier id
-    __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', idTyyppi, required=True)
+    __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_TosTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', _module_typeBindings.idTyyppi, required=True)
     __id._DeclarationLocation = None
     __id._UseLocation = None
     
@@ -821,6 +851,7 @@ class TosTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         __id.name() : __id
     })
+_module_typeBindings.TosTiedotTyyppi = TosTiedotTyyppi
 Namespace.addCategoryObject('typeBinding', 'TosTiedotTyyppi', TosTiedotTyyppi)
 
 
@@ -949,7 +980,7 @@ class luokkaTyyppi (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}id uses Python identifier id
-    __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', idTyyppi, required=True)
+    __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_luokkaTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', _module_typeBindings.idTyyppi, required=True)
     __id._DeclarationLocation = None
     __id._UseLocation = None
     
@@ -976,6 +1007,7 @@ class luokkaTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         __id.name() : __id
     })
+_module_typeBindings.luokkaTyyppi = luokkaTyyppi
 Namespace.addCategoryObject('typeBinding', 'luokkaTyyppi', luokkaTyyppi)
 
 
@@ -999,7 +1031,7 @@ class nimekeKielellaTyyppi (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}kieliKoodi uses Python identifier kieliKoodi
-    __kieliKoodi = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'kieliKoodi'), 'kieliKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_nimekeKielellaTyyppi_httpskeemat_jhs_suositukset_fitos20150115kieliKoodi', kieliKoodiTyyppi, required=True)
+    __kieliKoodi = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'kieliKoodi'), 'kieliKoodi', '__httpskeemat_jhs_suositukset_fitos20150115_nimekeKielellaTyyppi_httpskeemat_jhs_suositukset_fitos20150115kieliKoodi', _module_typeBindings.kieliKoodiTyyppi, required=True)
     __kieliKoodi._DeclarationLocation = None
     __kieliKoodi._UseLocation = None
     
@@ -1011,6 +1043,7 @@ class nimekeKielellaTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         __kieliKoodi.name() : __kieliKoodi
     })
+_module_typeBindings.nimekeKielellaTyyppi = nimekeKielellaTyyppi
 Namespace.addCategoryObject('typeBinding', 'nimekeKielellaTyyppi', nimekeKielellaTyyppi)
 
 
@@ -1153,7 +1186,7 @@ class kasittelyprosessiTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}id uses Python identifier id
-    __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', idTyyppi, required=True)
+    __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_kasittelyprosessiTiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', _module_typeBindings.idTyyppi, required=True)
     __id._DeclarationLocation = None
     __id._UseLocation = None
     
@@ -1182,6 +1215,7 @@ class kasittelyprosessiTiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         __id.name() : __id
     })
+_module_typeBindings.kasittelyprosessiTiedotTyyppi = kasittelyprosessiTiedotTyyppi
 Namespace.addCategoryObject('typeBinding', 'kasittelyprosessiTiedotTyyppi', kasittelyprosessiTiedotTyyppi)
 
 
@@ -1317,7 +1351,7 @@ class toimenpidetiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}id uses Python identifier id
-    __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', idTyyppi, required=True)
+    __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_toimenpidetiedotTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', _module_typeBindings.idTyyppi, required=True)
     __id._DeclarationLocation = None
     __id._UseLocation = None
     
@@ -1345,6 +1379,7 @@ class toimenpidetiedotTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         __id.name() : __id
     })
+_module_typeBindings.toimenpidetiedotTyyppi = toimenpidetiedotTyyppi
 Namespace.addCategoryObject('typeBinding', 'toimenpidetiedotTyyppi', toimenpidetiedotTyyppi)
 
 
@@ -1487,7 +1522,7 @@ class asiakirjatietoTyyppi (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://skeemat.jhs-suositukset.fi/tos/2015/01/15}id uses Python identifier id
-    __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', idTyyppi, required=True)
+    __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpskeemat_jhs_suositukset_fitos20150115_asiakirjatietoTyyppi_httpskeemat_jhs_suositukset_fitos20150115id', _module_typeBindings.idTyyppi, required=True)
     __id._DeclarationLocation = None
     __id._UseLocation = None
     
@@ -1516,6 +1551,7 @@ class asiakirjatietoTyyppi (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap.update({
         __id.name() : __id
     })
+_module_typeBindings.asiakirjatietoTyyppi = asiakirjatietoTyyppi
 Namespace.addCategoryObject('typeBinding', 'asiakirjatietoTyyppi', asiakirjatietoTyyppi)
 
 
@@ -2603,8 +2639,10 @@ def _BuildAutomaton_8 ():
     counters.add(cc_10)
     cc_11 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_11)
-    cc_12 = fac.CounterCondition(min=0, max=None, metadata=None)
+    cc_12 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_12)
+    cc_13 = fac.CounterCondition(min=0, max=None, metadata=None)
+    counters.add(cc_13)
     states = []
     final_update = None
     symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), None)
@@ -2654,20 +2692,22 @@ def _BuildAutomaton_8 ():
     symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OsaVersio')), None)
     st_11 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
-    final_update = None
+    final_update = set()
     symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Nimeke')), None)
     st_12 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
-    final_update = None
+    final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_11, False))
     symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LuokitusKuvausTeksti')), None)
     st_13 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_12, False))
     symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'KasittelyprosessiTiedot')), None)
     st_14 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_12, False))
+    final_update.add(fac.UpdateInstruction(cc_13, False))
     symbol = pyxb.binding.content.ElementUse(luokkaTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
     st_15 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_15)
@@ -2824,20 +2864,26 @@ def _BuildAutomaton_8 ():
          ]))
     transitions.append(fac.Transition(st_14, [
          ]))
+    transitions.append(fac.Transition(st_15, [
+         ]))
     st_12._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_13, [
         fac.UpdateInstruction(cc_11, True) ]))
     transitions.append(fac.Transition(st_14, [
         fac.UpdateInstruction(cc_11, False) ]))
+    transitions.append(fac.Transition(st_15, [
+        fac.UpdateInstruction(cc_11, False) ]))
     st_13._set_transitionSet(transitions)
     transitions = []
+    transitions.append(fac.Transition(st_14, [
+        fac.UpdateInstruction(cc_12, True) ]))
     transitions.append(fac.Transition(st_15, [
-         ]))
+        fac.UpdateInstruction(cc_12, False) ]))
     st_14._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_12, True) ]))
+        fac.UpdateInstruction(cc_13, True) ]))
     st_15._set_transitionSet(transitions)
     return fac.Automaton(states, counters, False, containing_state=None)
 luokkaTyyppi._Automaton = _BuildAutomaton_8()
