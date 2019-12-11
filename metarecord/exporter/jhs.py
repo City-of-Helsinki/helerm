@@ -65,7 +65,8 @@ class JHSExporter:
     def _create_retention_info(self, obj):
         return jhs.Sailytysaikatiedot(
             SailytysajanPituusArvo=self._get_attribute_value(obj, 'RetentionPeriod'),
-            SailytysajanPerusteTeksti=self._get_attribute_value(obj, 'RetentionReason')
+            SailytysajanPerusteTeksti=self._get_attribute_value(obj, 'RetentionReason'),
+            SailytysajanLaskentaperusteTeksti=self._get_attribute_value(obj, 'RetentionPeriodStart')
         )
 
     def _handle_record(self, record):
