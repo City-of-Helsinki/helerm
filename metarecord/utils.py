@@ -1,4 +1,5 @@
 from django.db import transaction
+from uuid import UUID
 
 from metarecord.models import Function, Phase, Action, Record
 
@@ -74,3 +75,12 @@ def update_nested_dictionary(old, new):
             old[key] = new_value
 
     return old
+
+
+def validate_uuid4(string):
+    try:
+        UUID(string, version=4)
+    except (AttributeError, ValueError, TypeError):
+        return False
+    else:
+        return True
