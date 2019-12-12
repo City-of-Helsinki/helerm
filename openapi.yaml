@@ -325,7 +325,7 @@ paths:
         Get an export of the data in JHS191 XML format.
       externalDocs:
         description: JHS191 Recommendation (in Finnish), contains the schema for the XML
-        url: https://www.jhs-suositukset.fi/web/guest/jhs/recommendations/191
+        url: http://www.jhs-suositukset.fi/web/guest/jhs/recommendations/191
       responses:
         '200':
           description: OK
