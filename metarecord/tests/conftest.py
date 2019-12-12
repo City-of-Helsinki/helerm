@@ -83,7 +83,9 @@ def free_text_attribute_2():
 
 @pytest.fixture
 def choice_value_1(choice_attribute):
-    return AttributeValue.objects.create(value='test choice value 1', attribute=choice_attribute)
+    return AttributeValue.objects.create(
+        value='test choice value 1', attribute=choice_attribute, name="test name", help_text="test help_text"
+    )
 
 
 @pytest.fixture
