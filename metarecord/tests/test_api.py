@@ -678,6 +678,8 @@ def test_attribute_get_list_and_detail(choice_attribute, choice_value_1, attribu
         value_datum = data['values'][0]
         assert uuid.UUID(value_datum['id']) == choice_value_1.id
         assert value_datum['value'] == choice_value_1.value
+        assert value_datum['name'] == choice_value_1.name
+        assert value_datum['description'] == choice_value_1.description
 
 
 @pytest.mark.django_db
@@ -1256,7 +1258,7 @@ def test_attribute_endpoints(user_api_client, choice_attribute, choice_value_1, 
     assert len(attribute_data['values']) == 1
 
     value_data = attribute_data['values'][0]
-    assert value_data.keys() == {'id', 'value', 'created_at', 'modified_at', 'index'}
+    assert value_data.keys() == {'id', 'value', 'created_at', 'modified_at', 'index', 'name', 'description'}
     assert value_data['value'] == choice_value_1.value
 
 

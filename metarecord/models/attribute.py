@@ -71,6 +71,8 @@ class AttributeValue(TimeStampedModel, UUIDPrimaryKeyModel):
     )
     value = models.CharField(verbose_name=_('value'), max_length=1024)
     index = models.PositiveSmallIntegerField(db_index=True)
+    name = models.CharField(verbose_name=_('name'), max_length=256, blank=True)
+    description = models.TextField(verbose_name=_('description'), blank=True)
 
     class Meta:
         verbose_name = _('attribute value')
