@@ -7,7 +7,7 @@ from datetime import datetime
 import pytz
 
 from metarecord.binding import jhs
-from metarecord.models import Function
+from metarecord.models import Function, Classification
 
 
 class JHSExporterException(Exception):
@@ -65,7 +65,8 @@ class JHSExporter:
     def _create_retention_info(self, obj):
         return jhs.Sailytysaikatiedot(
             SailytysajanPituusArvo=self._get_attribute_value(obj, 'RetentionPeriod'),
-            SailytysajanPerusteTeksti=self._get_attribute_value(obj, 'RetentionReason')
+            SailytysajanPerusteTeksti=self._get_attribute_value(obj, 'RetentionReason'),
+            SailytysajanLaskentaperusteTeksti=self._get_attribute_value(obj, 'RetentionPeriodStart')
         )
 
     def _handle_record(self, record):
@@ -128,11 +129,56 @@ class JHSExporter:
             KasittelyprosessiTiedot=handling_process_info
         )
 
-    def get_queryset(self):
-        # at least for now include all functions that have data
-        qs = Function.objects.latest_approved()
-        qs = qs.prefetch_related('phases', 'phases__actions', 'phases__actions__records')
+    def _handle_classification(self, classification):
+        try:
+            function = Function.objects.prefetch_related(
+                'phases', 'phases__actions', 'phases__actions__records'
+            ).filter(classification=classification).latest_approved().get()
 
+        except Function.DoesNotExist:
+            return jhs.Luokka(
+                id=classification.uuid,
+                Luokitustunnus=classification.code,
+                Nimeke=jhs.Nimeke(jhs.NimekeKielella(classification.title, kieliKoodi='fi')),
+            )
+
+        self.msg('processing function %s' % function)
+        phases = []
+        handling = None
+        try:
+            for phase in function.phases.all():
+                actions = []
+                for action in phase.actions.all():
+                    records = []
+                    for record in action.records.all():
+                        handling = record
+                        records.append(self._handle_record(record))
+                    handling = action
+                    actions.append(self._handle_action(action, records))
+                handling = phase
+                phases.append(self._handle_phase(phase, actions))
+            handling = function
+            func = self._handle_function(function, phases)
+        except Exception as e:
+            error = '%s: %s' % (e.__class__.__name__, e)
+            if handling:
+                self.msg('ERROR %s while processing %s' % (error, handling))
+                return False
+            else:
+                self.msg('ERROR %s' % error)
+                return False
+        if func:
+            try:
+                func.toDOM()  # validates
+            except pyxb.PyXBException as e:
+                self.msg('ERROR validating the function, details:\n%s' % e.details())
+                return False
+
+        return func
+
+    def get_queryset(self):
+        # at least for now include all classifications
+        qs = Classification.objects
         return qs
 
     def create_xml(self, queryset=None):
@@ -152,44 +198,18 @@ class JHSExporter:
             TosVersio=self.TOS_VERSION
         )
 
-        functions = []
-        for function in queryset:
-            self.msg('processing function %s' % function)
-            phases = []
-            handling = None
-            func = None
-            try:
-                for phase in function.phases.all():
-                    actions = []
-                    for action in phase.actions.all():
-                        records = []
-                        for record in action.records.all():
-                            handling = record
-                            records.append(self._handle_record(record))
-                        handling = action
-                        actions.append(self._handle_action(action, records))
-                    handling = phase
-                    phases.append(self._handle_phase(phase, actions))
-                handling = function
-                func = self._handle_function(function, phases)
-            except Exception as e:
-                error = '%s: %s' % (e.__class__.__name__, e)
-                if handling:
-                    self.msg('ERROR %s while processing %s' % (error, handling))
-                else:
-                    self.msg('ERROR %s' % error)
-            if func:
-                try:
-                    func.toDOM()  # validates
-                    functions.append(func)
-                except pyxb.PyXBException as e:
-                    self.msg('ERROR validating the function, details:\n%s' % e.details())
+        classifications = []
+        for classification in queryset.all():
+            item = self._handle_classification(classification)
+            if item:
+                classifications.append(item)
 
+        classifications.sort(key=lambda a: a.Luokitustunnus)
         self.msg('creating the actual XML...')
 
         tos_root = jhs.Tos(
             TosTiedot=tos_info,
-            Luokka=functions,
+            Luokka=classifications,
         )
 
         try:

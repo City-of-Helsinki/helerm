@@ -76,7 +76,7 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			<xs:element ref="tos:OsaVersio" minOccurs="0"/>
 			<xs:element ref="tos:Nimeke"/>
 			<xs:element ref="tos:LuokitusKuvausTeksti" minOccurs="0"/>
-			<xs:element ref="tos:KasittelyprosessiTiedot"/>
+			<xs:element ref="tos:KasittelyprosessiTiedot" minOccurs="0"/>
 			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 		<xs:attribute ref="tos:id" use="required"/>
