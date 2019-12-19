@@ -192,8 +192,9 @@ class JHSExporter:
             Nimeke=jhs.Nimeke(jhs.NimekeKielella('Helsingin kaupungin Tiedonohjaussuunnitelma', kieliKoodi='fi')),
             OrganisaatioNimi='Helsingin kaupunki',
             YhteyshenkiloNimi='Tiedonhallinta',
-            LisatiedotTeksti='JHS 191 XML {:%Y-%m-%d %H:%M%Z} kehitysversio kasittelyprosessien tiedoista '
-                             'ei kaikkia luokkia'.format(datetime.now(tz=pytz.timezone(settings.TIME_ZONE))),
+            LisatiedotTeksti='JHS 191 XML {:%Y-%m-%d %H:%M%Z} {}'.format(
+                datetime.now(tz=pytz.timezone(settings.TIME_ZONE)),
+                settings.XML_EXPORT_DESCRIPTION),
             TilaKoodi='3',
             TosVersio=self.TOS_VERSION
         )
