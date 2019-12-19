@@ -181,6 +181,8 @@ JWT_AUTH = {
     # JWT_AUDIENCE and JWT_SECRET_KEY must be set in local_settings.py
 }
 
+# Used for descriptive comment in the headers of JHS191 XML export
+XML_EXPORT_DESCRIPTION = 'exported from undefined environment'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
