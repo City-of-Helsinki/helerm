@@ -14,9 +14,9 @@ from metarecord.views.function import FunctionFilterSet
 logger = logging.getLogger(__name__)
 
 
-def create_saved_jhs_xml():
+def create_saved_jhs_xml(output=False):
     try:
-        exporter = JHSExporter(output=False)
+        exporter = JHSExporter(output=output)
         xml = exporter.create_xml()
         save_jhs_export_to_file(xml)
 
