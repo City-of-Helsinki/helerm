@@ -14,9 +14,9 @@ from metarecord.views.function import FunctionFilterSet
 logger = logging.getLogger(__name__)
 
 
-def create_saved_jhs_xml(output=False):
+def create_saved_jhs_xml():
     try:
-        exporter = JHSExporter(output=output)
+        exporter = JHSExporter()
         xml = exporter.create_xml()
         save_jhs_export_to_file(xml)
 
@@ -44,7 +44,7 @@ def save_jhs_export_to_file(xml):
 
 class ExportView(APIView):
     def get(self, request, format=None):
-        exporter = JHSExporter(output=True)
+        exporter = JHSExporter()
         queryset = exporter.get_queryset()
 
         queryset = FunctionFilterSet(request.query_params, queryset=queryset, request=request).qs

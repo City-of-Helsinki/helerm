@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         filename = options['filename']
-        jhs_exporter = JHSExporter(output=True)
+        jhs_exporter = JHSExporter()
 
         try:
             jhs_exporter.export_data(filename)
