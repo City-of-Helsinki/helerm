@@ -1,7 +1,7 @@
 # ./metarecord/binding/jhs.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:0bcf4fe07fa483312851437fc9b3f33582a4d3fa
-# Generated 2019-12-11 14:34:21.681909 by PyXB version 1.2.6 using Python 3.6.8.final.0
+# Generated 2020-04-02 13:07:27.746666 by PyXB version 1.2.6 using Python 3.6.10.final.0
 # Namespace http://skeemat.jhs-suositukset.fi/tos/2015/01/15
 
 from __future__ import unicode_literals
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:521cb998-1c23-11ea-8e24-0242ac180003')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:e7074e5c-74e2-11ea-80ec-0242ac1e0003')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'
@@ -2958,7 +2958,7 @@ def _BuildAutomaton_10 ():
     counters = set()
     cc_0 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=None)
+    cc_1 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_1)
     cc_2 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_2)
@@ -2976,16 +2976,18 @@ def _BuildAutomaton_10 ():
     counters.add(cc_8)
     cc_9 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=None, metadata=None)
+    cc_10 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=1, metadata=None)
+    cc_11 = fac.CounterCondition(min=0, max=None, metadata=None)
     counters.add(cc_11)
     cc_12 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_12)
     cc_13 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_13)
-    cc_14 = fac.CounterCondition(min=0, max=None, metadata=None)
+    cc_14 = fac.CounterCondition(min=0, max=1, metadata=None)
     counters.add(cc_14)
+    cc_15 = fac.CounterCondition(min=0, max=None, metadata=None)
+    counters.add(cc_15)
     states = []
     final_update = None
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'TietojarjestelmaNimi')), None)
@@ -2995,81 +2997,82 @@ def _BuildAutomaton_10 ():
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Kayttorajoitustiedot')), None)
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
-    final_update = None
+    final_update = set()
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Sailytysaikatiedot')), None)
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_1, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Toimenpidetiedot')), None)
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_1, False))
+    final_update.add(fac.UpdateInstruction(cc_2, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'OrganisaatioNimi')), None)
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_2, False))
+    final_update.add(fac.UpdateInstruction(cc_3, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaatijaNimi')), None)
     st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_3, False))
+    final_update.add(fac.UpdateInstruction(cc_4, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'LaadittuPvm')), None)
     st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_4, False))
+    final_update.add(fac.UpdateInstruction(cc_5, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokkaajaNimi')), None)
     st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_5, False))
+    final_update.add(fac.UpdateInstruction(cc_6, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'MuokattuPvm')), None)
     st_8 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_6, False))
+    final_update.add(fac.UpdateInstruction(cc_7, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyjaNimi')), None)
     st_9 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_7, False))
+    final_update.add(fac.UpdateInstruction(cc_8, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'HyvaksyttyPvm')), None)
     st_10 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_8, False))
+    final_update.add(fac.UpdateInstruction(cc_9, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloAlkaaPvm')), None)
     st_11 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_9, False))
+    final_update.add(fac.UpdateInstruction(cc_10, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'VoimassaoloPaattyyPvm')), None)
     st_12 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_10, False))
+    final_update.add(fac.UpdateInstruction(cc_11, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Asiasanat')), None)
     st_13 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_11, False))
+    final_update.add(fac.UpdateInstruction(cc_12, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'PaatietoryhmatTeksti')), None)
     st_14 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_12, False))
+    final_update.add(fac.UpdateInstruction(cc_13, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'ProsessinOmistajaNimi')), None)
     st_15 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_15)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_13, False))
+    final_update.add(fac.UpdateInstruction(cc_14, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'KokoavanProsessitunnuksenLahdeTeksti')), None)
     st_16 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_16)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_14, False))
+    final_update.add(fac.UpdateInstruction(cc_15, False))
     symbol = pyxb.binding.content.ElementUse(kasittelyprosessiTiedotTyyppi._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Laajennos')), None)
     st_17 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_17)
@@ -3086,276 +3089,304 @@ def _BuildAutomaton_10 ():
     transitions = []
     transitions.append(fac.Transition(st_3, [
          ]))
+    transitions.append(fac.Transition(st_4, [
+         ]))
+    transitions.append(fac.Transition(st_5, [
+         ]))
+    transitions.append(fac.Transition(st_6, [
+         ]))
+    transitions.append(fac.Transition(st_7, [
+         ]))
+    transitions.append(fac.Transition(st_8, [
+         ]))
+    transitions.append(fac.Transition(st_9, [
+         ]))
+    transitions.append(fac.Transition(st_10, [
+         ]))
+    transitions.append(fac.Transition(st_11, [
+         ]))
+    transitions.append(fac.Transition(st_12, [
+         ]))
+    transitions.append(fac.Transition(st_13, [
+         ]))
+    transitions.append(fac.Transition(st_14, [
+         ]))
+    transitions.append(fac.Transition(st_15, [
+         ]))
+    transitions.append(fac.Transition(st_16, [
+         ]))
+    transitions.append(fac.Transition(st_17, [
+         ]))
     st_2._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_3, [
-         ]))
+        fac.UpdateInstruction(cc_1, True) ]))
     transitions.append(fac.Transition(st_4, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_5, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_6, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_7, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_8, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_9, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_10, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_11, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_12, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_13, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_14, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_15, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_16, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     transitions.append(fac.Transition(st_17, [
-         ]))
+        fac.UpdateInstruction(cc_1, False) ]))
     st_3._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_4, [
-        fac.UpdateInstruction(cc_1, True) ]))
+        fac.UpdateInstruction(cc_2, True) ]))
     transitions.append(fac.Transition(st_5, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_1, False) ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     st_4._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_5, [
-        fac.UpdateInstruction(cc_2, True) ]))
+        fac.UpdateInstruction(cc_3, True) ]))
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_2, False) ]))
+        fac.UpdateInstruction(cc_3, False) ]))
     st_5._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_6, [
-        fac.UpdateInstruction(cc_3, True) ]))
+        fac.UpdateInstruction(cc_4, True) ]))
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_3, False) ]))
+        fac.UpdateInstruction(cc_4, False) ]))
     st_6._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_7, [
-        fac.UpdateInstruction(cc_4, True) ]))
+        fac.UpdateInstruction(cc_5, True) ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_4, False) ]))
+        fac.UpdateInstruction(cc_5, False) ]))
     st_7._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_5, True) ]))
+        fac.UpdateInstruction(cc_6, True) ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_5, False) ]))
+        fac.UpdateInstruction(cc_6, False) ]))
     st_8._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_6, True) ]))
+        fac.UpdateInstruction(cc_7, True) ]))
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_6, False) ]))
+        fac.UpdateInstruction(cc_7, False) ]))
     st_9._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_10, [
-        fac.UpdateInstruction(cc_7, True) ]))
+        fac.UpdateInstruction(cc_8, True) ]))
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_7, False) ]))
+        fac.UpdateInstruction(cc_8, False) ]))
     st_10._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_11, [
-        fac.UpdateInstruction(cc_8, True) ]))
+        fac.UpdateInstruction(cc_9, True) ]))
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_8, False) ]))
+        fac.UpdateInstruction(cc_9, False) ]))
     st_11._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_12, [
-        fac.UpdateInstruction(cc_9, True) ]))
+        fac.UpdateInstruction(cc_10, True) ]))
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_9, False) ]))
+        fac.UpdateInstruction(cc_10, False) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_9, False) ]))
+        fac.UpdateInstruction(cc_10, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_9, False) ]))
+        fac.UpdateInstruction(cc_10, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_9, False) ]))
+        fac.UpdateInstruction(cc_10, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_9, False) ]))
+        fac.UpdateInstruction(cc_10, False) ]))
     st_12._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_13, [
-        fac.UpdateInstruction(cc_10, True) ]))
+        fac.UpdateInstruction(cc_11, True) ]))
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_10, False) ]))
+        fac.UpdateInstruction(cc_11, False) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_10, False) ]))
+        fac.UpdateInstruction(cc_11, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_10, False) ]))
+        fac.UpdateInstruction(cc_11, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_10, False) ]))
+        fac.UpdateInstruction(cc_11, False) ]))
     st_13._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_14, [
-        fac.UpdateInstruction(cc_11, True) ]))
+        fac.UpdateInstruction(cc_12, True) ]))
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_11, False) ]))
+        fac.UpdateInstruction(cc_12, False) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_11, False) ]))
+        fac.UpdateInstruction(cc_12, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_11, False) ]))
+        fac.UpdateInstruction(cc_12, False) ]))
     st_14._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_15, [
-        fac.UpdateInstruction(cc_12, True) ]))
+        fac.UpdateInstruction(cc_13, True) ]))
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_12, False) ]))
+        fac.UpdateInstruction(cc_13, False) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_12, False) ]))
+        fac.UpdateInstruction(cc_13, False) ]))
     st_15._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_16, [
-        fac.UpdateInstruction(cc_13, True) ]))
+        fac.UpdateInstruction(cc_14, True) ]))
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_13, False) ]))
+        fac.UpdateInstruction(cc_14, False) ]))
     st_16._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_17, [
-        fac.UpdateInstruction(cc_14, True) ]))
+        fac.UpdateInstruction(cc_15, True) ]))
     st_17._set_transitionSet(transitions)
     return fac.Automaton(states, counters, False, containing_state=None)
 kasittelyprosessiTiedotTyyppi._Automaton = _BuildAutomaton_10()
