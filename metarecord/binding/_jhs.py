@@ -1,7 +1,7 @@
 # ./metarecord/binding/_jhs.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:567ab21ac37a6d7db45f717b194c27c1e22858bd
-# Generated 2020-04-02 13:07:27.743349 by PyXB version 1.2.6 using Python 3.6.10.final.0
+# Generated 2020-04-06 06:44:21.528876 by PyXB version 1.2.6 using Python 3.6.10.final.0
 # Namespace http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19 [xmlns:jhs]
 
 from __future__ import unicode_literals
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:e7074e5c-74e2-11ea-80ec-0242ac1e0003')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:0bd4d60e-77d2-11ea-a270-0242c0a80003')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'

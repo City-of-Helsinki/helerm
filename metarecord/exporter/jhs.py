@@ -29,7 +29,9 @@ class JHSExporter:
         'PersonalData': {
             'Ei sisällä henkilötietoja': '1',
             'Sisältää henkilötietoja': '2',
-            'Sisältää arkaluonteisia henkilötietoja': '3'
+            'Sisältää arkaluonteisia henkilötietoja': '3',
+            'Sisältää erityisiä henkilötietoja': '4',
+            'Sisältää rikoksiin tai rikkomuksiin liittyvää henkilötietoa': '5',
         }
     }
 

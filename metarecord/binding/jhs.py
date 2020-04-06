@@ -1,7 +1,7 @@
 # ./metarecord/binding/jhs.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:0bcf4fe07fa483312851437fc9b3f33582a4d3fa
-# Generated 2020-04-02 13:07:27.746666 by PyXB version 1.2.6 using Python 3.6.10.final.0
+# Generated 2020-04-06 06:44:21.533676 by PyXB version 1.2.6 using Python 3.6.10.final.0
 # Namespace http://skeemat.jhs-suositukset.fi/tos/2015/01/15
 
 from __future__ import unicode_literals
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:e7074e5c-74e2-11ea-80ec-0242ac1e0003')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:0bd4d60e-77d2-11ea-a270-0242c0a80003')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'
@@ -278,6 +278,8 @@ henkilotietoluonneKoodiTyyppi._CF_enumeration = pyxb.binding.facets.CF_enumerati
 henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='1', tag=None)
 henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='2', tag=None)
 henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='3', tag=None)
+henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='4', tag=None)
+henkilotietoluonneKoodiTyyppi._CF_enumeration.addEnumeration(unicode_value='5', tag=None)
 henkilotietoluonneKoodiTyyppi._InitializeFacetMap(henkilotietoluonneKoodiTyyppi._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'henkilotietoluonneKoodiTyyppi', henkilotietoluonneKoodiTyyppi)
 _module_typeBindings.henkilotietoluonneKoodiTyyppi = henkilotietoluonneKoodiTyyppi
