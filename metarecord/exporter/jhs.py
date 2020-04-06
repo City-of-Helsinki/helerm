@@ -1,3 +1,4 @@
+import logging
 import uuid
 
 import pyxb
@@ -8,6 +9,8 @@ import pytz
 
 from metarecord.binding import jhs
 from metarecord.models import Function, Classification
+
+logger = logging.getLogger(__name__)
 
 
 class JHSExporterException(Exception):
@@ -29,16 +32,11 @@ class JHSExporter:
         'PersonalData': {
             'Ei sisällä henkilötietoja': '1',
             'Sisältää henkilötietoja': '2',
-            'Sisältää arkaluonteisia henkilötietoja': '3'
+            'Sisältää arkaluonteisia henkilötietoja': '3',
+            'Sisältää erityisiä henkilötietoja': '4',
+            'Sisältää rikoksiin tai rikkomuksiin liittyvää henkilötietoa': '5',
         }
     }
-
-    def __init__(self, output=False):
-        self.output = output
-
-    def msg(self, text):
-        if self.output:
-            print(text)
 
     def _get_attribute_value(self, obj, attribute_identifier):
         value = obj.attributes.get(attribute_identifier)
@@ -70,6 +68,7 @@ class JHSExporter:
         )
 
     def _handle_record(self, record):
+        logger.info("Handling record %s" % record.pk)
         information_system = self._get_attribute_value(record, 'InformationSystem')
 
         return jhs.Asiakirjatieto(
@@ -84,6 +83,7 @@ class JHSExporter:
         )
 
     def _handle_action(self, action, records):
+        logger.info("Handling action %s" % action.pk)
         ToimenpideTiedot = jhs.Toimenpidetiedot(
             id=action.uuid,
             Asiakirjatieto=records,
@@ -99,6 +99,7 @@ class JHSExporter:
         return ToimenpideTiedot
 
     def _handle_phase(self, phase, actions):
+        logger.info("Handling phase %s" % phase.pk)
         ToimenpideTiedot = jhs.Toimenpidetiedot(
             id=phase.uuid,
             Toimenpidetiedot=actions
@@ -114,6 +115,7 @@ class JHSExporter:
         return ToimenpideTiedot
 
     def _handle_function(self, function, phases):
+        logger.info("Handling function %s" % function.pk)
         information_system = self._get_attribute_value(function, 'InformationSystem')
         handling_process_info = jhs.KasittelyprosessiTiedot(
             id=uuid.uuid4(),
@@ -142,7 +144,8 @@ class JHSExporter:
                 Nimeke=jhs.Nimeke(jhs.NimekeKielella(classification.title, kieliKoodi='fi')),
             )
 
-        self.msg('processing function %s' % function)
+        logger.info('Processing function %s' % function)
+
         phases = []
         handling = None
         try:
@@ -162,16 +165,16 @@ class JHSExporter:
         except Exception as e:
             error = '%s: %s' % (e.__class__.__name__, e)
             if handling:
-                self.msg('ERROR %s while processing %s' % (error, handling))
+                logger.error('ERROR %s while processing %s' % (error, handling))
                 return False
             else:
-                self.msg('ERROR %s' % error)
+                logger.error(error)
                 return False
         if func:
             try:
                 func.toDOM()  # validates
             except pyxb.PyXBException as e:
-                self.msg('ERROR validating the function, details:\n%s' % e.details())
+                logger.error('ERROR validating the function, details:\n%s' % e.details())
                 return False
 
         return func
@@ -206,7 +209,7 @@ class JHSExporter:
                 classifications.append(item)
 
         classifications.sort(key=lambda a: a.Luokitustunnus)
-        self.msg('creating the actual XML...')
+        logger.info('Creating the actual XML...')
 
         tos_root = jhs.Tos(
             TosTiedot=tos_info,
@@ -216,20 +219,20 @@ class JHSExporter:
         try:
             dom = tos_root.toDOM()
         except pyxb.PyXBException as e:
-            self.msg('ERROR while creating the XML file: %s' % e.details())
+            logger.error('ERROR while creating the XML file: %s' % e.details())
             raise JHSExporterException(e.details())
 
         return dom.toprettyxml(' ', encoding='utf-8')
 
     def export_data(self, filename):
-        self.msg('exporting data...')
+        logger.info('Exporting data...')
         xml = self.create_xml()
 
         try:
             with open(filename, 'wb') as f:
-                self.msg('writing to the file...')
+                logger.info('Writing to the file...')
                 f.write(xml)
-                self.msg('Done.')
+                logger.info('File written')
         except Exception as e:
-            self.msg('ERROR writing to the file: %s' % e)
+            logger.error('ERROR writing to the file: %s' % e)
             raise JHSExporterException(e)

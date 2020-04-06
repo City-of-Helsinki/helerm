@@ -120,7 +120,7 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			<xs:element ref="tos:TietojarjestelmaNimi" minOccurs="0"/>
 			<xs:element ref="tos:Kayttorajoitustiedot"/>
 			<xs:element ref="tos:Sailytysaikatiedot"/>
-			<xs:element ref="tos:Toimenpidetiedot" maxOccurs="unbounded"/>
+			<xs:element ref="tos:Toimenpidetiedot" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element ref="tos:OrganisaatioNimi" minOccurs="0"/>
 			<xs:element ref="tos:LaatijaNimi" minOccurs="0"/>
 			<xs:element ref="tos:LaadittuPvm" minOccurs="0"/>

@@ -13,3 +13,4 @@ htmlcov
 .cache
 .DS_Store
 .pytest_cache/
+export/
