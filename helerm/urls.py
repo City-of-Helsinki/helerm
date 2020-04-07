@@ -3,8 +3,8 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from metarecord.views import (
-    AttributeViewSet, BulkUpdateViewSet, ClassificationViewSet, ExportView, FunctionViewSet,
-    JHSExportViewSet, TemplateViewSet
+    AttributeViewSet, BulkUpdateViewSet, ClassificationViewSet, ExportView, FunctionViewSet, JHSExportViewSet,
+    TemplateViewSet
 )
 from users.views import UserViewSet
 

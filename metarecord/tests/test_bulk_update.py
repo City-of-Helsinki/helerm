@@ -4,7 +4,7 @@ from datetime import date
 import pytest
 from django.core.exceptions import ObjectDoesNotExist
 
-from metarecord.models import Function, Phase, Action, Record
+from metarecord.models import Action, Function, Phase, Record
 from metarecord.tests.utils import get_bulk_update_function_key
 
 

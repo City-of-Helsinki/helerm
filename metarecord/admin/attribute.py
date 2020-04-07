@@ -1,7 +1,7 @@
-from adminsortable2.admin import SortableInlineAdminMixin, SortableAdminMixin
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
 
-from metarecord.models.attribute import AttributeValue, Attribute, AttributeGroup
+from metarecord.models.attribute import Attribute, AttributeGroup, AttributeValue
 
 
 class AttributeValueInline(SortableInlineAdminMixin, admin.TabularInline):
