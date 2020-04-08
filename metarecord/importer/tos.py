@@ -139,7 +139,12 @@ class TOSImporter:
         headers = [sheet.cell(row=1, column=x).value for x in range(1, max_col)]
         headers = [self._clean_header(s) for s in headers if s]
         data = []
-        cells = sheet.get_squared_range(1, data_row, max_col, sheet.max_row + 1)
+        cells = sheet.iter_rows(
+            min_row=data_row,
+            max_row=sheet.max_row + 1,
+            min_col=1,
+            max_col=max_col,
+        )
         for row in cells:
             attrs = {}
             for col, attr in enumerate(headers):
