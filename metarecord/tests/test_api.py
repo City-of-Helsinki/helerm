@@ -11,8 +11,8 @@ from rest_framework.reverse import reverse
 from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
 from metarecord.models.bulk_update import BulkUpdate
 from metarecord.tests.utils import (
-    assert_response_functions, check_attribute_errors, set_permissions,
-    get_bulk_update_function_key)
+    assert_response_functions, check_attribute_errors, get_bulk_update_function_key, set_permissions
+)
 from metarecord.views.classification import include_related
 
 CLASSIFICATION_LIST_URL = reverse('classification-list')

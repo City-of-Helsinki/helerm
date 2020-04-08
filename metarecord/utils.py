@@ -1,7 +1,8 @@
-from django.db import transaction
 from uuid import UUID
 
-from metarecord.models import Function, Phase, Action, Record
+from django.db import transaction
+
+from metarecord.models import Action, Function, Phase, Record
 
 
 def model_to_dict(instance, fields=None, exclude=None):

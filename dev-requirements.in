@@ -1,3 +1,6 @@
 flake8
 freezegun
 isort
+pip-tools
+pytest
+pytest-django

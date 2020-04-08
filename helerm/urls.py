@@ -1,10 +1,10 @@
+from django.contrib import admin
 from django.urls import include, path
-from helusers import admin
 from rest_framework.routers import DefaultRouter
 
 from metarecord.views import (
-    AttributeViewSet, BulkUpdateViewSet, ClassificationViewSet, ExportView, FunctionViewSet,
-    JHSExportViewSet, TemplateViewSet
+    AttributeViewSet, BulkUpdateViewSet, ClassificationViewSet, ExportView, FunctionViewSet, JHSExportViewSet,
+    TemplateViewSet
 )
 from users.views import UserViewSet
 

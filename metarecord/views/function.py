@@ -8,9 +8,9 @@ from rest_framework.response import Response
 
 from metarecord.models import Action, Function, Phase, Record
 
+from ..utils import validate_uuid4
 from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
 from .classification import Classification
-from ..utils import validate_uuid4
 
 
 class RecordSerializer(StructuralElementSerializer):

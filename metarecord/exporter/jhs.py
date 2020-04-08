@@ -1,14 +1,13 @@
 import logging
 import uuid
-
-import pyxb
-
-from django.conf import settings
 from datetime import datetime
+
 import pytz
+import pyxb
+from django.conf import settings
 
 from metarecord.binding import jhs
-from metarecord.models import Function, Classification
+from metarecord.models import Classification, Function
 
 logger = logging.getLogger(__name__)
 
