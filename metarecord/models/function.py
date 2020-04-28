@@ -206,3 +206,11 @@ class MetadataVersion(models.Model):
 
     def __str__(self):
         return ''  # because of admin UI
+
+    def save(self, *args, **kwargs):
+        # Only update _modified_by value if modified_by is set.
+        # _modified_by should persist even if related user is deleted.
+        if self.modified_by:
+            self._modified_by = self.modified_by.get_full_name()
+
+        super().save(*args, **kwargs)
