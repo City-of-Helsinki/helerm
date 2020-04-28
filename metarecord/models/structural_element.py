@@ -19,6 +19,8 @@ class StructuralElement(TimeStampedModel):
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('modified by'),
                                     null=True, blank=True, related_name='%(class)s_modified', editable=False,
                                     on_delete=models.SET_NULL)
+    _created_by = models.CharField(verbose_name=_('created by (text)'), max_length=200, blank=True, editable=False)
+    _modified_by = models.CharField(verbose_name=_('modified by (text)'), max_length=200, blank=True, editable=False)
     index = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
     attributes = JSONField(verbose_name=_('attributes'), blank=True, default=dict)
 

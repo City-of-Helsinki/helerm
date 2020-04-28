@@ -194,6 +194,7 @@ class MetadataVersion(models.Model):
     modified_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name=_('modified by'), blank=True, null=True, on_delete=models.SET_NULL
     )
+    _modified_by = models.CharField(verbose_name=_('modified by (text)'), max_length=200, blank=True, editable=False)
     state = models.CharField(
         verbose_name=_('state'), max_length=20, choices=Function.STATE_CHOICES, default=Function.DRAFT
     )

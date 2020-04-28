@@ -46,6 +46,9 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
         editable=False,
         on_delete=models.SET_NULL
     )
+    _created_by = models.CharField(verbose_name=_('created by (text)'), max_length=200, blank=True, editable=False)
+    _modified_by = models.CharField(verbose_name=_('modified by (text)'), max_length=200, blank=True, editable=False)
+    _approved_by = models.CharField(verbose_name=_('approved by (text)'), max_length=200, blank=True, editable=False)
 
     is_approved = models.BooleanField(verbose_name=_('is approved'), default=False)
     changes = JSONField(verbose_name=_('changes'), blank=True, default=dict)
