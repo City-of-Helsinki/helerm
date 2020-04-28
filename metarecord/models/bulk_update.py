@@ -84,7 +84,8 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
         self.apply_changes(user)
         self.is_approved = True
         self.approved_by = user
-        self.save(update_fields=['is_approved', 'approved_by'])
+        self._approved_by = user.get_full_name()
+        self.save(update_fields=['is_approved', 'approved_by', '_approved_by'])
 
     @transaction.atomic
     def apply_changes(self, user):
@@ -131,3 +132,14 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
                         record = action_records.get(uuid=record_uuid)
                         self._apply_changes_to_instance(record, record_updates, fields=('attributes',))
                         record.save()
+
+    def save(self, *args, **kwargs):
+        # Only update `_created_by` and `_modified_by` value if the relations
+        # are set set. Text values should persist even if related user is deleted.
+        if self.created_by:
+            self._created_by = self.created_by.get_full_name()
+
+        if self.modified_by:
+            self._modified_by = self.modified_by.get_full_name()
+
+        super().save(*args, **kwargs)

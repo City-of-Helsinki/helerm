@@ -103,10 +103,19 @@ class StructuralElement(TimeStampedModel):
         return None
 
     def save(self, *args, **kwargs):
+        # Only update `_created_by` and `_modified_by` value if the relations
+        # are set set. Text values should persist even if related user is deleted.
+        if self.created_by:
+            self._created_by = self.created_by.get_full_name()
+
+        if self.modified_by:
+            self._modified_by = self.modified_by.get_full_name()
+
         for key, value in self.attributes.copy().items():
             if value in ('', None):
                 del self.attributes[key]
-        return super().save(*args, **kwargs)
+
+        super().save(*args, **kwargs)
 
 
 def _get_conditionally_required_schema(required_attributes, condition_attribute, condition_values):
