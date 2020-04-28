@@ -98,9 +98,7 @@ class StructuralElement(TimeStampedModel):
         return user.has_perm('metarecord.can_view_modified_by')
 
     def get_modified_by_display(self):
-        if self.modified_by:
-            return '{} {}'.format(self.modified_by.first_name, self.modified_by.last_name).strip()
-        return None
+        return self._modified_by or None
 
     def save(self, *args, **kwargs):
         # Only update `_created_by` and `_modified_by` value if the relations
