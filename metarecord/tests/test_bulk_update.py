@@ -5,6 +5,7 @@ import pytest
 from django.core.exceptions import ObjectDoesNotExist
 
 from metarecord.models import Action, Function, Phase, Record
+from metarecord.models.bulk_update import BulkUpdate
 from metarecord.tests.utils import get_bulk_update_function_key
 
 
@@ -24,9 +25,11 @@ def test_simple_bulk_update_approve(super_user, bulk_update, function, second_fu
 
     bulk_update.approve(super_user)
     updated_functions = Function.objects.filter(bulk_update=bulk_update)
+    bulk_update.refresh_from_db()
 
     assert bulk_update.is_approved
     assert bulk_update.approved_by == super_user
+    assert bulk_update._approved_by == 'Kurt Sloane'
     assert Function.objects.count() == 4  # Old versions should still exist
     assert updated_functions.count() == 2
 
@@ -161,3 +164,26 @@ def test_invalid_bulk_update_approve(super_user, bulk_update, function, phase, a
     assert Phase.objects.count() == phase_count
     assert Action.objects.count() == action_count
     assert Record.objects.count() == record_count
+
+
+@pytest.mark.django_db
+def test_bulk_update_persistent_user_name_fields(user, super_user):
+    bulk_update = BulkUpdate.objects.create(
+        description='Lorem ipsum dolor sit amet',
+        state=Function.DRAFT,
+        changes={},
+        created_by=user,
+        modified_by=user,
+    )
+    bulk_update.approve(super_user)
+    user.delete()
+    super_user.delete()
+    bulk_update.refresh_from_db()
+    bulk_update.save()  # Save should not affect _approved_by, _created_by, and _modified_by contents
+
+    assert not bulk_update.approved_by
+    assert bulk_update._approved_by == 'Kurt Sloane'
+    assert not bulk_update.created_by
+    assert bulk_update._created_by == 'John Rambo'
+    assert not bulk_update.modified_by
+    assert bulk_update._modified_by == 'John Rambo'
