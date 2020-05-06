@@ -534,6 +534,7 @@ def test_metadata_version(user_api_client, user_2_api_client, function, put_func
     assert metadata_version.state == Function.DRAFT
     assert metadata_version.modified_at == original_modified_at
     assert metadata_version.modified_by == user_api_client.user
+    assert metadata_version._modified_by == 'John Rambo'
     assert metadata_version.valid_from == datetime.date(2015, 1, 1)
     assert metadata_version.valid_to is None
 
@@ -546,9 +547,26 @@ def test_metadata_version(user_api_client, user_2_api_client, function, put_func
     assert metadata_version.state == Function.SENT_FOR_REVIEW
     assert metadata_version.modified_at == new_function.modified_at > original_modified_at
     assert metadata_version.modified_by == user_2_api_client.user
+    assert metadata_version._modified_by == 'Rocky Balboa'
     assert metadata_version.valid_from == datetime.date(2015, 1, 1)
     assert metadata_version.valid_to == datetime.date(2016, 1, 1)
     assert new_function.modified_by == user_2_api_client.user
+
+
+@pytest.mark.django_db
+def test_metadata_version_modified_by(user, function):
+    function.modified_by = user
+    function.create_metadata_version()
+
+    metadata_version = function.metadata_versions.first()
+    assert metadata_version.modified_by == user
+    assert metadata_version._modified_by == 'John Rambo'
+
+    user.delete()
+    metadata_version.refresh_from_db()
+    metadata_version.save()  # Save should not affect _modified_by content
+    assert not metadata_version.modified_by
+    assert metadata_version._modified_by == 'John Rambo'
 
 
 @pytest.mark.django_db
@@ -1302,8 +1320,8 @@ def test_include_related(rf):
 def test_classification_phase_field(user_api_client, classification, classification_2):
     function = Function.objects.create(classification=classification)
     function_2 = Function.objects.create(classification=classification_2)
-    phase = Phase.objects.create(function=function)
-    phase_2 = Phase.objects.create(function=function)
+    phase = Phase.objects.create(function=function, index=1)
+    phase_2 = Phase.objects.create(function=function, index=2)
 
     response = user_api_client.get(get_classification_detail_url(classification))
     assert response.status_code == 200

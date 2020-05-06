@@ -19,6 +19,8 @@ class StructuralElement(TimeStampedModel):
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('modified by'),
                                     null=True, blank=True, related_name='%(class)s_modified', editable=False,
                                     on_delete=models.SET_NULL)
+    _created_by = models.CharField(verbose_name=_('created by (text)'), max_length=200, blank=True, editable=False)
+    _modified_by = models.CharField(verbose_name=_('modified by (text)'), max_length=200, blank=True, editable=False)
     index = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
     attributes = JSONField(verbose_name=_('attributes'), blank=True, default=dict)
 
@@ -96,15 +98,22 @@ class StructuralElement(TimeStampedModel):
         return user.has_perm('metarecord.can_view_modified_by')
 
     def get_modified_by_display(self):
-        if self.modified_by:
-            return '{} {}'.format(self.modified_by.first_name, self.modified_by.last_name).strip()
-        return None
+        return self._modified_by or None
 
     def save(self, *args, **kwargs):
+        # Only update `_created_by` and `_modified_by` value if the relations
+        # are set set. Text values should persist even if related user is deleted.
+        if self.created_by:
+            self._created_by = self.created_by.get_full_name()
+
+        if self.modified_by:
+            self._modified_by = self.modified_by.get_full_name()
+
         for key, value in self.attributes.copy().items():
             if value in ('', None):
                 del self.attributes[key]
-        return super().save(*args, **kwargs)
+
+        super().save(*args, **kwargs)
 
 
 def _get_conditionally_required_schema(required_attributes, condition_attribute, condition_values):
