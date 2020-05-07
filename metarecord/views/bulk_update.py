@@ -43,22 +43,19 @@ class BulkUpdateSerializer(serializers.ModelSerializer):
 
         return fields
 
-    def _get_user_name_display(self, user):
-        return '{} {}'.format(user.first_name, user.last_name).strip()
-
     def get_approved_by(self, obj):
         user = self.context['request'].user
 
-        if obj.approved_by and user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
-            return self._get_user_name_display(obj.approved_by)
+        if user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
+            return obj._approved_by or None
 
         return None
 
     def get_modified_by(self, obj):
         user = self.context['request'].user
 
-        if obj.modified_by and user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
-            return self._get_user_name_display(obj.modified_by)
+        if user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
+            return obj._modified_by or None
 
         return None
 
