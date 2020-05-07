@@ -598,7 +598,7 @@ def test_function_modified_by(function, user_api_client, user):
     assert response.data['modified_by'] is None
 
     function.modified_by = user
-    function.save(update_fields=('modified_by',))
+    function.save()
 
     response = user_api_client.get(get_function_detail_url(function))
     assert response.status_code == 200
@@ -609,7 +609,7 @@ def test_function_modified_by(function, user_api_client, user):
 def test_function_anonymous_cannot_view_modified_by(function, api_client, user):
     function.state = Function.APPROVED
     function.modified_by = user
-    function.save(update_fields=('modified_by', 'state'))
+    function.save()
 
     response = api_client.get(get_function_detail_url(function))
     assert response.status_code == 200
@@ -619,7 +619,7 @@ def test_function_anonymous_cannot_view_modified_by(function, api_client, user):
 @pytest.mark.django_db
 def test_function_user_cannot_view_modified_by(function, user_api_client, user):
     function.modified_by = user
-    function.save(update_fields=('modified_by',))
+    function.save()
 
     response = user_api_client.get(get_function_detail_url(function))
     assert response.status_code == 200
@@ -629,7 +629,7 @@ def test_function_user_cannot_view_modified_by(function, user_api_client, user):
 @pytest.mark.django_db
 def test_function_another_user_cannot_view_modified_by(function, user_2_api_client, user):
     function.modified_by = user
-    function.save(update_fields=('modified_by',))
+    function.save()
 
     response = user_2_api_client.get(get_function_detail_url(function))
     assert response.status_code == 200
@@ -1966,7 +1966,7 @@ def test_bulk_update_modified_by_display(bulk_update, user_api_client, permissio
 
     bulk_update.created_by = user_api_client.user
     bulk_update.modified_by = user_api_client.user
-    bulk_update.save(update_fields=['modified_by'])
+    bulk_update.save()
 
     response = user_api_client.get(get_bulk_update_detail_url(bulk_update))
     response_data = json.loads(response.content.decode('utf-8'))

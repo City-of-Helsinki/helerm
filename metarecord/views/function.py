@@ -99,9 +99,7 @@ class FunctionListSerializer(StructuralElementSerializer):
         return function
 
     def get_modified_by(self, obj):
-        if obj.modified_by:
-            return '{} {}'.format(obj.modified_by.first_name, obj.modified_by.last_name).strip()
-        return None
+        return obj._modified_by or None
 
     def get_parent(self, obj):
         if obj.classification and obj.classification.parent:
