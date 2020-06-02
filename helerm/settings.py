@@ -28,8 +28,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'helusers.apps.HelusersAdminConfig',
     'helusers.apps.HelusersConfig',
+    'helusers.apps.HelusersAdminConfig',
     'django.contrib.postgres',
     'django.contrib.auth',
     'django.contrib.contenttypes',

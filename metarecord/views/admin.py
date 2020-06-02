@@ -18,11 +18,10 @@ class CaptureLogRecordsHandler(logging.Handler):
         self.log_records.append(record)
 
 
-def tos_import_view(request):
+def tos_import_view(request, context={}):
     if not (request.user.is_authenticated and request.user.is_superuser):
         raise PermissionDenied
 
-    context = {}
     if request.method == 'POST':
         importer = TOSImporter()
         logger = logging.getLogger('tos_import_capture_logger')
