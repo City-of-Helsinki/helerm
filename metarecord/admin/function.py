@@ -38,6 +38,12 @@ class FunctionAdmin(StructuralElementAdmin):
         return obj.get_name()
     get_name.short_description = _('name')
 
+    def tos_import_context(self, request):
+        context = dict(
+           self.admin_site.each_context(request),
+        )
+        return tos_import_view(request, context)
+
     @transaction.atomic
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
@@ -47,6 +53,6 @@ class FunctionAdmin(StructuralElementAdmin):
     def get_urls(self):
         urls = super().get_urls()
         urls = [
-            path('import-tos/', self.admin_site.admin_view(tos_import_view), name='import-tos')
+            path('import-tos/', self.admin_site.admin_view(self.tos_import_context), name='import-tos')
         ] + urls
         return urls
