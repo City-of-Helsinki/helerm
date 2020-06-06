@@ -12,7 +12,7 @@ django-allauth==0.41.0    # via -r requirements.in
 django-cors-headers==3.2.1  # via -r requirements.in
 django-filter==2.2.0      # via -r requirements.in
 django-helusers==0.5.6    # via -r requirements.in
-django==2.2.12            # via -r requirements.in, django-admin-sortable2, django-allauth, django-cors-headers, django-filter, django-helusers, djangorestframework, drf-oidc-auth
+django==2.2.13            # via -r requirements.in, django-admin-sortable2, django-allauth, django-cors-headers, django-filter, django-helusers, djangorestframework, drf-oidc-auth
 djangorestframework-jwt==1.11.0  # via -r requirements.in
 djangorestframework-xml==1.4.0  # via -r requirements.in
 djangorestframework==3.11.0  # via -r requirements.in, drf-oidc-auth
