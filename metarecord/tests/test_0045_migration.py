@@ -1,7 +1,7 @@
 import pytest
 from django.core.management import call_command
 
-from metarecord.models import Function, Phase, Action, Record
+from metarecord.models import Action, Function, Phase, Record
 from metarecord.models.bulk_update import BulkUpdate
 
 
