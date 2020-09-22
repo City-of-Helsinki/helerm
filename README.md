@@ -5,7 +5,7 @@
 ## Prerequisites
 
 - Python 3.6
-- PostgreSQL 10.6
+- PostgreSQL 10.x
 
 ## Installation
 
@@ -48,41 +48,25 @@ python manage.py createsuperuser
 
 ### Docker compose setup
 
-- Build and start the containers. The `--build` flag is needed only for first time setup **or** if something in the Dockerfile changes.
+- Rename `config_dev.env.example` to `config_dev.env` and edit according
+  to your needs. The file is copiously commented.
 
 ```
-docker-compose up --build
+mv config_dev.env.example config_dev.env
 ```
 
-- Create `local_settings.py` to checkout root
+- Build and start the containers. Docker-compose will automatically build
+  the container if it is missing. By default the container initializes
+  database and starts Django dev server.
 
-```python
-DEBUG = True
-
-SECRET_KEY = 'xxx'
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'helerm',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'PORT': 5432,
-        'HOST': 'helerm_postgres96',
-    }
-}
+```
+docker-compose up
 ```
 
 - Access the application container shell
 
 ```
 docker-compose exec django bash
-```
-
-- Enable necessary postgresql extensions for the database
-
-```
-echo 'CREATE EXTENSION hstore; \q' | ./manage.py dbshell
 ```
 
 - Run `migrate`, `compilemessages`, and `createsuperuser` as usual. Detailed info in manual setup steps.
@@ -153,7 +137,7 @@ python manage.py export_data <xml file>
 
 The export uses [pyxb](http://pyxb.sourceforge.net/) library and needs Python bindings to be generated from XSD schema files.
 
-The repo contains two sets of JHS XML Schema files located in `data` directory. In addition to original ones, there are also HKI customized versions, which are in use at least for now. 
+The repo contains two sets of JHS XML Schema files located in `data` directory. In addition to original ones, there are also HKI customized versions, which are in use at least for now.
 
 Generated bindings are included in `metarecord/binding/` so the export should work out of the box.
 
