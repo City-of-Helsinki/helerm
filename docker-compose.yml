@@ -1,7 +1,8 @@
 version: '3'
 services:
   postgres:
-    image: postgres:10.6
+    # Use the latest Postgres 10.x image
+    image: postgres:10
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
@@ -13,10 +14,24 @@ services:
     container_name: helerm_postgres
 
   django:
-    build: .
-    command: bash -c 'tail -f /dev/null'
+    build:
+      context: .
+      target: development
+    environment:
+      DEBUG: "true"
+      DATABASE_URL: postgres://root:root@postgres/helerm
+      WAIT_FOR_IT_ADDRESS: postgres:5432
+      SECRET_KEY: i_am_development_secret
+      # Secure cookies would be problem for local connections
+      # without TLS
+      COOKIE_SECURE: "false"
+    # both django dev server and uwsgi react to sigint
+    stop_signal: SIGINT
+    # Cached means that it might take a bit until changes on
+    # host are propagated to the container, but the mount
+    # will perform better on MacOS
     volumes:
-      - .:/code
+      - .:/helerm:cached
     ports:
       - '8000:8000'
     depends_on:
