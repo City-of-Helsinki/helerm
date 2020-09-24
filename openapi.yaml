@@ -448,15 +448,33 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    RelatedClassification:
+      type: object
+      example:
+        id: 150c41a055804f7d97f1ee47be2d109d
+        version: 1
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+        version:
+          description: Classification version number
+          type: integer
+          readOnly: true
     Classification:
       type: object
       example:
         id: 150c41a055804f7d97f1ee47be2d109d
         created_at: '2017-08-28T09:25:22.097Z'
         modified_at: '2017-08-28T09:25:22.190Z'
+        modified_by: 'Matti Meikäläinen'
+        version: 2
+        state: 'draft'
+        valid_from: '2017-08-28T09:25:22.097Z'
+        valid_to: '2018-08-28T09:25:22.097Z'
         code: 00 00
         title: Hallintoasioiden ohjaus
-        parent: 1d75967c89334bb5b61681e1a5118e6b
+        parent: {}
         description: Hallintoasioiden ohjaus on tarkkaa puuhaa
         description_internal: Hallintoasioiden ohjaus on tarkkaa puuhaa
         related_classification: Katso myös tehtäväluokka 00
@@ -478,6 +496,30 @@ components:
           description: Last modification time
           type: string
           format: dateTime
+        modified_by:
+          description: First and last name of User
+          type: string
+          nullable: true
+        version:
+          description: Classification version number
+          type: integer
+          readOnly: true
+        state:
+          description: Classification state
+          type: string
+          enum:
+            - draft
+            - sent_for_review
+            - waiting_for_approval
+            - approved
+        valid_from:
+          type: string
+          format: date
+          description: The classification is valid starting from this date
+        valid_to:
+          type: string
+          format: date
+          description: The classification is valid until this date
         code:
           description: Classification code
           type: string
@@ -485,8 +527,7 @@ components:
           description: Title
           type: string
         parent:
-          description: ID of the parent classification of this classification
-          type: string
+          $ref: '#/components/schemas/RelatedClassification'
         description:
           description: Description
           type: string
@@ -529,7 +570,7 @@ components:
         version: 4
         function_id: '00'
         name: Hallintoasiat
-        parent: null
+        parent: {}
         classification: 112d25ac6dab4e59b9827f94ac2c06fe
         created_at: '2017-08-25T10:10:00.346962Z'
         modified_at: '2017-08-25T10:10:00.347001Z'
@@ -564,8 +605,7 @@ components:
           type: string
           deprecated: true
         classification:
-          description: ID of the function's classification
-          type: string
+          $ref: '#/components/schemas/RelatedClassification'
         created_at:
           description: Creation time
           type: string
