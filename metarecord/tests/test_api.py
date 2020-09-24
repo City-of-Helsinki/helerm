@@ -1848,7 +1848,7 @@ def test_function_post_when_not_allowed(post_function_data, user_api_client):
 
     response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
     assert response.status_code == 400
-    expected_error = 'Classification %s does not allow function creation.' % parent_classification.uuid
+    expected_error = 'Classification %s does not allow function creation.' % parent_classification.uuid.hex
     assert expected_error in response.data['non_field_errors']
 
 

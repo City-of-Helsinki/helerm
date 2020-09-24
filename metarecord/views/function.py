@@ -124,11 +124,11 @@ class FunctionListSerializer(StructuralElementSerializer):
         if not self.instance:
             if Function.objects.filter(classification=data['classification']).exists():
                 raise exceptions.ValidationError(
-                    _('Classification %s already has a function.') % data['classification'].uuid
+                    _('Classification %s already has a function.') % data['classification'].uuid.hex
                 )
             if not data['classification'].function_allowed:
                 raise exceptions.ValidationError(
-                    _('Classification %s does not allow function creation.') % data['classification'].uuid
+                    _('Classification %s does not allow function creation.') % data['classification'].uuid.hex
                 )
 
         return data
