@@ -21,7 +21,7 @@ class FunctionQuerySet(models.QuerySet):
     def previous_versions(self, function):
         return self.filter(
             version__lt=function.version,
-            classification=function.classification
+            classification__uuid=function.classification.uuid
         )
 
     def non_approved(self):
@@ -142,13 +142,15 @@ class Function(StructuralElement):
         if not self.classification:
             raise Exception('Classification is required.')
 
-        if not self.id:
+        if self.state == Function.APPROVED and self.classification.state != Classification.APPROVED:
+            raise Exception('Approved function must have approved classification')
 
+        if not self.id:
             # lock Function table to prevent possible race condition when adding the new latest version number
             with connection.cursor() as cursor:
                 cursor.execute('LOCK TABLE %s' % self._meta.db_table)
             try:
-                latest = Function.objects.latest_version().get(classification=self.classification)
+                latest = Function.objects.latest_version().get(classification__uuid=self.classification.uuid)
                 self.version = latest.version + 1
                 self.uuid = latest.uuid
             except Function.DoesNotExist:

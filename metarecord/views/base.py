@@ -4,11 +4,23 @@ from collections import defaultdict
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers
 
-from metarecord.models import Attribute, StructuralElement
+from metarecord.models import Attribute, Classification, StructuralElement
 
 
 class BaseModelSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True, format='hex')
+
+
+class ClassificationRelationSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(source='uuid', format='hex', read_only=True)
+    version = serializers.IntegerField(min_value=1, read_only=True)
+
+    class Meta:
+        model = Classification
+        fields = ('id', 'version')
+
+    def to_internal_value(self, data):
+        return Classification.objects.get(uuid=data['id'], version=data['version'])
 
 
 class StructuralElementSerializer(serializers.ModelSerializer):

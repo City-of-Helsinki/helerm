@@ -2,7 +2,7 @@ import uuid
 from collections import Iterable
 
 from django.contrib.auth import get_user_model
-from django.db import models, transaction
+from django.db import connection, models, transaction
 from django.utils.translation import ugettext_lazy as _
 
 from .base import TimeStampedModel
@@ -14,6 +14,11 @@ class ClassificationQuerySet(models.QuerySet):
 
     def latest_approved(self):
         return self.filter(state=Classification.APPROVED).latest_version()
+
+    def filter_for_user(self, user):
+        if not user.is_authenticated:
+            return self.filter(state=Classification.APPROVED)
+        return self
 
 
 class Classification(TimeStampedModel):
@@ -87,7 +92,19 @@ class Classification(TimeStampedModel):
     def __str__(self):
         return self.code
 
+    @transaction.atomic
     def save(self, *args, **kwargs):
+        if not self.id:
+            with connection.cursor() as cursor:
+                cursor.execute('LOCK TABLE %s' % self._meta.db_table)
+
+            try:
+                latest = Classification.objects.latest_version().get(code=self.code)
+                self.version = latest.version + 1
+                self.uuid = latest.uuid
+            except Classification.DoesNotExist:
+                self.version = 1
+
         # Only update `_created_by` and `_modified_by` value if the relations
         # are set set. Text values should persist even if related user is deleted.
         if self.created_by:
@@ -97,6 +114,9 @@ class Classification(TimeStampedModel):
             self._modified_by = self.modified_by.get_full_name()
 
         super().save(*args, **kwargs)
+
+    def get_modified_by_display(self):
+        return self._modified_by or None
 
 
 @transaction.atomic

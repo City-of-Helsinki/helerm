@@ -9,8 +9,12 @@ from rest_framework.response import Response
 from metarecord.models import Action, Function, Phase, Record
 
 from ..utils import validate_uuid4
-from .base import DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
-from .classification import Classification
+from .base import (
+    ClassificationRelationSerializer,
+    DetailSerializerMixin,
+    HexRelatedField,
+    StructuralElementSerializer
+)
 
 
 class RecordSerializer(StructuralElementSerializer):
@@ -58,7 +62,7 @@ class FunctionListSerializer(StructuralElementSerializer):
     name = serializers.ReadOnlyField(source='get_name')
     parent = serializers.SerializerMethodField()
 
-    classification = HexRelatedField(queryset=Classification.objects.all())
+    classification = ClassificationRelationSerializer()
 
     class Meta(StructuralElementSerializer.Meta):
         model = Function
@@ -103,7 +107,10 @@ class FunctionListSerializer(StructuralElementSerializer):
 
     def get_parent(self, obj):
         if obj.classification and obj.classification.parent:
-            parent_functions = Function.objects.filter(classification=obj.classification.parent)
+            parent_functions = (
+                Function.objects
+                .filter(classification__uuid=obj.classification.parent.uuid)
+            )
             if parent_functions.exists():
                 return parent_functions[0].uuid.hex
         return None
@@ -150,7 +157,7 @@ class FunctionDetailSerializer(FunctionListSerializer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['classification'].read_only = True
+        self.fields['classification'].required = False
 
         if self.partial:
             self.fields['state'].read_only = False
@@ -170,6 +177,14 @@ class FunctionDetailSerializer(FunctionListSerializer):
                     errors = self.get_attribute_validation_errors(self.instance)
                     if errors:
                         raise exceptions.ValidationError(errors)
+        else:
+            classification = data['classification']
+
+            if classification.uuid != self.instance.classification.uuid:
+                raise exceptions.ValidationError(
+                    _('Changing classification is not allowed. Only version can be changed.')
+                )
+
         return data
 
     @transaction.atomic
@@ -198,7 +213,9 @@ class FunctionDetailSerializer(FunctionListSerializer):
                 _('Cannot edit while in state "sent_for_review" or "waiting_for_approval"')
             )
 
-        validated_data['classification'] = instance.classification
+        if not validated_data.get('classification'):
+            validated_data['classification'] = instance.classification
+
         validated_data['modified_by'] = user
         new_function = self._create_new_version(validated_data)
         new_function.create_metadata_version()

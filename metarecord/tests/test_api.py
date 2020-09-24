@@ -6,10 +6,10 @@ from unittest import mock
 import freezegun
 import pytest
 import pytz
-from rest_framework import status
+from django.utils.translation import gettext_lazy as _
 from rest_framework.reverse import reverse
 
-from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
+from metarecord.models import Action, Classification, Function, Phase, Record
 from metarecord.models.bulk_update import BulkUpdate
 from metarecord.tests.utils import (
     assert_response_functions, check_attribute_errors, get_bulk_update_function_key, set_permissions
@@ -50,7 +50,10 @@ def get_record_detail_url(record):
 @pytest.fixture
 def post_function_data(classification, free_text_attribute, choice_attribute):
     return {
-        'classification': str(classification.uuid),
+        'classification': {
+            'id': classification.uuid.hex,
+            'version': classification.version,
+        },
         'attributes': {
             free_text_attribute.identifier: 'new function attribute value',
         },
@@ -80,6 +83,10 @@ def put_function_data(function, free_text_attribute, choice_attribute):
         'name': 'new function version',
         'function_id': function.classification.code,
         'parent': 'xyz',
+        'classification': {
+            'id': function.classification.uuid.hex,
+            'version': function.classification.version,
+        },
         'attributes': {
             free_text_attribute.identifier: 'new function version attribute value',
         },
@@ -253,9 +260,36 @@ def test_function_post(post_function_data, user_api_client):
 
 
 @pytest.mark.django_db
+def test_function_post_with_multiple_available_classification_versions(
+        post_function_data, classification, user_api_client
+):
+    """
+    Test that creating new function will set classification relation to the correct version
+    specified in request data
+    """
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    classification_v2 = Classification.objects.create(
+        uuid=classification.uuid,
+        title='test classification v2',
+        code=classification.code,
+        function_allowed=classification.function_allowed,
+    )
+
+    post_function_data['classification']['version'] = classification_v2.version
+
+    response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
+
+    assert response.status_code == 201
+    new_function = Function.objects.last()
+    assert new_function.classification == classification_v2
+
+
+@pytest.mark.django_db
 def test_function_post_empty_function(user_api_client, classification):
     set_permissions(user_api_client, Function.CAN_EDIT)
-    response = user_api_client.post(FUNCTION_LIST_URL, data={'classification': str(classification.uuid)})
+    response = user_api_client.post(FUNCTION_LIST_URL, data={
+        'classification': {'id': classification.uuid.hex, 'version': classification.version },
+    })
     assert response.status_code == 201
 
     new_function = Function.objects.last()
@@ -280,7 +314,7 @@ def test_cannot_post_more_than_one_function_for_classification(post_function_dat
 
     response = user_api_client.post(FUNCTION_LIST_URL, data=post_function_data)
     assert response.status_code == 400
-    assert 'Classification %s already has a function.' % post_function_data['classification'] in str(response.data)
+    assert 'Classification %s already has a function.' % post_function_data['classification']['id'] in str(response.data)
 
 
 @pytest.mark.django_db
@@ -303,6 +337,35 @@ def test_function_put(put_function_data, user_api_client, function, phase, actio
     for index, obj in enumerate(models):
         obj.refresh_from_db()
         assert obj.modified_at == modified_ats[index]
+
+
+@pytest.mark.django_db
+def test_function_put_with_new_classification_version(put_function_data, user_api_client, classification, function):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    classification_v2 = Classification.objects.create(
+        uuid=classification.uuid,
+        title='test classification v2',
+        code=classification.code,
+        function_allowed=classification.function_allowed,
+    )
+    # Sanity checks before writing anything
+    assert function.classification.title == classification.title
+    assert function.classification.version == classification.version
+    assert classification_v2.version == 2
+    put_function_data['classification'] = {
+        'id': classification_v2.uuid.hex,
+        'version': classification_v2.version,
+    }
+
+    response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
+    assert response.status_code == 200
+
+    new_function = Function.objects.latest_version().get(uuid=function.uuid)
+    _check_function_object_matches_data(new_function, put_function_data)
+    assert Function.objects.count() == 2
+    assert new_function.uuid == function.uuid
+    assert new_function.classification.title == classification_v2.title
+    assert new_function.classification.version == classification_v2.version
 
 
 @pytest.mark.django_db
@@ -332,12 +395,19 @@ def test_function_put_invalid_attributes(put_function_data, user_api_client, fun
 def test_function_put_not_able_to_change_classification(put_function_data, user_api_client, function, classification,
                                                         classification_2):
     set_permissions(user_api_client, Function.CAN_EDIT)
-    put_function_data['classification'] = str(classification_2.uuid)
+    put_function_data['classification'] = {
+        'id': classification_2.uuid.hex,
+        'version': classification_2.version,
+    }
 
     response = user_api_client.put(get_function_detail_url(function), data=put_function_data)
-    assert response.status_code == 200
-    new_function = Function.objects.last()
-    assert new_function.classification == classification
+
+    assert response.status_code == 400
+    latest_version = Function.objects.filter(uuid=function.uuid).latest_version().first()
+    assert latest_version.version == function.version
+    assert response.json() == {
+        'non_field_errors': ['Changing classification is not allowed. Only version can be changed.']
+    }
 
 
 @pytest.mark.django_db
@@ -1769,7 +1839,10 @@ def test_function_delete_on_approve(user_api_client, classification):
 @pytest.mark.django_db
 def test_function_post_when_not_allowed(post_function_data, user_api_client):
     set_permissions(user_api_client, Function.CAN_EDIT)
-    parent_classification = Classification.objects.get(uuid=post_function_data['classification'])
+    parent_classification = Classification.objects.get(
+        uuid=post_function_data['classification']['id'],
+        version=post_function_data['classification']['version'],
+    )
     parent_classification.function_allowed = False
     parent_classification.save(update_fields=('function_allowed',))
 
@@ -1793,6 +1866,225 @@ def test_classification_fields_visibility(api_client, user_api_client, classific
     else:
         assert 'description_internal' not in response.data
         assert 'additional_information' not in response.data
+
+
+@pytest.mark.parametrize('has_permission', (False, True))
+@pytest.mark.django_db
+def test_classification_create_requires_permission(user_api_client, user_2_api_client, has_permission):
+    set_permissions(user_api_client, Classification.CAN_EDIT)
+    client = user_api_client if has_permission else user_2_api_client
+    data = {
+        'code': '05',
+        'title': 'test classification created through the API'
+    }
+
+    response = client.post(CLASSIFICATION_LIST_URL, data=data)
+
+    if has_permission:
+        assert response.status_code == 201
+        assert Classification.objects.count() == 1
+        classification = Classification.objects.first()
+        assert classification.code == data['code']
+        assert classification.title == data['title']
+        assert classification.version == 1
+        assert classification.created_by == client.user
+        assert classification.modified_by == client.user
+    else:
+        assert response.status_code == 403
+        assert Classification.objects.count() == 0
+
+
+@pytest.mark.parametrize('has_permission', (False, True))
+@pytest.mark.django_db
+def test_classification_update_requires_permission(user_api_client, user_2_api_client, classification, has_permission):
+    set_permissions(user_api_client, Classification.CAN_EDIT)
+    client = user_api_client if has_permission else user_2_api_client
+    classification.state = Classification.DRAFT
+    classification.save(update_fields=['state'])
+    data = {
+        'state': Classification.SENT_FOR_REVIEW,
+    }
+
+    response = client.patch(get_classification_detail_url(classification), data=data)
+
+    if has_permission:
+        assert response.status_code == 200
+        assert Classification.objects.count() == 1
+        classification.refresh_from_db()
+        assert classification.state == Classification.SENT_FOR_REVIEW
+        assert classification.modified_by == client.user
+    else:
+        assert response.status_code == 403
+        assert Classification.objects.count() == 1
+        classification.refresh_from_db()
+        assert classification.state == Classification.DRAFT
+
+
+@pytest.mark.django_db
+def test_classification_patch_does_not_create_new_version(user_api_client, classification):
+    set_permissions(user_api_client, Classification.CAN_EDIT)
+    classification.state = Classification.DRAFT
+    classification.save(update_fields=['state'])
+    data = {
+        'state': Classification.SENT_FOR_REVIEW,
+    }
+
+    assert classification.version == 1
+    response = user_api_client.patch(get_classification_detail_url(classification), data=data)
+
+    assert response.status_code == 200
+    assert Classification.objects.count() == 1
+    classification.refresh_from_db()
+    assert classification.state == Classification.SENT_FOR_REVIEW
+    assert classification.version == 1
+
+
+@pytest.mark.django_db
+def test_classification_put_creates_new_version(user_api_client, classification):
+    set_permissions(user_api_client, Classification.CAN_EDIT)
+    data = {
+        'code': classification.code,
+        'title': 'Updated classification title',
+        'description': 'Updated classification description',
+    }
+
+    response = user_api_client.put(get_classification_detail_url(classification), data=data)
+
+    assert response.status_code == 200
+    assert response.json()['version'] == 2
+    assert Classification.objects.count() == 2
+    new_version = Classification.objects.latest_version().get(code=classification.code)
+    assert new_version.code == classification.code
+    assert new_version.uuid == classification.uuid
+    assert new_version.version == 2
+    assert new_version.title == data['title']
+    assert new_version.description == data['description']
+    assert new_version.state == Classification.DRAFT
+
+
+@pytest.mark.parametrize('parent_state', (Classification.APPROVED, Classification.DRAFT))
+@pytest.mark.django_db
+def test_classification_put_parent_version_change(user_api_client, parent_classification, classification, parent_state):
+    set_permissions(user_api_client, Classification.CAN_EDIT)
+    classification.parent = parent_classification
+    classification.save(update_fields=['parent'])
+    parent_classification_v2 = Classification.objects.create(
+        uuid=parent_classification.uuid,
+        title='Updated title',
+        code=parent_classification.code,
+        function_allowed=parent_classification.function_allowed,
+        state=parent_state
+    )
+    assert parent_classification_v2.version == 2
+    assert classification.parent == parent_classification
+
+    data = {
+        'code': classification.code,
+        'title': 'Updated classification title',
+        'description': 'Updated classification description',
+        'parent': {
+            'id': parent_classification_v2.uuid.hex,
+            'version': parent_classification_v2.version,
+        }
+    }
+    response = user_api_client.put(get_classification_detail_url(classification), data=data)
+    response_data = response.json()
+
+    assert response.status_code == 200
+    new_version = Classification.objects.latest_version().get(uuid=classification.uuid)
+    assert new_version.version == 2
+    assert new_version.parent == parent_classification_v2
+    assert response_data['parent']['id'] == parent_classification_v2.uuid.hex
+    assert response_data['parent']['version'] == parent_classification_v2.version
+
+
+@pytest.mark.parametrize(
+    'old_state,new_state,is_ok',
+    (
+        (Classification.DRAFT, Classification.SENT_FOR_REVIEW, True),
+        (Classification.DRAFT, Classification.WAITING_FOR_APPROVAL, False),
+        (Classification.DRAFT, Classification.APPROVED, False),
+        (Classification.SENT_FOR_REVIEW, Classification.DRAFT, True),
+        (Classification.SENT_FOR_REVIEW, Classification.WAITING_FOR_APPROVAL, True),
+        (Classification.SENT_FOR_REVIEW, Classification.APPROVED, False),
+        (Classification.WAITING_FOR_APPROVAL, Classification.DRAFT, True),
+        (Classification.WAITING_FOR_APPROVAL, Classification.SENT_FOR_REVIEW, False),
+        (Classification.WAITING_FOR_APPROVAL, Classification.APPROVED, True),
+        (Classification.APPROVED, Classification.DRAFT, True),
+        (Classification.APPROVED, Classification.SENT_FOR_REVIEW, False),
+        (Classification.APPROVED, Classification.WAITING_FOR_APPROVAL, False),
+    ),
+)
+@pytest.mark.django_db
+def test_classification_state_change(user_api_client, classification, old_state, new_state, is_ok):
+    set_permissions(
+        user_api_client,
+        [
+            Classification.CAN_EDIT,
+            Classification.CAN_REVIEW,
+            Classification.CAN_APPROVE,
+        ]
+    )
+    classification.state = old_state
+    classification.save(update_fields=['state'])
+    data = {'state': new_state, 'name': 'this should be ignored'}
+
+    response = user_api_client.patch(get_classification_detail_url(classification), data=data)
+
+    if is_ok:
+        assert response.status_code == 200
+        assert response.data['version'] == 1
+        assert response.data['state'] == new_state
+
+        classification.refresh_from_db()
+        assert classification.version == 1
+        assert classification.state == new_state
+    else:
+        assert response.status_code == 400
+        assert response.data['state'] == [_('Invalid state change.')]
+
+
+@pytest.mark.django_db
+def test_classification_modified_by(classification, user_api_client, user):
+    set_permissions(user_api_client, Classification.CAN_VIEW_MODIFIED_BY)
+
+    response = user_api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert response.data['modified_by'] is None
+
+    classification.modified_by = user
+    classification.save()
+
+    response = user_api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert response.data['modified_by'] == '%s %s' % (user.first_name, user.last_name)
+
+
+@pytest.mark.django_db
+def test_function_anonymous_cannot_view_modified_by(classification, api_client, user):
+    classification.state = Function.APPROVED
+    classification.modified_by = user
+    classification.save()
+
+    response = api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert 'modified_by' not in response.data
+
+
+@pytest.mark.django_db
+def test_classification_version_filter(user_api_client, classification):
+    classification_v2 = Classification.objects.create(
+        uuid=classification.uuid,
+        title='test classification v2',
+        code=classification.code,
+        function_allowed=classification.function_allowed,
+    )
+    assert classification_v2.version == 2
+
+    response = user_api_client.get(get_classification_detail_url(classification), {'version': 2})
+
+    data = response.json()
+    assert data['title'] == 'test classification v2'
 
 
 @pytest.mark.django_db
