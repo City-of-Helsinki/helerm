@@ -134,7 +134,7 @@ class JHSExporter:
         try:
             function = Function.objects.prefetch_related(
                 'phases', 'phases__actions', 'phases__actions__records'
-            ).filter(classification=classification).latest_approved().get()
+            ).filter(classification__uuid=classification.uuid).latest_approved().get()
 
         except Function.DoesNotExist:
             return jhs.Luokka(
