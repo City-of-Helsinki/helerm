@@ -194,6 +194,7 @@ class MetadataVersion(models.Model):
     modified_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name=_('modified by'), blank=True, null=True, on_delete=models.SET_NULL
     )
+    _modified_by = models.CharField(verbose_name=_('modified by (text)'), max_length=200, blank=True, editable=False)
     state = models.CharField(
         verbose_name=_('state'), max_length=20, choices=Function.STATE_CHOICES, default=Function.DRAFT
     )
@@ -205,3 +206,14 @@ class MetadataVersion(models.Model):
 
     def __str__(self):
         return ''  # because of admin UI
+
+    def get_modified_by_display(self):
+        return self._modified_by
+
+    def save(self, *args, **kwargs):
+        # Only update _modified_by value if modified_by is set.
+        # _modified_by should persist even if related user is deleted.
+        if self.modified_by:
+            self._modified_by = self.modified_by.get_full_name()
+
+        super().save(*args, **kwargs)

@@ -46,6 +46,9 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
         editable=False,
         on_delete=models.SET_NULL
     )
+    _created_by = models.CharField(verbose_name=_('created by (text)'), max_length=200, blank=True, editable=False)
+    _modified_by = models.CharField(verbose_name=_('modified by (text)'), max_length=200, blank=True, editable=False)
+    _approved_by = models.CharField(verbose_name=_('approved by (text)'), max_length=200, blank=True, editable=False)
 
     is_approved = models.BooleanField(verbose_name=_('is approved'), default=False)
     changes = JSONField(verbose_name=_('changes'), blank=True, default=dict)
@@ -81,7 +84,8 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
         self.apply_changes(user)
         self.is_approved = True
         self.approved_by = user
-        self.save(update_fields=['is_approved', 'approved_by'])
+        self._approved_by = user.get_full_name()
+        self.save(update_fields=['is_approved', 'approved_by', '_approved_by'])
 
     @transaction.atomic
     def apply_changes(self, user):
@@ -128,3 +132,14 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
                         record = action_records.get(uuid=record_uuid)
                         self._apply_changes_to_instance(record, record_updates, fields=('attributes',))
                         record.save()
+
+    def save(self, *args, **kwargs):
+        # Only update `_created_by` and `_modified_by` value if the relations
+        # are set set. Text values should persist even if related user is deleted.
+        if self.created_by:
+            self._created_by = self.created_by.get_full_name()
+
+        if self.modified_by:
+            self._modified_by = self.modified_by.get_full_name()
+
+        super().save(*args, **kwargs)
