@@ -19,7 +19,9 @@
 pip install -r requirements.txt
 ```
 
-- Create `local_settings.py` file in the project root and use it to override settings as needed.
+- Copy `config_dev.env.example` to `config_dev.env` and edit according
+  to your needs. DATABASE_URL is the one setting that you will need to
+  uncomment and possibly edit.
 
 - Create a database
 
