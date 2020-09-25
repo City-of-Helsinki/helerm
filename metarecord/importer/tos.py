@@ -201,11 +201,6 @@ class TOSImporter:
             print('Skipping, classification %s does not allow function creation.' % classification_code)
             return
 
-        if Function.objects.latest_version().filter(classification=classification).exists():
-            raise TOSImporterException(
-                'Classification %s already has a function.' % classification_code
-            )
-
         return Function.objects.create(classification=classification)
 
     def _clean_attributes(self, original_attribute_data, row_num=None):
