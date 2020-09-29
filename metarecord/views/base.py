@@ -30,7 +30,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
 
     class Meta:
         ordering = ('index',)
-        exclude = ('uuid', 'created_by')
+        exclude = ('uuid', 'created_by', '_created_by', '_modified_by')
 
     def get_fields(self):
         fields = super().get_fields()
