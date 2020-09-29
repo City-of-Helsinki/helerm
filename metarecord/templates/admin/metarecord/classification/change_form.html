@@ -1,0 +1,12 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block object-tools %}
+    {{ block.super }}
+    <div class="submit-row">
+        <form action="{% url 'admin:metarecord_classification_create-new-version' object_id=object_id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="{% trans 'Create new version' %}"/>
+        </form>
+    </div>
+{% endblock %}
