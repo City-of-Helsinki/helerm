@@ -20,6 +20,15 @@ class ClassificationQuerySet(models.QuerySet):
             return self.filter(state=Classification.APPROVED)
         return self
 
+    def previous_versions(self, classification):
+        return self.filter(
+            version__lt=classification.version,
+            uuid=classification.uuid
+        )
+
+    def non_approved(self):
+        return self.exclude(state=Classification.APPROVED)
+
 
 class Classification(TimeStampedModel):
     DRAFT = 'draft'
@@ -114,6 +123,16 @@ class Classification(TimeStampedModel):
             self._modified_by = self.modified_by.get_full_name()
 
         super().save(*args, **kwargs)
+
+        if self.state == Classification.APPROVED:
+            # Delete old non-approved versions leading to current version if newly saved version is approved.
+            self.delete_old_non_approved_versions()
+
+    def delete_old_non_approved_versions(self):
+        if self.state != Classification.APPROVED:
+            raise Exception('Function must be approved before old non-approved versions can be deleted.')
+
+        Classification.objects.previous_versions(self).non_approved().delete()
 
     def get_modified_by_display(self):
         return self._modified_by or None
