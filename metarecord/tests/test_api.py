@@ -6,6 +6,7 @@ from unittest import mock
 import freezegun
 import pytest
 import pytz
+from rest_framework import status
 from rest_framework.reverse import reverse
 
 from metarecord.models import Action, Attribute, Classification, Function, Phase, Record
@@ -40,6 +41,10 @@ def get_bulk_update_detail_url(bulk_update):
 
 def get_bulk_update_approve_url(bulk_update):
     return reverse('bulkupdate-approve', kwargs={'pk': bulk_update.pk})
+
+
+def get_record_detail_url(record):
+    return reverse('record-detail', kwargs={'uuid': record.uuid})
 
 
 @pytest.fixture
@@ -1970,6 +1975,65 @@ def test_bulk_update_modified_by_display(bulk_update, user_api_client, permissio
 
     response = user_api_client.get(get_bulk_update_detail_url(bulk_update))
     response_data = json.loads(response.content.decode('utf-8'))
+
+    if not permission:
+        assert 'modified_by' not in response_data.keys()
+    else:
+        assert response_data['modified_by'] == 'John Rambo'
+
+
+@pytest.mark.django_db
+def test_record_api_put(record, super_user_api_client):
+    data = {
+        'attributes': {'TypeSpecifier': 'updated record'},
+        'index': 123,
+    }
+
+    response = super_user_api_client.put(get_record_detail_url(record), data=data)
+
+    record.refresh_from_db()
+    assert response.status_code == 405
+    assert record.index == 1
+    assert record.attributes == {'TypeSpecifier': 'test record'}
+
+
+@pytest.mark.django_db
+def test_record_api_patch(record, super_user_api_client):
+    data = {
+        'attributes': {'TypeSpecifier': 'updated record'},
+    }
+
+    response = super_user_api_client.patch(get_record_detail_url(record), data=data)
+
+    record.refresh_from_db()
+    assert response.status_code == 405
+    assert record.index == 1
+    assert record.attributes == {'TypeSpecifier': 'test record'}
+
+
+@pytest.mark.django_db
+def test_record_api_delete(record, super_user_api_client):
+    response = super_user_api_client.delete(get_record_detail_url(record))
+
+    assert response.status_code == 405
+    assert Record.objects.filter(pk=record.pk).exists()
+
+
+@pytest.mark.parametrize('permission', (None, 'view_modified_by', 'superuser'))
+@pytest.mark.django_db
+def test_record_modified_by_display(record, user_api_client, permission):
+    if permission == 'view_modified_by':
+        set_permissions(user_api_client, Function.CAN_VIEW_MODIFIED_BY)
+    elif permission == 'superuser':
+        user_api_client.user.is_superuser = True
+        user_api_client.user.save(update_fields=['is_superuser'])
+
+    record.created_by = user_api_client.user
+    record.modified_by = user_api_client.user
+    record.save()
+
+    response = user_api_client.get(get_record_detail_url(record))
+    response_data = response.json()
 
     if not permission:
         assert 'modified_by' not in response_data.keys()
