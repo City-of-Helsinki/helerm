@@ -4,12 +4,13 @@ from rest_framework.routers import DefaultRouter
 
 from metarecord.views import (
     AttributeViewSet, BulkUpdateViewSet, ClassificationViewSet, ExportView, FunctionViewSet, JHSExportViewSet,
-    TemplateViewSet
+    RecordViewSet, TemplateViewSet
 )
 from users.views import UserViewSet
 
 router = DefaultRouter()
 router.register(r'function', FunctionViewSet)
+router.register(r'record', RecordViewSet)
 router.register(r'attribute', AttributeViewSet)
 router.register(r'template', TemplateViewSet, basename='template')
 router.register(r'user', UserViewSet)
