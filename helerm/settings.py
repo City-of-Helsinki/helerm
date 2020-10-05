@@ -91,6 +91,18 @@ INSTALLED_APPS = [
     'users',
 ]
 
+if env('SENTRY_DSN'):
+    import raven
+
+    RAVEN_CONFIG = {
+        'dsn': env('SENTRY_DSN'),
+        # Needs to change if settings.py is not in an immediate child of the project
+        'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
+        'environment': env('SENTRY_ENVIRONMENT'),
+    }
+    INSTALLED_APPS.append('raven.contrib.django.raven_compat')
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
