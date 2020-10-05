@@ -47,7 +47,7 @@ BASE_DIR = root()
 # Helsinki specific setting specifying whether the site
 # is in ('dev','test' or 'production'). Only sets the background
 # color in admin for HelERM
-SITE_TYPE=env('HEL_SITE_TYPE')
+SITE_TYPE = env('HEL_SITE_TYPE')
 
 # Django environ has a nasty habit of complanining at level
 # WARN about env file not being preset. Here we pre-empt it.
