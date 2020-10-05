@@ -20,6 +20,7 @@ env = environ.Env(
     DJANGO_LOG_LEVEL=(str, 'INFO'),
     CONN_MAX_AGE=(int, 0),
     DATABASE_URL=(str, 'postgres:///helerm'),
+    HEL_SITE_TYPE=(str, 'dev'),
     TOKEN_AUTH_ACCEPTED_AUDIENCE=(str, ''),
     TOKEN_AUTH_SHARED_SECRET=(str, ''),
     SECRET_KEY=(str, ''),
@@ -42,6 +43,11 @@ env = environ.Env(
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = root()
+
+# Helsinki specific setting specifying whether the site
+# is in ('dev','test' or 'production'). Only sets the background
+# color in admin for HelERM
+SITE_TYPE=env('HEL_SITE_TYPE')
 
 # Django environ has a nasty habit of complanining at level
 # WARN about env file not being preset. Here we pre-empt it.
