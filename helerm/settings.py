@@ -35,7 +35,7 @@ env = environ.Env(
     SENTRY_ENVIRONMENT=(str, 'development'),
     COOKIE_SECURE=(bool, True),
     COOKIE_PREFIX=(str, 'helerm'),
-    PATH_POSTFIX=(str, ''),
+    PATH_PREFIX=(str, '/'),
     INTERNAL_IPS=(list, []),
     HELERM_JHS191_EXPORT_DESCRIPTION=(str, 'exported from undefined environment'),
 )
@@ -209,10 +209,10 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 
 CSRF_COOKIE_NAME = '{}-csrftoken'.format(env('COOKIE_PREFIX'))
-CSRF_COOKIE_PATH = '/{}'.format(env('PATH_POSTFIX'))
+CSRF_COOKIE_PATH = env('PATH_PREFIX')
 CSRF_COOKIE_SECURE = env('COOKIE_SECURE')
 SESSION_COOKIE_NAME = '{}-sessionid'.format(env('COOKIE_PREFIX'))
-SESSION_COOKIE_PATH = '/{}'.format(env('PATH_POSTFIX'))
+SESSION_COOKIE_PATH = env('PATH_PREFIX')
 SESSION_COOKIE_SECURE = env('COOKIE_SECURE')
 
 AUTH_USER_MODEL = 'users.User'
