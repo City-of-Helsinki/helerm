@@ -16,12 +16,22 @@ def parent_classification():
 
 @pytest.fixture
 def classification():
-    return Classification.objects.create(title='test classification', code='00 00', function_allowed=True)
+    return Classification.objects.create(
+        title='test classification',
+        code='00 00',
+        state=Classification.APPROVED,
+        function_allowed=True,
+    )
 
 
 @pytest.fixture
 def classification_2():
-    return Classification.objects.create(title='test classification 2', code='00 01', function_allowed=True)
+    return Classification.objects.create(
+        title='test classification 2',
+        code='00 01',
+        state=Classification.APPROVED,
+        function_allowed=True
+    )
 
 
 @pytest.fixture

@@ -176,27 +176,30 @@ class TOSImporter:
 
         return str(classification_codes[index])
 
+    def _get_classification(self, code):
+        queryset = Classification.objects.filter(code=code)
+
+        if not queryset.exists():
+            raise TOSImporterException(
+                'Classification %s does not exist' % code
+            )
+
+        classification = queryset.latest_approved().first()
+        if not classification:
+            classification = queryset.latest_version().first()
+        return classification
+
     def _import_function(self, sheet):
         classification_code = self._get_classification_code(sheet)
         if not classification_code:
             return
 
-        try:
-            classification = Classification.objects.get(code=classification_code)
-        except Classification.DoesNotExist:
-            raise TOSImporterException(
-                'Classification %s does not exist' % classification_code
-            )
+        classification = self._get_classification(classification_code)
         Function.objects.filter(classification=classification).delete()
 
         if not classification.function_allowed:
             print('Skipping, classification %s does not allow function creation.' % classification_code)
             return
-
-        if Function.objects.latest_version().filter(classification=classification).exists():
-            raise TOSImporterException(
-                'Classification %s already has a function.' % classification_code
-            )
 
         return Function.objects.create(classification=classification)
 

@@ -10,7 +10,6 @@ class RecordSerializer(StructuralElementSerializer):
 
     class Meta(StructuralElementSerializer.Meta):
         model = Record
-        exclude = StructuralElementSerializer.Meta.exclude + ('_created_by', '_modified_by')
 
     def get_modified_by(self, obj):
         return obj._modified_by or None
