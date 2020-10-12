@@ -5,14 +5,42 @@ Django settings for helerm project.
 import environ
 import logging
 import os
+import sentry_sdk
+import subprocess
+
 
 from django.utils.translation import ugettext_lazy as _
+from sentry_sdk.integrations.django import DjangoIntegration
+
 
 CONFIG_FILE_NAME = "config_dev.env"
 
 # This will get default settings, as Django has not yet initialized
 # logging when importing this file
 logger = logging.getLogger(__name__)
+
+
+def get_git_revision_hash() -> str:
+    """
+    Retrieve the git hash for the underlying git repository or die trying
+
+    We need a way to retrieve git revision hash for sentry reports
+    I assume that if we have a git repository available we will
+    have git-the-comamand as well
+    """
+    try:
+        # We are not interested in gits complaints
+        git_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD'], stderr=subprocess.DEVNULL, encoding='utf8')
+    # ie. "git" was not found
+    # should we return a more generic meta hash here?
+    # like "undefined"?
+    except FileNotFoundError:
+        git_hash = "git_not_available"
+    except subprocess.CalledProcessError:
+        # Ditto
+        git_hash = "no_repository"
+    return git_hash.rstrip()
+
 
 root = environ.Path(__file__) - 2  # two levels back in hierarchy
 env = environ.Env(
@@ -92,15 +120,12 @@ INSTALLED_APPS = [
 ]
 
 if env('SENTRY_DSN'):
-    import raven
-
-    RAVEN_CONFIG = {
-        'dsn': env('SENTRY_DSN'),
-        # Needs to change if settings.py is not in an immediate child of the project
-        'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
-        'environment': env('SENTRY_ENVIRONMENT'),
-    }
-    INSTALLED_APPS.append('raven.contrib.django.raven_compat')
+    sentry_sdk.init(
+        dsn=env("SENTRY_DSN"),
+        environment=env("SENTRY_ENVIRONMENT"),
+        release=get_git_revision_hash(),
+        integrations=[DjangoIntegration()],
+    )
 
 
 MIDDLEWARE = [

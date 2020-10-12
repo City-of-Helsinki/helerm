@@ -12,3 +12,4 @@ django-allauth
 djangorestframework-jwt
 django-admin-sortable2
 djangorestframework-xml
+sentry-sdk
