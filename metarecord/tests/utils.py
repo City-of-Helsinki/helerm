@@ -1,6 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 
+from rest_framework import serializers
+
+from metarecord.models import Function
+from metarecord.views.base import StructuralElementSerializer, HexRelatedField, ClassificationRelationSerializer
+from metarecord.views.function import FunctionListSerializer, PhaseSerializer
+
 
 def set_permissions(api_client, permissions):
     """
@@ -51,3 +57,40 @@ def assert_response_functions(response, objects):
 
 def get_bulk_update_function_key(function):
     return '{uuid}__{version}'.format(uuid=function.uuid.hex, version=function.version)
+
+
+class FunctionTestDetailSerializer(StructuralElementSerializer):
+    version = serializers.IntegerField(read_only=True)
+    modified_by = serializers.SerializerMethodField()
+    state = serializers.CharField(read_only=True)
+
+    # TODO these three are here to maintain backwards compatibility,
+    # should be removed as soon as the UI doesn't need these anymore
+    function_id = serializers.ReadOnlyField(source='get_classification_code')
+    # there is also Function.name field which should be hidden for other than templates when this is removed
+    name = serializers.ReadOnlyField(source='get_name')
+    parent = serializers.SerializerMethodField()
+
+    classification = ClassificationRelationSerializer()
+
+    class Meta(StructuralElementSerializer.Meta):
+        model = Function
+        exclude = StructuralElementSerializer.Meta.exclude + ('index', 'is_template')
+
+
+    def get_parent(self, obj):
+        if obj.classification and obj.classification.parent:
+            parent_functions = (
+                Function.objects
+                .filter(classification__uuid=obj.classification.parent.uuid)
+            )
+            if parent_functions.exists():
+                return parent_functions[0].uuid.hex
+        return None
+
+    def get_fields(self):
+        fields = super().get_fields()
+
+        fields['phases'] = PhaseSerializer(many=True, required=False)
+
+        return fields

@@ -6,15 +6,10 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers, status, viewsets
 from rest_framework.response import Response
 
-from metarecord.models import Action, Function, Phase, Record
+from metarecord.models import Action, Function, Phase, Record, Classification
 
 from ..utils import validate_uuid4
-from .base import (
-    ClassificationRelationSerializer,
-    DetailSerializerMixin,
-    HexRelatedField,
-    StructuralElementSerializer
-)
+from .base import ClassificationRelationSerializer, DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
 
 
 class RecordSerializer(StructuralElementSerializer):
@@ -78,27 +73,52 @@ class FunctionListSerializer(StructuralElementSerializer):
 
         return fields
 
-    def _create_new_version(self, function_data):
+    def _create_new_version(self, function_data, copy_from_previous=False, phases=[]):
         user = self.context['request'].user
         user_data = {'created_by': user, 'modified_by': user}
 
         phase_data = function_data.pop('phases', [])
+
         function_data.update(user_data)
         function = Function.objects.create(**function_data)
 
-        for index, phase_datum in enumerate(phase_data, 1):
-            action_data = phase_datum.pop('actions', [])
-            phase_datum.update(user_data)
-            phase = Phase.objects.create(function=function, index=index, **phase_datum)
+        if copy_from_previous:
+            for phase in phases:
+                actions = []
+                for action in phase.actions.all():
+                    records = []
+                    for record in action.records.all():
+                        record.pk = None
+                        record.save()
+                        records.append(record)
 
-            for index, action_datum in enumerate(action_data, 1):
-                record_data = action_datum.pop('records', [])
-                action_datum.update(user_data)
-                action = Action.objects.create(phase=phase, index=index, **action_datum)
+                    action.pk = None
+                    action.save()
+                    for record in records:
+                        action.records.add(record)
+                    actions.append(action)
 
-                for index, record_datum in enumerate(record_data, 1):
-                    record_datum.update(user_data)
-                    Record.objects.create(action=action, index=index, **record_datum)
+                phase.pk = None
+                phase.save()
+                for action in actions:
+                    phase.actions.add(action)
+                function.phases.add(phase)
+
+        else:
+            for index, phase_datum in enumerate(phase_data, 1):
+                action_data = phase_datum.pop('actions', [])
+                phase_datum.update(user_data)
+
+                phase = Phase.objects.create(function=function, index=index, **phase_datum)
+
+                for index, action_datum in enumerate(action_data, 1):
+                    record_data = action_datum.pop('records', [])
+                    action_datum.update(user_data)
+                    action = Action.objects.create(phase=phase, index=index, **action_datum)
+
+                    for index, record_datum in enumerate(record_data, 1):
+                        record_datum.update(user_data)
+                        Record.objects.create(action=action, index=index, **record_datum)
 
         return function
 
@@ -140,10 +160,42 @@ class FunctionListSerializer(StructuralElementSerializer):
         if not user.has_perm(Function.CAN_EDIT):
             raise exceptions.PermissionDenied(_('No permission to create.'))
 
-        validated_data['modified_by'] = user
-        new_function = self._create_new_version(validated_data)
-        new_function.create_metadata_version()
+        if list(validated_data.keys()) == ['classification']:
+            previous_classifications = Classification.objects.filter(
+                    code=validated_data["classification"].code
+                ).order_by('-version')
 
+            previous_classification = previous_classifications[1] if len(previous_classifications) > 1 else None
+
+            previous_version_function = Function.objects.filter(
+                classification=previous_classification
+            ).latest_version().first()
+
+            classification = validated_data["classification"]
+            previous_function_data = FunctionDetailSerializer(previous_version_function, context=self.context).data
+            previous_function_data['classification'] = classification
+            previous_function_data['modified_by'] = user
+            previous_function_data['error_count'] = 0
+            previous_function_data.pop('classification_code')
+            previous_function_data.pop('classification_title')
+            previous_function_data.pop('function_id')
+            previous_function_data.pop('parent')
+            previous_function_data.pop('version_history')
+            previous_function_data.pop('id')
+
+            if previous_version_function.phases:
+                phases = previous_version_function.phases.all()
+
+            new_function = self._create_new_version(
+                self.validate(previous_function_data),
+                copy_from_previous=True,
+                phases=phases
+            )
+        else:
+            validated_data['modified_by'] = user
+            new_function = self._create_new_version(validated_data)
+
+        new_function.create_metadata_version()
         return new_function
 
 
