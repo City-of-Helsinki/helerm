@@ -12,7 +12,8 @@ from rest_framework.reverse import reverse
 from metarecord.models import Action, Classification, Function, Phase, Record
 from metarecord.models.bulk_update import BulkUpdate
 from metarecord.tests.utils import (
-    assert_response_functions, check_attribute_errors, get_bulk_update_function_key, set_permissions
+    assert_response_functions, check_attribute_errors, FunctionTestDetailSerializer, get_bulk_update_function_key,
+    set_permissions
 )
 from metarecord.views.classification import include_related
 
@@ -1851,6 +1852,49 @@ def test_function_post_when_not_allowed(post_function_data, user_api_client):
     expected_error = 'Classification %s does not allow function creation.' % parent_classification.uuid.hex
     assert expected_error in response.data['non_field_errors']
 
+
+@pytest.mark.django_db
+def test_function_post_new_when_existing_function(rf, function, phase, action, record, user_api_client):
+    set_permissions(user_api_client, Function.CAN_EDIT)
+    classification = function.classification
+    classification.pk = None
+    classification.save()
+
+    function.refresh_from_db()
+
+    new_classification = Classification.objects.latest_version().get(code=function.classification.code)
+    post_data = {'classification': {
+        'id': new_classification.uuid.hex,
+        'version': new_classification.version,
+    }}
+
+    response = user_api_client.post(FUNCTION_LIST_URL, data=post_data)
+
+    class view():
+        action = "create"
+
+    dummy_request = rf.get(get_function_detail_url(function))
+    dummy_request.user = user_api_client.user
+    dummy_context = {"view": view(), "request": dummy_request}
+    function_data = FunctionTestDetailSerializer(function, context=dummy_context).data
+    response_data_json = response.json()
+    for attr in ['modified_at', 'created_at', 'actions', 'id']:
+        response_data_json['phases'][0].pop(attr)
+        function_data['phases'][0].pop(attr)
+    assert response_data_json['phases'][0] == function_data['phases'][0]
+    response_data_json.pop('phases')
+    function_data.pop('phases')
+
+    new_phase = Function.objects.filter(classification=new_classification).latest_version().first().phases.first()
+    assert (new_phase.attributes == phase.attributes)
+    assert new_phase.actions.first().attributes == phase.actions.first().attributes
+    assert new_phase.actions.first().records.first().attributes == phase.actions.first().records.first().attributes
+    assert response_data_json["version"] != function_data["version"]
+    assert response_data_json["classification"]["version"] != function_data["classification"]["version"]
+    for attr in ["created_at", "modified_at", "version", "classification"]:
+        function_data.pop(attr)
+        response_data_json.pop(attr)
+    assert response_data_json == function_data
 
 @pytest.mark.parametrize('authenticated', (False, True))
 @pytest.mark.django_db
