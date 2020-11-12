@@ -23,6 +23,7 @@ class ClassificationSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(source='uuid', format='hex', read_only=True)
     parent = ClassificationRelationSerializer(required=False)
     modified_by = serializers.SerializerMethodField()
+    version_history = serializers.SerializerMethodField()
 
     class Meta:
         model = Classification
@@ -43,6 +44,7 @@ class ClassificationSerializer(serializers.ModelSerializer):
             'related_classification',
             'additional_information',
             'function_allowed',
+            'version_history',
         )
 
     def __init__(self, *args, **kwargs):
@@ -110,6 +112,29 @@ class ClassificationSerializer(serializers.ModelSerializer):
         serializer = PhaseSerializer(phases, many=True)
 
         return serializer.data
+
+    def get_version_history(self, obj):
+        request = self.context['request']
+        classifications = Classification.objects.filter_for_user(request.user).filter(uuid=obj.uuid).order_by('version')
+        ret = []
+
+        for classification in classifications:
+            version_data = {
+                attr: getattr(classification, attr) for attr in (
+                    'state',
+                    'version',
+                    'modified_at',
+                    'valid_from',
+                    'valid_to'
+                )
+            }
+
+            if not request or request.user.has_perm(Classification.CAN_VIEW_MODIFIED_BY):
+                version_data['modified_by'] = classification.get_modified_by_display()
+
+            ret.append(version_data)
+
+        return ret
 
     def to_representation(self, obj):
         data = super().to_representation(obj)
