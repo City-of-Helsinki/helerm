@@ -141,6 +141,12 @@ paths:
         To update a function ie. to create a new version of it, PUT method must
         be used. All new versions start from state "draft", and this cannot be changed with PUT.
       parameters:
+        - name: function_id
+          in: path
+          required: true
+          description: ID of the function to put
+          schema:
+            type: string
         - $ref: '#/components/parameters/includeApproved'
       responses:
         '200':
@@ -429,13 +435,20 @@ paths:
       tags:
         - bulk_update
       description: Approve bulk update and apply its changes
+      parameters:
+        - name: bulk_update_id
+          in: path
+          required: true
+          description: ID of the bulk update to update
+          schema:
+            type: string
       responses:
         '200':
           description: The bulk update was approved succesfully
         '400':
-          $ref: '#/component/responses/BadRequest'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          $ref: '#/component/responses/NotAuthenticated'
+          $ref: '#/components/responses/NotAuthenticated'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
@@ -472,6 +485,13 @@ components:
         state: 'draft'
         valid_from: '2017-08-28T09:25:22.097Z'
         valid_to: '2018-08-28T09:25:22.097Z'
+        version_history:
+          state: 'draft'
+          version: 1
+          modified_at: '2017-08-28T20:46:34.796669Z'
+          valid_from: '2017-08-28T20:46:34.796644Z'
+          valid_to: '2017-08-28T20:46:34.796644Z'
+          modified_by: Matti Meikäläinen
         code: 00 00
         title: Hallintoasioiden ohjaus
         parent: {}
@@ -520,6 +540,8 @@ components:
           type: string
           format: date
           description: The classification is valid until this date
+        version_history:
+          $ref: '#/components/schemas/VersionHistory'
         code:
           description: Classification code
           type: string
@@ -577,6 +599,13 @@ components:
         state: draft
         valid_from: '2017-06-25'
         valid_to: '2017-07-25'
+        version_history:
+          state: 'draft'
+          version: 1
+          modified_at: '2017-08-28T20:46:34.796669Z'
+          valid_from: '2017-08-28T20:46:34.796644Z'
+          valid_to: '2017-08-28T20:46:34.796644Z'
+          modified_by: Matti Meikäläinen
         modified_by: 'Matti Meikäläinen'
         classification_code: 01 00 00
         classification_title: Työnantaja- ja henkilöstöpolitiikka
@@ -632,6 +661,8 @@ components:
           type: string
           format: date
           description: The function is valid until this date
+        version_history:
+          $ref: '#/components/schemas/VersionHistory'
         modified_by:
           description: First and last name of User
           type: string
@@ -947,6 +978,44 @@ components:
           type: string
         previous:
           type: string
+    VersionHistory:
+      type: object
+      example:
+        state: 'draft'
+        version: 1
+        modified_at: '2017-08-28T20:46:34.796669Z'
+        valid_from: '2017-08-28T20:46:34.796644Z'
+        valid_to: '2017-08-28T20:46:34.796644Z'
+        modified_by: Matti Meikäläinen
+      properties:
+        state:
+          description: Object state
+          type: string
+          enum:
+            - draft
+            - sent_for_review
+            - waiting_for_approval
+            - approved
+        version:
+          description: Object version number
+          type: integer
+          readOnly: true
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+        valid_from:
+          description: Valid from date
+          type: string
+          format: dateTime
+        valid_to:
+          description: Valid to date
+          type: string
+          format: dateTime
+        modified_by:
+          description: First and last name of User
+          type: string
+          nullable: true
     BulkUpdate:
       type: object
       description: Bulk update that contains changes to Functions and any related Phases, Actions, and Records
