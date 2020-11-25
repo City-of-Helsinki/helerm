@@ -1,5 +1,6 @@
-import django_filters
 import uuid
+
+import django_filters
 from django.db import transaction
 from django.db.models import Q
 from django.http import Http404
@@ -324,8 +325,15 @@ class FunctionDetailSerializer(FunctionListSerializer):
         ret = []
 
         for function in functions:
-            version_data = {attr: getattr(function, attr) for attr in ('state', 'version', 'modified_at')}
-
+            version_data = {
+                attr: getattr(function, attr) for attr in (
+                    'state',
+                    'version',
+                    'modified_at',
+                    'valid_from',
+                    'valid_to'
+                )
+            }
             if not request or function.can_view_modified_by(request.user):
                 version_data['modified_by'] = function.get_modified_by_display()
 

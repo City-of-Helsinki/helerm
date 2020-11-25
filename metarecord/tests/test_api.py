@@ -1466,6 +1466,34 @@ def test_function_version_history_field(user_api_client, classification, user_2)
 
 
 @pytest.mark.django_db
+def test_classification_version_history(user_api_client, classification):
+
+    classification.pk = None
+    classification.state = Classification.SENT_FOR_REVIEW
+    classification.valid_from = datetime.datetime.now()
+    classification.valid_to = datetime.datetime.now()
+    classification.save()
+
+    response = user_api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    version_history = response.data['version_history']
+
+    assert len(version_history) == 2
+
+    first_version = version_history[0]
+    assert first_version.get('modified_at')
+    assert first_version['state'] == Classification.APPROVED
+    assert first_version['version'] == 1
+    assert 'modified_by' not in version_history[0]
+
+    last_version = version_history[1]
+    assert last_version['state'] == Classification.SENT_FOR_REVIEW
+    assert type(last_version['valid_to']) == datetime.date
+    assert type(last_version['valid_from']) == datetime.date
+    assert last_version['version'] == 2
+
+
+@pytest.mark.django_db
 def test_classification_function_state_field(user_api_client, classification, classification_2):
     Function.objects.create(classification=classification, state=Function.DRAFT)
     Function.objects.create(classification=classification, state=Function.SENT_FOR_REVIEW)
