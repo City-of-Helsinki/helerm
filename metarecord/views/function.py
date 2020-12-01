@@ -9,6 +9,7 @@ from rest_framework import exceptions, serializers, status, viewsets
 from rest_framework.response import Response
 
 from metarecord.models import Action, Classification, Function, Phase, Record
+from metarecord.models.bulk_update import BulkUpdate
 
 from ..utils import validate_uuid4
 from .base import ClassificationRelationSerializer, DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
@@ -84,8 +85,11 @@ class FunctionListSerializer(StructuralElementSerializer):
         user_data = {'created_by': user, 'modified_by': user}
 
         phase_data = function_data.pop('phases', [])
+        if function_data.get("bulk_update"):
+            function_data["bulk_update"] = BulkUpdate.objects.get(id=function_data["bulk_update"])
 
         function_data.update(user_data)
+
         function = Function.objects.create(**function_data)
 
         if copy_from_previous:

@@ -1882,13 +1882,30 @@ def test_function_post_when_not_allowed(post_function_data, user_api_client):
 
 
 @pytest.mark.django_db
-def test_function_post_new_when_existing_function(rf, function, phase, action, record, user_api_client):
+def test_function_post_new_when_existing_function(rf, function, phase, action, record, user_api_client, super_user_api_client):
     set_permissions(user_api_client, Function.CAN_EDIT)
     classification = function.classification
     classification.pk = None
     classification.save()
 
     function.refresh_from_db()
+
+    function_key = get_bulk_update_function_key(function)
+    post_data = {
+        'description': 'Bulk update description',
+        'state': Function.APPROVED,
+        'changes': {
+            function_key: {
+                'attributes': {'TypeSpecifier': 'bulk updated test thing'},
+            }
+        },
+    }
+
+    with freezegun.freeze_time('2020-01-01 12:00'):
+        response = super_user_api_client.post(BULK_UPDATE_LIST_URL, post_data)
+
+    function.bulk_update = BulkUpdate.objects.first()
+    function.save()
 
     new_classification = Classification.objects.latest_version().get(code=function.classification.code)
     post_data = {'classification': {
@@ -1919,7 +1936,7 @@ def test_function_post_new_when_existing_function(rf, function, phase, action, r
     assert new_phase.actions.first().records.first().attributes == phase.actions.first().records.first().attributes
     assert response_data_json["version"] != function_data["version"]
     assert response_data_json["classification"]["version"] != function_data["classification"]["version"]
-    for attr in ["created_at", "modified_at", "version", "classification"]:
+    for attr in ["created_at", "modified_at", "version", "classification", "bulk_update"]:
         function_data.pop(attr)
         response_data_json.pop(attr)
     assert response_data_json == function_data
