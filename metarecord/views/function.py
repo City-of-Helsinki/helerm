@@ -53,6 +53,8 @@ class FunctionListSerializer(StructuralElementSerializer):
     classification_code = serializers.ReadOnlyField(source='get_classification_code')
     classification_title = serializers.ReadOnlyField(source='get_name')
 
+    bulk_update = serializers.SerializerMethodField()
+
     # TODO these three are here to maintain backwards compatibility,
     # should be removed as soon as the UI doesn't need these anymore
     function_id = serializers.ReadOnlyField(source='get_classification_code')
@@ -147,6 +149,9 @@ class FunctionListSerializer(StructuralElementSerializer):
             if parent_functions.exists():
                 return parent_functions[0].uuid.hex
         return None
+
+    def get_bulk_update(self, obj):
+        return obj.bulk_update.id if obj.bulk_update else None
 
     def validate(self, data):
         new_valid_from = data.get('valid_from')
