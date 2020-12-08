@@ -79,7 +79,7 @@ def post_function_data(classification, free_text_attribute, choice_attribute):
 
 
 @pytest.fixture
-def put_function_data(function, free_text_attribute, choice_attribute):
+def put_function_data(function, free_text_attribute, choice_attribute, bulk_update):
     return {
         'name': 'new function version',
         'function_id': function.classification.code,
@@ -105,7 +105,8 @@ def put_function_data(function, free_text_attribute, choice_attribute):
                     }
                 ]
             }
-        ]
+        ],
+        'bulk_update': bulk_update.id,
     }
 
 
