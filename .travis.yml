@@ -15,6 +15,15 @@ addons:
     - postgresql-10
     - postgresql-client-10
 
+env:
+  - ELASTICSEARCH_HOST: localhost:9200
+before_install:
+  - curl https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-amd64.deb -o elasticsearch.deb
+  - sudo dpkg -i --force-confnew elasticsearch.deb
+  - sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
+  - sudo service elasticsearch restart
+before_script:
+  - sleep 10 # Needed for ElasticSearch
 install:
 - pip install --upgrade pip
 - pip install coveralls -r requirements.txt -r dev-requirements.txt

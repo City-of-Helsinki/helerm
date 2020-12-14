@@ -67,6 +67,7 @@ env = environ.Env(
     PATH_PREFIX=(str, '/'),
     INTERNAL_IPS=(list, []),
     HELERM_JHS191_EXPORT_DESCRIPTION=(str, 'exported from undefined environment'),
+    ELASTICSEARCH_HOST=(str, "helerm_elasticsearch:9200"),
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -114,8 +115,11 @@ INSTALLED_APPS = [
     'helusers.providers.helsinki',
     'adminsortable2',
     'django_filters',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
 
     'metarecord',
+    'search_indices',
     'users',
 ]
 
@@ -314,6 +318,24 @@ REST_FRAMEWORK = {
         'rest_framework_xml.renderers.XMLRenderer',
     ),
 }
+
+
+# Elasticsearch configuration
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': env("ELASTICSEARCH_HOST")
+    },
+}
+
+# Name of the Elasticsearch index
+ELASTICSEARCH_INDEX_NAMES = {
+    'search_indices.documents.action': 'action',
+    'search_indices.documents.function': 'function',
+    'search_indices.documents.classification': 'classification',
+    'search_indices.documents.phase': 'phase',
+    'search_indices.documents.record': 'record',
+}
+
 
 # Django SECRET_KEY setting, used for password reset links and such
 SECRET_KEY = env('SECRET_KEY')
