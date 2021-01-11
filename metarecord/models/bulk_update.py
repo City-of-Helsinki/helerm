@@ -3,7 +3,7 @@ from copy import deepcopy
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import models, transaction
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from ..utils import create_new_function_version, update_nested_dictionary
 from .base import TimeStampedModel, UUIDPrimaryKeyModel

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import transaction
 from django.urls import path
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from metarecord.admin._common import StructuralElementAdmin
 from metarecord.models.function import Function, MetadataVersion
