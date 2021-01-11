@@ -1,7 +1,6 @@
 from copy import deepcopy
 
 from django.conf import settings
-from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import PermissionDenied
 from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
@@ -51,7 +50,7 @@ class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
     _approved_by = models.CharField(verbose_name=_('approved by (text)'), max_length=200, blank=True, editable=False)
 
     is_approved = models.BooleanField(verbose_name=_('is approved'), default=False)
-    changes = JSONField(verbose_name=_('changes'), blank=True, default=dict)
+    changes = models.JSONField(verbose_name=_('changes'), blank=True, default=dict)
     state = models.CharField(
         verbose_name=_('state'),
         max_length=20,
