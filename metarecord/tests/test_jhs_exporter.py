@@ -3,9 +3,11 @@ from unittest import mock
 
 import freezegun
 import pytest
+from rest_framework.test import APIClient
 
 from metarecord.exporter.jhs import JHSExporter
 from metarecord.models import Function
+from metarecord.views.export import JHSExportViewSet
 
 
 @pytest.mark.django_db
@@ -65,3 +67,24 @@ def test_exporter_xml_generation_is_successful(function, phase, action, record):
         action_id=action.uuid,
         rec_id=record.uuid
     )
+
+
+@pytest.mark.django_db
+def test_export_view_file_creation(function, phase, action, record):
+    client = APIClient()
+    response = client.get("/export/")
+    assert 'Content-Disposition' in response
+
+
+@pytest.mark.django_db
+def test_jhs_export_view_file_creation(function, phase, action, record):
+    jhs_export_view = JHSExportViewSet()
+
+    open_mock = mock.mock_open()
+    open_mock.side_effect = [FileNotFoundError, mock.DEFAULT]
+    with mock.patch("metarecord.views.export.open", open_mock, create=True):
+        response = jhs_export_view.list(None)
+
+    open_mock.assert_called()
+    open_mock.return_value.write.assert_called_once()
+    assert 'Content-Disposition' in response
