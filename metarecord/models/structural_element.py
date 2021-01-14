@@ -3,9 +3,8 @@ from collections import Iterable
 from copy import deepcopy
 
 from django.conf import settings
-from django.contrib.postgres.fields import JSONField
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .attribute import Attribute
 from .base import TimeStampedModel
@@ -22,7 +21,7 @@ class StructuralElement(TimeStampedModel):
     _created_by = models.CharField(verbose_name=_('created by (text)'), max_length=200, blank=True, editable=False)
     _modified_by = models.CharField(verbose_name=_('modified by (text)'), max_length=200, blank=True, editable=False)
     index = models.PositiveSmallIntegerField(null=True, editable=False, db_index=True)
-    attributes = JSONField(verbose_name=_('attributes'), blank=True, default=dict)
+    attributes = models.JSONField(verbose_name=_('attributes'), blank=True, default=dict)
 
     _attribute_validations = {
         'allowed': None,

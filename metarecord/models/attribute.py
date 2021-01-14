@@ -1,7 +1,7 @@
 import logging
 
 from django.db import models, transaction
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .base import TimeStampedModel, UUIDPrimaryKeyModel
 from .predefined_attributes import PREDEFINED_ATTRIBUTES
