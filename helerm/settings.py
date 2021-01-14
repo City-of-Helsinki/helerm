@@ -322,7 +322,7 @@ SECRET_KEY = env('SECRET_KEY')
 # functionality expecting SECRET_KEY to stay same will break upon restart.
 # Should not be a problem for development.
 if not SECRET_KEY:
-    logger.warn("SECRET_KEY was not defined in configuration. Generating an ephemeral key.")
+    logger.warning("SECRET_KEY was not defined in configuration. Generating an ephemeral key.")
     import random
     system_random = random.SystemRandom()
     SECRET_KEY = ''.join([system_random.choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)')
