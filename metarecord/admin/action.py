@@ -1,12 +1,11 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from metarecord.admin._common import StructuralElementAdmin
 from metarecord.models.action import Action
 
 
 @admin.register(Action)
-class ActionAdmin(StructuralElementAdmin):
+class ActionAdmin(admin.ModelAdmin):
     list_display = ('get_classification_code', 'get_function_name', 'get_phase_name', 'get_name')
     list_filter = ('phase__function__classification__code',)
     search_fields = ('attributes',)
