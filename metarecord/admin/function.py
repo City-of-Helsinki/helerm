@@ -3,7 +3,6 @@ from django.db import transaction
 from django.urls import path
 from django.utils.translation import gettext_lazy as _
 
-from metarecord.admin._common import StructuralElementAdmin
 from metarecord.models.function import Function, MetadataVersion
 from metarecord.views.admin import tos_import_view
 
@@ -26,7 +25,7 @@ class MetadataVersionInline(admin.TabularInline):
 
 
 @admin.register(Function)
-class FunctionAdmin(StructuralElementAdmin):
+class FunctionAdmin(admin.ModelAdmin):
     list_display = ('get_classification_code', 'get_name', 'state', 'version')
     list_filter = ('state', 'classification__code')
     search_fields = ('classification__code', 'classification__title')
