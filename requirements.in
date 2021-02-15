@@ -10,6 +10,7 @@ djangorestframework
 django-cors-headers
 django-filter
 django-allauth
+django-admin-json-editor
 djangorestframework-jwt
 django-admin-sortable2
 djangorestframework-xml
