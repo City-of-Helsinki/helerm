@@ -322,7 +322,7 @@ paths:
                 $ref: '#/components/schemas/Template'
         '404':
           $ref: '#/components/responses/NotFound'
-  /export/:
+  /export/jhs191/:
     get:
       tags:
         - export
@@ -338,7 +338,7 @@ paths:
           content:
             application/xml:
               schema:
-                type: string
+                $ref: '#/components/schemas/tos:Tos'
   /bulk-update/:
     get:
       tags:
@@ -1107,6 +1107,89 @@ components:
             }
           }
         }
+    tos:Tos:
+      type: object
+      description: Export of the data in JHS191 XML format.
+      example:
+        xmlns:tos: "http://skeemat.jhs-suositukset.fi/tos/2015/01/15"
+        tos:TosTiedot:
+          tos:id: "cee34db0-de3e-47fb-b937-b74dd87ea759"
+          tos:Nimeke:
+            tos:NimekeKielella:
+              tos:kieliKoodi: "fi"
+              tos:NimekeTeksti: Helsingin kaupungin Tiedonohjaussuunnitelma
+          tos:YhteyshenkiloNimi: Tiedonhallinta
+          tos:TosVersio: 1
+          tos:TilaKoodi: 3
+          tos:OrganisaatioNimi: Helsingin kaupunki
+          tos:LisatiedotTeksti: JHS 191 XML 2021-01-11 12:15EET exported from undefined environment
+        tos:Luokka:
+          tos:Luokitustunnus: '00'
+          tos:Nimeke:
+            tos:NimekeKielella:
+              tos:kieliKoodi: "fi"
+              tos:NimekeTeksti: Helsingin kaupungin Tiedonohjaussuunnitelma
+      properties:
+        xmlns:tos:
+          type: string
+          xml:
+            attribute: true
+        tos:TosTiedot:
+          $ref: '#/components/schemas/tos:TosTiedot'
+        tos:Luokka:
+          $ref: '#/components/schemas/tos:Luokka'
+    tos:Luokka:
+      type: object
+      example:
+        tos:Luokitustunnus: '00'
+      properties:
+        tos:Luokitustunnus:
+          type: string
+        tos:Nimeke:
+          $ref: '#/components/schemas/tos:Nimeke'
+    tos:TosTiedot:
+      type: object
+      example:
+        tos:id: "cee34db0-de3e-47fb-b937-b74dd87ea759"
+        tos:YhteyshenkiloNimi: Tiedonhallinta
+        tos:TosVersio: 1
+        tos:TilaKoodi: 3
+        tos:OrganisaatioNimi: Helsingin kaupunki
+        tos:LisatiedotTeksti: JHS 191 XML 2021-01-11 12:15EET exported from undefined environment
+      properties:
+        tos:id:
+          type: string
+          xml:
+            attribute: true
+        tos:Nimeke:
+          $ref: '#/components/schemas/tos:Nimeke'
+        tos:YhteyshenkiloNimi:
+          type: string
+        tos:TosVersio:
+          type: integer
+        tos:TilaKoodi:
+          type: integer
+        tos:OrganisaatioNimi:
+          type: string
+        tos:LisatiedotTeksti:
+          type: string
+    tos:Nimeke:
+      type: object
+      properties:
+        tos:NimekeKielella:
+          $ref: '#/components/schemas/tos:NimekeKielella'
+    tos:NimekeKielella:
+      type: object
+      example:
+        tos:kieliKoodi: "fi"
+        tos:NimekeTeksti: Helsingin kaupungin Tiedonohjaussuunnitelma
+      properties:
+        tos:kieliKoodi:
+          type: string
+          xml:
+            attribute: true
+        tos:NimekeTeksti:
+          type: string
   responses:
     BadRequest:
       description: Bad request, details about the error in the request body
