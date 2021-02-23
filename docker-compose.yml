@@ -12,9 +12,27 @@ services:
       - helerm_postgres-data-volume:/var/lib/postgresql/data
     container_name: helerm_postgres
 
+  elasticsearch:
+    image: elasticsearch:7.3.2
+    build:
+      context: .
+      dockerfile: ./docker/elasticsearch/Dockerfile
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - cluster.routing.allocation.disk.watermark.low=97%
+      - cluster.routing.allocation.disk.watermark.high=98%
+      - cluster.routing.allocation.disk.watermark.flood_stage=99%
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Djava.security.policy=file:/usr/share/elasticsearch/plugins/elasticsearch-analysis-voikko/plugin-security.policy"
+    container_name: helerm_elasticsearch
+
   django:
     build: .
     command: bash -c 'tail -f /dev/null'
+    environment:
+      ELASTICSEARCH_HOST: helerm_elasticsearch
     volumes:
       - .:/code
     ports:
