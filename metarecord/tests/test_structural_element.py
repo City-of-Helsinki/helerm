@@ -23,10 +23,10 @@ def test_structural_element_persistent_user_name_fields(user, function):
 
 
 @pytest.mark.django_db
-def test_structural_element_json_schema(function):
+def test_structural_element_json_schema_without_defined_validation(function):
     # Function is a subclass of StructuralElement
     create_predefined_attributes()
 
-    allowed_attributes = function._attribute_validations["allowed"]
+    allowed_attributes = function.get_attribute_validations()["allowed"]
     json_schema = function.get_attribute_json_schema()
     assert all([prop in allowed_attributes for prop in json_schema["properties"]])

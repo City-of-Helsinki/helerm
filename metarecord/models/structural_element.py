@@ -3,10 +3,12 @@ from collections import Iterable
 from copy import deepcopy
 
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from .attribute import Attribute
+from .attribute_validation import AttributeValidationRule
 from .base import TimeStampedModel
 
 
@@ -38,40 +40,89 @@ class StructuralElement(TimeStampedModel):
         ordering = ('index',)
 
     @classmethod
+    def get_attribute_validations(cls):
+        """
+        Returns the attribute validation rules with the priority:
+        1. Type specific attribute validation rules, combined with the general attribute validation rules.
+        2. General attribute validation rules if the type specific do not exist.
+        3. Hard coded `_attribute_validations` if neither type specific or general attribute validation rules exist.
+        """
+        content_type = ContentType.objects.get_for_model(cls)
+        general_content_type = ContentType.objects.get_for_model(
+            AttributeValidationRule
+        )
+
+        attr_validation_rule = AttributeValidationRule.objects.filter(
+            content_type=content_type
+        ).first()
+        general_attr_validation_rule = AttributeValidationRule.objects.filter(
+            content_type=general_content_type
+        ).first()
+
+        if attr_validation_rule and general_attr_validation_rule:
+            attr_validations = attr_validation_rule.validation_json
+            general_attr_validations = general_attr_validation_rule.validation_json
+
+            # Combine type specific attribute validation rules with the general validation rules.
+            for attr_key in StructuralElement._attribute_validations.keys():
+                attr_validations[attr_key] += general_attr_validations[attr_key]
+
+        elif attr_validation_rule:
+            attr_validations = attr_validation_rule.validation_json
+        elif general_attr_validation_rule:
+            attr_validations = general_attr_validation_rule.validation_json
+        else:
+            return cls._attribute_validations
+
+        refactored_validations = deepcopy(attr_validations)
+
+        cond_type = "conditionally_required"
+        refactor_conditional_validation(
+            attr_validations, refactored_validations, cond_type
+        )
+
+        cond_type = "conditionally_disallowed"
+        refactor_conditional_validation(
+            attr_validations, refactored_validations, cond_type
+        )
+
+        return refactored_validations
+
+    @classmethod
     def get_attribute_json_schema(cls):
-        return get_attribute_json_schema(**cls._attribute_validations)
+        return get_attribute_json_schema(**cls.get_attribute_validations())
 
     @classmethod
     def get_required_attributes(cls):
-        return set(cls._attribute_validations.get('required') or [])
+        return set(cls.get_attribute_validations().get('required') or [])
 
     @classmethod
     def get_multivalued_attributes(cls):
-        return set(cls._attribute_validations.get('multivalued') or [])
+        return set(cls.get_attribute_validations().get('multivalued') or [])
 
     @classmethod
     def get_conditionally_required_attributes(cls):
-        return deepcopy(cls._attribute_validations.get('conditionally_required')) or {}
+        return deepcopy(cls.get_attribute_validations().get('conditionally_required')) or {}
 
     @classmethod
     def get_conditionally_disallowed_attributes(cls):
-        return deepcopy(cls._attribute_validations.get('conditionally_disallowed')) or {}
+        return deepcopy(cls.get_attribute_validations().get('conditionally_disallowed')) or {}
 
     @classmethod
     def get_all_or_none_attributes(cls):
         return [
             set(validation)
-            for validation in cls._attribute_validations.get('all_or_none') or []
+            for validation in cls.get_attribute_validations().get('all_or_none') or []
             if validation
         ]
 
     @classmethod
     def get_allow_values_outside_choices_attributes(cls):
-        return set(cls._attribute_validations.get('allow_values_outside_choices') or [])
+        return set(cls.get_attribute_validations().get('allow_values_outside_choices') or [])
 
     @classmethod
     def is_attribute_allowed(cls, attribute_identifier):
-        allowed = cls._attribute_validations.get('allowed')
+        allowed = cls.get_attribute_validations().get('allowed')
         if allowed is None:
             # None means the validation isn't enabled
             return True
@@ -230,3 +281,53 @@ def get_attribute_json_schema(**kwargs):
     schema['extra_validations'] = extra_validations
 
     return schema
+
+
+def refactor_conditional_validation(
+    attr_validations, refactored_validations, cond_type
+):
+    """
+    Refactor the conditional (conditionally_required, conditionally_disallowed) validation rules from the JSON schema
+    of the Django admin to the schema supported by the rest of the application. This needs to be done because the
+    django-admin-json-editor schema does not support the existing validation schema.
+
+    Example:
+
+    'conditionally_required': [
+        {
+            'attribute': 'SecurityPeriod',
+            'conditions': [
+                {
+                    'attribute': 'PublicityClass',
+                    'value': 'Salassa pidettävä',
+                },
+                {
+                    'attribute': 'PublicityClass',
+                    'value': 'Osittain salassa pidettävä',
+                },
+            ]
+        },
+    ]
+
+    ->
+
+    'conditionally_required': {
+        'SecurityPeriod': {'PublicityClass': ['Salassa pidettävä', 'Osittain salassa pidettävä']},
+    },
+    """
+    refactored_validations[cond_type] = {}
+    for conditional_validation_obj in attr_validations.get(cond_type, []):
+        attribute = conditional_validation_obj["attribute"]
+
+        if attribute not in refactored_validations[cond_type]:
+            refactored_validations[cond_type][attribute] = {}
+
+        conditions = conditional_validation_obj["conditions"]
+        for condition_obj in conditions:
+            cond_attribute = condition_obj["attribute"]
+            cond_value = condition_obj["value"]
+
+            if cond_attribute not in refactored_validations[cond_type][attribute]:
+                refactored_validations[cond_type][attribute][cond_attribute] = []
+
+            refactored_validations[cond_type][attribute][cond_attribute].append(cond_value)
