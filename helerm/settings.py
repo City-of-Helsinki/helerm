@@ -68,6 +68,11 @@ env = environ.Env(
     INTERNAL_IPS=(list, []),
     HELERM_JHS191_EXPORT_DESCRIPTION=(str, 'exported from undefined environment'),
     ELASTICSEARCH_HOST=(str, "helerm_elasticsearch:9200"),
+    SOCIAL_AUTH_TUNNISTAMO_KEY=(str, ''),
+    SOCIAL_AUTH_TUNNISTAMO_SECRET=(str, ''),
+    SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT=(str, 'https://api.hel.fi/sso/openid'),
+    OIDC_API_TOKEN_AUTH_AUDIENCE=(str, ''),
+    OIDC_API_TOKEN_AUTH_ISSUER=(str, 'https://api.hel.fi/sso'),
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -109,10 +114,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'rest_framework',
     'corsheaders',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'helusers.providers.helsinki',
+    'social_django',
     'adminsortable2',
     'django_filters',
     'django_elasticsearch_dsl',
@@ -267,16 +269,11 @@ AUTH_USER_MODEL = 'users.User'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'helusers.tunnistamo_oidc.TunnistamoOIDCAuth',
 )
 
-SOCIALACCOUNT_PROVIDERS = {
-    'helsinki': {
-        'VERIFIED_EMAIL': True
-    }
-}
-SOCIALACCOUNT_ADAPTER = 'helusers.adapter.SocialAccountAdapter'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_ON_GET = True
 
 SITE_ID = 1
@@ -295,7 +292,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'helusers.jwt.JWTAuthentication',
+        'helusers.oidc.ApiTokenAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'metarecord.pagination.MetaRecordPagination',
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
@@ -318,6 +315,23 @@ REST_FRAMEWORK = {
         # Renderer settings for djangorestframework-xml
         'rest_framework_xml.renderers.XMLRenderer',
     ),
+}
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+SOCIAL_AUTH_TUNNISTAMO_KEY = env('SOCIAL_AUTH_TUNNISTAMO_KEY')
+SOCIAL_AUTH_TUNNISTAMO_SECRET = env('SOCIAL_AUTH_TUNNISTAMO_SECRET')
+SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT = env('SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT')
+
+OIDC_API_TOKEN_AUTH = {
+    # Audience that must be present in the token for the request to be
+    # accepted. Value must be agreed between your SSO service and your
+    # application instance. Essentially this allows your application to
+    # know that the token in meant to be used with it.
+    'AUDIENCE': env('OIDC_API_TOKEN_AUTH_AUDIENCE'),
+    # Who we trust to sign the tokens. The library will request the
+    # public signature keys from standard locations below this URL
+    'ISSUER': env('OIDC_API_TOKEN_AUTH_ISSUER'),
 }
 
 

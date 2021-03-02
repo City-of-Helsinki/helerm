@@ -35,6 +35,7 @@ router.register(r"all-search", AllSearchDocumentViewSet, basename='all_search')
 urlpatterns = [
     path('v1/', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
+    path('pysocial/', include('social_django.urls', namespace='social')),
+    path('helauth/', include('helusers.urls')),
     path('export/', ExportView.as_view(), name='export')
 ]
