@@ -45,7 +45,7 @@ django-helusers==0.5.6
     # via -r requirements.in
 django-nine==0.2.4
     # via django-elasticsearch-dsl-drf
-django==3.1.5
+django==3.1.8
     # via
     #   -r requirements.in
     #   django-admin-json-editor
@@ -141,7 +141,7 @@ social-auth-core==4.0.2
     # via social-auth-app-django
 sqlparse==0.4.1
     # via django
-urllib3==1.26.2
+urllib3==1.26.4
     # via
     #   elasticsearch
     #   requests
