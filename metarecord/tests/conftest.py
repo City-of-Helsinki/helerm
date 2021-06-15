@@ -1,3 +1,4 @@
+import os
 import uuid
 
 import pytest
@@ -16,12 +17,22 @@ def parent_classification():
 
 @pytest.fixture
 def classification():
-    return Classification.objects.create(title='test classification', code='00 00', function_allowed=True)
+    return Classification.objects.create(
+        title='test classification',
+        code='00 00',
+        state=Classification.APPROVED,
+        function_allowed=True,
+    )
 
 
 @pytest.fixture
 def classification_2():
-    return Classification.objects.create(title='test classification 2', code='00 01', function_allowed=True)
+    return Classification.objects.create(
+        title='test classification 2',
+        code='00 01',
+        state=Classification.APPROVED,
+        function_allowed=True
+    )
 
 
 @pytest.fixture
@@ -176,3 +187,11 @@ def attribute_group(choice_attribute):
     choice_attribute.group = group
     choice_attribute.save(update_fields=('group',))
     return group
+
+
+@pytest.fixture
+def tos_importer_excel_file_path():
+    excel_filename = "00_00_01_02.xlsx"
+    current_file = os.path.realpath(__file__)
+    current_directory = os.path.dirname(current_file)
+    return os.path.join(current_directory, "test_data", excel_filename)

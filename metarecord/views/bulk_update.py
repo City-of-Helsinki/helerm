@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response

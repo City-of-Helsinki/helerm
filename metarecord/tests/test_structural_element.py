@@ -1,5 +1,7 @@
 import pytest
 
+from metarecord.models.attribute import create_predefined_attributes
+
 
 @pytest.mark.django_db
 def test_structural_element_persistent_user_name_fields(user, function):
@@ -18,3 +20,13 @@ def test_structural_element_persistent_user_name_fields(user, function):
     assert function._created_by == 'John Rambo'
     assert not function.modified_by
     assert function._modified_by == 'John Rambo'
+
+
+@pytest.mark.django_db
+def test_structural_element_json_schema_without_defined_validation(function):
+    # Function is a subclass of StructuralElement
+    create_predefined_attributes()
+
+    allowed_attributes = function.get_attribute_validations()["allowed"]
+    json_schema = function.get_attribute_json_schema()
+    assert all([prop in allowed_attributes for prop in json_schema["properties"]])

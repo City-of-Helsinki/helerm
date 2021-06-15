@@ -141,6 +141,12 @@ paths:
         To update a function ie. to create a new version of it, PUT method must
         be used. All new versions start from state "draft", and this cannot be changed with PUT.
       parameters:
+        - name: function_id
+          in: path
+          required: true
+          description: ID of the function to put
+          schema:
+            type: string
         - $ref: '#/components/parameters/includeApproved'
       responses:
         '200':
@@ -316,7 +322,7 @@ paths:
                 $ref: '#/components/schemas/Template'
         '404':
           $ref: '#/components/responses/NotFound'
-  /export/:
+  /export/jhs191/:
     get:
       tags:
         - export
@@ -332,7 +338,7 @@ paths:
           content:
             application/xml:
               schema:
-                type: string
+                $ref: '#/components/schemas/tos:Tos'
   /bulk-update/:
     get:
       tags:
@@ -429,13 +435,20 @@ paths:
       tags:
         - bulk_update
       description: Approve bulk update and apply its changes
+      parameters:
+        - name: bulk_update_id
+          in: path
+          required: true
+          description: ID of the bulk update to update
+          schema:
+            type: string
       responses:
         '200':
           description: The bulk update was approved succesfully
         '400':
-          $ref: '#/component/responses/BadRequest'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          $ref: '#/component/responses/NotAuthenticated'
+          $ref: '#/components/responses/NotAuthenticated'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
@@ -448,15 +461,40 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    RelatedClassification:
+      type: object
+      example:
+        id: 150c41a055804f7d97f1ee47be2d109d
+        version: 1
+      properties:
+        id:
+          description: Unique identifier
+          type: string
+        version:
+          description: Classification version number
+          type: integer
+          readOnly: true
     Classification:
       type: object
       example:
         id: 150c41a055804f7d97f1ee47be2d109d
         created_at: '2017-08-28T09:25:22.097Z'
         modified_at: '2017-08-28T09:25:22.190Z'
+        modified_by: 'Matti Meikäläinen'
+        version: 2
+        state: 'draft'
+        valid_from: '2017-08-28T09:25:22.097Z'
+        valid_to: '2018-08-28T09:25:22.097Z'
+        version_history:
+          state: 'draft'
+          version: 1
+          modified_at: '2017-08-28T20:46:34.796669Z'
+          valid_from: '2017-08-28T20:46:34.796644Z'
+          valid_to: '2017-08-28T20:46:34.796644Z'
+          modified_by: Matti Meikäläinen
         code: 00 00
         title: Hallintoasioiden ohjaus
-        parent: 1d75967c89334bb5b61681e1a5118e6b
+        parent: {}
         description: Hallintoasioiden ohjaus on tarkkaa puuhaa
         description_internal: Hallintoasioiden ohjaus on tarkkaa puuhaa
         related_classification: Katso myös tehtäväluokka 00
@@ -478,6 +516,32 @@ components:
           description: Last modification time
           type: string
           format: dateTime
+        modified_by:
+          description: First and last name of User
+          type: string
+          nullable: true
+        version:
+          description: Classification version number
+          type: integer
+          readOnly: true
+        state:
+          description: Classification state
+          type: string
+          enum:
+            - draft
+            - sent_for_review
+            - waiting_for_approval
+            - approved
+        valid_from:
+          type: string
+          format: date
+          description: The classification is valid starting from this date
+        valid_to:
+          type: string
+          format: date
+          description: The classification is valid until this date
+        version_history:
+          $ref: '#/components/schemas/VersionHistory'
         code:
           description: Classification code
           type: string
@@ -485,8 +549,7 @@ components:
           description: Title
           type: string
         parent:
-          description: ID of the parent classification of this classification
-          type: string
+          $ref: '#/components/schemas/RelatedClassification'
         description:
           description: Description
           type: string
@@ -529,13 +592,20 @@ components:
         version: 4
         function_id: '00'
         name: Hallintoasiat
-        parent: null
+        parent: {}
         classification: 112d25ac6dab4e59b9827f94ac2c06fe
         created_at: '2017-08-25T10:10:00.346962Z'
         modified_at: '2017-08-25T10:10:00.347001Z'
         state: draft
         valid_from: '2017-06-25'
         valid_to: '2017-07-25'
+        version_history:
+          state: 'draft'
+          version: 1
+          modified_at: '2017-08-28T20:46:34.796669Z'
+          valid_from: '2017-08-28T20:46:34.796644Z'
+          valid_to: '2017-08-28T20:46:34.796644Z'
+          modified_by: Matti Meikäläinen
         modified_by: 'Matti Meikäläinen'
         classification_code: 01 00 00
         classification_title: Työnantaja- ja henkilöstöpolitiikka
@@ -564,8 +634,7 @@ components:
           type: string
           deprecated: true
         classification:
-          description: ID of the function's classification
-          type: string
+          $ref: '#/components/schemas/RelatedClassification'
         created_at:
           description: Creation time
           type: string
@@ -592,6 +661,8 @@ components:
           type: string
           format: date
           description: The function is valid until this date
+        version_history:
+          $ref: '#/components/schemas/VersionHistory'
         modified_by:
           description: First and last name of User
           type: string
@@ -907,6 +978,44 @@ components:
           type: string
         previous:
           type: string
+    VersionHistory:
+      type: object
+      example:
+        state: 'draft'
+        version: 1
+        modified_at: '2017-08-28T20:46:34.796669Z'
+        valid_from: '2017-08-28T20:46:34.796644Z'
+        valid_to: '2017-08-28T20:46:34.796644Z'
+        modified_by: Matti Meikäläinen
+      properties:
+        state:
+          description: Object state
+          type: string
+          enum:
+            - draft
+            - sent_for_review
+            - waiting_for_approval
+            - approved
+        version:
+          description: Object version number
+          type: integer
+          readOnly: true
+        modified_at:
+          description: Last modification time
+          type: string
+          format: dateTime
+        valid_from:
+          description: Valid from date
+          type: string
+          format: dateTime
+        valid_to:
+          description: Valid to date
+          type: string
+          format: dateTime
+        modified_by:
+          description: First and last name of User
+          type: string
+          nullable: true
     BulkUpdate:
       type: object
       description: Bulk update that contains changes to Functions and any related Phases, Actions, and Records
@@ -998,6 +1107,89 @@ components:
             }
           }
         }
+    tos:Tos:
+      type: object
+      description: Export of the data in JHS191 XML format.
+      example:
+        xmlns:tos: "http://skeemat.jhs-suositukset.fi/tos/2015/01/15"
+        tos:TosTiedot:
+          tos:id: "cee34db0-de3e-47fb-b937-b74dd87ea759"
+          tos:Nimeke:
+            tos:NimekeKielella:
+              tos:kieliKoodi: "fi"
+              tos:NimekeTeksti: Helsingin kaupungin Tiedonohjaussuunnitelma
+          tos:YhteyshenkiloNimi: Tiedonhallinta
+          tos:TosVersio: 1
+          tos:TilaKoodi: 3
+          tos:OrganisaatioNimi: Helsingin kaupunki
+          tos:LisatiedotTeksti: JHS 191 XML 2021-01-11 12:15EET exported from undefined environment
+        tos:Luokka:
+          tos:Luokitustunnus: '00'
+          tos:Nimeke:
+            tos:NimekeKielella:
+              tos:kieliKoodi: "fi"
+              tos:NimekeTeksti: Helsingin kaupungin Tiedonohjaussuunnitelma
+      properties:
+        xmlns:tos:
+          type: string
+          xml:
+            attribute: true
+        tos:TosTiedot:
+          $ref: '#/components/schemas/tos:TosTiedot'
+        tos:Luokka:
+          $ref: '#/components/schemas/tos:Luokka'
+    tos:Luokka:
+      type: object
+      example:
+        tos:Luokitustunnus: '00'
+      properties:
+        tos:Luokitustunnus:
+          type: string
+        tos:Nimeke:
+          $ref: '#/components/schemas/tos:Nimeke'
+    tos:TosTiedot:
+      type: object
+      example:
+        tos:id: "cee34db0-de3e-47fb-b937-b74dd87ea759"
+        tos:YhteyshenkiloNimi: Tiedonhallinta
+        tos:TosVersio: 1
+        tos:TilaKoodi: 3
+        tos:OrganisaatioNimi: Helsingin kaupunki
+        tos:LisatiedotTeksti: JHS 191 XML 2021-01-11 12:15EET exported from undefined environment
+      properties:
+        tos:id:
+          type: string
+          xml:
+            attribute: true
+        tos:Nimeke:
+          $ref: '#/components/schemas/tos:Nimeke'
+        tos:YhteyshenkiloNimi:
+          type: string
+        tos:TosVersio:
+          type: integer
+        tos:TilaKoodi:
+          type: integer
+        tos:OrganisaatioNimi:
+          type: string
+        tos:LisatiedotTeksti:
+          type: string
+    tos:Nimeke:
+      type: object
+      properties:
+        tos:NimekeKielella:
+          $ref: '#/components/schemas/tos:NimekeKielella'
+    tos:NimekeKielella:
+      type: object
+      example:
+        tos:kieliKoodi: "fi"
+        tos:NimekeTeksti: Helsingin kaupungin Tiedonohjaussuunnitelma
+      properties:
+        tos:kieliKoodi:
+          type: string
+          xml:
+            attribute: true
+        tos:NimekeTeksti:
+          type: string
   responses:
     BadRequest:
       description: Bad request, details about the error in the request body

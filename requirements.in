@@ -1,5 +1,11 @@
-Django~=2.2.16
+Django~=3.1
+django-elasticsearch-dsl-drf
+django-environ
 django-helusers
+# 0.10.0 is needed because 1.0.0 switches to a more strict
+# JWT validation library. Our "Tunnistamo"-implementation
+# generates invalid amr claims in tokens.
+drf-oidc-auth==0.10.0
 pytz
 psycopg2
 openpyxl
@@ -7,7 +13,9 @@ pyxb
 djangorestframework
 django-cors-headers
 django-filter
-django-allauth
+django-admin-json-editor
 djangorestframework-jwt
 django-admin-sortable2
 djangorestframework-xml
+sentry-sdk
+social-auth-app-django
