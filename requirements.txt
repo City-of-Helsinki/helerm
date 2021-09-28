@@ -143,7 +143,7 @@ social-auth-app-django==4.0.0
     # via -r requirements.in
 social-auth-core==4.0.2
     # via social-auth-app-django
-sqlparse==0.4.1
+sqlparse==0.4.2
     # via django
 urllib3==1.26.4
     # via
