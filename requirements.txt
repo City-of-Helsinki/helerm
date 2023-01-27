@@ -76,7 +76,7 @@ elasticsearch-dsl==7.3.0
     #   django-elasticsearch-dsl-drf
 et-xmlfile==1.0.1
     # via openpyxl
-future==0.18.2
+future==0.18.3
     # via pyjwkest
 idna==2.10
     # via requests
