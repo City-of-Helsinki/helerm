@@ -2,7 +2,7 @@ FROM python:3.6
 ENV PYTHONUNBUFFERED 1
 
 # Allows installation of postgresql-client-10 on Debian stretch which the Python images are based on
-RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc/apt/sources.list.d/pgdg.list
+RUN echo 'deb http://apt-archive.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc/apt/sources.list.d/pgdg.list
 RUN wget -q -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 RUN apt-get update && apt-get install -y \
