@@ -1,6 +1,9 @@
+black
 flake8
+flake8-bugbear
 freezegun
 isort
+pep8-naming
 pip-tools
 pytest
 pytest-cov
