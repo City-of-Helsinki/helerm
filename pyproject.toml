@@ -1,0 +1,13 @@
+[tool.black]
+line-length = 88 # Black's default value
+target-version = ["py36"]
+
+[isort]
+extend_skip = ["*migrations*", "metarecord/binding"]
+profile = "black"
+atomic = true
+order_by_type = false
+py_version = 36
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "helerm.settings"
