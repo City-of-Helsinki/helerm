@@ -93,32 +93,32 @@ class JHSExporter:
 
     def _handle_action(self, action, records):
         logger.info("Handling action %s" % action.pk)
-        ToimenpideTiedot = jhs.Toimenpidetiedot(
+        toimenpidetiedot = jhs.Toimenpidetiedot(
             id=action.uuid,
             Asiakirjatieto=records,
         )
 
         action_type = self._get_attribute_value(action, "ActionType")
         if action_type:
-            ToimenpideTiedot.ToimenpideluokkaTeksti = action_type
+            toimenpidetiedot.ToimenpideluokkaTeksti = action_type
         type_specifier = self._get_attribute_value(action, "TypeSpecifier")
         if type_specifier:
-            ToimenpideTiedot.ToimenpideluokkaTarkenneTeksti = type_specifier
+            toimenpidetiedot.ToimenpideluokkaTarkenneTeksti = type_specifier
 
-        return ToimenpideTiedot
+        return toimenpidetiedot
 
     def _handle_phase(self, phase, actions):
         logger.info("Handling phase %s" % phase.pk)
-        ToimenpideTiedot = jhs.Toimenpidetiedot(id=phase.uuid, Toimenpidetiedot=actions)
+        toimenpidetiedot = jhs.Toimenpidetiedot(id=phase.uuid, Toimenpidetiedot=actions)
 
         phase_type = self._get_attribute_value(phase, "PhaseType")
         if phase_type:
-            ToimenpideTiedot.ToimenpideluokkaTeksti = phase_type
+            toimenpidetiedot.ToimenpideluokkaTeksti = phase_type
         type_specifier = self._get_attribute_value(phase, "TypeSpecifier")
         if type_specifier:
-            ToimenpideTiedot.ToimenpideluokkaTarkenneTeksti = type_specifier
+            toimenpidetiedot.ToimenpideluokkaTarkenneTeksti = type_specifier
 
-        return ToimenpideTiedot
+        return toimenpidetiedot
 
     def _handle_function(self, function, phases):
         logger.info("Handling function %s" % function.pk)
@@ -159,10 +159,24 @@ class JHSExporter:
                 ),
             )
 
+        func = self._process_function(function)
+        if func:
+            try:
+                func.toDOM()  # validates
+            except pyxb.PyXBException as e:
+                logger.error(
+                    "ERROR validating the function, details:\n%s" % e.details()
+                )
+                return False
+
+        return func
+
+    def _process_function(self, function: Function):
         logger.info("Processing function %s" % function)
 
         phases = []
         handling = None
+
         try:
             for phase in function.phases.all():
                 actions = []
@@ -181,18 +195,10 @@ class JHSExporter:
             error = "%s: %s" % (e.__class__.__name__, e)
             if handling:
                 logger.error("ERROR %s while processing %s" % (error, handling))
-                return False
             else:
                 logger.error(error)
-                return False
-        if func:
-            try:
-                func.toDOM()  # validates
-            except pyxb.PyXBException as e:
-                logger.error(
-                    "ERROR validating the function, details:\n%s" % e.details()
-                )
-                return False
+
+            return False
 
         return func
 
