@@ -83,6 +83,56 @@ class FunctionListSerializer(StructuralElementSerializer):
 
         return fields
 
+    def _clone_phases(self, phases):
+        new_phases = []
+        for phase in phases:
+            actions = []
+            for action in phase.actions.all():
+                records = []
+                for record in action.records.all():
+                    record.pk = None
+                    record.uuid = uuid.uuid4()
+                    record.save()
+                    records.append(record)
+
+                action.pk = None
+                action.uuid = uuid.uuid4()
+                action.save()
+                for record in records:
+                    action.records.add(record)
+                actions.append(action)
+
+            phase.pk = None
+            phase.uuid = uuid.uuid4()
+            phase.save()
+            for action in actions:
+                phase.actions.add(action)
+            new_phases.append(phase)
+        return new_phases
+
+    @staticmethod
+    def _create_phases_from_phase_data(user_data, function, phase_data):
+        for phase_idx, phase_datum in enumerate(phase_data, 1):
+            action_data = phase_datum.pop("actions", [])
+            phase_datum.update(user_data)
+
+            phase = Phase.objects.create(
+                function=function, index=phase_idx, **phase_datum
+            )
+
+            for action_idx, action_datum in enumerate(action_data, 1):
+                record_data = action_datum.pop("records", [])
+                action_datum.update(user_data)
+                action = Action.objects.create(
+                    phase=phase, index=action_idx, **action_datum
+                )
+
+                for record_idx, record_datum in enumerate(record_data, 1):
+                    record_datum.update(user_data)
+                    Record.objects.create(
+                        action=action, index=record_idx, **record_datum
+                    )
+
     def _create_new_version(self, function_data, copy_from_previous=False, phases=None):
         if not phases:
             phases = []
@@ -101,51 +151,9 @@ class FunctionListSerializer(StructuralElementSerializer):
         function = Function.objects.create(**function_data)
 
         if copy_from_previous:
-            for phase in phases:
-                actions = []
-                for action in phase.actions.all():
-                    records = []
-                    for record in action.records.all():
-                        record.pk = None
-                        record.uuid = uuid.uuid4()
-                        record.save()
-                        records.append(record)
-
-                    action.pk = None
-                    action.uuid = uuid.uuid4()
-                    action.save()
-                    for record in records:
-                        action.records.add(record)
-                    actions.append(action)
-
-                phase.pk = None
-                phase.uuid = uuid.uuid4()
-                phase.save()
-                for action in actions:
-                    phase.actions.add(action)
-                function.phases.add(phase)
-
+            function.phases.add(*self._clone_phases(phases))
         else:
-            for index, phase_datum in enumerate(phase_data, 1):
-                action_data = phase_datum.pop("actions", [])
-                phase_datum.update(user_data)
-
-                phase = Phase.objects.create(
-                    function=function, index=index, **phase_datum
-                )
-
-                for index, action_datum in enumerate(action_data, 1):
-                    record_data = action_datum.pop("records", [])
-                    action_datum.update(user_data)
-                    action = Action.objects.create(
-                        phase=phase, index=index, **action_datum
-                    )
-
-                    for index, record_datum in enumerate(record_data, 1):
-                        record_datum.update(user_data)
-                        Record.objects.create(
-                            action=action, index=index, **record_datum
-                        )
+            self._create_phases_from_phase_data(user_data, function, phase_data)
 
         return function
 
