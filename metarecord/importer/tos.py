@@ -101,12 +101,12 @@ class TOSImporter:
         return re.sub(r"\s\s+", " ", str(s)).strip() or None
 
     def _get_codesets(self, sheet):
-        HEADER_ROW = 5
-        VALUE_ROW = 5 + 1
+        header_row = 5
+        value_row = 5 + 1
 
         max_col = sheet.max_column + 1
         attr_names = [
-            sheet.cell(row=HEADER_ROW, column=x).value for x in range(1, max_col)
+            sheet.cell(row=header_row, column=x).value for x in range(1, max_col)
         ]
 
         codesets = {}
@@ -121,7 +121,7 @@ class TOSImporter:
                 attr = "Rekisteröinti/ Tietojärjestelmä"
 
             codesets[attr] = []
-            for row in range(VALUE_ROW, sheet.max_row + 1):
+            for row in range(value_row, sheet.max_row + 1):
                 val = sheet.cell(row=row, column=col + 1).value
                 if val is None:
                     break
