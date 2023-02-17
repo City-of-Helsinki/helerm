@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.7
 ENV PYTHONUNBUFFERED 1
 
 # Allows installation of postgresql-client-10 on Debian stretch which the Python images are based on
