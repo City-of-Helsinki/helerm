@@ -6,22 +6,21 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0021_add_validation_dates'),
+        ("metarecord", "0021_add_validation_dates"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='action',
-            name='name',
+            model_name="action",
+            name="name",
         ),
         migrations.RemoveField(
-            model_name='phase',
-            name='name',
+            model_name="phase",
+            name="name",
         ),
         migrations.RemoveField(
-            model_name='record',
-            name='name',
+            model_name="record",
+            name="name",
         ),
     ]

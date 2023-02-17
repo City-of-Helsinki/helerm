@@ -8,55 +8,107 @@ import uuid
 
 
 def populate_classification(apps, schema_editor):
-    Classification = apps.get_model('metarecord', 'Classification')
-    Function = apps.get_model('metarecord', 'Function')
+    Classification = apps.get_model("metarecord", "Classification")
+    Function = apps.get_model("metarecord", "Function")
 
-    for function in Function.objects.filter(is_template=False, function_id__isnull=False).order_by('function_id'):
-        parent = Classification.objects.get(code=function.parent.function_id) if function.parent else None
+    for function in Function.objects.filter(
+        is_template=False, function_id__isnull=False
+    ).order_by("function_id"):
+        parent = (
+            Classification.objects.get(code=function.parent.function_id)
+            if function.parent
+            else None
+        )
         classification, created = Classification.objects.update_or_create(
-            code=function.function_id, defaults={
-                'title': function.name,
-                'parent': parent,
-            }
+            code=function.function_id,
+            defaults={
+                "title": function.name,
+                "parent": parent,
+            },
         )
         function.classification = classification
-        function.name = ''
-        function.save(update_fields=('classification', 'name'))
+        function.name = ""
+        function.save(update_fields=("classification", "name"))
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0026_use_native_hstore'),
+        ("metarecord", "0026_use_native_hstore"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Classification',
+            name="Classification",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)),
-                ('code', models.CharField(db_index=True, max_length=16, verbose_name='code')),
-                ('title', models.CharField(max_length=256, verbose_name='title')),
-                ('description', models.TextField(blank=True, verbose_name='description')),
-                ('description_internal', models.TextField(blank=True, verbose_name='description internal')),
-                ('parent', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='metarecord.Classification', verbose_name='parent')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='time of creation')),
-                ('modified_at', models.DateTimeField(auto_now=True, verbose_name='time of modification')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "uuid",
+                    models.UUIDField(default=uuid.uuid4, editable=False, db_index=True),
+                ),
+                (
+                    "code",
+                    models.CharField(db_index=True, max_length=16, verbose_name="code"),
+                ),
+                ("title", models.CharField(max_length=256, verbose_name="title")),
+                (
+                    "description",
+                    models.TextField(blank=True, verbose_name="description"),
+                ),
+                (
+                    "description_internal",
+                    models.TextField(blank=True, verbose_name="description internal"),
+                ),
+                (
+                    "parent",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="children",
+                        to="metarecord.Classification",
+                        verbose_name="parent",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="time of creation"
+                    ),
+                ),
+                (
+                    "modified_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="time of modification"
+                    ),
+                ),
             ],
             options={
-                'verbose_name_plural': 'classifications',
-                'verbose_name': 'classification',
+                "verbose_name_plural": "classifications",
+                "verbose_name": "classification",
             },
         ),
         migrations.AddField(
-            model_name='function',
-            name='classification',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='metarecord.Classification', verbose_name='classification'),
+            model_name="function",
+            name="classification",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="metarecord.Classification",
+                verbose_name="classification",
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='function',
-            unique_together=set([('uuid', 'version')]),
+            name="function",
+            unique_together=set([("uuid", "version")]),
         ),
         migrations.RunPython(populate_classification, migrations.RunPython.noop),
     ]

@@ -11,12 +11,12 @@ class Command(BaseCommand):
         super().__init__()
 
     def add_arguments(self, parser):
-        parser.add_argument('filename', type=str)
-        parser.add_argument('sheet_name', type=str)
-        parser.add_argument('template_name', type=str, nargs='?', default=None)
+        parser.add_argument("filename", type=str)
+        parser.add_argument("sheet_name", type=str)
+        parser.add_argument("template_name", type=str, nargs="?", default=None)
 
     def handle(self, *args, **options):
-        filename = options['filename']
+        filename = options["filename"]
         try:
             tos_importer = TOSImporter(filename)
         except Exception as e:
@@ -24,4 +24,6 @@ class Command(BaseCommand):
             return
 
         with transaction.atomic():
-            tos_importer.import_template(options['sheet_name'], options['template_name'])
+            tos_importer.import_template(
+                options["sheet_name"], options["template_name"]
+            )

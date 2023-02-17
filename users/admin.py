@@ -6,7 +6,7 @@ from users.models import User
 
 class UserAdmin(DjangoUserAdmin):
     fieldsets = DjangoUserAdmin.fieldsets + (
-        (None, {'fields': ('department_name', 'uuid')}),
+        (None, {"fields": ("department_name", "uuid")}),
     )
 
 

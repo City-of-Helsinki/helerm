@@ -7,103 +7,132 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0004_add_missing_attributes'),
+        ("metarecord", "0004_add_missing_attributes"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='additionalinformation',
-            name='created_by',
+            model_name="additionalinformation",
+            name="created_by",
         ),
         migrations.RemoveField(
-            model_name='additionalinformation',
-            name='modified_by',
+            model_name="additionalinformation",
+            name="modified_by",
         ),
         migrations.RemoveField(
-            model_name='paperrecordretentionlocation',
-            name='created_by',
+            model_name="paperrecordretentionlocation",
+            name="created_by",
         ),
         migrations.RemoveField(
-            model_name='paperrecordretentionlocation',
-            name='modified_by',
+            model_name="paperrecordretentionlocation",
+            name="modified_by",
         ),
         migrations.RemoveField(
-            model_name='paperrecordretentionresponsibleperson',
-            name='created_by',
+            model_name="paperrecordretentionresponsibleperson",
+            name="created_by",
         ),
         migrations.RemoveField(
-            model_name='paperrecordretentionresponsibleperson',
-            name='modified_by',
+            model_name="paperrecordretentionresponsibleperson",
+            name="modified_by",
         ),
         migrations.AlterField(
-            model_name='action',
-            name='additional_information',
-            field=models.TextField(blank=True, null=True, verbose_name='additional information'),
+            model_name="action",
+            name="additional_information",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="additional information"
+            ),
         ),
         migrations.AlterField(
-            model_name='action',
-            name='information_system',
-            field=models.CharField(blank=True, max_length=256, null=True, verbose_name='information system'),
+            model_name="action",
+            name="information_system",
+            field=models.CharField(
+                blank=True, max_length=256, null=True, verbose_name="information system"
+            ),
         ),
         migrations.AlterField(
-            model_name='function',
-            name='additional_information',
-            field=models.TextField(blank=True, null=True, verbose_name='additional information'),
+            model_name="function",
+            name="additional_information",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="additional information"
+            ),
         ),
         migrations.AlterField(
-            model_name='function',
-            name='information_system',
-            field=models.CharField(blank=True, max_length=256, null=True, verbose_name='information system'),
+            model_name="function",
+            name="information_system",
+            field=models.CharField(
+                blank=True, max_length=256, null=True, verbose_name="information system"
+            ),
         ),
         migrations.AlterField(
-            model_name='phase',
-            name='additional_information',
-            field=models.TextField(blank=True, null=True, verbose_name='additional information'),
+            model_name="phase",
+            name="additional_information",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="additional information"
+            ),
         ),
         migrations.AlterField(
-            model_name='phase',
-            name='information_system',
-            field=models.CharField(blank=True, max_length=256, null=True, verbose_name='information system'),
+            model_name="phase",
+            name="information_system",
+            field=models.CharField(
+                blank=True, max_length=256, null=True, verbose_name="information system"
+            ),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='additional_information',
-            field=models.TextField(blank=True, null=True, verbose_name='additional information'),
+            model_name="record",
+            name="additional_information",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="additional information"
+            ),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='information_system',
-            field=models.CharField(blank=True, max_length=256, null=True, verbose_name='information system'),
+            model_name="record",
+            name="information_system",
+            field=models.CharField(
+                blank=True, max_length=256, null=True, verbose_name="information system"
+            ),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='name',
-            field=models.CharField(max_length=256, verbose_name='type specifier'),
+            model_name="record",
+            name="name",
+            field=models.CharField(max_length=256, verbose_name="type specifier"),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='paper_record_retention_location',
-            field=models.CharField(blank=True, max_length=256, null=True, verbose_name='paper record retention location'),
+            model_name="record",
+            name="paper_record_retention_location",
+            field=models.CharField(
+                blank=True,
+                max_length=256,
+                null=True,
+                verbose_name="paper record retention location",
+            ),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='paper_record_retention_responsible_person',
-            field=models.CharField(blank=True, max_length=256, null=True, verbose_name='paper record retention responsible person'),
+            model_name="record",
+            name="paper_record_retention_responsible_person",
+            field=models.CharField(
+                blank=True,
+                max_length=256,
+                null=True,
+                verbose_name="paper record retention responsible person",
+            ),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='metarecord.RecordType', verbose_name='type'),
+            model_name="record",
+            name="type",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="metarecord.RecordType",
+                verbose_name="type",
+            ),
         ),
         migrations.DeleteModel(
-            name='AdditionalInformation',
+            name="AdditionalInformation",
         ),
         migrations.DeleteModel(
-            name='PaperRecordRetentionLocation',
+            name="PaperRecordRetentionLocation",
         ),
         migrations.DeleteModel(
-            name='PaperRecordRetentionResponsiblePerson',
+            name="PaperRecordRetentionResponsiblePerson",
         ),
     ]

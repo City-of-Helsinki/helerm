@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0037_update_function_modified_by_to_latest_metadata'),
+        ("metarecord", "0037_update_function_modified_by_to_latest_metadata"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='attributevalue',
-            unique_together={('attribute', 'value')},
+            name="attributevalue",
+            unique_together={("attribute", "value")},
         ),
     ]

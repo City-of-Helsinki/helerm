@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('uuid', 'username', 'first_name', 'last_name', 'permissions')
+        fields = ("uuid", "username", "first_name", "last_name", "permissions")
 
     def _get_user_bulk_update_permissions(self, user):
         content_type = ContentType.objects.get_for_model(BulkUpdate)
@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
         return [
             perm.codename
             for perm in permissions
-            if user.has_perm('%s.%s' % (content_type.app_label, perm.codename))
+            if user.has_perm("%s.%s" % (content_type.app_label, perm.codename))
         ]
 
     def _get_user_function_permissions(self, user):
@@ -28,7 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
         return [
             perm[0]
             for perm in Function._meta.permissions
-            if user.has_perm('%s.%s' % (app_label, perm[0]))
+            if user.has_perm("%s.%s" % (app_label, perm[0]))
         ]
 
     def get_permissions(self, obj):
@@ -39,9 +39,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserSerializer
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = get_user_model().objects.all().order_by('id')
+    queryset = get_user_model().objects.all().order_by("id")
 
     def get_queryset(self, *args, **kwargs):
         return self.queryset.filter(pk=self.request.user.pk)

@@ -6,16 +6,23 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('metarecord', '0041_excessmeta'),
+        ("metarecord", "0041_excessmeta"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='bulkupdate',
-            name='approved_by',
-            field=models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='bulkupdate_approved', to=settings.AUTH_USER_MODEL, verbose_name='approved by'),
+            model_name="bulkupdate",
+            name="approved_by",
+            field=models.ForeignKey(
+                blank=True,
+                editable=False,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="bulkupdate_approved",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="approved by",
+            ),
         ),
     ]

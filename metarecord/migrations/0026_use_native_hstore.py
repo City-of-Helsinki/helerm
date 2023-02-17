@@ -7,30 +7,37 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0025_add_attribute_help_text'),
+        ("metarecord", "0025_add_attribute_help_text"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='action',
-            name='attributes',
-            field=django.contrib.postgres.fields.hstore.HStoreField(blank=True, default=dict, verbose_name='attributes'),
+            model_name="action",
+            name="attributes",
+            field=django.contrib.postgres.fields.hstore.HStoreField(
+                blank=True, default=dict, verbose_name="attributes"
+            ),
         ),
         migrations.AlterField(
-            model_name='function',
-            name='attributes',
-            field=django.contrib.postgres.fields.hstore.HStoreField(blank=True, default=dict, verbose_name='attributes'),
+            model_name="function",
+            name="attributes",
+            field=django.contrib.postgres.fields.hstore.HStoreField(
+                blank=True, default=dict, verbose_name="attributes"
+            ),
         ),
         migrations.AlterField(
-            model_name='phase',
-            name='attributes',
-            field=django.contrib.postgres.fields.hstore.HStoreField(blank=True, default=dict, verbose_name='attributes'),
+            model_name="phase",
+            name="attributes",
+            field=django.contrib.postgres.fields.hstore.HStoreField(
+                blank=True, default=dict, verbose_name="attributes"
+            ),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='attributes',
-            field=django.contrib.postgres.fields.hstore.HStoreField(blank=True, default=dict, verbose_name='attributes'),
+            model_name="record",
+            name="attributes",
+            field=django.contrib.postgres.fields.hstore.HStoreField(
+                blank=True, default=dict, verbose_name="attributes"
+            ),
         ),
     ]

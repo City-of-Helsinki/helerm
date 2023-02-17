@@ -11,11 +11,11 @@ class Command(BaseCommand):
         super().__init__()
 
     def add_arguments(self, parser):
-        parser.add_argument('filename', type=str)
-        parser.add_argument('--ignore-errors', action='store_true')
+        parser.add_argument("filename", type=str)
+        parser.add_argument("--ignore-errors", action="store_true")
 
     def handle(self, *args, **options):
-        filename = options['filename']
+        filename = options["filename"]
         try:
             tos_importer = TOSImporter(options)
             tos_importer.open(filename)

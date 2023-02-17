@@ -13,15 +13,17 @@ from metarecord.views.export import JHSExportViewSet
 @pytest.mark.django_db
 def test_exporter_xml_generation_is_successful(function, phase, action, record):
     function.state = Function.APPROVED
-    function.save(update_fields=('attributes', 'state'))
+    function.save(update_fields=("attributes", "state"))
 
-    with freezegun.freeze_time('2020-04-01 12:00 EEST'):
+    with freezegun.freeze_time("2020-04-01 12:00 EEST"):
         mock_uuid = uuid.uuid4()
 
-        with mock.patch('uuid.uuid4', return_value=mock_uuid):
-            xml = JHSExporter().create_xml().decode('utf-8')
+        with mock.patch("uuid.uuid4", return_value=mock_uuid):
+            xml = JHSExporter().create_xml().decode("utf-8")
 
-    assert xml == """<?xml version="1.0" encoding="utf-8"?>
+    assert (
+        xml
+        == """<?xml version="1.0" encoding="utf-8"?>
 <tos:Tos xmlns:tos="http://skeemat.jhs-suositukset.fi/tos/2015/01/15">
  <tos:TosTiedot tos:id="{id}">
   <tos:Nimeke>
@@ -61,11 +63,12 @@ def test_exporter_xml_generation_is_successful(function, phase, action, record):
  </tos:Luokka>
 </tos:Tos>
 """.format(
-        id=mock_uuid,
-        func_id=function.uuid,
-        phase_id=phase.uuid,
-        action_id=action.uuid,
-        rec_id=record.uuid
+            id=mock_uuid,
+            func_id=function.uuid,
+            phase_id=phase.uuid,
+            action_id=action.uuid,
+            rec_id=record.uuid,
+        )
     )
 
 
@@ -73,7 +76,7 @@ def test_exporter_xml_generation_is_successful(function, phase, action, record):
 def test_export_view_file_creation(function, phase, action, record):
     client = APIClient()
     response = client.get("/export/")
-    assert 'Content-Disposition' in response
+    assert "Content-Disposition" in response
 
 
 @pytest.mark.django_db
@@ -87,4 +90,4 @@ def test_jhs_export_view_file_creation(function, phase, action, record):
 
     open_mock.assert_called()
     open_mock.return_value.write.assert_called_once()
-    assert 'Content-Disposition' in response
+    assert "Content-Disposition" in response

@@ -10,30 +10,36 @@ logger = logging.getLogger(__name__)
 
 
 class AttributeGroup(models.Model):
-    name = models.CharField(max_length=64, verbose_name=_('name'))
+    name = models.CharField(max_length=64, verbose_name=_("name"))
 
     class Meta:
-        verbose_name = _('attribute group')
-        verbose_name_plural = _('attribute groups')
+        verbose_name = _("attribute group")
+        verbose_name_plural = _("attribute groups")
 
     def __str__(self):
         return self.name
 
 
 class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
-    identifier = models.CharField(verbose_name=_('identifier'), max_length=64, unique=True, db_index=True)
-    name = models.CharField(verbose_name=_('name'), max_length=256)
+    identifier = models.CharField(
+        verbose_name=_("identifier"), max_length=64, unique=True, db_index=True
+    )
+    name = models.CharField(verbose_name=_("name"), max_length=256)
     index = models.PositiveSmallIntegerField(db_index=True)
     group = models.ForeignKey(
-        AttributeGroup, verbose_name=_('group'), related_name='attributes', null=True, blank=True,
-        on_delete=models.SET_NULL
+        AttributeGroup,
+        verbose_name=_("group"),
+        related_name="attributes",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
-    help_text = models.TextField(verbose_name=_('help text'), blank=True)
+    help_text = models.TextField(verbose_name=_("help text"), blank=True)
 
     class Meta:
-        verbose_name = _('attribute')
-        verbose_name_plural = _('attributes')
-        ordering = ('index',)
+        verbose_name = _("attribute")
+        verbose_name_plural = _("attributes")
+        ordering = ("index",)
 
     def __str__(self):
         return self.name
@@ -42,7 +48,9 @@ class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
         if not self.identifier:
             self.identifier = self.pk
         if not self.index:
-            self.index = max(Attribute.objects.values_list('index', flat=True) or [0]) + 1
+            self.index = (
+                max(Attribute.objects.values_list("index", flat=True) or [0]) + 1
+            )
         super().save(*args, **kwargs)
 
     @classmethod
@@ -55,10 +63,13 @@ class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
         """
 
         errors = {}
-        valid_identifiers = set(Attribute.objects.values_list('identifier', flat=True))
+        valid_identifiers = set(Attribute.objects.values_list("identifier", flat=True))
         invalid_identifiers = set(identifiers) - valid_identifiers
         if invalid_identifiers:
-            errors = {identifier: [_('Invalid attribute.')] for identifier in invalid_identifiers}
+            errors = {
+                identifier: [_("Invalid attribute.")]
+                for identifier in invalid_identifiers
+            }
         return errors
 
     def is_free_text(self):
@@ -67,18 +78,21 @@ class Attribute(TimeStampedModel, UUIDPrimaryKeyModel):
 
 class AttributeValue(TimeStampedModel, UUIDPrimaryKeyModel):
     attribute = models.ForeignKey(
-        Attribute, verbose_name=_('attribute'), related_name='values', on_delete=models.CASCADE
+        Attribute,
+        verbose_name=_("attribute"),
+        related_name="values",
+        on_delete=models.CASCADE,
     )
-    value = models.CharField(verbose_name=_('value'), max_length=1024)
+    value = models.CharField(verbose_name=_("value"), max_length=1024)
     index = models.PositiveSmallIntegerField(db_index=True)
-    name = models.CharField(verbose_name=_('name'), max_length=256, blank=True)
-    help_text = models.TextField(verbose_name=_('help text'), blank=True)
+    name = models.CharField(verbose_name=_("name"), max_length=256, blank=True)
+    help_text = models.TextField(verbose_name=_("help text"), blank=True)
 
     class Meta:
-        verbose_name = _('attribute value')
-        verbose_name_plural = _('attribute values')
-        unique_together = ('attribute', 'value')
-        ordering = ('index',)
+        verbose_name = _("attribute value")
+        verbose_name_plural = _("attribute values")
+        unique_together = ("attribute", "value")
+        ordering = ("index",)
 
     def __str__(self):
         return self.value
@@ -88,9 +102,8 @@ class AttributeValue(TimeStampedModel, UUIDPrimaryKeyModel):
             # in theory a race condition is possible here, but with current usage
             # that is practically impossible, and it won't cause any real harm anyway
             last_index = (
-                AttributeValue.objects
-                .filter(attribute=self.attribute)
-                .values_list('index', flat=True)
+                AttributeValue.objects.filter(attribute=self.attribute)
+                .values_list("index", flat=True)
                 .last()
             )
             self.index = last_index + 1 if last_index else 1
@@ -100,6 +113,11 @@ class AttributeValue(TimeStampedModel, UUIDPrimaryKeyModel):
 def create_predefined_attributes():
     with transaction.atomic():
         for attribute in PREDEFINED_ATTRIBUTES:
-            _, created = Attribute.objects.get_or_create(identifier=attribute['identifier'], defaults=attribute)
+            _, created = Attribute.objects.get_or_create(
+                identifier=attribute["identifier"], defaults=attribute
+            )
             if created:
-                logger.info('Created attribute %s (%s)' % (attribute['name'], attribute['identifier']))
+                logger.info(
+                    "Created attribute %s (%s)"
+                    % (attribute["name"], attribute["identifier"])
+                )

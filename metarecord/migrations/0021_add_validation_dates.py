@@ -6,30 +6,29 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0020_add_attribute_group'),
+        ("metarecord", "0020_add_attribute_group"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='function',
-            name='valid_to',
-            field=models.DateField(blank=True, null=True, verbose_name='valid to'),
+            model_name="function",
+            name="valid_to",
+            field=models.DateField(blank=True, null=True, verbose_name="valid to"),
         ),
         migrations.AddField(
-            model_name='function',
-            name='valid_from',
-            field=models.DateField(blank=True, null=True, verbose_name='valid from'),
+            model_name="function",
+            name="valid_from",
+            field=models.DateField(blank=True, null=True, verbose_name="valid from"),
         ),
         migrations.AddField(
-            model_name='metadataversion',
-            name='valid_to',
-            field=models.DateField(blank=True, null=True, verbose_name='valid to'),
+            model_name="metadataversion",
+            name="valid_to",
+            field=models.DateField(blank=True, null=True, verbose_name="valid to"),
         ),
         migrations.AddField(
-            model_name='metadataversion',
-            name='valid_from',
-            field=models.DateField(blank=True, null=True, verbose_name='valid from'),
+            model_name="metadataversion",
+            name="valid_from",
+            field=models.DateField(blank=True, null=True, verbose_name="valid from"),
         ),
     ]

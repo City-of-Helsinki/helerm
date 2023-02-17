@@ -7,15 +7,21 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0033_change_attributes_fields_to_jsonb'),
+        ("metarecord", "0033_change_attributes_fields_to_jsonb"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='function',
-            name='classification',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='functions', to='metarecord.Classification', verbose_name='classification'),
+            model_name="function",
+            name="classification",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="functions",
+                to="metarecord.Classification",
+                verbose_name="classification",
+            ),
         ),
     ]

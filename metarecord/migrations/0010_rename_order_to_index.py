@@ -7,40 +7,46 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0009_add_record_attachment'),
+        ("metarecord", "0009_add_record_attachment"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='action',
-            old_name='order',
-            new_name='index',
+            model_name="action",
+            old_name="order",
+            new_name="index",
         ),
         migrations.RenameField(
-            model_name='function',
-            old_name='order',
-            new_name='index',
+            model_name="function",
+            old_name="order",
+            new_name="index",
         ),
         migrations.RenameField(
-            model_name='phase',
-            old_name='order',
-            new_name='index',
+            model_name="phase",
+            old_name="order",
+            new_name="index",
         ),
         migrations.RenameField(
-            model_name='record',
-            old_name='order',
-            new_name='index',
+            model_name="record",
+            old_name="order",
+            new_name="index",
         ),
         migrations.RenameField(
-            model_name='recordattachment',
-            old_name='order',
-            new_name='index',
+            model_name="recordattachment",
+            old_name="order",
+            new_name="index",
         ),
         migrations.AlterField(
-            model_name='function',
-            name='parent',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='metarecord.Function', verbose_name='parent'),
+            model_name="function",
+            name="parent",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="children",
+                to="metarecord.Function",
+                verbose_name="parent",
+            ),
         ),
     ]

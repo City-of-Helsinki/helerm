@@ -6,15 +6,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0024_attibute_value_index_unique'),
+        ("metarecord", "0024_attibute_value_index_unique"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='attribute',
-            name='help_text',
-            field=models.TextField(blank=True, verbose_name='help text'),
+            model_name="attribute",
+            name="help_text",
+            field=models.TextField(blank=True, verbose_name="help text"),
         ),
     ]

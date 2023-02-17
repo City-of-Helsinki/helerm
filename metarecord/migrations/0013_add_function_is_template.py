@@ -7,39 +7,44 @@ from django.contrib.postgres.fields import HStoreField
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0012_hstore_attributes'),
+        ("metarecord", "0012_hstore_attributes"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='function',
-            name='is_template',
-            field=models.BooleanField(default=False, verbose_name='is template'),
+            model_name="function",
+            name="is_template",
+            field=models.BooleanField(default=False, verbose_name="is template"),
         ),
         migrations.AlterField(
-            model_name='function',
-            name='attributes',
+            model_name="function",
+            name="attributes",
             field=HStoreField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='phase',
-            name='attributes',
+            model_name="phase",
+            name="attributes",
             field=HStoreField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='attributes',
+            model_name="record",
+            name="attributes",
             field=HStoreField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='function',
-            name='function_id',
-            field=models.CharField(db_index=True, max_length=16, unique=True, null=True, verbose_name='function ID'),
+            model_name="function",
+            name="function_id",
+            field=models.CharField(
+                db_index=True,
+                max_length=16,
+                unique=True,
+                null=True,
+                verbose_name="function ID",
+            ),
         ),
         migrations.AlterModelOptions(
-            name='function',
-            options={'verbose_name': 'function', 'verbose_name_plural': 'functions'},
+            name="function",
+            options={"verbose_name": "function", "verbose_name_plural": "functions"},
         ),
     ]

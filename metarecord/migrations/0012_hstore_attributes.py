@@ -7,54 +7,53 @@ from django.contrib.postgres.fields import HStoreField
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0011_remove_record_attachment'),
+        ("metarecord", "0011_remove_record_attachment"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='action',
-            name='attribute_values',
+            model_name="action",
+            name="attribute_values",
         ),
         migrations.RemoveField(
-            model_name='attribute',
-            name='is_free_text',
+            model_name="attribute",
+            name="is_free_text",
         ),
         migrations.RemoveField(
-            model_name='function',
-            name='attribute_values',
+            model_name="function",
+            name="attribute_values",
         ),
         migrations.RemoveField(
-            model_name='phase',
-            name='attribute_values',
+            model_name="phase",
+            name="attribute_values",
         ),
         migrations.RemoveField(
-            model_name='record',
-            name='attribute_values',
+            model_name="record",
+            name="attribute_values",
         ),
         migrations.AddField(
-            model_name='action',
-            name='attributes',
+            model_name="action",
+            name="attributes",
             field=HStoreField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='function',
-            name='attributes',
+            model_name="function",
+            name="attributes",
             field=HStoreField(blank=True, editable=False, null=True),
         ),
         migrations.AddField(
-            model_name='phase',
-            name='attributes',
+            model_name="phase",
+            name="attributes",
             field=HStoreField(blank=True, editable=False, null=True),
         ),
         migrations.AddField(
-            model_name='record',
-            name='attributes',
+            model_name="record",
+            name="attributes",
             field=HStoreField(blank=True, editable=False, null=True),
         ),
         migrations.AlterUniqueTogether(
-            name='attributevalue',
-            unique_together=set([('attribute', 'value')]),
+            name="attributevalue",
+            unique_together=set([("attribute", "value")]),
         ),
     ]
