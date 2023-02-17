@@ -9,16 +9,23 @@ from metarecord.views.admin import tos_import_view
 
 class MetadataVersionInline(admin.TabularInline):
     can_delete = False
-    verbose_name_plural = _('State history')
+    verbose_name_plural = _("State history")
 
     model = MetadataVersion
     extra = 0
-    readonly_fields = ('modified_at', 'get_modified_by', 'state', 'valid_from', 'valid_to')
-    exclude = ('modified_by', '_modified_by')
+    readonly_fields = (
+        "modified_at",
+        "get_modified_by",
+        "state",
+        "valid_from",
+        "valid_to",
+    )
+    exclude = ("modified_by", "_modified_by")
 
     def get_modified_by(self, obj):
         return obj.get_modified_by_display()
-    get_modified_by.short_description = _('modified by')
+
+    get_modified_by.short_description = _("modified by")
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -26,25 +33,38 @@ class MetadataVersionInline(admin.TabularInline):
 
 @admin.register(Function)
 class FunctionAdmin(admin.ModelAdmin):
-    list_display = ('get_classification_code', 'get_name', 'state', 'version')
-    list_filter = ('state', 'classification__code')
-    search_fields = ('classification__code', 'classification__title')
+    list_display = ("get_classification_code", "get_name", "state", "version")
+    list_filter = ("state", "classification__code")
+    search_fields = ("classification__code", "classification__title")
 
-    ordering = ('classification__code', 'version')
-    fields = ('state', 'is_template', 'error_count', 'valid_from', 'valid_to', 'attributes')
+    ordering = ("classification__code", "version")
+    fields = (
+        "state",
+        "is_template",
+        "error_count",
+        "valid_from",
+        "valid_to",
+        "attributes",
+    )
     inlines = (MetadataVersionInline,)
 
     def get_classification_code(self, obj):
-        return obj.get_classification_code() if not obj.is_template else str(_('template')).upper()
-    get_classification_code.short_description = _('classification code')
+        return (
+            obj.get_classification_code()
+            if not obj.is_template
+            else str(_("template")).upper()
+        )
+
+    get_classification_code.short_description = _("classification code")
 
     def get_name(self, obj):
         return obj.get_name()
-    get_name.short_description = _('name')
+
+    get_name.short_description = _("name")
 
     def tos_import_context(self, request):
         context = dict(
-           self.admin_site.each_context(request),
+            self.admin_site.each_context(request),
         )
         return tos_import_view(request, context)
 
@@ -57,6 +77,10 @@ class FunctionAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         urls = [
-            path('import-tos/', self.admin_site.admin_view(self.tos_import_context), name='import-tos')
+            path(
+                "import-tos/",
+                self.admin_site.admin_view(self.tos_import_context),
+                name="import-tos",
+            )
         ] + urls
         return urls

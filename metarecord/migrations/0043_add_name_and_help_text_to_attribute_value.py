@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0042_bulkupdate_approved_by'),
+        ("metarecord", "0042_bulkupdate_approved_by"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='attributevalue',
-            name='help_text',
-            field=models.TextField(blank=True, verbose_name='help text'),
+            model_name="attributevalue",
+            name="help_text",
+            field=models.TextField(blank=True, verbose_name="help text"),
         ),
         migrations.AddField(
-            model_name='attributevalue',
-            name='name',
-            field=models.CharField(blank=True, max_length=256, verbose_name='name'),
+            model_name="attributevalue",
+            name="name",
+            field=models.CharField(blank=True, max_length=256, verbose_name="name"),
         ),
     ]

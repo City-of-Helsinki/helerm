@@ -6,14 +6,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0023_add_attribute_value_index'),
+        ("metarecord", "0023_add_attribute_value_index"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='attributevalue',
-            unique_together=set([('attribute', 'index'), ('attribute', 'value')]),
+            name="attributevalue",
+            unique_together=set([("attribute", "index"), ("attribute", "value")]),
         ),
     ]

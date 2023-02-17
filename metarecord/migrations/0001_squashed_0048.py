@@ -158,7 +158,6 @@ def set_existing_classifications_as_approved(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("metarecord", "0001_initial"),
         ("metarecord", "0002_function_id_unique_and_db_index"),

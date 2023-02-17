@@ -38,5 +38,9 @@ def test__classification__delete_old_unapproved_versions_on_save(classification)
     v5 = Classification.objects.latest_version().get(uuid=classification.uuid)
     assert v5.version == 5
 
-    assert not Classification.objects.filter(uuid=v5.uuid).exclude(state=Classification.APPROVED).exists()
+    assert (
+        not Classification.objects.filter(uuid=v5.uuid)
+        .exclude(state=Classification.APPROVED)
+        .exists()
+    )
     assert Classification.objects.count() == 2

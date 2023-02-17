@@ -5,7 +5,7 @@ from metarecord.models.function import Function
 
 
 class Command(BaseCommand):
-    help = 'Delete non approved functions that are older than latest approved version.'
+    help = "Delete non approved functions that are older than latest approved version."
 
     def handle(self, *args, **options):
         approved_functions = Function.objects.latest_approved()
@@ -14,4 +14,4 @@ class Command(BaseCommand):
             for function in approved_functions:
                 function.delete_old_non_approved_versions()
 
-        print('Successfully deleted old non approved functions!')
+        print("Successfully deleted old non approved functions!")

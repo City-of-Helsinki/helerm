@@ -4,24 +4,23 @@ from django.db import migrations, models
 
 
 def populate_function_allowed(apps, schema_editor):
-    Classification = apps.get_model('metarecord', 'Classification')
+    Classification = apps.get_model("metarecord", "Classification")
 
     for classification in Classification.objects.all():
         classification.function_allowed = not classification.children.exists()
-        classification.save(update_fields=('function_allowed',))
+        classification.save(update_fields=("function_allowed",))
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0035_add_on_deletes'),
+        ("metarecord", "0035_add_on_deletes"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='classification',
-            name='function_allowed',
-            field=models.BooleanField(default=False, verbose_name='function allowed'),
+            model_name="classification",
+            name="function_allowed",
+            field=models.BooleanField(default=False, verbose_name="function allowed"),
         ),
-        migrations.RunPython(populate_function_allowed, migrations.RunPython.noop)
+        migrations.RunPython(populate_function_allowed, migrations.RunPython.noop),
     ]

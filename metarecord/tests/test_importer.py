@@ -13,7 +13,9 @@ def test_tos_importer_with_no_classification(tos_importer_excel_file_path):
 
 
 @pytest.mark.django_db
-def test_tos_importer_with_classification_and_function(function, tos_importer_excel_file_path):
+def test_tos_importer_with_classification_and_function(
+    function, tos_importer_excel_file_path
+):
     function.classification.code = "00 00 01 02"
     function.classification.save(update_fields=["code"])
 

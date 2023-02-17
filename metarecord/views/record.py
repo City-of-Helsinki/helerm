@@ -18,4 +18,4 @@ class RecordSerializer(StructuralElementSerializer):
 class RecordViewSet(RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = RecordSerializer
     queryset = Record.objects.all()
-    lookup_field = 'uuid'
+    lookup_field = "uuid"

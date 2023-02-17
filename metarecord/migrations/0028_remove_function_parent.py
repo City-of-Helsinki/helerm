@@ -7,28 +7,34 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0027_add_classification'),
+        ("metarecord", "0027_add_classification"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='function',
-            name='parent',
+            model_name="function",
+            name="parent",
         ),
         migrations.RemoveField(
-            model_name='function',
-            name='function_id',
+            model_name="function",
+            name="function_id",
         ),
         migrations.AlterField(
-            model_name='function',
-            name='name',
-            field=models.CharField(verbose_name='name', max_length=256, blank=True),
+            model_name="function",
+            name="name",
+            field=models.CharField(verbose_name="name", max_length=256, blank=True),
         ),
         migrations.AlterField(
-            model_name='classification',
-            name='parent',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='metarecord.Classification', verbose_name='parent'),
+            model_name="classification",
+            name="parent",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="children",
+                to="metarecord.Classification",
+                verbose_name="parent",
+            ),
         ),
     ]

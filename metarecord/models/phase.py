@@ -6,31 +6,36 @@ from .structural_element import StructuralElement
 
 
 class Phase(StructuralElement):
-    function = models.ForeignKey(Function, verbose_name=_('function'), related_name='phases', on_delete=models.CASCADE)
+    function = models.ForeignKey(
+        Function,
+        verbose_name=_("function"),
+        related_name="phases",
+        on_delete=models.CASCADE,
+    )
 
     # Phase attribute validation rules, hardcoded at least for now
     _attribute_validations = {
-        'allowed': (
-            'AdditionalInformation', 'InformationSystem', 'PhaseType', 'ProcessStatus', 'TypeSpecifier'
+        "allowed": (
+            "AdditionalInformation",
+            "InformationSystem",
+            "PhaseType",
+            "ProcessStatus",
+            "TypeSpecifier",
         ),
-        'multivalued': (
-            'InformationSystem',
-        ),
-        'allow_values_outside_choices': (
-            'InformationSystem',
-        ),
+        "multivalued": ("InformationSystem",),
+        "allow_values_outside_choices": ("InformationSystem",),
     }
 
     class Meta:
-        verbose_name = _('phase')
-        verbose_name_plural = _('phases')
-        ordering = ('function', 'index')
+        verbose_name = _("phase")
+        verbose_name_plural = _("phases")
+        ordering = ("function", "index")
 
     def __str__(self):
-        return '%s | %s' % (self.function, self.get_name() or '-')
+        return "%s | %s" % (self.function, self.get_name() or "-")
 
     def get_name(self):
-        type_specifier = self.attributes.get('TypeSpecifier')
+        type_specifier = self.attributes.get("TypeSpecifier")
         if type_specifier:
             return type_specifier
-        return self.attributes.get('PhaseType')
+        return self.attributes.get("PhaseType")

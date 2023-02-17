@@ -7,38 +7,48 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0010_rename_order_to_index'),
+        ("metarecord", "0010_rename_order_to_index"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='recordattachment',
-            name='attribute_values',
+            model_name="recordattachment",
+            name="attribute_values",
         ),
         migrations.RemoveField(
-            model_name='recordattachment',
-            name='created_by',
+            model_name="recordattachment",
+            name="created_by",
         ),
         migrations.RemoveField(
-            model_name='recordattachment',
-            name='modified_by',
+            model_name="recordattachment",
+            name="modified_by",
         ),
         migrations.RemoveField(
-            model_name='recordattachment',
-            name='record',
+            model_name="recordattachment",
+            name="record",
         ),
         migrations.AlterModelOptions(
-            name='function',
-            options={'ordering': ('function_id',), 'verbose_name': 'function', 'verbose_name_plural': 'functions'},
+            name="function",
+            options={
+                "ordering": ("function_id",),
+                "verbose_name": "function",
+                "verbose_name_plural": "functions",
+            },
         ),
         migrations.AddField(
-            model_name='record',
-            name='parent',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='metarecord.Record', verbose_name='parent'),
+            model_name="record",
+            name="parent",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="children",
+                to="metarecord.Record",
+                verbose_name="parent",
+            ),
         ),
         migrations.DeleteModel(
-            name='RecordAttachment',
+            name="RecordAttachment",
         ),
     ]
