@@ -4,7 +4,15 @@ from collections import OrderedDict
 
 from openpyxl import load_workbook
 
-from metarecord.models import Action, Attribute, AttributeValue, Classification, Function, Phase, Record
+from metarecord.models import (
+    Action,
+    Attribute,
+    AttributeValue,
+    Classification,
+    Function,
+    Phase,
+    Record,
+)
 
 
 class TOSImporterException(Exception):

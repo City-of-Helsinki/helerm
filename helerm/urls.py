@@ -3,8 +3,14 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from metarecord.views import (
-    AttributeViewSet, BulkUpdateViewSet, ClassificationViewSet, ExportView, FunctionViewSet, JHSExportViewSet,
-    RecordViewSet, TemplateViewSet
+    AttributeViewSet,
+    BulkUpdateViewSet,
+    ClassificationViewSet,
+    ExportView,
+    FunctionViewSet,
+    JHSExportViewSet,
+    RecordViewSet,
+    TemplateViewSet,
 )
 from search_indices.views import (
     ActionSearchDocumentViewSet,

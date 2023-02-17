@@ -12,7 +12,12 @@ from metarecord.models import Action, Classification, Function, Phase, Record
 from metarecord.models.bulk_update import BulkUpdate
 
 from ..utils import validate_uuid4
-from .base import ClassificationRelationSerializer, DetailSerializerMixin, HexRelatedField, StructuralElementSerializer
+from .base import (
+    ClassificationRelationSerializer,
+    DetailSerializerMixin,
+    HexRelatedField,
+    StructuralElementSerializer,
+)
 
 
 class RecordSerializer(StructuralElementSerializer):

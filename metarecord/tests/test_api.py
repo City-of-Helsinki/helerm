@@ -12,8 +12,11 @@ from rest_framework.reverse import reverse
 from metarecord.models import Action, Classification, Function, Phase, Record
 from metarecord.models.bulk_update import BulkUpdate
 from metarecord.tests.utils import (
-    assert_response_functions, check_attribute_errors, FunctionTestDetailSerializer, get_bulk_update_function_key,
-    set_permissions
+    assert_response_functions,
+    check_attribute_errors,
+    FunctionTestDetailSerializer,
+    get_bulk_update_function_key,
+    set_permissions,
 )
 from metarecord.views.classification import include_related
 

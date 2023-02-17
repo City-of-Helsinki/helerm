@@ -3,7 +3,11 @@ from django.contrib.auth.models import Permission
 from rest_framework import serializers
 
 from metarecord.models import Function
-from metarecord.views.base import ClassificationRelationSerializer, HexRelatedField, StructuralElementSerializer
+from metarecord.views.base import (
+    ClassificationRelationSerializer,
+    HexRelatedField,
+    StructuralElementSerializer,
+)
 from metarecord.views.function import FunctionListSerializer, PhaseSerializer
 
 
