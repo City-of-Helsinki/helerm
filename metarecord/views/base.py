@@ -68,7 +68,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
             }
         return self._valid_attribute_dict
 
-    def get_attribute_validation_errors(self, instance, recursive=True):
+    def get_attribute_validation_errors(self, instance, recursive=True):  # noqa: C901
         """
         Check allowed and required attributes, and verify choice attributes have valid values.
 

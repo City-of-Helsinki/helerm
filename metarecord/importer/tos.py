@@ -319,7 +319,7 @@ class TOSImporter:
         function_obj.error_count = function.get("error_count", 0)
         function_obj.save()
 
-    def _process_data(self, sheet, function_obj):
+    def _process_data(self, sheet, function_obj):  # noqa: C901
         data = self._get_data(sheet)
 
         if not data:
@@ -428,7 +428,7 @@ class TOSImporter:
             child_list.append(target)
         self._save_function(function)
 
-    def import_attributes(self):
+    def import_attributes(self):  # noqa: C901
         self.logger.info("Importing attributes...")
 
         try:
