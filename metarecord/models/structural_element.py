@@ -1,5 +1,5 @@
 import uuid
-from collections import Iterable
+from collections.abc import Iterable
 from copy import deepcopy
 
 from django.conf import settings
