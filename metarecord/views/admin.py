@@ -18,7 +18,8 @@ class CaptureLogRecordsHandler(logging.Handler):
         self.log_records.append(record)
 
 
-def tos_import_view(request, context={}):
+def tos_import_view(request, context: dict = None):
+    context = context or {}
     if not (request.user.is_authenticated and request.user.is_superuser):
         raise PermissionDenied
 
