@@ -1,5 +1,9 @@
 from django.contrib import admin
-from django.http import HttpResponseForbidden, HttpResponseNotAllowed, HttpResponseRedirect
+from django.http import (
+    HttpResponseForbidden,
+    HttpResponseNotAllowed,
+    HttpResponseRedirect,
+)
 from django.shortcuts import get_object_or_404
 from django.urls import path, reverse
 

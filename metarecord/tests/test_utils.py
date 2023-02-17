@@ -1,6 +1,10 @@
 import pytest
 
-from metarecord.utils import create_new_function_version, model_to_dict, update_nested_dictionary
+from metarecord.utils import (
+    create_new_function_version,
+    model_to_dict,
+    update_nested_dictionary,
+)
 
 
 def test_simple_dict_update():

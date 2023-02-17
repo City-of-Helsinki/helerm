@@ -7,7 +7,12 @@ from rest_framework.filters import BaseFilterBackend
 from rest_framework.request import Request
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from search_indices.documents import ActionDocument, FunctionDocument, PhaseDocument, RecordDocument
+from search_indices.documents import (
+    ActionDocument,
+    FunctionDocument,
+    PhaseDocument,
+    RecordDocument,
+)
 
 DOCUMENT_TYPES = [
     ActionDocument,

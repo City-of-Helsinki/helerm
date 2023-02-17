@@ -5,7 +5,16 @@ import pytest
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
-from metarecord.models import Action, Attribute, AttributeGroup, AttributeValue, Classification, Function, Phase, Record
+from metarecord.models import (
+    Action,
+    Attribute,
+    AttributeGroup,
+    AttributeValue,
+    Classification,
+    Function,
+    Phase,
+    Record,
+)
 from metarecord.models.bulk_update import BulkUpdate
 from metarecord.tests.utils import set_permissions
 

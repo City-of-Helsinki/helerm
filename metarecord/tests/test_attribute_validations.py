@@ -1,5 +1,6 @@
-import pytest
 from copy import deepcopy
+
+import pytest
 from django.contrib.contenttypes.models import ContentType
 
 from metarecord.models import Action, Function, Phase, Record

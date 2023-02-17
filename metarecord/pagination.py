@@ -1,4 +1,6 @@
-from django_elasticsearch_dsl_drf.pagination import PageNumberPagination as ESPageNumberPagination
+from django_elasticsearch_dsl_drf.pagination import (
+    PageNumberPagination as ESPageNumberPagination,
+)
 from rest_framework.pagination import PageNumberPagination
 
 
