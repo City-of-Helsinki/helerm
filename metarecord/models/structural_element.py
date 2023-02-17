@@ -211,7 +211,7 @@ def _get_conditionally_required_schema(
     }
 
 
-def get_attribute_json_schema(**kwargs):
+def get_attribute_json_schema(**kwargs):  # noqa: C901
     if (
         "allowed" not in kwargs or kwargs["allowed"] is None
     ):  # None means the validation isn't enabled
