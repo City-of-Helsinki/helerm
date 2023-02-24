@@ -2,14 +2,14 @@
 
 [![Requirements](https://requires.io/github/City-of-Helsinki/helerm/requirements.svg?branch=master)](https://requires.io/github/City-of-Helsinki/helerm/requirements/?branch=master)
 
-## Prerequisites
-
-- Python 3.6
-- PostgreSQL 10.x
 
 ## Installation
 
 ### Manual setup
+
+- Make sure you have the following prerequisites installed:
+  - Python 3.7
+  - PostgreSQL 10.x
 
 - Setup and activate a virtualenv ([virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/) is a nice tool to handle virtualenvs)
  
@@ -50,28 +50,32 @@ python manage.py createsuperuser
 
 ### Docker compose setup
 
-- Copy `config_dev.env.example` to `config_dev.env` and edit according
-  to your needs. The file is copiously commented.
+Make sure you have Docker and Docker Compose 2.x installed. See
+https://docs.docker.com/compose/install/ for instructions.
+
+Copy `.docker/django/.env.example` to `.docker/django/.env` and edit according
+to your needs. The file is copiously commented.
+- See the docker-entrypoint.sh part in .env.example file for setting what
+  happens when the container starts.
 
 ```
-cp config_dev.env.example config_dev.env
+cp .docker/django/.env.example .docker/django/.env
 ```
 
-- Build and start the containers. Docker-compose will automatically build
-  the container if it is missing. By default the container initializes
-  database and starts Django dev server.
+Build and start the containers. By default, the container initializes the
+database and starts the Django dev server.
 
 ```
-docker-compose up
+docker compose up
 ```
 
-- Access the application container shell
+You're now ready to go! The Django dev server is available at http://localhost:8080/
+
+You can run `manage.py` commands in the container. E.g. to perform database migrations:
 
 ```
-docker-compose exec django bash
+docker compose exec django python manage.py migrate
 ```
-
-- Run `migrate`, `compilemessages`, and `createsuperuser` as usual. Detailed info in manual setup steps.
 
 ## Development
 
