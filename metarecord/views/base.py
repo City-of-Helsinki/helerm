@@ -1,5 +1,5 @@
-import collections
 from collections import defaultdict
+from collections.abc import Iterable
 
 from django.utils.translation import gettext_lazy as _
 from rest_framework import exceptions, serializers
@@ -93,7 +93,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         ) in instance.get_conditionally_required_attributes().items():
             condition_attribute, value = next(iter(condition.items()))
 
-            if isinstance(value, str) or not isinstance(value, collections.Iterable):
+            if isinstance(value, str) or not isinstance(value, Iterable):
                 value = (value,)
 
             if (
@@ -111,7 +111,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         ) in instance.get_conditionally_disallowed_attributes().items():
             condition_attribute, value = next(iter(condition.items()))
 
-            if isinstance(value, str) or not isinstance(value, collections.Iterable):
+            if isinstance(value, str) or not isinstance(value, Iterable):
                 value = (value,)
 
             if (
