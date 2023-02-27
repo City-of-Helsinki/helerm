@@ -17,7 +17,6 @@ djangorestframework
 django-cors-headers
 django-filter
 django-admin-json-editor
-djangorestframework-jwt
 django-admin-sortable2
 djangorestframework-xml
 sentry-sdk
