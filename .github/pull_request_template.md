@@ -2,12 +2,9 @@
 
 <!-- Describe your changes in detail -->
 
-## Related Issue
+## Related Issue(s)
 
-<!-- If suggesting a new feature or change, please discuss it in an issue first -->
-<!-- If fixing a bug, please link to the issue here: -->
-
-Closes #
+**[DEV-XXX](https://helsinkisolutionoffice.atlassian.net/browse/DEV-XXX)**
 
 ## Motivation and Context
 
@@ -15,4 +12,6 @@ Closes #
 
 ## How Has This Been Tested?
 
-## Screenshots (if appropriate):
+## Additional Notes
+
+## Screenshots / Videos
