@@ -234,3 +234,9 @@ def tos_importer_excel_file_path():
     current_file = os.path.realpath(__file__)
     current_directory = os.path.dirname(current_file)
     return os.path.join(current_directory, "test_data", excel_filename)
+
+
+@pytest.fixture
+def current_directory():
+    current_file = os.path.realpath(__file__)
+    return os.path.dirname(current_file)
