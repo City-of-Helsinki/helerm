@@ -19,5 +19,6 @@ django-filter
 django-admin-json-editor
 django-admin-sortable2
 djangorestframework-xml
+lxml
 sentry-sdk
 social-auth-app-django
