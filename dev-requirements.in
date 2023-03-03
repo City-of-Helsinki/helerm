@@ -5,6 +5,7 @@ freezegun
 isort
 pep8-naming
 pip-tools
+pre-commit
 pytest
 pytest-cov
 pytest-django
