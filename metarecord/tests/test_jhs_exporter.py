@@ -7,6 +7,7 @@ import pytest
 from rest_framework.test import APIClient
 
 from metarecord.exporter.jhs import JHSExporter
+from metarecord.exporter.jhs_lxml import JHSExporterV2
 from metarecord.models import Function
 from metarecord.views.export import JHSExportViewSet
 
@@ -31,6 +32,35 @@ def test_exporter_xml_generation_is_successful(
 
         with mock.patch("uuid.uuid4", return_value=mock_uuid):
             xml = JHSExporter().create_xml().decode("utf-8")
+
+    expected_xml = (
+        jhs_export_xml_template.read()
+        .decode("utf-8")
+        .format(
+            id=mock_uuid,
+            func_id=function.uuid,
+            phase_id=phase.uuid,
+            action_id=action.uuid,
+            rec_id=record.uuid,
+        )
+    )
+
+    assert xml == expected_xml
+
+
+@pytest.mark.xfail(reason="refactoring in process")
+@pytest.mark.django_db
+def test_lxml_exporter_xml_generation_is_successful(
+    jhs_export_xml_template, function, phase, action, record
+):
+    function.state = Function.APPROVED
+    function.save(update_fields=("attributes", "state"))
+
+    with freezegun.freeze_time("2020-04-01 12:00 EEST"):
+        mock_uuid = uuid.uuid4()
+
+        with mock.patch("uuid.uuid4", return_value=mock_uuid):
+            xml = JHSExporterV2().create_xml().decode("utf-8")
 
     expected_xml = (
         jhs_export_xml_template.read()
