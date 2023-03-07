@@ -1,268 +1,274 @@
-import logging
 import uuid
 from datetime import datetime
 
 import pytz
-import pyxb
 from django.conf import settings
+from django.db.models import QuerySet
 
-from metarecord.binding import jhs
-from metarecord.models import Classification, Function
+from metarecord.exporter.jhs_v2 import bindings, TOS_VERSION
+from metarecord.models import Action, Classification, Function, Phase
 
-logger = logging.getLogger(__name__)
+JHS_MAPPING = {
+    "PublicityClass": {
+        "Julkinen": "1",
+        "Osittain salassapidettävä": "2",
+        "Osittain salassa pidettävä": "2",
+        "Salassa pidettävä": "3",
+        "Ei-julkinen": "4",
+    },
+    "PersonalData": {
+        "Ei sisällä henkilötietoja": "1",
+        "Sisältää henkilötietoja": "2",
+        "Sisältää arkaluonteisia henkilötietoja": "3",
+        "Sisältää erityisiä henkilötietoja": "4",
+        "Sisältää rikoksiin tai rikkomuksiin liittyvää henkilötietoa": "5",
+    },
+}
 
 
-class JHSExporterException(Exception):
-    pass
+def _get_attribute_value(obj, attribute_identifier: str):
+    """
+    Get the value of the given attribute from the given object.
+    If there is a mapping available for the attribute, use it.
 
+    :param obj: The object to get the attribute from
+    :param attribute_identifier: The attribute to get the value from
+    :return: The value of the attribute
+    """
+    value = obj.attributes.get(attribute_identifier)
+    if value is None:
+        return None
 
-class JHSExporter:
-    NAMESPACE = "tos"
-    TOS_VERSION = "1"
-
-    JHS_MAPPING = {
-        "PublicityClass": {
-            "Julkinen": "1",
-            "Osittain salassapidettävä": "2",
-            "Osittain salassa pidettävä": "2",
-            "Salassa pidettävä": "3",
-            "Ei-julkinen": "4",
-        },
-        "PersonalData": {
-            "Ei sisällä henkilötietoja": "1",
-            "Sisältää henkilötietoja": "2",
-            "Sisältää arkaluonteisia henkilötietoja": "3",
-            "Sisältää erityisiä henkilötietoja": "4",
-            "Sisältää rikoksiin tai rikkomuksiin liittyvää henkilötietoa": "5",
-        },
-    }
-
-    def _get_attribute_value(self, obj, attribute_identifier):
-        value = obj.attributes.get(attribute_identifier)
-        if value is None:
-            return None
-
-        jhs_mapping = self.JHS_MAPPING.get(attribute_identifier)
-        if jhs_mapping:
-            try:
-                value = jhs_mapping[value]
-            except KeyError:
-                raise Exception(
-                    "Invalid value for %s: %s" % (attribute_identifier, value)
-                )
-        return value
-
-    def _create_restriction_info(self, obj):
-        return jhs.Kayttorajoitustiedot(
-            JulkisuusluokkaKoodi=self._get_attribute_value(obj, "PublicityClass"),
-            HenkilotietoluonneKoodi=self._get_attribute_value(obj, "PersonalData"),
-            SalassapitoAikaArvo=self._get_attribute_value(obj, "SecurityPeriod"),
-            SalassapitoPerusteTeksti=self._get_attribute_value(obj, "SecurityReason"),
-            SalassapidonLaskentaperusteTeksti=self._get_attribute_value(
-                obj, "Restriction.SecurityPeriodStart"
-            ),
-        )
-
-    def _create_retention_info(self, obj):
-        return jhs.Sailytysaikatiedot(
-            SailytysajanPituusArvo=self._get_attribute_value(obj, "RetentionPeriod"),
-            SailytysajanPerusteTeksti=self._get_attribute_value(obj, "RetentionReason"),
-            SailytysajanLaskentaperusteTeksti=self._get_attribute_value(
-                obj, "RetentionPeriodStart"
-            ),
-        )
-
-    def _handle_record(self, record):
-        logger.info("Handling record %s" % record.pk)
-        information_system = self._get_attribute_value(record, "InformationSystem")
-
-        return jhs.Asiakirjatieto(
-            id=record.uuid,
-            Kayttorajoitustiedot=self._create_restriction_info(record),
-            Sailytysaikatiedot=self._create_retention_info(record),
-            AsiakirjaluokkaTeksti=jhs.AsiakirjaluokkaTeksti(
-                self._get_attribute_value(record, "RecordType")
-            ),
-            AsiakirjaluokkaTarkenneTeksti=jhs.AsiakirjaluokkaTarkenneTeksti(
-                self._get_attribute_value(record, "TypeSpecifier")
-            ),
-            TietojarjestelmaNimi=jhs.TietojarjestelmaNimi(information_system)
-            if information_system
-            else None,
-        )
-
-    def _handle_action(self, action, records):
-        logger.info("Handling action %s" % action.pk)
-        toimenpidetiedot = jhs.Toimenpidetiedot(
-            id=action.uuid,
-            Asiakirjatieto=records,
-        )
-
-        action_type = self._get_attribute_value(action, "ActionType")
-        if action_type:
-            toimenpidetiedot.ToimenpideluokkaTeksti = action_type
-        type_specifier = self._get_attribute_value(action, "TypeSpecifier")
-        if type_specifier:
-            toimenpidetiedot.ToimenpideluokkaTarkenneTeksti = type_specifier
-
-        return toimenpidetiedot
-
-    def _handle_phase(self, phase, actions):
-        logger.info("Handling phase %s" % phase.pk)
-        toimenpidetiedot = jhs.Toimenpidetiedot(id=phase.uuid, Toimenpidetiedot=actions)
-
-        phase_type = self._get_attribute_value(phase, "PhaseType")
-        if phase_type:
-            toimenpidetiedot.ToimenpideluokkaTeksti = phase_type
-        type_specifier = self._get_attribute_value(phase, "TypeSpecifier")
-        if type_specifier:
-            toimenpidetiedot.ToimenpideluokkaTarkenneTeksti = type_specifier
-
-        return toimenpidetiedot
-
-    def _handle_function(self, function, phases):
-        logger.info("Handling function %s" % function.pk)
-        information_system = self._get_attribute_value(function, "InformationSystem")
-        handling_process_info = jhs.KasittelyprosessiTiedot(
-            id=uuid.uuid4(),
-            Kayttorajoitustiedot=self._create_restriction_info(function),
-            Sailytysaikatiedot=self._create_retention_info(function),
-            TietojarjestelmaNimi=jhs.TietojarjestelmaNimi(information_system)
-            if information_system
-            else None,
-            Toimenpidetiedot=phases,
-        )
-        return jhs.Luokka(
-            id=function.uuid,
-            Luokitustunnus=function.get_classification_code(),
-            Nimeke=jhs.Nimeke(jhs.NimekeKielella(function.get_name(), kieliKoodi="fi")),
-            KasittelyprosessiTiedot=handling_process_info,
-        )
-
-    def _handle_classification(self, classification):
+    jhs_mapping = JHS_MAPPING.get(attribute_identifier)
+    if jhs_mapping:
         try:
-            function = (
-                Function.objects.prefetch_related(
-                    "phases", "phases__actions", "phases__actions__records"
-                )
-                .filter(classification__uuid=classification.uuid)
-                .latest_approved()
-                .get()
+            value = jhs_mapping[value]
+        except KeyError:
+            raise Exception("Invalid value for %s: %s" % (attribute_identifier, value))
+    return value
+
+
+def _create_element_from_obj_attr(obj, element, attr: str, default=None):
+    """
+    Create an element from the given attribute of the given object.
+    If the attribute is None, return the default value instead.
+
+    :param obj: The object to get the attribute from
+    :param element: The element to create
+    :param attr: The attribute to get the value from
+    :param default: The default value to use if the attribute is None
+    :return: The created element
+    """
+    value = _get_attribute_value(obj, attr)
+    if value is None:
+        return element(default)
+    return element(value)
+
+
+def _create_element_or_none_from_obj_attr(obj, element, attr: str):
+    """
+    Create an element from the given attribute of the given object.
+    If the attribute is None, return None instead.
+
+    :param obj: The object to get the attribute from
+    :param element: The element to create
+    :param attr: The attribute to get the value from
+    :return: The created element or None
+    """
+    value = _get_attribute_value(obj, attr)
+    if value is None:
+        return None
+    return element(value)
+
+
+def _generate_elements_from_obj(obj, element_to_attribute: dict):
+    """
+    Generate elements from the given attributes of the given object.
+
+    :param obj: The object to get the attributes from
+    :param element_to_attribute: A dictionary mapping elements to attributes
+    :return: A list of elements
+    """
+    elements = [
+        _create_element_or_none_from_obj_attr(obj, elem, attr)
+        for elem, attr in element_to_attribute.items()
+    ]
+    return elements
+
+
+def _build_restriction_info(obj):
+    sub_elements = _generate_elements_from_obj(
+        obj,
+        {
+            bindings.JULKISUUSLUOKKA_KOODI: "PublicityClass",
+            bindings.HENKILOTIETOLUONNE_KOODI: "PersonalData",
+            bindings.SALASSAPITO_AIKA_ARVO: "SecurityPeriod",
+            bindings.SALASSAPITO_PERUSTE_TEKSTI: "SecurityReason",
+            bindings.SALASSAPIDON_LASKENTAPERUSTE_TEKSTI: "Restriction.SecurityPeriodStart",
+        },
+    )
+    return bindings.KAYTTORAJOITUSTIEDOT(*sub_elements)
+
+
+def _build_retention_info(obj):
+    sub_elements = _generate_elements_from_obj(
+        obj,
+        {
+            bindings.SAILYTYSAJAN_PITUUS_ARVO: "RetentionPeriod",
+            bindings.SAILYTYSAJAN_PERUSTE_TEKSTI: "RetentionReason",
+            bindings.SAILYTYSAJAN_LASKENTAPERUSTE_TEKSTI: "RetentionPeriodStart",
+        },
+    )
+    return bindings.SAILYTYSAIKATIEDOT(*sub_elements)
+
+
+def _build_record(record):
+    return bindings.ASIAKIRJATIETO(
+        _build_restriction_info(record),
+        _build_retention_info(record),
+        # NOTE: This returns "None" as a string, because it's how
+        # the old PyXB implementation did it.
+        _create_element_from_obj_attr(
+            record, bindings.ASIAKIRJALUOKKA_TEKSTI, "RecordType", default="None"
+        ),
+        _create_element_from_obj_attr(
+            record,
+            bindings.ASIAKIRJALUOKKA_TARKENNE_TEKSTI,
+            "TypeSpecifier",
+            default="None",
+        ),
+        _create_element_or_none_from_obj_attr(
+            record, bindings.TIETOJARJESTELMA_NIMI, "InformationSystem"
+        ),
+        id=str(record.uuid),
+    )
+
+
+def _build_action(action: Action):
+    records = [_build_record(record) for record in action.records.all()]
+    return bindings.TOIMENPIDETIEDOT(
+        _create_element_or_none_from_obj_attr(
+            action, bindings.TOIMENPIDELUOKKA_TEKSTI, "ActionType"
+        ),
+        _create_element_or_none_from_obj_attr(
+            action, bindings.TOIMENPIDELUOKKA_TARKENNE_TEKSTI, "TypeSpecifier"
+        ),
+        *records,
+        id=str(action.uuid),
+    )
+
+
+def _build_phase(phase: Phase):
+    actions = [_build_action(action) for action in phase.actions.all()]
+    return bindings.TOIMENPIDETIEDOT(
+        _create_element_or_none_from_obj_attr(
+            phase, bindings.TOIMENPIDELUOKKA_TEKSTI, "PhaseType"
+        ),
+        _create_element_or_none_from_obj_attr(
+            phase, bindings.TOIMENPIDELUOKKA_TARKENNE_TEKSTI, "TypeSpecifier"
+        ),
+        *actions,
+        id=str(phase.uuid),
+    )
+
+
+def _build_function(function: Function):
+    phases = [_build_phase(phase) for phase in function.phases.all()]
+    return bindings.LUOKKA(
+        bindings.LUOKITUSTUNNUS(function.get_classification_code()),
+        bindings.NIMEKE(
+            bindings.NIMEKE_KIELELLA(
+                bindings.NIMEKE_TEKSTI(function.get_name()), kieliKoodi="fi"
             )
+        ),
+        bindings.KASITTELYPROSESSI_TIEDOT(
+            _build_restriction_info(function),
+            _build_retention_info(function),
+            _create_element_or_none_from_obj_attr(
+                function, bindings.TIETOJARJESTELMA_NIMI, "InformationSystem"
+            ),
+            *phases,
+            id=str(uuid.uuid4()),
+        ),
+        id=str(uuid.uuid4()),
+    )
 
-        except Function.DoesNotExist:
-            return jhs.Luokka(
-                id=classification.uuid,
-                Luokitustunnus=classification.code,
-                Nimeke=jhs.Nimeke(
-                    jhs.NimekeKielella(classification.title, kieliKoodi="fi")
-                ),
+
+def _build_classification(classification: Classification):
+    try:
+        function = (
+            Function.objects.prefetch_related(
+                "phases", "phases__actions", "phases__actions__records"
             )
-
-        func = self._process_function(function)
-        if func:
-            try:
-                func.toDOM()  # validates
-            except pyxb.PyXBException as e:
-                logger.error(
-                    "ERROR validating the function, details:\n%s" % e.details()
-                )
-                return False
-
-        return func
-
-    def _process_function(self, function: Function):
-        logger.info("Processing function %s" % function)
-
-        phases = []
-        handling = None
-
-        try:
-            for phase in function.phases.all():
-                actions = []
-                for action in phase.actions.all():
-                    records = []
-                    for record in action.records.all():
-                        handling = record
-                        records.append(self._handle_record(record))
-                    handling = action
-                    actions.append(self._handle_action(action, records))
-                handling = phase
-                phases.append(self._handle_phase(phase, actions))
-            handling = function
-            func = self._handle_function(function, phases)
-        except Exception as e:
-            error = "%s: %s" % (e.__class__.__name__, e)
-            if handling:
-                logger.error("ERROR %s while processing %s" % (error, handling))
-            else:
-                logger.error(error)
-
-            return False
-
-        return func
-
-    def get_queryset(self):
-        # at least for now include all classifications
-        qs = Classification.objects
-        return qs
-
-    def create_xml(self, queryset=None):
-        if queryset is None:
-            queryset = self.get_queryset()
-
-        pyxb.utils.domutils.BindingDOMSupport.DeclareNamespace(
-            jhs.Namespace, self.NAMESPACE
+            .filter(classification__uuid=classification.uuid)
+            .latest_approved()
+            .get()
         )
-
-        tos_info = jhs.TosTiedot(
-            id=uuid.uuid4(),
-            Nimeke=jhs.Nimeke(
-                jhs.NimekeKielella(
-                    "Helsingin kaupungin Tiedonohjaussuunnitelma", kieliKoodi="fi"
+    except Function.DoesNotExist:
+        # No functions found, return only the classification.
+        return bindings.LUOKKA(
+            bindings.LUOKITUSTUNNUS(classification.code),
+            bindings.NIMEKE(
+                bindings.NIMEKE_KIELELLA(
+                    bindings.NIMEKE_TEKSTI(classification.title),
+                    kieliKoodi="fi",
                 )
             ),
-            OrganisaatioNimi="Helsingin kaupunki",
-            YhteyshenkiloNimi="Tiedonhallinta",
-            LisatiedotTeksti="JHS 191 XML {:%Y-%m-%d %H:%M%Z} {}".format(
+            id=str(classification.uuid),
+        )
+
+    # TODO Error handling
+    # Function found, return the classification and the function.
+    phases = [_build_phase(phase) for phase in function.phases.all()]
+    return bindings.LUOKKA(
+        bindings.LUOKITUSTUNNUS(function.get_classification_code()),
+        bindings.NIMEKE(
+            bindings.NIMEKE_KIELELLA(
+                bindings.NIMEKE_TEKSTI(function.get_name()), kieliKoodi="fi"
+            )
+        ),
+        bindings.KASITTELYPROSESSI_TIEDOT(
+            _build_restriction_info(function),
+            _build_retention_info(function),
+            _create_element_or_none_from_obj_attr(
+                function, bindings.TIETOJARJESTELMA_NIMI, "InformationSystem"
+            ),
+            *phases,
+            id=str(uuid.uuid4()),
+        ),
+        id=str(function.uuid),
+    )
+
+
+def _build_tos_info():
+    return bindings.TOS_TIEDOT(
+        bindings.NIMEKE(
+            bindings.NIMEKE_KIELELLA(
+                bindings.NIMEKE_TEKSTI("Helsingin kaupungin Tiedonohjaussuunnitelma"),
+                kieliKoodi="fi",
+            )
+        ),
+        bindings.YHTEYSHENKILO_NIMI("Tiedonhallinta"),
+        bindings.TOS_VERSIO(TOS_VERSION),
+        bindings.TILA_KOODI("3"),
+        bindings.ORGANISAATIO_NIMI("Helsingin kaupunki"),
+        bindings.LISATIEDOT(
+            "JHS 191 XML {:%Y-%m-%d %H:%M%Z} {}".format(
                 datetime.now(tz=pytz.timezone(settings.TIME_ZONE)),
                 settings.XML_EXPORT_DESCRIPTION,
-            ),
-            TilaKoodi="3",
-            TosVersio=self.TOS_VERSION,
-        )
+            )
+        ),
+        id=str(uuid.uuid4()),
+    )
 
-        classifications = []
-        for classification in queryset.all():
-            item = self._handle_classification(classification)
-            if item:
-                classifications.append(item)
 
-        classifications.sort(key=lambda a: a.Luokitustunnus)
-        logger.info("Creating the actual XML...")
-
-        tos_root = jhs.Tos(
-            TosTiedot=tos_info,
-            Luokka=classifications,
-        )
-
-        try:
-            dom = tos_root.toDOM()
-        except pyxb.PyXBException as e:
-            logger.error("ERROR while creating the XML file: %s" % e.details())
-            raise JHSExporterException(e.details())
-
-        return dom.toprettyxml(" ", encoding="utf-8")
-
-    def export_data(self, filename):
-        logger.info("Exporting data...")
-        xml = self.create_xml()
-
-        try:
-            with open(filename, "wb") as f:
-                logger.info("Writing to the file...")
-                f.write(xml)
-                logger.info("File written")
-        except Exception as e:
-            logger.error("ERROR writing to the file: %s" % e)
-            raise JHSExporterException(e)
+def build_tos_document(classifications_qs: QuerySet[Classification]):
+    """
+    Builds a full TOS XML document from the given queryset of classifications.
+    """
+    classifications = [_build_classification(c) for c in classifications_qs]
+    tos_info = _build_tos_info()
+    return bindings.TOS(
+        tos_info,
+        *classifications,
+    )
