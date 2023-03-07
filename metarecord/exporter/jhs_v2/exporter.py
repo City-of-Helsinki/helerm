@@ -6,8 +6,9 @@ import pytz
 from django.conf import settings
 from lxml import etree, objectify
 
-import metarecord.exporter.jhs_v2.bindings as jhs
 from metarecord.models import Classification, Function
+
+from . import bindings, TOS_VERSION
 
 logger = logging.getLogger(__name__)
 
@@ -31,9 +32,6 @@ class JHSExporterV2Exception(Exception):
 
 # TODO: Replace the old exporter (JHSExporter) with this one
 class JHSExporterV2:
-    NAMESPACE = "tos"
-    TOS_VERSION = "1"
-
     JHS_MAPPING = {
         "PublicityClass": {
             "Julkinen": "1",
@@ -123,55 +121,55 @@ class JHSExporterV2:
         sub_elements = self._generate_elements_from_obj(
             obj,
             {
-                jhs.JULKISUUSLUOKKA_KOODI: "PublicityClass",
-                jhs.HENKILOTIETOLUONNE_KOODI: "PersonalData",
-                jhs.SALASSAPITO_AIKA_ARVO: "SecurityPeriod",
-                jhs.SALASSAPITO_PERUSTE_TEKSTI: "SecurityReason",
-                jhs.SALASSAPIDON_LASKENTAPERUSTE_TEKSTI: "Restriction.SecurityPeriodStart",
+                bindings.JULKISUUSLUOKKA_KOODI: "PublicityClass",
+                bindings.HENKILOTIETOLUONNE_KOODI: "PersonalData",
+                bindings.SALASSAPITO_AIKA_ARVO: "SecurityPeriod",
+                bindings.SALASSAPITO_PERUSTE_TEKSTI: "SecurityReason",
+                bindings.SALASSAPIDON_LASKENTAPERUSTE_TEKSTI: "Restriction.SecurityPeriodStart",
             },
         )
-        return jhs.KAYTTORAJOITUSTIEDOT(*sub_elements)
+        return bindings.KAYTTORAJOITUSTIEDOT(*sub_elements)
 
     def _create_retention_info(self, obj):
         sub_elements = self._generate_elements_from_obj(
             obj,
             {
-                jhs.SAILYTYSAJAN_PITUUS_ARVO: "RetentionPeriod",
-                jhs.SAILYTYSAJAN_PERUSTE_TEKSTI: "RetentionReason",
-                jhs.SAILYTYSAJAN_LASKENTAPERUSTE_TEKSTI: "RetentionPeriodStart",
+                bindings.SAILYTYSAJAN_PITUUS_ARVO: "RetentionPeriod",
+                bindings.SAILYTYSAJAN_PERUSTE_TEKSTI: "RetentionReason",
+                bindings.SAILYTYSAJAN_LASKENTAPERUSTE_TEKSTI: "RetentionPeriodStart",
             },
         )
-        return jhs.SAILYTYSAIKATIEDOT(*sub_elements)
+        return bindings.SAILYTYSAIKATIEDOT(*sub_elements)
 
     def _handle_record(self, record):
-        return jhs.ASIAKIRJATIETO(
+        return bindings.ASIAKIRJATIETO(
             self._create_restriction_info(record),
             self._create_retention_info(record),
             # NOTE: This returns "None" as a string, because it's how
             # the old PyXB implementation did it.
             self._create_element_from_obj_attr(
-                record, jhs.ASIAKIRJALUOKKA_TEKSTI, "RecordType", default="None"
+                record, bindings.ASIAKIRJALUOKKA_TEKSTI, "RecordType", default="None"
             ),
             self._create_element_from_obj_attr(
                 record,
-                jhs.ASIAKIRJALUOKKA_TARKENNE_TEKSTI,
+                bindings.ASIAKIRJALUOKKA_TARKENNE_TEKSTI,
                 "TypeSpecifier",
                 default="None",
             ),
             self._create_element_or_none_from_obj_attr(
-                record, jhs.TIETOJARJESTELMA_NIMI, "InformationSystem"
+                record, bindings.TIETOJARJESTELMA_NIMI, "InformationSystem"
             ),
             id=str(record.uuid),
         )
 
     def _handle_action(self, action):
         records = [self._handle_record(record) for record in action.records.all()]
-        return jhs.TOIMENPIDETIEDOT(
+        return bindings.TOIMENPIDETIEDOT(
             self._create_element_or_none_from_obj_attr(
-                action, jhs.TOIMENPIDELUOKKA_TEKSTI, "ActionType"
+                action, bindings.TOIMENPIDELUOKKA_TEKSTI, "ActionType"
             ),
             self._create_element_or_none_from_obj_attr(
-                action, jhs.TOIMENPIDELUOKKA_TARKENNE_TEKSTI, "TypeSpecifier"
+                action, bindings.TOIMENPIDELUOKKA_TARKENNE_TEKSTI, "TypeSpecifier"
             ),
             *records,
             id=str(action.uuid),
@@ -179,12 +177,12 @@ class JHSExporterV2:
 
     def _handle_phase(self, phase):
         actions = [self._handle_action(action) for action in phase.actions.all()]
-        return jhs.TOIMENPIDETIEDOT(
+        return bindings.TOIMENPIDETIEDOT(
             self._create_element_or_none_from_obj_attr(
-                phase, jhs.TOIMENPIDELUOKKA_TEKSTI, "PhaseType"
+                phase, bindings.TOIMENPIDELUOKKA_TEKSTI, "PhaseType"
             ),
             self._create_element_or_none_from_obj_attr(
-                phase, jhs.TOIMENPIDELUOKKA_TARKENNE_TEKSTI, "TypeSpecifier"
+                phase, bindings.TOIMENPIDELUOKKA_TARKENNE_TEKSTI, "TypeSpecifier"
             ),
             *actions,
             id=str(phase.uuid),
@@ -192,18 +190,18 @@ class JHSExporterV2:
 
     def _handle_function(self, function):
         phases = [self._handle_phase(phase) for phase in function.phases.all()]
-        return jhs.LUOKKA(
-            jhs.LUOKITUSTUNNUS(function.get_classification_code()),
-            jhs.NIMEKE(
-                jhs.NIMEKE_KIELELLA(
-                    jhs.NIMEKE_TEKSTI(function.get_name()), kieliKoodi="fi"
+        return bindings.LUOKKA(
+            bindings.LUOKITUSTUNNUS(function.get_classification_code()),
+            bindings.NIMEKE(
+                bindings.NIMEKE_KIELELLA(
+                    bindings.NIMEKE_TEKSTI(function.get_name()), kieliKoodi="fi"
                 )
             ),
-            jhs.KASITTELYPROSESSI_TIEDOT(
+            bindings.KASITTELYPROSESSI_TIEDOT(
                 self._create_restriction_info(function),
                 self._create_retention_info(function),
                 self._create_element_or_none_from_obj_attr(
-                    function, jhs.TIETOJARJESTELMA_NIMI, "InformationSystem"
+                    function, bindings.TIETOJARJESTELMA_NIMI, "InformationSystem"
                 ),
                 *phases,
                 id=str(uuid.uuid4()),
@@ -222,11 +220,11 @@ class JHSExporterV2:
                 .get()
             )
         except Function.DoesNotExist:
-            return jhs.LUOKKA(
-                jhs.LUOKITUSTUNNUS(classification.code),
-                jhs.NIMEKE(
-                    jhs.NIMEKE_KIELELLA(
-                        jhs.NIMEKE_TEKSTI(classification.title),
+            return bindings.LUOKKA(
+                bindings.LUOKITUSTUNNUS(classification.code),
+                bindings.NIMEKE(
+                    bindings.NIMEKE_KIELELLA(
+                        bindings.NIMEKE_TEKSTI(classification.title),
                         kieliKoodi="fi",
                     )
                 ),
@@ -236,18 +234,18 @@ class JHSExporterV2:
         # TODO Error handling
 
         phases = [self._handle_phase(phase) for phase in function.phases.all()]
-        return jhs.LUOKKA(
-            jhs.LUOKITUSTUNNUS(function.get_classification_code()),
-            jhs.NIMEKE(
-                jhs.NIMEKE_KIELELLA(
-                    jhs.NIMEKE_TEKSTI(function.get_name()), kieliKoodi="fi"
+        return bindings.LUOKKA(
+            bindings.LUOKITUSTUNNUS(function.get_classification_code()),
+            bindings.NIMEKE(
+                bindings.NIMEKE_KIELELLA(
+                    bindings.NIMEKE_TEKSTI(function.get_name()), kieliKoodi="fi"
                 )
             ),
-            jhs.KASITTELYPROSESSI_TIEDOT(
+            bindings.KASITTELYPROSESSI_TIEDOT(
                 self._create_restriction_info(function),
                 self._create_retention_info(function),
                 self._create_element_or_none_from_obj_attr(
-                    function, jhs.TIETOJARJESTELMA_NIMI, "InformationSystem"
+                    function, bindings.TIETOJARJESTELMA_NIMI, "InformationSystem"
                 ),
                 *phases,
                 id=str(uuid.uuid4()),
@@ -262,18 +260,20 @@ class JHSExporterV2:
     def create_xml(self, queryset=None):
         queryset = queryset or self.get_queryset()
 
-        tos_info = jhs.TOS_TIEDOT(
-            jhs.NIMEKE(
-                jhs.NIMEKE_KIELELLA(
-                    jhs.NIMEKE_TEKSTI("Helsingin kaupungin Tiedonohjaussuunnitelma"),
+        tos_info = bindings.TOS_TIEDOT(
+            bindings.NIMEKE(
+                bindings.NIMEKE_KIELELLA(
+                    bindings.NIMEKE_TEKSTI(
+                        "Helsingin kaupungin Tiedonohjaussuunnitelma"
+                    ),
                     kieliKoodi="fi",
                 )
             ),
-            jhs.YHTEYSHENKILO_NIMI("Tiedonhallinta"),
-            jhs.TOS_VERSIO(self.TOS_VERSION),
-            jhs.TILA_KOODI("3"),
-            jhs.ORGANISAATIO_NIMI("Helsingin kaupunki"),
-            jhs.LISATIEDOT(
+            bindings.YHTEYSHENKILO_NIMI("Tiedonhallinta"),
+            bindings.TOS_VERSIO(TOS_VERSION),
+            bindings.TILA_KOODI("3"),
+            bindings.ORGANISAATIO_NIMI("Helsingin kaupunki"),
+            bindings.LISATIEDOT(
                 "JHS 191 XML {:%Y-%m-%d %H:%M%Z} {}".format(
                     datetime.now(tz=pytz.timezone(settings.TIME_ZONE)),
                     settings.XML_EXPORT_DESCRIPTION,
@@ -285,7 +285,7 @@ class JHSExporterV2:
         for classification in queryset:
             classifications.append(self._handle_classification(classification))
 
-        tos_root = jhs.TOS(tos_info, *classifications)
+        tos_root = bindings.TOS(tos_info, *classifications)
         # TODO Error handling
         xml = etree.tostring(
             tos_root,

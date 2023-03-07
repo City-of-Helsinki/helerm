@@ -1,6 +1,6 @@
 from lxml import objectify
 
-JHS_NAMESPACE = "http://skeemat.jhs-suositukset.fi/tos/2015/01/15"
+from .constants import JHS_NAMESPACE
 
 E = objectify.ElementMaker(
     annotate=False,

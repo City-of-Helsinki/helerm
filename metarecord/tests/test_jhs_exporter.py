@@ -7,7 +7,7 @@ import pytest
 from lxml import etree
 from rest_framework.test import APIClient
 
-import metarecord.exporter.jhs_v2.bindings as jhs
+import metarecord.exporter.jhs_v2 as jhs
 from metarecord.exporter.jhs import JHSExporter
 from metarecord.exporter.jhs_v2.exporter import JHSExporterV2, JHSExporterV2Exception
 from metarecord.models import Function
@@ -110,22 +110,22 @@ def test_lxml_exporter_xml_generation_is_successful(
 def test_lxml_exporter_validate_xml_exception():
     """Test that JHSExporterV2Exception is raised when XML is invalid."""
     with pytest.raises(JHSExporterV2Exception):
-        JHSExporterV2().validate_xml(etree.tostring(jhs.E.SomethingWrong()))
+        JHSExporterV2().validate_xml(etree.tostring(jhs.bindings.E.SomethingWrong()))
 
 
 def test_tos_attr_returns_prefixed_attribute():
-    assert jhs.tos_attr("foo") == f"{{{jhs.JHS_NAMESPACE}}}foo"
+    assert jhs.bindings.tos_attr("foo") == f"{{{jhs.JHS_NAMESPACE}}}foo"
 
 
 def test_create_wrapped_element():
     """Test that create_wrapped_element creates a wrapped element correctly."""
-    FOO = jhs.E.Foo
-    WRAPPED_FOO = jhs.create_wrapped_element(FOO)
+    FOO = jhs.bindings.E.Foo
+    WRAPPED_FOO = jhs.bindings.create_wrapped_element(FOO)
 
     wrapped_foo = WRAPPED_FOO({"{http://test}foo": "foo"}, bar="bar")
 
     assert WRAPPED_FOO().tag == FOO().tag
     # Should prefix un-prefixed attributes with the namespace
-    assert wrapped_foo.get(jhs.tos_attr("bar")) == "bar"
+    assert wrapped_foo.get(jhs.bindings.tos_attr("bar")) == "bar"
     # Should not prefix already prefixed attributes
     assert wrapped_foo.get("{http://test}foo") == "foo"
