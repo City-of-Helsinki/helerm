@@ -7,8 +7,9 @@ import pytest
 from lxml import etree
 from rest_framework.test import APIClient
 
+import metarecord.exporter.jhs_v2.bindings as jhs
 from metarecord.exporter.jhs import JHSExporter
-from metarecord.exporter.jhs_lxml import E, JHSExporterV2, JHSExporterV2Exception
+from metarecord.exporter.jhs_v2.exporter import JHSExporterV2, JHSExporterV2Exception
 from metarecord.models import Function
 from metarecord.views.export import JHSExportViewSet
 
@@ -109,4 +110,4 @@ def test_lxml_exporter_xml_generation_is_successful(
 def test_lxml_exporter_validate_xml_exception():
     """Test that JHSExporterV2Exception is raised when XML is invalid."""
     with pytest.raises(JHSExporterV2Exception):
-        JHSExporterV2().validate_xml(etree.tostring(E.SomethingWrong()))
+        JHSExporterV2().validate_xml(etree.tostring(jhs.E.SomethingWrong()))

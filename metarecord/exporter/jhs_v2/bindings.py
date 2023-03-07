@@ -1,0 +1,41 @@
+from lxml import objectify
+
+JHS_NAMESPACE = "http://skeemat.jhs-suositukset.fi/tos/2015/01/15"
+E = objectify.ElementMaker(
+    annotate=False,
+    namespace=JHS_NAMESPACE,
+    nsmap={"tos": JHS_NAMESPACE},
+)
+TOS_PREFIX = f"{{{JHS_NAMESPACE}}}"
+TOS = E.Tos
+TOS_TIEDOT = E.TosTiedot
+LUOKKA = E.Luokka
+LAAJENNOS = E.Laajennos
+NIMEKE = E.Nimeke
+NIMEKE_KIELELLA = E.NimekeKielella
+NIMEKE_TEKSTI = E.NimekeTeksti
+ORGANISAATIO_NIMI = E.OrganisaatioNimi
+YHTEYSHENKILO_NIMI = E.YhteyshenkiloNimi
+LISATIEDOT = E.LisatiedotTeksti
+TILA_KOODI = E.TilaKoodi
+TOS_VERSIO = E.TosVersio
+LUOKITUSTUNNUS = E.Luokitustunnus
+LUOKITUSVASTUU = E.Luokitusvastuu
+KASITTELYPROSESSI_TIEDOT = E.KasittelyprosessiTiedot
+TIETOJARJESTELMA_NIMI = E.TietojarjestelmaNimi
+TOIMENPIDETIEDOT = E.Toimenpidetiedot
+TOIMENPIDELUOKKA_TEKSTI = E.ToimenpideluokkaTeksti
+TOIMENPIDELUOKKA_TARKENNE_TEKSTI = E.ToimenpideluokkaTarkenneTeksti
+KAYTTORAJOITUSTIEDOT = E.Kayttorajoitustiedot
+JULKISUUSLUOKKA_KOODI = E.JulkisuusluokkaKoodi
+HENKILOTIETOLUONNE_KOODI = E.HenkilotietoluonneKoodi
+SALASSAPITO_AIKA_ARVO = E.SalassapitoAikaArvo
+SALASSAPITO_PERUSTE_TEKSTI = E.SalassapitoPerusteTeksti
+SALASSAPIDON_LASKENTAPERUSTE_TEKSTI = E.SalassapidonLaskentaperusteTeksti
+SAILYTYSAIKATIEDOT = E.Sailytysaikatiedot
+SAILYTYSAJAN_PITUUS_ARVO = E.SailytysajanPituusArvo
+SAILYTYSAJAN_PERUSTE_TEKSTI = E.SailytysajanPerusteTeksti
+SAILYTYSAJAN_LASKENTAPERUSTE_TEKSTI = E.SailytysajanLaskentaperusteTeksti
+ASIAKIRJATIETO = E.Asiakirjatieto
+ASIAKIRJALUOKKA_TEKSTI = E.AsiakirjaluokkaTeksti
+ASIAKIRJALUOKKA_TARKENNE_TEKSTI = E.AsiakirjaluokkaTarkenneTeksti
