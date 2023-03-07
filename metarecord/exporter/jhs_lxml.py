@@ -79,7 +79,7 @@ def fix_xml_declaration_single_quotes(xml: bytes) -> bytes:
     return xml
 
 
-class JHSExporterException(Exception):
+class JHSExporterV2Exception(Exception):
     pass
 
 
@@ -344,7 +344,22 @@ class JHSExporterV2:
             encoding="utf-8",
             pretty_print=True,
         )
-        return fix_xml_declaration_single_quotes(xml)
+        xml = fix_xml_declaration_single_quotes(xml)
+
+        self.validate_xml(xml)
+
+        return xml
+
+    def validate_xml(self, xml: bytes):
+        logger.info("Validating XML...")
+        with open(settings.JHS_XSD_PATH, "r") as f:
+            schema = etree.XMLSchema(file=f)
+        parser = objectify.makeparser(schema=schema)
+        try:
+            objectify.fromstring(xml, parser)
+        except Exception as e:
+            logger.error("ERROR validating XML: %s" % e)
+            raise JHSExporterV2Exception(e) from e
 
     def export_data(self, filename):
         logger.info("Exporting data...")
@@ -357,4 +372,4 @@ class JHSExporterV2:
                 logger.info("File written")
         except Exception as e:
             logger.error("ERROR writing to the file: %s" % e)
-            raise JHSExporterException(e)
+            raise JHSExporterV2Exception(e)

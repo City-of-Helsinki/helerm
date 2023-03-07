@@ -4,11 +4,11 @@ from unittest import mock
 
 import freezegun
 import pytest
-from lxml import etree, objectify
+from lxml import etree
 from rest_framework.test import APIClient
 
 from metarecord.exporter.jhs import JHSExporter
-from metarecord.exporter.jhs_lxml import JHSExporterV2
+from metarecord.exporter.jhs_lxml import E, JHSExporterV2, JHSExporterV2Exception
 from metarecord.models import Function
 from metarecord.views.export import JHSExportViewSet
 
@@ -54,12 +54,6 @@ def test_exporter_xml_generation_is_successful(
         )
     )
 
-    with open("/app/data/Skeema_TOS_kooste_HKI_custom.xsd", "r") as f:
-        schema = etree.XMLSchema(file=f)
-        parser = objectify.makeparser(schema=schema)
-        schema.validate(objectify.fromstring(xml.encode("utf-8"), parser))
-        schema.validate(objectify.fromstring(expected_xml.encode("utf-8"), parser))
-
     assert xml == expected_xml
 
 
@@ -84,7 +78,6 @@ def test_jhs_export_view_file_creation(function, phase, action, record):
     assert "Content-Disposition" in response
 
 
-@pytest.mark.xfail(reason="refactoring in process")
 @pytest.mark.django_db
 def test_lxml_exporter_xml_generation_is_successful(
     jhs_export_xml_template_lxml, function, phase, action, record
@@ -110,11 +103,10 @@ def test_lxml_exporter_xml_generation_is_successful(
         )
     )
 
-    with open("/app/data/Skeema_TOS_kooste_HKI_custom.xsd", "r") as f:
-        schema = etree.XMLSchema(file=f)
-
-    parser = objectify.makeparser(schema=schema)
-    schema.validate(objectify.fromstring(expected_xml.encode("utf-8"), parser))
-    objectify.fromstring(xml.encode("utf-8"), parser)
-
     assert xml == expected_xml
+
+
+def test_lxml_exporter_validate_xml_exception():
+    """Test that JHSExporterV2Exception is raised when XML is invalid."""
+    with pytest.raises(JHSExporterV2Exception):
+        JHSExporterV2().validate_xml(etree.tostring(E.SomethingWrong()))
