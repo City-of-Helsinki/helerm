@@ -12,14 +12,6 @@ from metarecord.models import Classification, Function
 logger = logging.getLogger(__name__)
 
 
-def tos_attr(name):
-    return f"{jhs.TOS_PREFIX}{name}"
-
-
-def tos_attrs(**attrs):
-    return {tos_attr(name): value for name, value in attrs.items()}
-
-
 def fix_xml_declaration_single_quotes(xml: bytes) -> bytes:
     """
     Fix XML declaration single quotes to double quotes.
@@ -169,7 +161,7 @@ class JHSExporterV2:
             self._create_element_or_none_from_obj_attr(
                 record, jhs.TIETOJARJESTELMA_NIMI, "InformationSystem"
             ),
-            tos_attrs(id=str(record.uuid)),
+            id=str(record.uuid),
         )
 
     def _handle_action(self, action):
@@ -182,7 +174,7 @@ class JHSExporterV2:
                 action, jhs.TOIMENPIDELUOKKA_TARKENNE_TEKSTI, "TypeSpecifier"
             ),
             *records,
-            tos_attrs(id=str(action.uuid)),
+            id=str(action.uuid),
         )
 
     def _handle_phase(self, phase):
@@ -195,7 +187,7 @@ class JHSExporterV2:
                 phase, jhs.TOIMENPIDELUOKKA_TARKENNE_TEKSTI, "TypeSpecifier"
             ),
             *actions,
-            tos_attrs(id=str(phase.uuid)),
+            id=str(phase.uuid),
         )
 
     def _handle_function(self, function):
@@ -204,7 +196,7 @@ class JHSExporterV2:
             jhs.LUOKITUSTUNNUS(function.get_classification_code()),
             jhs.NIMEKE(
                 jhs.NIMEKE_KIELELLA(
-                    jhs.NIMEKE_TEKSTI(function.get_name()), tos_attrs(kieliKoodi="fi")
+                    jhs.NIMEKE_TEKSTI(function.get_name()), kieliKoodi="fi"
                 )
             ),
             jhs.KASITTELYPROSESSI_TIEDOT(
@@ -214,9 +206,9 @@ class JHSExporterV2:
                     function, jhs.TIETOJARJESTELMA_NIMI, "InformationSystem"
                 ),
                 *phases,
-                tos_attrs(id=str(uuid.uuid4())),
+                id=str(uuid.uuid4()),
             ),
-            tos_attrs(id=str(uuid.uuid4())),
+            id=str(uuid.uuid4()),
         )
 
     def _handle_classification(self, classification):
@@ -235,10 +227,10 @@ class JHSExporterV2:
                 jhs.NIMEKE(
                     jhs.NIMEKE_KIELELLA(
                         jhs.NIMEKE_TEKSTI(classification.title),
-                        tos_attrs(kieliKoodi="fi"),
+                        kieliKoodi="fi",
                     )
                 ),
-                tos_attrs(id=str(classification.uuid)),
+                id=str(classification.uuid),
             )
 
         # TODO Error handling
@@ -248,7 +240,7 @@ class JHSExporterV2:
             jhs.LUOKITUSTUNNUS(function.get_classification_code()),
             jhs.NIMEKE(
                 jhs.NIMEKE_KIELELLA(
-                    jhs.NIMEKE_TEKSTI(function.get_name()), tos_attrs(kieliKoodi="fi")
+                    jhs.NIMEKE_TEKSTI(function.get_name()), kieliKoodi="fi"
                 )
             ),
             jhs.KASITTELYPROSESSI_TIEDOT(
@@ -258,9 +250,9 @@ class JHSExporterV2:
                     function, jhs.TIETOJARJESTELMA_NIMI, "InformationSystem"
                 ),
                 *phases,
-                tos_attrs(id=str(uuid.uuid4())),
+                id=str(uuid.uuid4()),
             ),
-            tos_attrs(id=str(function.uuid)),
+            id=str(function.uuid),
         )
 
     def get_queryset(self):
@@ -274,7 +266,7 @@ class JHSExporterV2:
             jhs.NIMEKE(
                 jhs.NIMEKE_KIELELLA(
                     jhs.NIMEKE_TEKSTI("Helsingin kaupungin Tiedonohjaussuunnitelma"),
-                    tos_attrs(kieliKoodi="fi"),
+                    kieliKoodi="fi",
                 )
             ),
             jhs.YHTEYSHENKILO_NIMI("Tiedonhallinta"),
@@ -287,7 +279,7 @@ class JHSExporterV2:
                     settings.XML_EXPORT_DESCRIPTION,
                 )
             ),
-            tos_attrs(id=str(uuid.uuid4())),
+            id=str(uuid.uuid4()),
         )
         classifications = []
         for classification in queryset:

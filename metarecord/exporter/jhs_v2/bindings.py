@@ -1,41 +1,76 @@
 from lxml import objectify
 
 JHS_NAMESPACE = "http://skeemat.jhs-suositukset.fi/tos/2015/01/15"
+
 E = objectify.ElementMaker(
     annotate=False,
     namespace=JHS_NAMESPACE,
     nsmap={"tos": JHS_NAMESPACE},
 )
+
 TOS_PREFIX = f"{{{JHS_NAMESPACE}}}"
-TOS = E.Tos
-TOS_TIEDOT = E.TosTiedot
-LUOKKA = E.Luokka
-LAAJENNOS = E.Laajennos
-NIMEKE = E.Nimeke
-NIMEKE_KIELELLA = E.NimekeKielella
-NIMEKE_TEKSTI = E.NimekeTeksti
-ORGANISAATIO_NIMI = E.OrganisaatioNimi
-YHTEYSHENKILO_NIMI = E.YhteyshenkiloNimi
-LISATIEDOT = E.LisatiedotTeksti
-TILA_KOODI = E.TilaKoodi
-TOS_VERSIO = E.TosVersio
-LUOKITUSTUNNUS = E.Luokitustunnus
-LUOKITUSVASTUU = E.Luokitusvastuu
-KASITTELYPROSESSI_TIEDOT = E.KasittelyprosessiTiedot
-TIETOJARJESTELMA_NIMI = E.TietojarjestelmaNimi
-TOIMENPIDETIEDOT = E.Toimenpidetiedot
-TOIMENPIDELUOKKA_TEKSTI = E.ToimenpideluokkaTeksti
-TOIMENPIDELUOKKA_TARKENNE_TEKSTI = E.ToimenpideluokkaTarkenneTeksti
-KAYTTORAJOITUSTIEDOT = E.Kayttorajoitustiedot
-JULKISUUSLUOKKA_KOODI = E.JulkisuusluokkaKoodi
-HENKILOTIETOLUONNE_KOODI = E.HenkilotietoluonneKoodi
-SALASSAPITO_AIKA_ARVO = E.SalassapitoAikaArvo
-SALASSAPITO_PERUSTE_TEKSTI = E.SalassapitoPerusteTeksti
-SALASSAPIDON_LASKENTAPERUSTE_TEKSTI = E.SalassapidonLaskentaperusteTeksti
-SAILYTYSAIKATIEDOT = E.Sailytysaikatiedot
-SAILYTYSAJAN_PITUUS_ARVO = E.SailytysajanPituusArvo
-SAILYTYSAJAN_PERUSTE_TEKSTI = E.SailytysajanPerusteTeksti
-SAILYTYSAJAN_LASKENTAPERUSTE_TEKSTI = E.SailytysajanLaskentaperusteTeksti
-ASIAKIRJATIETO = E.Asiakirjatieto
-ASIAKIRJALUOKKA_TEKSTI = E.AsiakirjaluokkaTeksti
-ASIAKIRJALUOKKA_TARKENNE_TEKSTI = E.AsiakirjaluokkaTarkenneTeksti
+
+
+def tos_attr(name):
+    """Shorthand for a TOS namespace attribute name."""
+    return f"{TOS_PREFIX}{name}"
+
+
+def create_wrapped_element(element):
+    """
+    Wrap an element with some magic to prefix all attributes with the TOS
+    namespace prefix.
+    """
+
+    def wrapper(*children, **attrs):
+        prefixed_attrs = {
+            tos_attr(key): value
+            for key, value in attrs.items()
+            if not key.startswith("{")
+        }
+        return element(*children, **prefixed_attrs)
+
+    return wrapper
+
+
+# Wrapped elements
+TOS = create_wrapped_element(E.Tos)
+TOS_TIEDOT = create_wrapped_element(E.TosTiedot)
+LUOKKA = create_wrapped_element(E.Luokka)
+LAAJENNOS = create_wrapped_element(E.Laajennos)
+NIMEKE = create_wrapped_element(E.Nimeke)
+NIMEKE_KIELELLA = create_wrapped_element(E.NimekeKielella)
+NIMEKE_TEKSTI = create_wrapped_element(E.NimekeTeksti)
+ORGANISAATIO_NIMI = create_wrapped_element(E.OrganisaatioNimi)
+YHTEYSHENKILO_NIMI = create_wrapped_element(E.YhteyshenkiloNimi)
+LISATIEDOT = create_wrapped_element(E.LisatiedotTeksti)
+TILA_KOODI = create_wrapped_element(E.TilaKoodi)
+TOS_VERSIO = create_wrapped_element(E.TosVersio)
+LUOKITUSTUNNUS = create_wrapped_element(E.Luokitustunnus)
+LUOKITUSVASTUU = create_wrapped_element(E.Luokitusvastuu)
+KASITTELYPROSESSI_TIEDOT = create_wrapped_element(E.KasittelyprosessiTiedot)
+TIETOJARJESTELMA_NIMI = create_wrapped_element(E.TietojarjestelmaNimi)
+TOIMENPIDETIEDOT = create_wrapped_element(E.Toimenpidetiedot)
+TOIMENPIDELUOKKA_TEKSTI = create_wrapped_element(E.ToimenpideluokkaTeksti)
+TOIMENPIDELUOKKA_TARKENNE_TEKSTI = create_wrapped_element(
+    E.ToimenpideluokkaTarkenneTeksti
+)
+KAYTTORAJOITUSTIEDOT = create_wrapped_element(E.Kayttorajoitustiedot)
+JULKISUUSLUOKKA_KOODI = create_wrapped_element(E.JulkisuusluokkaKoodi)
+HENKILOTIETOLUONNE_KOODI = create_wrapped_element(E.HenkilotietoluonneKoodi)
+SALASSAPITO_AIKA_ARVO = create_wrapped_element(E.SalassapitoAikaArvo)
+SALASSAPITO_PERUSTE_TEKSTI = create_wrapped_element(E.SalassapitoPerusteTeksti)
+SALASSAPIDON_LASKENTAPERUSTE_TEKSTI = create_wrapped_element(
+    E.SalassapidonLaskentaperusteTeksti
+)
+SAILYTYSAIKATIEDOT = create_wrapped_element(E.Sailytysaikatiedot)
+SAILYTYSAJAN_PITUUS_ARVO = create_wrapped_element(E.SailytysajanPituusArvo)
+SAILYTYSAJAN_PERUSTE_TEKSTI = create_wrapped_element(E.SailytysajanPerusteTeksti)
+SAILYTYSAJAN_LASKENTAPERUSTE_TEKSTI = create_wrapped_element(
+    E.SailytysajanLaskentaperusteTeksti
+)
+ASIAKIRJATIETO = create_wrapped_element(E.Asiakirjatieto)
+ASIAKIRJALUOKKA_TEKSTI = create_wrapped_element(E.AsiakirjaluokkaTeksti)
+ASIAKIRJALUOKKA_TARKENNE_TEKSTI = create_wrapped_element(
+    E.AsiakirjaluokkaTarkenneTeksti
+)

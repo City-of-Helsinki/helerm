@@ -111,3 +111,21 @@ def test_lxml_exporter_validate_xml_exception():
     """Test that JHSExporterV2Exception is raised when XML is invalid."""
     with pytest.raises(JHSExporterV2Exception):
         JHSExporterV2().validate_xml(etree.tostring(jhs.E.SomethingWrong()))
+
+
+def test_tos_attr_returns_prefixed_attribute():
+    assert jhs.tos_attr("foo") == f"{{{jhs.JHS_NAMESPACE}}}foo"
+
+
+def test_create_wrapped_element():
+    """Test that create_wrapped_element creates a wrapped element correctly."""
+    FOO = jhs.E.Foo
+    WRAPPED_FOO = jhs.create_wrapped_element(FOO)
+
+    wrapped_foo = WRAPPED_FOO({"{http://test}foo": "foo"}, bar="bar")
+
+    assert WRAPPED_FOO().tag == FOO().tag
+    # Should prefix un-prefixed attributes with the namespace
+    assert wrapped_foo.get(jhs.tos_attr("bar")) == "bar"
+    # Should not prefix already prefixed attributes
+    assert wrapped_foo.get("{http://test}foo") == "foo"
