@@ -129,3 +129,12 @@ def test_create_wrapped_element():
     assert wrapped_foo.get(jhs.bindings.tos_attr("bar")) == "bar"
     # Should not prefix already prefixed attributes
     assert wrapped_foo.get("{http://test}foo") == "foo"
+
+
+def test_lxml_exporter_create_xml_error_during_build():
+    """Test that JHSExporterV2Exception is raised when XML is invalid."""
+    with mock.patch(
+        "metarecord.exporter.jhs_v2.builder.build_tos_document", side_effect=Exception
+    ):
+        with pytest.raises(JHSExporterV2Exception):
+            JHSExporterV2().create_xml()

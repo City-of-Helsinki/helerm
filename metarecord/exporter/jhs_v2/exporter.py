@@ -36,9 +36,12 @@ class JHSExporterV2:
 
     def create_xml(self, queryset: QuerySet[Classification] = None):
         queryset = queryset or self.get_queryset()
-        tos_root = build_tos_document(queryset)
+        try:
+            tos_root = build_tos_document(queryset)
+        except Exception as e:
+            logger.error("ERROR building XML: %s" % e)
+            raise JHSExporterV2Exception(e) from e
 
-        # TODO Error handling
         xml = etree.tostring(
             tos_root,
             xml_declaration=True,

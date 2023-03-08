@@ -217,7 +217,6 @@ def _build_classification(classification: Classification):
             id=str(classification.uuid),
         )
 
-    # TODO Error handling
     # Function found, return the classification and the function.
     phases = [_build_phase(phase) for phase in function.phases.all()]
     return bindings.LUOKKA(
