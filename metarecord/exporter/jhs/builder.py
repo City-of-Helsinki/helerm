@@ -5,7 +5,8 @@ import pytz
 from django.conf import settings
 from django.db.models import QuerySet
 
-from metarecord.exporter.jhs import bindings, TOS_VERSION
+from metarecord.exporter.jhs import bindings
+from metarecord.exporter.jhs.constants import TOS_VERSION
 from metarecord.models import Action, Classification, Function, Phase
 
 JHS_MAPPING = {
@@ -190,7 +191,7 @@ def _build_function(function: Function):
             *phases,
             id=str(uuid.uuid4()),
         ),
-        id=str(uuid.uuid4()),
+        id=str(function.uuid),
     )
 
 
@@ -217,26 +218,7 @@ def _build_classification(classification: Classification):
             id=str(classification.uuid),
         )
 
-    # Function found, return the classification and the function.
-    phases = [_build_phase(phase) for phase in function.phases.all()]
-    return bindings.LUOKKA(
-        bindings.LUOKITUSTUNNUS(function.get_classification_code()),
-        bindings.NIMEKE(
-            bindings.NIMEKE_KIELELLA(
-                bindings.NIMEKE_TEKSTI(function.get_name()), kieliKoodi="fi"
-            )
-        ),
-        bindings.KASITTELYPROSESSI_TIEDOT(
-            _build_restriction_info(function),
-            _build_retention_info(function),
-            _create_element_or_none_from_obj_attr(
-                function, bindings.TIETOJARJESTELMA_NIMI, "InformationSystem"
-            ),
-            *phases,
-            id=str(uuid.uuid4()),
-        ),
-        id=str(function.uuid),
-    )
+    return _build_function(function)
 
 
 def _build_tos_info():

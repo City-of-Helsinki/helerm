@@ -1,4 +1,5 @@
 import logging
+import re
 
 from django.conf import settings
 from django.db.models import QuerySet
@@ -22,14 +23,19 @@ def fix_xml_declaration_single_quotes(xml: bytes) -> bytes:
     This is a hard-coded feature in lxml, which, at the time of writing,
     isn't getting fixed anytime soon. This is a workaround for that.
     """
-    old_declaration = b"<?xml version='1.0' encoding='utf-8'?>"  # single quotes
-    if xml.startswith(old_declaration):
-        return xml.replace(old_declaration, b'<?xml version="1.0" encoding="utf-8"?>')
-    return xml
+
+    def _replace_single_quotes_with_double_quotes(m: re.Match):
+        attrs = m.group(2)
+        return m.group(1) + attrs.replace(b"'", b'"') + m.group(3)
+
+    return re.sub(
+        rb"^(<\?xml)(.+)(\?>)", _replace_single_quotes_with_double_quotes, xml
+    )
 
 
 class JHSExporter:
-    def get_queryset(self):
+    @staticmethod
+    def get_queryset():
         # at least for now include all classifications
         return Classification.objects.all()
 
@@ -53,7 +59,8 @@ class JHSExporter:
 
         return xml
 
-    def validate_xml(self, xml: bytes):
+    @staticmethod
+    def validate_xml(xml: bytes):
         logger.info("Validating XML...")
 
         with open(settings.JHS_XSD_PATH, "r") as f:
@@ -77,4 +84,4 @@ class JHSExporter:
                 logger.info("File written")
         except Exception as e:
             logger.error("ERROR writing to the file: %s" % e)
-            raise JHSExporterException(e)
+            raise JHSExporterException(e) from e
