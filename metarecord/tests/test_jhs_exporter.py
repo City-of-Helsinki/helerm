@@ -135,16 +135,16 @@ def test__get_attribute_value_returns_correct_value(
 
 @mock.patch.dict(jhs.builder.JHS_MAPPING, {"foo": {"x": "y"}})
 def test__get_attribute_value_raises_exception_when_attribute_not_found():
-    """Test that JHSExporterException is raised when attribute is not found."""
+    """Test that ValueError is raised when attribute is not found."""
     obj = mock.Mock()
     obj.attributes = {"foo": "bar"}
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         jhs.builder._get_attribute_value(obj, "foo")
 
 
 def test_exporter_validate_xml_exception():
-    """Test that JHSExporterV2Exception is raised when XML is invalid."""
+    """Test that JHSExporterException is raised when XML is invalid."""
     with pytest.raises(JHSExporterException):
         JHSExporter().validate_xml(etree.tostring(jhs.bindings.E.SomethingWrong()))
 
@@ -168,7 +168,7 @@ def test_create_wrapped_element():
 
 
 def test_exporter_create_xml_error_during_build():
-    """Test that JHSExporterV2Exception is raised when XML is invalid."""
+    """Test that JHSExporterException is raised when XML is invalid."""
     with mock.patch(
         "metarecord.exporter.jhs.builder.build_tos_document", side_effect=Exception
     ):

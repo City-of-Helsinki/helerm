@@ -45,7 +45,7 @@ def _get_attribute_value(obj, attribute_identifier: str):
         try:
             value = jhs_mapping[value]
         except KeyError:
-            raise Exception("Invalid value for %s: %s" % (attribute_identifier, value))
+            raise ValueError("Invalid value for %s: %s" % (attribute_identifier, value))
     return value
 
 
@@ -197,7 +197,7 @@ def _build_function(function: Function):
 
 def _build_classification(classification: Classification):
     try:
-        function = (
+        func = (
             Function.objects.prefetch_related(
                 "phases", "phases__actions", "phases__actions__records"
             )
@@ -218,7 +218,7 @@ def _build_classification(classification: Classification):
             id=str(classification.uuid),
         )
 
-    return _build_function(function)
+    return _build_function(func)
 
 
 def _build_tos_info():
