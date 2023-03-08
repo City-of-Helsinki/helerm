@@ -5,7 +5,7 @@ import pytz
 from django.conf import settings
 from django.db.models import QuerySet
 
-from metarecord.exporter.jhs_v2 import bindings, TOS_VERSION
+from metarecord.exporter.jhs import bindings, TOS_VERSION
 from metarecord.models import Action, Classification, Function, Phase
 
 JHS_MAPPING = {

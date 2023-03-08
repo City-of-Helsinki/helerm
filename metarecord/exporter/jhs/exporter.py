@@ -11,7 +11,7 @@ from .builder import build_tos_document
 logger = logging.getLogger(__name__)
 
 
-class JHSExporterV2Exception(Exception):
+class JHSExporterException(Exception):
     pass
 
 
@@ -28,8 +28,7 @@ def fix_xml_declaration_single_quotes(xml: bytes) -> bytes:
     return xml
 
 
-# TODO: Replace the old exporter (JHSExporter) with this one
-class JHSExporterV2:
+class JHSExporter:
     def get_queryset(self):
         # at least for now include all classifications
         return Classification.objects.all()
@@ -40,7 +39,7 @@ class JHSExporterV2:
             tos_root = build_tos_document(queryset)
         except Exception as e:
             logger.error("ERROR building XML: %s" % e)
-            raise JHSExporterV2Exception(e) from e
+            raise JHSExporterException(e) from e
 
         xml = etree.tostring(
             tos_root,
@@ -65,7 +64,7 @@ class JHSExporterV2:
             objectify.fromstring(xml, parser)
         except Exception as e:
             logger.error("ERROR validating XML: %s" % e)
-            raise JHSExporterV2Exception(e) from e
+            raise JHSExporterException(e) from e
 
     def export_data(self, filename):
         logger.info("Exporting data...")
@@ -78,4 +77,4 @@ class JHSExporterV2:
                 logger.info("File written")
         except Exception as e:
             logger.error("ERROR writing to the file: %s" % e)
-            raise JHSExporterV2Exception(e)
+            raise JHSExporterException(e)

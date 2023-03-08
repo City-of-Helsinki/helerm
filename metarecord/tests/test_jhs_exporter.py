@@ -7,9 +7,8 @@ import pytest
 from lxml import etree
 from rest_framework.test import APIClient
 
-import metarecord.exporter.jhs_v2 as jhs
-from metarecord.exporter.jhs import JHSExporter
-from metarecord.exporter.jhs_v2.exporter import JHSExporterV2, JHSExporterV2Exception
+import metarecord.exporter.jhs as jhs
+from metarecord.exporter.jhs.exporter import JHSExporter, JHSExporterException
 from metarecord.models import Function
 from metarecord.views.export import JHSExportViewSet
 
@@ -28,34 +27,6 @@ def jhs_export_xml_template_lxml(current_directory):
     f = open(os.path.join(current_directory, "test_data", filename), "rb")
     yield f
     f.close()
-
-
-@pytest.mark.django_db
-def test_exporter_xml_generation_is_successful(
-    jhs_export_xml_template, function, phase, action, record
-):
-    function.state = Function.APPROVED
-    function.save(update_fields=("attributes", "state"))
-
-    with freezegun.freeze_time("2020-04-01 12:00 EEST"):
-        mock_uuid = uuid.uuid4()
-
-        with mock.patch("uuid.uuid4", return_value=mock_uuid):
-            xml = JHSExporter().create_xml().decode("utf-8")
-
-    expected_xml = (
-        jhs_export_xml_template.read()
-        .decode("utf-8")
-        .format(
-            id=mock_uuid,
-            func_id=function.uuid,
-            phase_id=phase.uuid,
-            action_id=action.uuid,
-            rec_id=record.uuid,
-        )
-    )
-
-    assert xml == expected_xml
 
 
 @pytest.mark.django_db
@@ -80,7 +51,7 @@ def test_jhs_export_view_file_creation(function, phase, action, record):
 
 
 @pytest.mark.django_db
-def test_lxml_exporter_xml_generation_is_successful(
+def test_exporter_xml_generation_is_successful(
     jhs_export_xml_template_lxml, function, phase, action, record
 ):
     function.state = Function.APPROVED
@@ -90,7 +61,7 @@ def test_lxml_exporter_xml_generation_is_successful(
         mock_uuid = uuid.uuid4()
 
         with mock.patch("uuid.uuid4", return_value=mock_uuid):
-            xml = JHSExporterV2().create_xml().decode("utf-8")
+            xml = JHSExporter().create_xml().decode("utf-8")
 
     expected_xml = (
         jhs_export_xml_template_lxml.read()
@@ -107,10 +78,10 @@ def test_lxml_exporter_xml_generation_is_successful(
     assert xml == expected_xml
 
 
-def test_lxml_exporter_validate_xml_exception():
+def test_exporter_validate_xml_exception():
     """Test that JHSExporterV2Exception is raised when XML is invalid."""
-    with pytest.raises(JHSExporterV2Exception):
-        JHSExporterV2().validate_xml(etree.tostring(jhs.bindings.E.SomethingWrong()))
+    with pytest.raises(JHSExporterException):
+        JHSExporter().validate_xml(etree.tostring(jhs.bindings.E.SomethingWrong()))
 
 
 def test_tos_attr_returns_prefixed_attribute():
@@ -131,10 +102,10 @@ def test_create_wrapped_element():
     assert wrapped_foo.get("{http://test}foo") == "foo"
 
 
-def test_lxml_exporter_create_xml_error_during_build():
+def test_exporter_create_xml_error_during_build():
     """Test that JHSExporterV2Exception is raised when XML is invalid."""
     with mock.patch(
-        "metarecord.exporter.jhs_v2.builder.build_tos_document", side_effect=Exception
+        "metarecord.exporter.jhs.builder.build_tos_document", side_effect=Exception
     ):
-        with pytest.raises(JHSExporterV2Exception):
-            JHSExporterV2().create_xml()
+        with pytest.raises(JHSExporterException):
+            JHSExporter().create_xml()

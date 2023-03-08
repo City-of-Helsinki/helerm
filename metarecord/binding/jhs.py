@@ -1,4 +1,4 @@
-# ./metarecord/binding/jhs.py
+# ./metarecord/binding/jhs_deprecated.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:0bcf4fe07fa483312851437fc9b3f33582a4d3fa
 # Generated 2020-04-06 06:44:21.533676 by PyXB version 1.2.6 using Python 3.6.10.final.0
