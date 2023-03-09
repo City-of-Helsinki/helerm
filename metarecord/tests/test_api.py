@@ -190,7 +190,7 @@ def test_get(
     assert response.status_code == 200
     assert len(response.data["results"])
 
-    id_field = "pk" if resource is "attribute" else "uuid"
+    id_field = "pk" if resource == "attribute" else "uuid"
     id_value = getattr(locals().get(resource), id_field)
     detail_url = reverse(
         "%s-detail" % resource.replace("_", ""), kwargs={id_field: id_value}
