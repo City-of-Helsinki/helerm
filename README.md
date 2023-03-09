@@ -8,8 +8,8 @@
 ### Manual setup
 
 - Make sure you have the following prerequisites installed:
-  - Python 3.7
-  - PostgreSQL 10.x
+  - Python 3.9
+  - PostgreSQL 14.x
 
 - Setup and activate a virtualenv ([virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/) is a nice tool to handle virtualenvs)
  
