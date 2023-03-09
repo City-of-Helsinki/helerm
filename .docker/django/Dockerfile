@@ -1,5 +1,5 @@
 # ==============================
-FROM python:3.7 as base
+FROM python:3.9 as base
 # ==============================
 
 ENV PYTHONDONTWRITEBYTECODE 1
