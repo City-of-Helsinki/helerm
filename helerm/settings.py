@@ -348,6 +348,9 @@ JHS_XSD_PATH = os.path.join(BASE_DIR, "data", "Skeema_TOS_kooste_HKI_custom.xsd"
 
 # Django SECRET_KEY setting, used for password reset links and such
 SECRET_KEY = env("SECRET_KEY")
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 # If a secret key was not supplied elsewhere, generate a random one and log
 # a warning (note that logging is not configured yet). This means that any
 # functionality expecting SECRET_KEY to stay same will break upon restart.
