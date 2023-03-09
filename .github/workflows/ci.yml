@@ -23,11 +23,11 @@ jobs:
 
     strategy:
       matrix:
-        python: [ 3.7 ]
+        python: [ 3.9 ]
 
     services:
       postgres:
-        image: postgres:10.6
+        image: postgres:14.7
         env:
           # Note: not redundant, parent env is not applied to service
           POSTGRES_USER: root
