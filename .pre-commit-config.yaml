@@ -15,13 +15,13 @@ repos:
     hooks:
       - id: black
   - repo: https://github.com/pycqa/flake8
-    rev: 5.0.4
+    rev: 6.0.0
     hooks:
       - id: flake8
         additional_dependencies: [pep8-naming, flake8-bugbear]
         exclude: "migrations"
   - repo: https://github.com/timothycrosley/isort
-    rev: 5.7.0
+    rev: 5.12.0
     hooks:
       - id: isort
         exclude: "migrations"
