@@ -6,14 +6,14 @@ from metarecord.models.classification import update_function_allowed
 
 
 def clean_row(row):
-    return [cell.strip('\n ') for cell in row]
+    return [cell.strip("\n ") for cell in row]
 
 
 class ClassificationImporter:
     def __init__(self, filename):
-        with open(filename, 'r', encoding='utf8', newline='') as csvfile:
+        with open(filename, "r", encoding="utf8", newline="") as csvfile:
             sniffer = csv.Sniffer()
-            sniffer.preferred = [',', ';', '\t']
+            sniffer.preferred = [",", ";", "\t"]
 
             dialect = sniffer.sniff(csvfile.read())
             # Sniffer gets this wrong for our data
@@ -28,7 +28,7 @@ class ClassificationImporter:
         return code[:-3]
 
     def import_classifications(self):
-        print('Importing classifications...')
+        print("Importing classifications...")
 
         count = 0
         classications = []
@@ -37,8 +37,8 @@ class ClassificationImporter:
 
             count += 1
             if len(row) < 2 or not re.match(r"^\d\d(?:\s\d\d)*$", row[0]):
-                print('Skipping row number {}'.format(count))
-                print('Newline cleaned content was:\n{}'.format(row).encode('utf-8'))
+                print("Skipping row number {}".format(count))
+                print("Newline cleaned content was:\n{}".format(row).encode("utf-8"))
                 continue
 
             code = row[0]
@@ -52,29 +52,28 @@ class ClassificationImporter:
             else:
                 parent = None
 
-            defaults = {
-                'title': row[1],
-                'parent': parent
-            }
+            defaults = {"title": row[1], "parent": parent}
 
             additional_cells = (
-                ('description', 2),
-                ('related_classification', 4),
-                ('description_internal', 5),
-                ('additional_information', 6),
+                ("description", 2),
+                ("related_classification", 4),
+                ("description_internal", 5),
+                ("additional_information", 6),
             )
 
-            for (field_name, cell_num) in additional_cells:
+            for field_name, cell_num in additional_cells:
                 try:
                     defaults[field_name] = row[cell_num]
                 except IndexError:
                     pass
 
-            obj, created = Classification.objects.update_or_create(code=code, defaults=defaults)
+            obj, created = Classification.objects.update_or_create(
+                code=code, defaults=defaults
+            )
 
             print(obj)
             classications.append(obj)
 
         update_function_allowed(classications)
 
-        print('Done.')
+        print("Done.")

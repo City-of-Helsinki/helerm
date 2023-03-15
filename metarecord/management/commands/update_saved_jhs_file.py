@@ -4,7 +4,6 @@ from metarecord.views.export import create_saved_jhs_xml
 
 
 class Command(BaseCommand):
-
     help = "Update new version of JHS191 XML to saved file used as a cache."
 
     def handle(self, *args, **options):

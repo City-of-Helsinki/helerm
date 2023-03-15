@@ -6,14 +6,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0032_add_additional_information_and_related_classification'),
+        ("metarecord", "0032_add_additional_information_and_related_classification"),
     ]
 
     operations = [
         migrations.RunSQL(
-        sql="""
+            sql="""
 BEGIN;
 --
 -- Alter field attributes on action
@@ -36,7 +35,7 @@ ALTER TABLE "metarecord_phase" ALTER COLUMN "attributes" DROP DEFAULT;
 ALTER TABLE "metarecord_record" ALTER COLUMN "attributes" TYPE jsonb USING "attributes"::jsonb, ALTER COLUMN "attributes" SET DEFAULT '{}';
 ALTER TABLE "metarecord_record" ALTER COLUMN "attributes" DROP DEFAULT;
 COMMIT;""",
-        reverse_sql="""
+            reverse_sql="""
 BEGIN;
 
 CREATE OR REPLACE FUNCTION my_jsonb_to_hstore(jsonb)
@@ -73,26 +72,35 @@ ALTER TABLE "metarecord_action" ALTER COLUMN "attributes" TYPE hstore USING my_j
 DROP FUNCTION my_jsonb_to_hstore(jsonb);
 
 COMMIT;""",
-        state_operations = [
-            migrations.AlterField(
-                model_name='action',
-                name='attributes',
-                field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=dict, verbose_name='attributes'),
-            ),
-            migrations.AlterField(
-                model_name='function',
-                name='attributes',
-                field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=dict, verbose_name='attributes'),
-            ),
-            migrations.AlterField(
-                model_name='phase',
-                name='attributes',
-                field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=dict, verbose_name='attributes'),
-            ),
-            migrations.AlterField(
-                model_name='record',
-                name='attributes',
-                field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=dict, verbose_name='attributes'),
-            ),
-        ])
+            state_operations=[
+                migrations.AlterField(
+                    model_name="action",
+                    name="attributes",
+                    field=django.contrib.postgres.fields.jsonb.JSONField(
+                        blank=True, default=dict, verbose_name="attributes"
+                    ),
+                ),
+                migrations.AlterField(
+                    model_name="function",
+                    name="attributes",
+                    field=django.contrib.postgres.fields.jsonb.JSONField(
+                        blank=True, default=dict, verbose_name="attributes"
+                    ),
+                ),
+                migrations.AlterField(
+                    model_name="phase",
+                    name="attributes",
+                    field=django.contrib.postgres.fields.jsonb.JSONField(
+                        blank=True, default=dict, verbose_name="attributes"
+                    ),
+                ),
+                migrations.AlterField(
+                    model_name="record",
+                    name="attributes",
+                    field=django.contrib.postgres.fields.jsonb.JSONField(
+                        blank=True, default=dict, verbose_name="attributes"
+                    ),
+                ),
+            ],
+        )
     ]

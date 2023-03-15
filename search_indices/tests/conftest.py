@@ -5,7 +5,11 @@ from pytest import fixture
 from metarecord.models import Action, Classification, Function, Phase, Record
 from metarecord.tests.conftest import user, user_api_client  # noqa
 from search_indices.documents import (
-    ActionDocument, ClassificationDocument, FunctionDocument, PhaseDocument, RecordDocument
+    ActionDocument,
+    ClassificationDocument,
+    FunctionDocument,
+    PhaseDocument,
+    RecordDocument,
 )
 
 

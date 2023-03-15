@@ -4,26 +4,45 @@ from django.db import migrations, models
 
 
 def delete_soft_deleted_functions(apps, schema_editor):
-    Function = apps.get_model('metarecord', 'Function')
-    Function.objects.filter(state='deleted').delete()
+    Function = apps.get_model("metarecord", "Function")
+    Function.objects.filter(state="deleted").delete()
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0038_disable_unique_attribute_value_index'),
+        ("metarecord", "0038_disable_unique_attribute_value_index"),
     ]
 
     operations = [
         migrations.RunPython(delete_soft_deleted_functions, migrations.RunPython.noop),
         migrations.AlterField(
-            model_name='function',
-            name='state',
-            field=models.CharField(choices=[('draft', 'Draft'), ('sent_for_review', 'Sent for review'), ('waiting_for_approval', 'Waiting for approval'), ('approved', 'Approved')], default='draft', max_length=20, verbose_name='state'),
+            model_name="function",
+            name="state",
+            field=models.CharField(
+                choices=[
+                    ("draft", "Draft"),
+                    ("sent_for_review", "Sent for review"),
+                    ("waiting_for_approval", "Waiting for approval"),
+                    ("approved", "Approved"),
+                ],
+                default="draft",
+                max_length=20,
+                verbose_name="state",
+            ),
         ),
         migrations.AlterField(
-            model_name='metadataversion',
-            name='state',
-            field=models.CharField(choices=[('draft', 'Draft'), ('sent_for_review', 'Sent for review'), ('waiting_for_approval', 'Waiting for approval'), ('approved', 'Approved')], default='draft', max_length=20, verbose_name='state'),
+            model_name="metadataversion",
+            name="state",
+            field=models.CharField(
+                choices=[
+                    ("draft", "Draft"),
+                    ("sent_for_review", "Sent for review"),
+                    ("waiting_for_approval", "Waiting for approval"),
+                    ("approved", "Approved"),
+                ],
+                default="draft",
+                max_length=20,
+                verbose_name="state",
+            ),
         ),
     ]

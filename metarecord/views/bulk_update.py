@@ -13,12 +13,12 @@ def include_approved(request):
     Convert 'include_approved' GET parameter value to boolean.
     Accept 'true' and 'True' as valid values.
     """
-    query_param_value = request.GET.get('include_approved')
-    return (query_param_value in ['true', 'True'])
+    query_param_value = request.GET.get("include_approved")
+    return query_param_value in ["true", "True"]
 
 
 class BulkUpdateSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField(format='hex', read_only=True)
+    id = serializers.UUIDField(format="hex", read_only=True)
     changes = serializers.DictField(required=False)
     is_approved = serializers.BooleanField(read_only=True)
     modified_by = serializers.SerializerMethodField()
@@ -26,25 +26,25 @@ class BulkUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BulkUpdate
-        ordering = ('created_at',)
-        exclude = ('created_by',)
+        ordering = ("created_at",)
+        exclude = ("created_by",)
 
     def get_fields(self):
         fields = super().get_fields()
 
-        if 'request' not in self._context:
+        if "request" not in self._context:
             return fields
 
-        user = self._context['request'].user
+        user = self._context["request"].user
 
         if not user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
-            del fields['modified_by']
-            del fields['approved_by']
+            del fields["modified_by"]
+            del fields["approved_by"]
 
         return fields
 
     def get_approved_by(self, obj):
-        user = self.context['request'].user
+        user = self.context["request"].user
 
         if user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
             return obj._approved_by or None
@@ -52,7 +52,7 @@ class BulkUpdateSerializer(serializers.ModelSerializer):
         return None
 
     def get_modified_by(self, obj):
-        user = self.context['request'].user
+        user = self.context["request"].user
 
         if user.has_perm(Function.CAN_VIEW_MODIFIED_BY):
             return obj._modified_by or None
@@ -60,32 +60,34 @@ class BulkUpdateSerializer(serializers.ModelSerializer):
         return None
 
     def create(self, validated_data):
-        user = self.context['request'].user
+        user = self.context["request"].user
 
         if not user.has_perm(BulkUpdate.CAN_ADD):
-            raise PermissionDenied(_('No permission to create bulk update'))
+            raise PermissionDenied(_("No permission to create bulk update"))
 
-        user_data = {'created_by': user, 'modified_by': user}
+        user_data = {"created_by": user, "modified_by": user}
         validated_data.update(user_data)
 
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
-        user = self.context['request'].user
+        user = self.context["request"].user
 
         if not user.has_perm(BulkUpdate.CAN_CHANGE):
-            raise PermissionDenied(_('No permission to update bulk update'))
+            raise PermissionDenied(_("No permission to update bulk update"))
 
-        user_data = {'modified_by': user}
+        user_data = {"modified_by": user}
         validated_data.update(user_data)
 
         return super().update(instance, validated_data)
 
 
 class BulkUpdateViewSet(viewsets.ModelViewSet):
-    queryset = BulkUpdate.objects.all().prefetch_related('functions').order_by('created_at')
+    queryset = (
+        BulkUpdate.objects.all().prefetch_related("functions").order_by("created_at")
+    )
     serializer_class = BulkUpdateSerializer
-    lookup_field = 'pk'
+    lookup_field = "pk"
 
     def get_queryset(self):
         queryset = self.queryset
@@ -99,14 +101,14 @@ class BulkUpdateViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         user = request.user
 
-        if not user.has_perm('metarecord.delete_bulkupdate'):
-            raise PermissionDenied(_('No permission to delete bulk update'))
+        if not user.has_perm("metarecord.delete_bulkupdate"):
+            raise PermissionDenied(_("No permission to delete bulk update"))
 
         instance.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=["post"])
     def approve(self, request, pk=None):
         user = request.user
         instance = self.get_object()
@@ -114,6 +116,6 @@ class BulkUpdateViewSet(viewsets.ModelViewSet):
         try:
             instance.approve(user)
         except (ObjectDoesNotExist, ValidationError) as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'errors': e})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={"errors": e})
 
         return Response(status=status.HTTP_200_OK)

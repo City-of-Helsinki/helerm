@@ -11,12 +11,12 @@ class AttributeValueInline(SortableInlineAdminMixin, admin.TabularInline):
 
 @admin.register(Attribute)
 class AttributeAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ('name', 'group')
-    list_filter = ('group',)
-    search_fields = ('name',)
+    list_display = ("name", "group")
+    list_filter = ("group",)
+    search_fields = ("name",)
 
     inlines = (AttributeValueInline,)
-    exclude = ('index',)
+    exclude = ("index",)
 
     class Meta:
         model = Attribute

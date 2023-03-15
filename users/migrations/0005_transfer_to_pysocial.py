@@ -29,14 +29,17 @@ def remove_sessions(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("users", "0004_longer_first_name"),
     ]
 
     operations = [
         migrations.RunPython(
-            transfer_users_from_allauth_to_pysocial, migrations.RunPython.noop,
+            transfer_users_from_allauth_to_pysocial,
+            migrations.RunPython.noop,
         ),
-        migrations.RunPython(remove_sessions, migrations.RunPython.noop,),
+        migrations.RunPython(
+            remove_sessions,
+            migrations.RunPython.noop,
+        ),
     ]

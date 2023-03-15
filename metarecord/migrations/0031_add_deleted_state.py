@@ -6,20 +6,41 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0030_add_can_view_modified_by_permission'),
+        ("metarecord", "0030_add_can_view_modified_by_permission"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='function',
-            name='state',
-            field=models.CharField(choices=[('draft', 'Draft'), ('sent_for_review', 'Sent for review'), ('waiting_for_approval', 'Waiting for approval'), ('approved', 'Approved'), ('deleted', 'Deleted')], default='draft', max_length=20, verbose_name='state'),
+            model_name="function",
+            name="state",
+            field=models.CharField(
+                choices=[
+                    ("draft", "Draft"),
+                    ("sent_for_review", "Sent for review"),
+                    ("waiting_for_approval", "Waiting for approval"),
+                    ("approved", "Approved"),
+                    ("deleted", "Deleted"),
+                ],
+                default="draft",
+                max_length=20,
+                verbose_name="state",
+            ),
         ),
         migrations.AlterField(
-            model_name='metadataversion',
-            name='state',
-            field=models.CharField(choices=[('draft', 'Draft'), ('sent_for_review', 'Sent for review'), ('waiting_for_approval', 'Waiting for approval'), ('approved', 'Approved'), ('deleted', 'Deleted')], default='draft', max_length=20, verbose_name='state'),
+            model_name="metadataversion",
+            name="state",
+            field=models.CharField(
+                choices=[
+                    ("draft", "Draft"),
+                    ("sent_for_review", "Sent for review"),
+                    ("waiting_for_approval", "Waiting for approval"),
+                    ("approved", "Approved"),
+                    ("deleted", "Deleted"),
+                ],
+                default="draft",
+                max_length=20,
+                verbose_name="state",
+            ),
         ),
     ]

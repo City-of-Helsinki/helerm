@@ -3,7 +3,11 @@ from django.contrib.auth.models import Permission
 from rest_framework import serializers
 
 from metarecord.models import Function
-from metarecord.views.base import ClassificationRelationSerializer, HexRelatedField, StructuralElementSerializer
+from metarecord.views.base import (
+    ClassificationRelationSerializer,
+    HexRelatedField,
+    StructuralElementSerializer,
+)
 from metarecord.views.function import FunctionListSerializer, PhaseSerializer
 
 
@@ -17,7 +21,7 @@ def set_permissions(api_client, permissions):
     if type(permissions) == str:
         permissions = [permissions]
 
-    codenames = [perm.split('.')[1] for perm in permissions]
+    codenames = [perm.split(".")[1] for perm in permissions]
 
     user = api_client.user
     user.user_permissions.set(Permission.objects.filter(codename__in=codenames))
@@ -33,9 +37,12 @@ def check_attribute_errors(errors, attribute, expected_error):
     :param attribute: Attribute object to check
     :param expected_error: part of expected error message
     """
-    error_list = errors['attributes'].get(attribute.identifier)
+    error_list = errors["attributes"].get(attribute.identifier)
     assert error_list is not None, 'no attribute "%s" in errors' % attribute.identifier
-    assert any(expected_error in error for error in error_list), '"%s" not in %s' % (expected_error, errors)
+    assert any(expected_error in error for error in error_list), '"%s" not in %s' % (
+        expected_error,
+        errors,
+    )
 
 
 def assert_response_functions(response, objects):
@@ -43,19 +50,22 @@ def assert_response_functions(response, objects):
     Assert Function object or objects exist in response data.
     """
     data = response.data
-    if 'results' in data:
-        data = data['results']
+    if "results" in data:
+        data = data["results"]
 
     if not (isinstance(objects, list) or isinstance(objects, tuple)):
         objects = [objects]
 
     expected_ids = {obj.uuid.hex for obj in objects}
-    actual_ids = {str(obj['id']) for obj in data}
-    assert expected_ids == actual_ids, '%s does not match %s' % (expected_ids, actual_ids)
+    actual_ids = {str(obj["id"]) for obj in data}
+    assert expected_ids == actual_ids, "%s does not match %s" % (
+        expected_ids,
+        actual_ids,
+    )
 
 
 def get_bulk_update_function_key(function):
-    return '{uuid}__{version}'.format(uuid=function.uuid.hex, version=function.version)
+    return "{uuid}__{version}".format(uuid=function.uuid.hex, version=function.version)
 
 
 class FunctionTestDetailSerializer(StructuralElementSerializer):
@@ -65,25 +75,23 @@ class FunctionTestDetailSerializer(StructuralElementSerializer):
 
     # TODO these three are here to maintain backwards compatibility,
     # should be removed as soon as the UI doesn't need these anymore
-    function_id = serializers.ReadOnlyField(source='get_classification_code')
+    function_id = serializers.ReadOnlyField(source="get_classification_code")
     # there is also Function.name field which should be hidden for other than templates when this is removed
-    name = serializers.ReadOnlyField(source='get_name')
+    name = serializers.ReadOnlyField(source="get_name")
     parent = serializers.SerializerMethodField()
-    classification_code = serializers.ReadOnlyField(source='get_classification_code')
-    classification_title = serializers.ReadOnlyField(source='get_name')
+    classification_code = serializers.ReadOnlyField(source="get_classification_code")
+    classification_title = serializers.ReadOnlyField(source="get_name")
 
     classification = ClassificationRelationSerializer()
 
     class Meta(StructuralElementSerializer.Meta):
         model = Function
-        exclude = StructuralElementSerializer.Meta.exclude + ('index', 'is_template')
-
+        exclude = StructuralElementSerializer.Meta.exclude + ("index", "is_template")
 
     def get_parent(self, obj):
         if obj.classification and obj.classification.parent:
-            parent_functions = (
-                Function.objects
-                .filter(classification__uuid=obj.classification.parent.uuid)
+            parent_functions = Function.objects.filter(
+                classification__uuid=obj.classification.parent.uuid
             )
             if parent_functions.exists():
                 return parent_functions[0].uuid.hex
@@ -92,6 +100,6 @@ class FunctionTestDetailSerializer(StructuralElementSerializer):
     def get_fields(self):
         fields = super().get_fields()
 
-        fields['phases'] = PhaseSerializer(many=True, required=False)
+        fields["phases"] = PhaseSerializer(many=True, required=False)
 
         return fields

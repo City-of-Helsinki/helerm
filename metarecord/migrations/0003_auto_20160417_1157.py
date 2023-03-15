@@ -10,66 +10,119 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('metarecord', '0002_function_id_unique_and_db_index'),
+        ("metarecord", "0002_function_id_unique_and_db_index"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='RecordType',
+            name="RecordType",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(default=django.utils.timezone.now, editable=False, verbose_name='time of creation')),
-                ('modified_at', models.DateTimeField(default=django.utils.timezone.now, editable=False, verbose_name='time of modification')),
-                ('value', models.CharField(max_length=256, verbose_name='value')),
-                ('created_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='recordtype_created', to=settings.AUTH_USER_MODEL, verbose_name='created by')),
-                ('modified_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='recordtype_modified', to=settings.AUTH_USER_MODEL, verbose_name='modified by')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="time of creation",
+                    ),
+                ),
+                (
+                    "modified_at",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="time of modification",
+                    ),
+                ),
+                ("value", models.CharField(max_length=256, verbose_name="value")),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="recordtype_created",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="created by",
+                    ),
+                ),
+                (
+                    "modified_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="recordtype_modified",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="modified by",
+                    ),
+                ),
             ],
             options={
-                'verbose_name_plural': 'record type',
-                'verbose_name': 'record type',
+                "verbose_name_plural": "record type",
+                "verbose_name": "record type",
             },
         ),
         migrations.RemoveField(
-            model_name='record',
-            name='type_specifier',
+            model_name="record",
+            name="type_specifier",
         ),
         migrations.AddField(
-            model_name='action',
-            name='order',
-            field=models.PositiveSmallIntegerField(db_index=True, editable=False, null=True),
+            model_name="action",
+            name="order",
+            field=models.PositiveSmallIntegerField(
+                db_index=True, editable=False, null=True
+            ),
         ),
         migrations.AddField(
-            model_name='function',
-            name='error_count',
+            model_name="function",
+            name="error_count",
             field=models.PositiveIntegerField(default=0),
         ),
         migrations.AddField(
-            model_name='function',
-            name='order',
-            field=models.PositiveSmallIntegerField(db_index=True, editable=False, null=True),
+            model_name="function",
+            name="order",
+            field=models.PositiveSmallIntegerField(
+                db_index=True, editable=False, null=True
+            ),
         ),
         migrations.AddField(
-            model_name='phase',
-            name='order',
-            field=models.PositiveSmallIntegerField(db_index=True, editable=False, null=True),
+            model_name="phase",
+            name="order",
+            field=models.PositiveSmallIntegerField(
+                db_index=True, editable=False, null=True
+            ),
         ),
         migrations.AddField(
-            model_name='record',
-            name='name',
-            field=models.CharField(default=None, max_length=256, verbose_name='type'),
+            model_name="record",
+            name="name",
+            field=models.CharField(default=None, max_length=256, verbose_name="type"),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='record',
-            name='order',
-            field=models.PositiveSmallIntegerField(db_index=True, editable=False, null=True),
+            model_name="record",
+            name="order",
+            field=models.PositiveSmallIntegerField(
+                db_index=True, editable=False, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='metarecord.RecordType'),
+            model_name="record",
+            name="type",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="metarecord.RecordType"
+            ),
         ),
     ]

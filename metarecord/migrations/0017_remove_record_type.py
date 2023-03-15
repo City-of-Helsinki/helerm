@@ -6,18 +6,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0016_add_attribute_index'),
+        ("metarecord", "0016_add_attribute_index"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='record',
-            name='type',
+            model_name="record",
+            name="type",
         ),
         migrations.DeleteModel(
-            name='RecordType',
+            name="RecordType",
         ),
-
     ]

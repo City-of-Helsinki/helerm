@@ -6,14 +6,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0017_remove_record_type'),
+        ("metarecord", "0017_remove_record_type"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='function',
-            unique_together=set([('function_id', 'version'), ('uuid', 'version')]),
+            name="function",
+            unique_together=set([("function_id", "version"), ("uuid", "version")]),
         ),
     ]

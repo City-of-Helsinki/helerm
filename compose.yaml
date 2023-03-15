@@ -1,7 +1,6 @@
-version: '3'
 services:
   postgres:
-    image: postgres:10.6
+    image: postgres:14.7
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
@@ -13,10 +12,9 @@ services:
     container_name: helerm_postgres
 
   elasticsearch:
-    image: elasticsearch:7.3.2
     build:
       context: .
-      dockerfile: ./docker/elasticsearch/Dockerfile
+      dockerfile: .docker/elasticsearch/Dockerfile
     ports:
       - "9200:9200"
     environment:
@@ -29,14 +27,17 @@ services:
     container_name: helerm_elasticsearch
 
   django:
-    build: .
-    command: bash -c 'tail -f /dev/null'
+    build:
+      context: .
+      dockerfile: .docker/django/Dockerfile
     environment:
       ELASTICSEARCH_HOST: helerm_elasticsearch
+    env_file:
+      - .docker/django/.env
     volumes:
-      - .:/code
+      - .:/app
     ports:
-      - '8000:8000'
+      - '8080:8000'
     depends_on:
       - postgres
     container_name: helerm

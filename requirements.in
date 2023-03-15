@@ -1,4 +1,4 @@
-Django~=3.1
+Django~=3.2
 django-elasticsearch-dsl-drf
 django-environ
 django-helusers
@@ -8,14 +8,16 @@ django-helusers
 drf-oidc-auth==0.10.0
 pytz
 psycopg2
-openpyxl
-pyxb
+# openpyxl 3.1.1 has a bug that breaks the TOS importer,
+# so we need to pin it to 3.1.0 until 3.1.2 is released.
+# See: https://foss.heptapod.net/openpyxl/openpyxl/-/issues/1963
+openpyxl==3.1.0
 djangorestframework
 django-cors-headers
 django-filter
 django-admin-json-editor
-djangorestframework-jwt
 django-admin-sortable2
 djangorestframework-xml
+lxml
 sentry-sdk
 social-auth-app-django

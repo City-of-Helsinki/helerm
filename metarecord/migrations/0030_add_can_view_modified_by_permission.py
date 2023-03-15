@@ -6,14 +6,22 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0029_add_db_index_for_uuids'),
+        ("metarecord", "0029_add_db_index_for_uuids"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='function',
-            options={'permissions': (('can_edit', 'Can edit'), ('can_review', 'Can review'), ('can_approve', 'Can approve'), ('can_view_modified_by', 'Can view modified by')), 'verbose_name': 'function', 'verbose_name_plural': 'functions'},
+            name="function",
+            options={
+                "permissions": (
+                    ("can_edit", "Can edit"),
+                    ("can_review", "Can review"),
+                    ("can_approve", "Can approve"),
+                    ("can_view_modified_by", "Can view modified by"),
+                ),
+                "verbose_name": "function",
+                "verbose_name_plural": "functions",
+            },
         ),
     ]

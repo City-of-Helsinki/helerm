@@ -4,14 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0040_bulk_update'),
+        ("metarecord", "0040_bulk_update"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='bulkupdate',
-            options={'permissions': (('approve_bulkupdate', 'Can approve bulk update'),), 'verbose_name': 'bulk update', 'verbose_name_plural': 'bulk updates'},
+            name="bulkupdate",
+            options={
+                "permissions": (("approve_bulkupdate", "Can approve bulk update"),),
+                "verbose_name": "bulk update",
+                "verbose_name_plural": "bulk updates",
+            },
         ),
     ]

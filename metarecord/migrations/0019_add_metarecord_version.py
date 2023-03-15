@@ -8,8 +8,8 @@ import django.db.models.deletion
 
 
 def add_initial_metarecord_versions(apps, schema_editor):
-    Function = apps.get_model('metarecord', 'Function')
-    MetadataVersion = apps.get_model('metarecord', 'MetadataVersion')
+    Function = apps.get_model("metarecord", "Function")
+    MetadataVersion = apps.get_model("metarecord", "MetadataVersion")
 
     for function in Function.objects.filter(is_template=False, metadata_versions=None):
         MetadataVersion.objects.create(
@@ -21,107 +21,182 @@ def add_initial_metarecord_versions(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('metarecord', '0018_function_uuid_version_unique'),
+        ("metarecord", "0018_function_uuid_version_unique"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='MetadataVersion',
+            name="MetadataVersion",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('modified_at', models.DateTimeField(verbose_name='modified at')),
-                ('state', models.CharField(choices=[('draft', 'Draft'), ('sent_for_review', 'Sent for review'), ('waiting_for_approval', 'Waiting for approval'), ('approved', 'Approved')], default='draft', max_length=20, verbose_name='state')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("modified_at", models.DateTimeField(verbose_name="modified at")),
+                (
+                    "state",
+                    models.CharField(
+                        choices=[
+                            ("draft", "Draft"),
+                            ("sent_for_review", "Sent for review"),
+                            ("waiting_for_approval", "Waiting for approval"),
+                            ("approved", "Approved"),
+                        ],
+                        default="draft",
+                        max_length=20,
+                        verbose_name="state",
+                    ),
+                ),
             ],
             options={
-                'ordering': ('id',),
+                "ordering": ("id",),
             },
         ),
         migrations.AlterModelOptions(
-            name='function',
-            options={'permissions': (('can_edit', 'Can edit'), ('can_review', 'Can review'), ('can_approve', 'Can approve')), 'verbose_name': 'function', 'verbose_name_plural': 'functions'},
+            name="function",
+            options={
+                "permissions": (
+                    ("can_edit", "Can edit"),
+                    ("can_review", "Can review"),
+                    ("can_approve", "Can approve"),
+                ),
+                "verbose_name": "function",
+                "verbose_name_plural": "functions",
+            },
         ),
         migrations.AlterField(
-            model_name='action',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='time of creation'),
+            model_name="action",
+            name="created_at",
+            field=models.DateTimeField(
+                auto_now_add=True, verbose_name="time of creation"
+            ),
         ),
         migrations.AlterField(
-            model_name='action',
-            name='modified_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='time of modification'),
+            model_name="action",
+            name="modified_at",
+            field=models.DateTimeField(
+                auto_now=True, verbose_name="time of modification"
+            ),
         ),
         migrations.AlterField(
-            model_name='attribute',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='time of creation'),
+            model_name="attribute",
+            name="created_at",
+            field=models.DateTimeField(
+                auto_now_add=True, verbose_name="time of creation"
+            ),
         ),
         migrations.AlterField(
-            model_name='attribute',
-            name='modified_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='time of modification'),
+            model_name="attribute",
+            name="modified_at",
+            field=models.DateTimeField(
+                auto_now=True, verbose_name="time of modification"
+            ),
         ),
         migrations.AlterField(
-            model_name='attributevalue',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='time of creation'),
+            model_name="attributevalue",
+            name="created_at",
+            field=models.DateTimeField(
+                auto_now_add=True, verbose_name="time of creation"
+            ),
         ),
         migrations.AlterField(
-            model_name='attributevalue',
-            name='modified_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='time of modification'),
+            model_name="attributevalue",
+            name="modified_at",
+            field=models.DateTimeField(
+                auto_now=True, verbose_name="time of modification"
+            ),
         ),
         migrations.AlterField(
-            model_name='function',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='time of creation'),
+            model_name="function",
+            name="created_at",
+            field=models.DateTimeField(
+                auto_now_add=True, verbose_name="time of creation"
+            ),
         ),
         migrations.AlterField(
-            model_name='function',
-            name='error_count',
-            field=models.PositiveIntegerField(default=0, verbose_name='error count'),
+            model_name="function",
+            name="error_count",
+            field=models.PositiveIntegerField(default=0, verbose_name="error count"),
         ),
         migrations.AlterField(
-            model_name='function',
-            name='modified_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='time of modification'),
+            model_name="function",
+            name="modified_at",
+            field=models.DateTimeField(
+                auto_now=True, verbose_name="time of modification"
+            ),
         ),
         migrations.AlterField(
-            model_name='function',
-            name='state',
-            field=models.CharField(choices=[('draft', 'Draft'), ('sent_for_review', 'Sent for review'), ('waiting_for_approval', 'Waiting for approval'), ('approved', 'Approved')], default='draft', max_length=20, verbose_name='state'),
+            model_name="function",
+            name="state",
+            field=models.CharField(
+                choices=[
+                    ("draft", "Draft"),
+                    ("sent_for_review", "Sent for review"),
+                    ("waiting_for_approval", "Waiting for approval"),
+                    ("approved", "Approved"),
+                ],
+                default="draft",
+                max_length=20,
+                verbose_name="state",
+            ),
         ),
         migrations.AlterField(
-            model_name='phase',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='time of creation'),
+            model_name="phase",
+            name="created_at",
+            field=models.DateTimeField(
+                auto_now_add=True, verbose_name="time of creation"
+            ),
         ),
         migrations.AlterField(
-            model_name='phase',
-            name='modified_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='time of modification'),
+            model_name="phase",
+            name="modified_at",
+            field=models.DateTimeField(
+                auto_now=True, verbose_name="time of modification"
+            ),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='time of creation'),
+            model_name="record",
+            name="created_at",
+            field=models.DateTimeField(
+                auto_now_add=True, verbose_name="time of creation"
+            ),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='modified_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='time of modification'),
+            model_name="record",
+            name="modified_at",
+            field=models.DateTimeField(
+                auto_now=True, verbose_name="time of modification"
+            ),
         ),
         migrations.AddField(
-            model_name='metadataversion',
-            name='function',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='metadata_versions', to='metarecord.Function', verbose_name='function'),
+            model_name="metadataversion",
+            name="function",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="metadata_versions",
+                to="metarecord.Function",
+                verbose_name="function",
+            ),
         ),
         migrations.AddField(
-            model_name='metadataversion',
-            name='modified_by',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='modified by'),
+            model_name="metadataversion",
+            name="modified_by",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="modified by",
+            ),
         ),
-        migrations.RunPython(add_initial_metarecord_versions, migrations.RunPython.noop),
+        migrations.RunPython(
+            add_initial_metarecord_versions, migrations.RunPython.noop
+        ),
     ]

@@ -6,15 +6,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0001_initial'),
+        ("metarecord", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='function',
-            name='function_id',
-            field=models.CharField(db_index=True, max_length=16, unique=True, verbose_name='function ID'),
+            model_name="function",
+            name="function_id",
+            field=models.CharField(
+                db_index=True, max_length=16, unique=True, verbose_name="function ID"
+            ),
         ),
     ]

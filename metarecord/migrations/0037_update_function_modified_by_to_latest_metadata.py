@@ -4,17 +4,18 @@ from django.db import migrations
 
 
 def update_function_modified_by(apps, schema_editor):
-    Function = apps.get_model('metarecord', 'Function')
+    Function = apps.get_model("metarecord", "Function")
 
     for function in Function.objects.exclude(metadata_versions=None):
-        metadata_version = function.metadata_versions.latest('id')
-        Function.objects.filter(id=function.id).update(modified_by=metadata_version.modified_by)
+        metadata_version = function.metadata_versions.latest("id")
+        Function.objects.filter(id=function.id).update(
+            modified_by=metadata_version.modified_by
+        )
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0036_add_classification_function_allowed'),
+        ("metarecord", "0036_add_classification_function_allowed"),
     ]
 
     operations = [

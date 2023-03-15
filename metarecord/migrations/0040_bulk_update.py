@@ -8,35 +8,109 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('metarecord', '0039_remove_deleted_state'),
+        ("metarecord", "0039_remove_deleted_state"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BulkUpdate',
+            name="BulkUpdate",
             fields=[
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='time of creation')),
-                ('modified_at', models.DateTimeField(auto_now=True, verbose_name='time of modification')),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('description', models.CharField(blank=True, max_length=512, verbose_name='description')),
-                ('is_approved', models.BooleanField(default=False, verbose_name='is approved')),
-                ('changes', django.contrib.postgres.fields.jsonb.JSONField(blank=True, default=dict, verbose_name='changes')),
-                ('state', models.CharField(choices=[('draft', 'Draft'), ('sent_for_review', 'Sent for review'), ('waiting_for_approval', 'Waiting for approval'), ('approved', 'Approved')], help_text='The state that is assigned to functions after applying the updates', max_length=20, verbose_name='state')),
-                ('created_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='bulkupdate_created', to=settings.AUTH_USER_MODEL, verbose_name='created by')),
-                ('modified_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='bulkupdate_modified', to=settings.AUTH_USER_MODEL, verbose_name='modified by')),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="time of creation"
+                    ),
+                ),
+                (
+                    "modified_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="time of modification"
+                    ),
+                ),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "description",
+                    models.CharField(
+                        blank=True, max_length=512, verbose_name="description"
+                    ),
+                ),
+                (
+                    "is_approved",
+                    models.BooleanField(default=False, verbose_name="is approved"),
+                ),
+                (
+                    "changes",
+                    django.contrib.postgres.fields.jsonb.JSONField(
+                        blank=True, default=dict, verbose_name="changes"
+                    ),
+                ),
+                (
+                    "state",
+                    models.CharField(
+                        choices=[
+                            ("draft", "Draft"),
+                            ("sent_for_review", "Sent for review"),
+                            ("waiting_for_approval", "Waiting for approval"),
+                            ("approved", "Approved"),
+                        ],
+                        help_text="The state that is assigned to functions after applying the updates",
+                        max_length=20,
+                        verbose_name="state",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="bulkupdate_created",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="created by",
+                    ),
+                ),
+                (
+                    "modified_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="bulkupdate_modified",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="modified by",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'bulk update',
-                'verbose_name_plural': 'bulk updates',
-                'permissions': (('metarecord.approve_bulkupdate', 'Can approve bulk update'),),
+                "verbose_name": "bulk update",
+                "verbose_name_plural": "bulk updates",
+                "permissions": (
+                    ("metarecord.approve_bulkupdate", "Can approve bulk update"),
+                ),
             },
         ),
         migrations.AddField(
-            model_name='function',
-            name='bulk_update',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='functions', to='metarecord.BulkUpdate', verbose_name='bulk update'),
+            model_name="function",
+            name="bulk_update",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="functions",
+                to="metarecord.BulkUpdate",
+                verbose_name="bulk update",
+            ),
         ),
     ]

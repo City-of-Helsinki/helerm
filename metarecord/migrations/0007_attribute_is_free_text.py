@@ -6,15 +6,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0006_new_data_model'),
+        ("metarecord", "0006_new_data_model"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='attribute',
-            name='is_free_text',
-            field=models.BooleanField(default=False, verbose_name='is free text'),
+            model_name="attribute",
+            name="is_free_text",
+            field=models.BooleanField(default=False, verbose_name="is free text"),
         ),
     ]

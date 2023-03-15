@@ -1,6 +1,8 @@
 from django_elasticsearch_dsl_drf.filter_backends import (
-    CompoundSearchFilterBackend, FacetedSearchFilterBackend, FilteringFilterBackend,
-    SimpleQueryStringSearchFilterBackend
+    CompoundSearchFilterBackend,
+    FacetedSearchFilterBackend,
+    FilteringFilterBackend,
+    SimpleQueryStringSearchFilterBackend,
 )
 from django_elasticsearch_dsl_drf.viewsets import BaseDocumentViewSet
 

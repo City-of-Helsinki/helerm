@@ -7,24 +7,31 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0007_attribute_is_free_text'),
+        ("metarecord", "0007_attribute_is_free_text"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='recordtype',
-            options={'verbose_name': 'record type', 'verbose_name_plural': 'record types'},
+            name="recordtype",
+            options={
+                "verbose_name": "record type",
+                "verbose_name_plural": "record types",
+            },
         ),
         migrations.AlterField(
-            model_name='attributevalue',
-            name='value',
-            field=models.CharField(max_length=1024, verbose_name='value'),
+            model_name="attributevalue",
+            name="value",
+            field=models.CharField(max_length=1024, verbose_name="value"),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='records', to='metarecord.RecordType', verbose_name='type'),
+            model_name="record",
+            name="type",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="records",
+                to="metarecord.RecordType",
+                verbose_name="type",
+            ),
         ),
     ]

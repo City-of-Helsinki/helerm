@@ -7,30 +7,29 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('metarecord', '0028_remove_function_parent'),
+        ("metarecord", "0028_remove_function_parent"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='action',
-            name='uuid',
+            model_name="action",
+            name="uuid",
             field=models.UUIDField(db_index=True, default=uuid.uuid4, editable=False),
         ),
         migrations.AlterField(
-            model_name='function',
-            name='uuid',
+            model_name="function",
+            name="uuid",
             field=models.UUIDField(db_index=True, default=uuid.uuid4, editable=False),
         ),
         migrations.AlterField(
-            model_name='phase',
-            name='uuid',
+            model_name="phase",
+            name="uuid",
             field=models.UUIDField(db_index=True, default=uuid.uuid4, editable=False),
         ),
         migrations.AlterField(
-            model_name='record',
-            name='uuid',
+            model_name="record",
+            name="uuid",
             field=models.UUIDField(db_index=True, default=uuid.uuid4, editable=False),
         ),
     ]

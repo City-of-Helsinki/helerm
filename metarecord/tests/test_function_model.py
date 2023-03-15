@@ -41,4 +41,7 @@ def test_approved_function_with_unapproved_classification(function):
 def test_function_unapproved_delete_old_versions(function):
     with pytest.raises(Exception) as excinfo:
         function.delete_old_non_approved_versions()
-    assert str(excinfo.value) == "Function must be approved before old non-approved versions can be deleted."
+    assert (
+        str(excinfo.value)
+        == "Function must be approved before old non-approved versions can be deleted."
+    )
