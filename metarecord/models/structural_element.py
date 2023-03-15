@@ -251,7 +251,7 @@ def get_attribute_json_schema(**kwargs):  # noqa: C901
             )
 
     schema = {
-        "$schema": "http://json-schema.org/draft-04/schema#",
+        "$schema": "https://json-schema.org/draft-04/schema",
         "type": "object",
         "properties": properties,
         "additionalProperties": False,
