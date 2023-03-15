@@ -271,26 +271,26 @@ class FunctionDetailSerializer(FunctionListSerializer):
         if self.partial:
             self.fields["state"].read_only = False
 
+    def _validate_partial(self, data):
+        if not any(field in data for field in ("state", "valid_from", "valid_to")):
+            raise exceptions.ValidationError(
+                _('"state", "valid_from" or "valid_to" required.')
+            )
+
+        new_state = data.get("state")
+        if new_state:
+            self.check_state_change(self.instance.state, new_state)
+
+            if self.instance.state == Function.DRAFT and new_state != Function.DRAFT:
+                errors = self.get_attribute_validation_errors(self.instance)
+                if errors:
+                    raise exceptions.ValidationError(errors)
+
     def validate(self, data):
         data = super().validate(data)
 
         if self.partial:
-            if not any(field in data for field in ("state", "valid_from", "valid_to")):
-                raise exceptions.ValidationError(
-                    _('"state", "valid_from" or "valid_to" required.')
-                )
-
-            new_state = data.get("state")
-            if new_state:
-                self.check_state_change(self.instance.state, new_state)
-
-                if (
-                    self.instance.state == Function.DRAFT
-                    and new_state != Function.DRAFT
-                ):
-                    errors = self.get_attribute_validation_errors(self.instance)
-                    if errors:
-                        raise exceptions.ValidationError(errors)
+            self._validate_partial(data)
         else:
             classification = data["classification"]
 
