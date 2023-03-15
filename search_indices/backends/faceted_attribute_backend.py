@@ -37,7 +37,7 @@ class FacetedAttributeBackend(BaseFilterBackend, FilterBackendMixin):
             attributes = getattr(model, "_attribute_validations", None)
             if attributes:
                 attrs += map(
-                    lambda x: f"{str(model._meta.verbose_name)}_{x}",
+                    lambda x, model=model: f"{str(model._meta.verbose_name)}_{x}",
                     attributes["allowed"],
                 )
         return attrs

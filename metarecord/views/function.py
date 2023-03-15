@@ -60,7 +60,7 @@ class FunctionListSerializer(StructuralElementSerializer):
 
     bulk_update = serializers.SerializerMethodField()
 
-    # TODO these three are here to maintain backwards compatibility,
+    # NOTE: these three are here to maintain backwards compatibility,
     # should be removed as soon as the UI doesn't need these anymore
     function_id = serializers.ReadOnlyField(source="get_classification_code")
     # there is also Function.name field which should be hidden for other than templates when this is removed

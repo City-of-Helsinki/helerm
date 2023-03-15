@@ -224,9 +224,8 @@ class TOSImporter:
             if attribute_name in (
                 "Säilytysaika",
                 "Paperiasiakirjojen säilytysaika arkistossa",
-            ):
-                if str(attribute_value).startswith("-1"):
-                    attribute_value = "-1"
+            ) and str(attribute_value).startswith("-1"):
+                attribute_value = "-1"
             if attribute_name not in self.ALL_ATTRIBUTES:
                 self._emit_warning('Illegal attribute: "%s"' % attribute_name, row_num)
                 continue
@@ -474,7 +473,6 @@ class TOSImporter:
                         attribute=attribute_obj, value=cleaned_value
                     )
                 except ValueError as e:
-                    # TODO just self.logger.infoing errors and continuing here for now
                     self.logger.info("    !!!! Cannot create attribute value: %s" % e)
                     continue
 
