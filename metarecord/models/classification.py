@@ -151,7 +151,7 @@ class Classification(TimeStampedModel):
 
     def delete_old_non_approved_versions(self):
         if self.state != Classification.APPROVED:
-            raise Exception(
+            raise ValueError(
                 "Function must be approved before old non-approved versions can be deleted."
             )
 

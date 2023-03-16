@@ -78,7 +78,7 @@ class ClassificationSerializer(serializers.ModelSerializer):
         num_of_functions = len(functions)
 
         if num_of_functions > 1:
-            raise Exception(
+            raise ValueError(
                 "Classification %s has more than one functions (%s)"
                 % (obj.uuid, [function.uuid for function in functions])
             )
