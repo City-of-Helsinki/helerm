@@ -176,13 +176,13 @@ class Function(StructuralElement):
             return
 
         if not self.classification:
-            raise Exception("Classification is required.")
+            raise ValueError("Classification is required.")
 
         if (
             self.state == Function.APPROVED
             and self.classification.state != Classification.APPROVED
         ):
-            raise Exception("Approved function must have approved classification")
+            raise ValueError("Approved function must have approved classification")
 
         if not self.id:
             # lock Function table to prevent possible race condition when adding the new latest version number
@@ -205,7 +205,7 @@ class Function(StructuralElement):
 
     def delete_old_non_approved_versions(self):
         if self.state != Function.APPROVED:
-            raise Exception(
+            raise ValueError(
                 "Function must be approved before old non-approved versions can be deleted."
             )
 
