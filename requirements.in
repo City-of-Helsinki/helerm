@@ -21,3 +21,6 @@ djangorestframework-xml
 lxml
 sentry-sdk
 social-auth-app-django
+# Tunnistamo (as of 2023-03-21) doesn't seem to work with
+# social-auth-core 4.3.0 and above.
+social-auth-core==4.2.0
