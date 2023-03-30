@@ -6,7 +6,7 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: helerm
     ports:
-      - '5432:5432'
+      - "127.0.0.1:5432:5432"
     volumes:
       - helerm_postgres-data-volume:/var/lib/postgresql/data
     container_name: helerm_postgres
@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: .docker/elasticsearch/Dockerfile
     ports:
-      - "9200:9200"
+      - "127.0.0.1:9200:9200"
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -30,6 +30,7 @@ services:
     build:
       context: .
       dockerfile: .docker/django/Dockerfile
+      target: development
     environment:
       ELASTICSEARCH_HOST: helerm_elasticsearch
     env_file:
@@ -37,9 +38,10 @@ services:
     volumes:
       - .:/app
     ports:
-      - '8080:8000'
+      - "8080:8000"
     depends_on:
       - postgres
+      - elasticsearch
     container_name: helerm
 
 volumes:

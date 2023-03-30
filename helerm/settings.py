@@ -68,6 +68,7 @@ env = environ.Env(
     INTERNAL_IPS=(list, []),
     HELERM_JHS191_EXPORT_DESCRIPTION=(str, "exported from undefined environment"),
     ELASTICSEARCH_HOST=(str, "helerm_elasticsearch:9200"),
+    ELASTICSEARCH_ANALYZER_MODE=(str, "probe"),
     SOCIAL_AUTH_TUNNISTAMO_KEY=(str, ""),
     SOCIAL_AUTH_TUNNISTAMO_SECRET=(str, ""),
     SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT=(str, "https://api.hel.fi/sso/openid"),
@@ -342,6 +343,12 @@ ELASTICSEARCH_INDEX_NAMES = {
     "search_indices.documents.phase": "phase",
     "search_indices.documents.record": "record",
 }
+
+# Which analyzer will be used by elasticsearch. Default is to check if raudikko
+# plugin is available and use standard as a fallback. Probing can be skipped by setting
+# a specific analyzer.
+# Possible values are: probe, raudikko, standard
+ELASTICSEARCH_ANALYZER_MODE = env("ELASTICSEARCH_ANALYZER_MODE")
 
 JHS_XSD_PATH = os.path.join(BASE_DIR, "data", "Skeema_TOS_kooste_HKI_custom.xsd")
 

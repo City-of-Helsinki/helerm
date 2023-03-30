@@ -1,5 +1,5 @@
 # ==============================
-FROM python:3.9 as base
+FROM python:3.9 AS appbase
 # ==============================
 
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -17,18 +17,39 @@ RUN apt-get update && apt-get install -y \
     && pip install -U pip \
     && pip install --no-cache-dir -r requirements.txt
 
+ENTRYPOINT ["/app/.docker/django/docker-entrypoint.sh"]
+
 # ==============================
-FROM base as development
+FROM appbase AS development
 # ==============================
 
-COPY --chown=appuser:appuser dev-requirements.txt .
+COPY --chown=appuser:appuser requirements-dev.txt .
+RUN pip install --no-cache-dir -r requirements-dev.txt
 
-RUN pip install -r dev-requirements.txt --no-cache-dir
+ENV DEV_SERVER=True
 
 COPY --chown=appuser:appuser . .
 
-ENTRYPOINT ["/app/.docker/django/docker-entrypoint.sh"]
+USER appuser
 
-USER appuser:appuser
+EXPOSE 8000/tcp
 
-EXPOSE 8000
+# ==============================
+FROM appbase AS staticbuilder
+# ==============================
+
+ENV VAR_ROOT=/app
+COPY --chown=appuser:appuser . /app
+RUN ELASTICSEARCH_ANALYZER_MODE="raudikko" SECRET_KEY="only-used-for-collectstatic"  \
+    python manage.py collectstatic --noinput
+
+# ==============================
+FROM appbase AS production
+# ==============================
+
+COPY --from=staticbuilder --chown=appuser:appuser /app/static /app/static
+COPY --chown=appuser:appuser . .
+
+USER appuser
+
+EXPOSE 8000/tcp

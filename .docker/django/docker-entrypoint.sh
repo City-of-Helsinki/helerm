@@ -22,12 +22,7 @@ fi
 if [[ -n "$*" ]]; then
     "$@"
 elif [[ "$DEV_SERVER" = "True" ]]; then
-    echo "Starting development server..."
-    echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    echo !!!!!       DEBUG is "$DEBUG"         !!!!!
-    echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     python -Wd ./manage.py runserver 0.0.0.0:8000
 else
-    echo "No production server configured yet. Please use the development server."
-    echo "Exiting..."
+    uwsgi --ini /app/.docker/django/uwsgi_configuration.ini
 fi

@@ -2,50 +2,32 @@ from typing import Optional
 
 from django_elasticsearch_dsl import Document, fields
 
+import search_indices
 from metarecord.models import Action, Classification, Function, Phase, StructuralElement
-from search_indices import get_finnish_analyzer
 from search_indices.documents.utils import prepare_attributes
-
-finnish_analyzer = get_finnish_analyzer()
 
 
 class BaseDocument(Document):
     id = fields.KeywordField(attr="uuid.hex")
-
     title = fields.TextField(
-        analyzer=finnish_analyzer,
-        fields={
-            "keyword": fields.KeywordField(),
-        },
+        analyzer=search_indices.FINNISH_ANALYZER,
+        fields={"keyword": fields.KeywordField()},
     )
-
     description = fields.TextField(
-        analyzer=finnish_analyzer,
-        fields={
-            "keyword": fields.KeywordField(),
-        },
+        analyzer=search_indices.FINNISH_ANALYZER,
+        fields={"keyword": fields.KeywordField()},
     )
-
     description_internal = fields.TextField(
-        analyzer=finnish_analyzer,
-        fields={
-            "keyword": fields.KeywordField(),
-        },
+        analyzer=search_indices.FINNISH_ANALYZER,
+        fields={"keyword": fields.KeywordField()},
     )
-
     additional_information = fields.TextField(
-        analyzer=finnish_analyzer,
-        fields={
-            "keyword": fields.KeywordField(),
-        },
+        analyzer=search_indices.FINNISH_ANALYZER,
+        fields={"keyword": fields.KeywordField()},
     )
-
     state = fields.KeywordField()
-
     code = fields.KeywordField()
-
     type = fields.IntegerField()
-
     parent = fields.ObjectField(
         properties={
             "id": fields.KeywordField(attr="uuid.hex"),
@@ -53,7 +35,6 @@ class BaseDocument(Document):
             "version": fields.IntegerField(),
         }
     )
-
     attributes = fields.ObjectField(dynamic=True)
 
     def prepare_title(self, obj: StructuralElement) -> Optional[str]:

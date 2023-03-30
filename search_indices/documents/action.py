@@ -1,16 +1,14 @@
 from django.conf import settings
 from django_elasticsearch_dsl import Index
 
+import search_indices
 from metarecord.models import Action
-from search_indices import get_finnish_analyzer
 from search_indices.documents.base import BaseDocument
 
 # Name of the Elasticsearch index
 INDEX = Index(settings.ELASTICSEARCH_INDEX_NAMES[__name__])
 
-finnish_analyzer = get_finnish_analyzer()
-
-INDEX.analyzer(finnish_analyzer)
+INDEX.analyzer(search_indices.FINNISH_ANALYZER)
 
 INDEX.settings(
     max_result_window=500000,

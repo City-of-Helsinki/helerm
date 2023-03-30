@@ -83,7 +83,7 @@ docker compose exec django python manage.py migrate
   To install development packages, run
   
 ```
-pip-sync requirements.txt dev-requirements.txt
+pip-sync requirements.txt requirements-dev.txt
 ```
 
 - To start the development server, run
