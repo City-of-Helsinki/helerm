@@ -14,8 +14,13 @@ if [[ "$APPLY_MIGRATIONS" = "True" ]]; then
     ./manage.py migrate --noinput
 fi
 
+# Create admin user. Generate password if there isn't one in the environment variables
 if [[ "$CREATE_SUPERUSER" = "True" ]]; then
-    ./manage.py create_superuser --noinput
+    if [[ "$ADMIN_USER_PASSWORD" ]]; then
+      ./manage.py add_admin_user -u "${ADMIN_USER_USERNAME:-admin}" -p "$ADMIN_USER_PASSWORD" -e "${ADMIN_USER_EMAIL:-admin@example.com}"
+    else
+      ./manage.py add_admin_user -u "${ADMIN_USER_USERNAME:-admin}" -e "${ADMIN_USER_EMAIL:-admin@example.com}"
+    fi
 fi
 
 # Start server
