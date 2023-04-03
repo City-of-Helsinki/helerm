@@ -3,8 +3,7 @@ from elasticsearch_dsl import analyzer, connections, token_filter
 
 
 def create_elasticsearch_connection():
-    es_host = settings.ELASTICSEARCH_DSL["default"]["hosts"]
-    return connections.create_connection(hosts=[es_host])
+    return connections.create_connection(**settings.ELASTICSEARCH_DSL["default"])
 
 
 def get_finnish_stop_filter() -> token_filter:
