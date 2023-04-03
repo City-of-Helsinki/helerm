@@ -68,6 +68,8 @@ env = environ.Env(
     INTERNAL_IPS=(list, []),
     HELERM_JHS191_EXPORT_DESCRIPTION=(str, "exported from undefined environment"),
     ELASTICSEARCH_HOST=(str, "helerm_elasticsearch:9200"),
+    ELASTICSEARCH_USERNAME=(str, ""),
+    ELASTICSEARCH_PASSWORD=(str, ""),
     ELASTICSEARCH_ANALYZER_MODE=(str, "probe"),
     SOCIAL_AUTH_TUNNISTAMO_KEY=(str, ""),
     SOCIAL_AUTH_TUNNISTAMO_SECRET=(str, ""),
@@ -332,7 +334,15 @@ OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
 
 # Elasticsearch configuration
 ELASTICSEARCH_DSL = {
-    "default": {"hosts": env("ELASTICSEARCH_HOST")},
+    "default": {
+        "hosts": env("ELASTICSEARCH_HOST"),
+        "http_auth": (
+            env("ELASTICSEARCH_USERNAME"),
+            env("ELASTICSEARCH_PASSWORD"),
+        )
+        if env("ELASTICSEARCH_USERNAME") and env("ELASTICSEARCH_PASSWORD")
+        else None,
+    },
 }
 
 # Name of the Elasticsearch index
