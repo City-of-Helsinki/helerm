@@ -10,4 +10,4 @@ order_by_type = false
 py_version = 39
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "helerm.settings"
+DJANGO_SETTINGS_MODULE = "helerm.test_settings"
