@@ -12,15 +12,7 @@ def clean_row(row):
 class ClassificationImporter:
     def __init__(self, filename):
         with open(filename, "r", encoding="utf8", newline="") as csvfile:
-            sniffer = csv.Sniffer()
-            sniffer.preferred = [",", ";", "\t"]
-
-            dialect = sniffer.sniff(csvfile.read())
-            # Sniffer gets this wrong for our data
-            dialect.doublequote = True
-            csvfile.seek(0)
-
-            self.csv_data = list(csv.reader(csvfile, dialect=dialect))
+            self.csv_data = list(csv.reader(csvfile, delimiter=","))
 
     def _get_parent_code(self, code):
         if len(code) == 2:
@@ -31,10 +23,9 @@ class ClassificationImporter:
         print("Importing classifications...")
 
         count = 0
-        classications = []
+        classifications = []
         for row in self.csv_data:
             row = clean_row(row)
-
             count += 1
             if len(row) < 2 or not re.match(r"^\d\d(?:\s\d\d)*$", row[0]):
                 print("Skipping row number {}".format(count))
@@ -72,8 +63,8 @@ class ClassificationImporter:
             )
 
             print(obj)
-            classications.append(obj)
+            classifications.append(obj)
 
-        update_function_allowed(classications)
+        update_function_allowed(classifications)
 
         print("Done.")

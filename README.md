@@ -11,12 +11,16 @@
   - Python 3.9
   - PostgreSQL 14.x
 
-- Setup and activate a virtualenv ([virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/) is a nice tool to handle virtualenvs)
- 
+- Setup and activate a virtualenv, for example using the built in venv
+```bash
+python -m venv venv
+source venv/bin/activate
+```
 - Install required Python packages
 
-```
+```bash
 pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 - Copy `config_dev.env.example` to `config_dev.env` and edit according
@@ -69,7 +73,7 @@ database and starts the Django dev server.
 docker compose up
 ```
 
-You're now ready to go! The Django dev server is available at http://localhost:8080/
+You're now ready to go! The Django dev server is available at http://127.0.0.1:8080/
 
 You can run `manage.py` commands in the container. E.g. to perform database migrations:
 
@@ -89,12 +93,12 @@ pip-sync requirements.txt requirements-dev.txt
 - To start the development server, run
 
 ```
-python manage.py runserver 127.0.0.1:8000
+python manage.py runserver 127.0.0.1:8080
 ```
 
-Admin ui will be located at http://127.0.0.1:8000/admin/
+Admin UI is located at http://127.0.0.1:8080/admin/
 
-API root will be located at http://127.0.0.1:8000/v1/
+API root is located at http://127.0.0.1:8080/v1/
 
 ## Import
 
@@ -111,7 +115,9 @@ python manage.py create_attributes
 python manage.py import_attributes <excel file>
 ```
 
-- Temporary step: the old data model requires a function object for every available function code even when there is no actual data for the function. Those initial functions can be created based on current classification by running
+- Temporary step: the old data model requires a function object for every available 
+  function code even when there is no actual data for the function. Those initial  
+  functions can be created based on current classification by running
 
 ```
 python manage.py create_initial_functions
@@ -137,4 +143,4 @@ python manage.py import_template <data excel file> <sheet name> [template name]
 python manage.py export_data <xml file>
 ```
 
-- Or using the API http://127.0.0.1:8000/export/
+- Or using the API http://127.0.0.1:8080/export/
