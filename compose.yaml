@@ -23,7 +23,7 @@ services:
       - cluster.routing.allocation.disk.watermark.low=97%
       - cluster.routing.allocation.disk.watermark.high=98%
       - cluster.routing.allocation.disk.watermark.flood_stage=99%
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Djava.security.policy=file:/usr/share/elasticsearch/plugins/elasticsearch-analysis-voikko/plugin-security.policy"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     container_name: helerm_elasticsearch
 
   django:

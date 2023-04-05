@@ -20,16 +20,16 @@ def get_edge_ngram_filter() -> token_filter:
     )
 
 
-def get_voikko_filter() -> token_filter:
+def get_raudikko_filter() -> token_filter:
     return token_filter(
-        "voikko",
-        type="voikko",
+        "raudikko",
+        type="raudikko",
     )
 
 
 def get_finnish_analyzer() -> analyzer:
     es_connection = create_elasticsearch_connection()
-    if "voikko" in es_connection.cat.plugins():
+    if "raudikko" in es_connection.cat.plugins():
         return analyzer(
             "finnish_analyzer",
             tokenizer="finnish",
@@ -38,7 +38,7 @@ def get_finnish_analyzer() -> analyzer:
                 "asciifolding",
                 "unique",
                 get_edge_ngram_filter(),
-                get_voikko_filter(),
+                get_raudikko_filter(),
             ],
         )
     else:
