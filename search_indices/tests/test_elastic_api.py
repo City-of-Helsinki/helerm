@@ -21,9 +21,7 @@ def test_classification_search_exact(user_api_client, classification):
 
 
 @pytest.mark.django_db
-def test_classification_search_fuzzy1(user_api_client, es_connection, classification):
-    if "voikko" not in str(es_connection.indices.get_settings()):
-        pytest.skip()
+def test_classification_search_fuzzy1(user_api_client, classification):
     url = ALL_LIST_URL + "?search=testi"
     response = user_api_client.get(url)
     assert response.status_code == 200
@@ -34,9 +32,7 @@ def test_classification_search_fuzzy1(user_api_client, es_connection, classifica
 
 
 @pytest.mark.django_db
-def test_classification_search_fuzzy2(user_api_client, es_connection, classification):
-    if "voikko" not in str(es_connection.indices.get_settings()):
-        pytest.skip()
+def test_classification_search_fuzzy2(user_api_client, classification):
     url = ALL_LIST_URL + "?search=testisanojat"
     response = user_api_client.get(url)
     assert response.status_code == 200
@@ -69,11 +65,7 @@ def test_action_filter_attribute_exact(user_api_client, action):
 
 
 @pytest.mark.django_db
-def test_classification_filter_title_exact(
-    user_api_client, es_connection, classification
-):
-    if "voikko" not in str(es_connection.indices.get_settings()):
-        pytest.skip()
+def test_classification_filter_title_exact(user_api_client, classification):
     url = CLASSIFICATION_LIST_URL + f"?title=testisana"
     response = user_api_client.get(url)
     assert response.status_code == 200

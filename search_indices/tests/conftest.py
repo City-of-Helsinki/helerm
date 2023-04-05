@@ -13,16 +13,30 @@ from search_indices.documents import (
 )
 
 
+def destroy_indices():
+    ActionDocument._index.delete(ignore=[400, 404])
+    ClassificationDocument._index.delete(ignore=[400, 404])
+    FunctionDocument._index.delete(ignore=[400, 404])
+    PhaseDocument._index.delete(ignore=[400, 404])
+    RecordDocument._index.delete(ignore=[400, 404])
+
+
 @fixture(scope="session", autouse=True)
 def create_indices():
     """
     Initialize all indices with the custom analyzers.
     """
+    destroy_indices()
+
     ActionDocument._index.create(ignore=[400, 404])
     ClassificationDocument._index.create(ignore=[400, 404])
     FunctionDocument._index.create(ignore=[400, 404])
     PhaseDocument._index.create(ignore=[400, 404])
     RecordDocument._index.create(ignore=[400, 404])
+
+    yield
+
+    destroy_indices()
 
 
 @fixture(scope="session")
