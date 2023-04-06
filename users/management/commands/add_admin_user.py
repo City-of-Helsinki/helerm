@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
+from django.utils.crypto import get_random_string
 
 
 class Command(BaseCommand):
@@ -18,7 +19,7 @@ class Command(BaseCommand):
         if not get_user_model().objects.filter(username=kwargs["username"]).count():
             password = kwargs["password"]
             if not password:
-                password = get_user_model().objects.make_random_password(20)
+                password = get_random_string(20)
                 self.stdout.write(
                     self.style.WARNING(f"Generated admin password {password}")
                 )
