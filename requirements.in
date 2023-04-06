@@ -1,17 +1,11 @@
-Django~=3.2
+Django~=4.2
 django-elasticsearch-dsl-drf
 django-environ
 django-helusers
-# 0.10.0 is needed because 1.0.0 switches to a more strict
-# JWT validation library. Our "Tunnistamo"-implementation
-# generates invalid amr claims in tokens.
-drf-oidc-auth==0.10.0
+drf-oidc-auth
 pytz
 psycopg2
-# openpyxl 3.1.1 has a bug that breaks the TOS importer,
-# so we need to pin it to 3.1.0 until 3.1.2 is released.
-# See: https://foss.heptapod.net/openpyxl/openpyxl/-/issues/1963
-openpyxl==3.1.0
+openpyxl
 djangorestframework
 django-cors-headers
 django-filter
@@ -22,7 +16,5 @@ ipython
 lxml
 sentry-sdk
 social-auth-app-django
-# Tunnistamo (as of 2023-03-21) doesn't seem to work with
-# social-auth-core 4.3.0 and above.
-social-auth-core==4.2.0
+social-auth-core
 uwsgi
