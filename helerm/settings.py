@@ -74,6 +74,7 @@ env = environ.Env(
     SOCIAL_AUTH_TUNNISTAMO_KEY=(str, ""),
     SOCIAL_AUTH_TUNNISTAMO_SECRET=(str, ""),
     SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT=(str, "https://api.hel.fi/sso/openid"),
+    SOCIAL_AUTH_REDIRECT_IS_HTTPS=(bool, False),
     OIDC_API_TOKEN_AUTH_AUDIENCE=(str, ""),
     OIDC_API_TOKEN_AUTH_ISSUER=(str, "https://api.hel.fi/sso"),
 )
@@ -312,6 +313,7 @@ SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
 SOCIAL_AUTH_TUNNISTAMO_KEY = env("SOCIAL_AUTH_TUNNISTAMO_KEY")
 SOCIAL_AUTH_TUNNISTAMO_SECRET = env("SOCIAL_AUTH_TUNNISTAMO_SECRET")
 SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT = env("SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT")
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = env("SOCIAL_AUTH_REDIRECT_IS_HTTPS")
 
 OIDC_API_TOKEN_AUTH = {
     # Audience that must be present in the token for the request to be
