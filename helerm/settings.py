@@ -60,6 +60,7 @@ env = environ.Env(
     MEDIA_URL=(str, "/media/"),
     STATIC_URL=(str, "/static/"),
     TRUST_X_FORWARDED_HOST=(bool, False),
+    CSRF_TRUSTED_ORIGINS=(list, []),
     SENTRY_DSN=(str, ""),
     SENTRY_ENVIRONMENT=(str, "development"),
     COOKIE_SECURE=(bool, True),
@@ -260,6 +261,7 @@ CSRF_COOKIE_SECURE = env("COOKIE_SECURE")
 SESSION_COOKIE_NAME = "{}-sessionid".format(env("COOKIE_PREFIX"))
 SESSION_COOKIE_PATH = env("PATH_PREFIX")
 SESSION_COOKIE_SECURE = env("COOKIE_SECURE")
+CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 
 AUTH_USER_MODEL = "users.User"
 
