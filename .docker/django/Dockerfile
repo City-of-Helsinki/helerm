@@ -7,14 +7,15 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
-USER 0
+USER root
 
 COPY requirements.txt .
 
-RUN yum update -y && yum install -y \
+RUN dnf update -y && dnf install -y \
     gettext \
     && pip install -U pip \
-    && pip install --no-cache-dir -r requirements.txt
+    && pip install --no-cache-dir -r requirements.txt \
+    && dnf clean all
 
 ENTRYPOINT ["/app/.docker/django/docker-entrypoint.sh"]
 
@@ -29,10 +30,7 @@ ENV DEV_SERVER=True
 
 COPY . .
 
-# Openshift runs containers with a random user so to simulate that elsewhere
-# we use an arbitrary user
-USER 158435:0
-
+USER default
 EXPOSE 8000/tcp
 
 # ==============================
@@ -51,8 +49,5 @@ FROM appbase AS production
 COPY --from=staticbuilder /app/static /app/static
 COPY . .
 
-# Openshift runs containers with a random user so to simulate that elsewhere
-# we use an arbitrary user
-USER 158435:0
-
+USER default
 EXPOSE 8000/tcp
