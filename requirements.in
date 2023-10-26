@@ -3,6 +3,7 @@ django-elasticsearch-dsl-drf
 django-environ
 django-helusers
 drf-oidc-auth
+elasticsearch-dsl>=7.0.0,<8.0.0
 pytz
 psycopg2
 openpyxl
