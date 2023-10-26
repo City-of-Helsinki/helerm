@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import RedirectView
 from rest_framework.routers import DefaultRouter
 
 from metarecord.views import (
@@ -50,4 +51,5 @@ urlpatterns = [
     path("pysocial/", include("social_django.urls", namespace="social")),
     path("helauth/", include("helusers.urls")),
     path("export/", ExportView.as_view(), name="export"),
+    path("", RedirectView.as_view(url="v1/")),
 ]
