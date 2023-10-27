@@ -13,7 +13,7 @@ COPY requirements.txt .
 
 RUN dnf update -y && dnf install -y \
     gettext \
-    && pip install -U pip \
+    && pip install -U pip setuptools wheel \
     && pip install --no-cache-dir -r requirements.txt \
     && dnf clean all
 
