@@ -46,3 +46,7 @@ services:
 
 volumes:
   helerm_postgres-data-volume:
+
+networks:
+    default:
+        name: helsinki
