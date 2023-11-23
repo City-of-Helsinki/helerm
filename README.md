@@ -142,6 +142,14 @@ python manage.py export_data <xml file>
 
 - Or using the API http://127.0.0.1:8080/export/
 
+## Commit message format
+
+New commit messages must adhere to the [Conventional Commits](https://www.conventionalcommits.org/)
+specification, and line length is limited to 72 characters.
+
+When [`pre-commit`](https://pre-commit.com/) is in use, [`commitlint`](https://github.com/conventional-changelog/commitlint)
+checks new commit messages for the correct format.
+
 ## Using local Tunnistamo instance for development with docker
 
 ### Set tunnistamo hostname
