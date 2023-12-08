@@ -31,8 +31,6 @@ services:
       context: .
       dockerfile: .docker/django/Dockerfile
       target: development
-    environment:
-      ELASTICSEARCH_HOST: helerm_elasticsearch
     env_file:
       - .docker/django/.env
     volumes:
