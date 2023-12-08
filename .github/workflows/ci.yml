@@ -16,7 +16,7 @@ env:
   POSTGRES_USER: root
   POSTGRES_PASSWORD: root
   DATABASE_URL: "postgres://root:root@localhost:5432/test_helerm"
-  ELASTICSEARCH_HOST: localhost:9200
+  ELASTICSEARCH_HOST: "http://localhost:9200"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
