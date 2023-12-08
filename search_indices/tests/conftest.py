@@ -1,4 +1,10 @@
-from elasticsearch.helpers.test import get_test_client
+import os
+import time
+from os.path import abspath, dirname, join
+from unittest import SkipTest
+
+from django.conf import settings
+from elasticsearch import Elasticsearch
 from elasticsearch_dsl.connections import add_connection
 from pytest import fixture
 
@@ -11,6 +17,36 @@ from search_indices.documents import (
     PhaseDocument,
     RecordDocument,
 )
+
+# The tests rely on elasticsearch.helpers.test, which was removed in elasticsearch-py 8.0.
+# Copied from https://github.com/elastic/elasticsearch-py/commit/3a44a501b4dbc9fed897a7fd1c70aad881d6944f#diff-fbe7638e315bad1693000e7e7c7a22f19b14e9a709d39996bac8fc8ae26916d8L33-L58
+
+CA_CERTS = join(dirname(dirname(dirname(abspath(__file__)))), ".ci/certs/ca.pem")
+
+
+def get_test_client(nowait=False, **kwargs):
+    # construct kwargs from the environment
+    kw = {"timeout": 30, "ca_certs": CA_CERTS}
+    if "PYTHON_CONNECTION_CLASS" in os.environ:
+        from elasticsearch import connection
+
+        kw["connection_class"] = getattr(
+            connection, os.environ["PYTHON_CONNECTION_CLASS"]
+        )
+
+    kw.update(kwargs)
+    client = Elasticsearch(settings.ELASTICSEARCH_URL, **kw)
+
+    # wait for yellow status
+    for _ in range(1 if nowait else 100):
+        try:
+            client.cluster.health(wait_for_status="yellow")
+            return client
+        except ConnectionError:
+            time.sleep(0.1)
+    else:
+        # timeout
+        raise SkipTest("Elasticsearch failed to start.")
 
 
 def destroy_indices():
