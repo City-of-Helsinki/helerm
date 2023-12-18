@@ -27,7 +27,7 @@ pr:
     - '**/*.md'
     - '.github/'
     - 'pipelines/tiedonohjaus-api-release.yml'
-    - 'pipelines/tiedonohjaus-api-test.yml'
+    - 'pipelines/tiedonohjaus-api-dev.yml'
     - 'docker-compose*'
 
 # By default, use self-hosted agents
