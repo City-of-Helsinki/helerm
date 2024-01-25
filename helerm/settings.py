@@ -78,6 +78,8 @@ env = environ.Env(
     SOCIAL_AUTH_REDIRECT_IS_HTTPS=(bool, False),
     OIDC_API_TOKEN_AUTH_AUDIENCE=(str, ""),
     OIDC_API_TOKEN_AUTH_ISSUER=(str, "https://api.hel.fi/sso"),
+    OIDC_API_AUTHORIZATION_FIELD=(list, ["https://api.hel.fi/auth"]),
+    OIDC_REQUIRE_API_SCOPE_FOR_AUTHENTICATION=(bool, False),
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -326,6 +328,10 @@ OIDC_API_TOKEN_AUTH = {
     # Who we trust to sign the tokens. The library will request the
     # public signature keys from standard locations below this URL
     "ISSUER": env("OIDC_API_TOKEN_AUTH_ISSUER"),
+    "API_AUTHORIZATION_FIELD": env("OIDC_API_AUTHORIZATION_FIELD"),
+    "REQUIRE_API_SCOPE_FOR_AUTHENTICATION": env(
+        "OIDC_REQUIRE_API_SCOPE_FOR_AUTHENTICATION"
+    ),
 }
 
 # by default drf-oidc-auth allows tokens to be at most 10 minutes old
