@@ -76,8 +76,8 @@ env = environ.Env(
     SOCIAL_AUTH_TUNNISTAMO_SECRET=(str, ""),
     SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT=(str, "https://api.hel.fi/sso/openid"),
     SOCIAL_AUTH_REDIRECT_IS_HTTPS=(bool, False),
-    OIDC_API_TOKEN_AUTH_AUDIENCE=(str, ""),
-    OIDC_API_TOKEN_AUTH_ISSUER=(str, "https://api.hel.fi/sso"),
+    OIDC_API_TOKEN_AUTH_AUDIENCE=(list, [""]),
+    OIDC_API_TOKEN_AUTH_ISSUER=(list, ["https://api.hel.fi/sso"]),
     OIDC_API_AUTHORIZATION_FIELD=(list, ["https://api.hel.fi/auth"]),
     OIDC_REQUIRE_API_SCOPE_FOR_AUTHENTICATION=(bool, False),
 )
