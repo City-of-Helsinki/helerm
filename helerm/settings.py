@@ -48,6 +48,7 @@ env = environ.Env(
     DJANGO_LOG_LEVEL=(str, "INFO"),
     CONN_MAX_AGE=(int, 0),
     DATABASE_URL=(str, "postgres:///helerm"),
+    DATABASE_PASSWORD=(str, ""),
     HEL_SITE_TYPE=(str, "dev"),
     TOKEN_AUTH_ACCEPTED_AUDIENCE=(str, ""),
     TOKEN_AUTH_SHARED_SECRET=(str, ""),
@@ -178,6 +179,9 @@ DATABASES = {"default": env.db()}
 # Persistent connections
 # https://docs.djangoproject.com/en/3.1/ref/settings/#conn-max-age
 DATABASES["default"]["CONN_MAX_AGE"] = env("CONN_MAX_AGE")
+
+if env("DATABASE_PASSWORD"):
+    DATABASES["default"]["PASSWORD"] = env("DATABASE_PASSWORD")
 
 LOGGING = {
     "version": 1,
