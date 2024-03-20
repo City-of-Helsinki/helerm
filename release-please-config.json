@@ -1,0 +1,11 @@
+{
+  "bootstrap-sha": "6524c5a316b1cc58a9990328dd650561353895ed",
+  "sequential-calls": true,
+  "packages": {
+    ".": {
+      "release-type": "python",
+      "package-name": "helerm"
+    }
+  },
+  "plugins": ["sentence-case"]
+}
