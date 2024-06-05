@@ -55,7 +55,8 @@ class JHSExporter:
         )
         xml = fix_xml_declaration_single_quotes(xml)
 
-        self.validate_xml(xml)
+        if settings.XML_EXPORT_VALIDATION_ENABLED:
+            self.validate_xml(xml)
 
         return xml
 

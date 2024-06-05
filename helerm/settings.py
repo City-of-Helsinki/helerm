@@ -69,6 +69,7 @@ env = environ.Env(
     PATH_PREFIX=(str, "/"),
     INTERNAL_IPS=(list, []),
     HELERM_JHS191_EXPORT_DESCRIPTION=(str, "exported from undefined environment"),
+    HELERM_JHS191_EXPORT_VALIDATION_ENABLED=(bool, True),
     HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=(bool, True),
     ELASTICSEARCH_HOST=(str, "helerm_elasticsearch:9200"),
     ELASTICSEARCH_USERNAME=(str, ""),
@@ -291,6 +292,7 @@ JWT_AUTH = {
 
 # Used for descriptive comment in the headers of JHS191 XML export
 XML_EXPORT_DESCRIPTION = env("HELERM_JHS191_EXPORT_DESCRIPTION")
+XML_EXPORT_VALIDATION_ENABLED = env("HELERM_JHS191_EXPORT_VALIDATION_ENABLED")
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
