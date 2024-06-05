@@ -351,12 +351,14 @@ OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
 ELASTICSEARCH_DSL = {
     "default": {
         "hosts": env("ELASTICSEARCH_HOST"),
-        "http_auth": (
-            env("ELASTICSEARCH_USERNAME"),
-            env("ELASTICSEARCH_PASSWORD"),
-        )
-        if env("ELASTICSEARCH_USERNAME") and env("ELASTICSEARCH_PASSWORD")
-        else None,
+        "basic_auth": (
+            (
+                env("ELASTICSEARCH_USERNAME"),
+                env("ELASTICSEARCH_PASSWORD"),
+            )
+            if env("ELASTICSEARCH_USERNAME") and env("ELASTICSEARCH_PASSWORD")
+            else None
+        ),
     },
 }
 
