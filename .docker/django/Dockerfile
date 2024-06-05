@@ -30,6 +30,8 @@ ENV DEV_SERVER=True
 
 COPY . .
 
+RUN mkdir -p /app/media && chmod -R g+w /app/media && chgrp -R root /app/media
+
 USER default
 EXPOSE 8000/tcp
 
@@ -48,6 +50,8 @@ FROM appbase AS production
 
 COPY --from=staticbuilder /app/static /app/static
 COPY . .
+
+RUN mkdir -p /app/media && chmod -R g+w /app/media && chgrp -R root /app/media
 
 USER default
 EXPOSE 8000/tcp
