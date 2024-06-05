@@ -51,8 +51,9 @@ def test_exporter_xml_generation_is_successful(
     function.save(update_fields=("attributes", "state"))
 
     mock_uuid = uuid.uuid4()
-    with freezegun.freeze_time("2020-04-01 12:00 EEST"), mock.patch(
-        "uuid.uuid4", return_value=mock_uuid
+    with (
+        freezegun.freeze_time("2020-04-01 12:00 EEST"),
+        mock.patch("uuid.uuid4", return_value=mock_uuid),
     ):
         xml = JHSExporter().create_xml().decode("utf-8")
 
@@ -81,8 +82,9 @@ def test_exporter_xml_export_is_successful(
     xml_path = tmp_path / "test.xml"
 
     mock_uuid = uuid.uuid4()
-    with freezegun.freeze_time("2020-04-01 12:00 EEST"), mock.patch(
-        "uuid.uuid4", return_value=mock_uuid
+    with (
+        freezegun.freeze_time("2020-04-01 12:00 EEST"),
+        mock.patch("uuid.uuid4", return_value=mock_uuid),
     ):
         JHSExporter().export_data(xml_path)
 
@@ -105,8 +107,9 @@ def test_exporter_xml_export_is_successful(
 
 @pytest.mark.django_db
 def test_exporter_xml_export_raises_exception_on_write_error():
-    with mock.patch("builtins.open", mock.mock_open()) as mock_file, mock.patch(
-        "metarecord.exporter.jhs.exporter.JHSExporter.create_xml"
+    with (
+        mock.patch("builtins.open", mock.mock_open()) as mock_file,
+        mock.patch("metarecord.exporter.jhs.exporter.JHSExporter.create_xml"),
     ):
         mock_file.return_value.write.side_effect = IOError("Test error")
         with pytest.raises(JHSExporterException):
