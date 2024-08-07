@@ -50,7 +50,7 @@ jobs:
       - name: Spin up ES with Raudikko
         run: |
           touch .docker/django/.env
-          docker-compose up -d elasticsearch
+          docker compose up -d elasticsearch
 
       - name: psycopg2 prerequisites
         run: sudo apt-get install libpq-dev
