@@ -31,7 +31,7 @@ flake8==7.0.0
     #   -r requirements-dev.in
     #   flake8-bugbear
     #   pep8-naming
-flake8-bugbear==24.4.26
+flake8-bugbear==24.8.19
     # via -r requirements-dev.in
 freezegun==1.5.1
     # via -r requirements-dev.in
