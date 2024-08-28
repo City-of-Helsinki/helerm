@@ -53,7 +53,7 @@ django-admin-json-editor==0.2.3
     # via -r requirements.in
 django-admin-sortable2==2.2.1
     # via -r requirements.in
-django-cors-headers==4.3.1
+django-cors-headers==4.4.0
     # via -r requirements.in
 django-elasticsearch-dsl==8.0
     # via django-elasticsearch-dsl-drf
