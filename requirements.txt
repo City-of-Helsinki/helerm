@@ -84,7 +84,7 @@ elasticsearch==8.13.2
     # via
     #   django-elasticsearch-dsl-drf
     #   elasticsearch-dsl
-elasticsearch-dsl==8.12.0
+elasticsearch-dsl==8.15.1
     # via
     #   -r requirements.in
     #   django-elasticsearch-dsl
@@ -181,6 +181,7 @@ traitlets==5.14.3
 typing-extensions==4.12.1
     # via
     #   asgiref
+    #   elasticsearch-dsl
     #   ipython
 urllib3==2.2.2
     # via
