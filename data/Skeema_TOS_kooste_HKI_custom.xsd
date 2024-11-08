@@ -9,7 +9,7 @@ Muutoshistoria:
 02.10.2013: ensimmäinen julkinen luonnos, palautekierrokselle julkaistava versio
 xx.04.2014: palautekierrosten perusteella muokattu versio
 14.01.2015: Julkaisua varten laadittu versio
-******************************************************************** 
+********************************************************************
 -->
 <xs:schema xmlns:jhs="http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19" xmlns:tos="http://skeemat.jhs-suositukset.fi/tos/2015/01/15" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://skeemat.jhs-suositukset.fi/tos/2015/01/15" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xs:import namespace="http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19" schemaLocation="JHSydin20091019_HKI_custom.xsd"/>
@@ -38,7 +38,7 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			<xs:element ref="tos:YhteyshenkiloNimi"/>
 			<!--TosVersio tarkoittaa koko TOS:n versionumeroa, rakenneosilla voi olla oma versiointinsa-->
 			<xs:element ref="tos:TosVersio"/>
-			<!--TilaKoodi:lla ilmaistaan TOS:n valmiustila-->	
+			<!--TilaKoodi:lla ilmaistaan TOS:n valmiustila-->
 			<xs:element ref="tos:TilaKoodi" minOccurs="0"/>
 			<xs:element ref="tos:OrganisaatioNimi" minOccurs="0"/>
 			<xs:element ref="tos:LaatijaNimi" minOccurs="0"/>
@@ -70,9 +70,9 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			<xs:element ref="tos:VoimassaoloAlkaaPvm" minOccurs="0"/>
 			<xs:element ref="tos:VoimassaoloPaattyyPvm" minOccurs="0"/>
 			<!--Luokitustunnus on organisaation tehtäväluokituksen mukainen koodi (esim. 01.02.03) tai muun palveluluokituksen mukainen koodi. osaversio tarkoittaa kyseisen rakenneosan versionumeroa, jolla mahdollistetaan versiointi rakenneosakohtaisesti -->
-			<xs:element ref="tos:Luokitustunnus"/>  
+			<xs:element ref="tos:Luokitustunnus"/>
 			<xs:element ref="tos:TilaKoodi" minOccurs="0"/>
-			<!--OsaVersio tarkoittaa rakenneosan versionumeroa, sen käyttö on valinnaista-->			
+			<!--OsaVersio tarkoittaa rakenneosan versionumeroa, sen käyttö on valinnaista-->
 			<xs:element ref="tos:OsaVersio" minOccurs="0"/>
 			<xs:element ref="tos:Nimeke"/>
 			<xs:element ref="tos:LuokitusKuvausTeksti" minOccurs="0"/>
@@ -93,7 +93,7 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	
+
 	<!--Nimeke-->
 	<!--
 	Nimeke voi olla useamman kielinen. Jos Nimeke-elementtejä on useita täytyy jokaisen attribuutiksi aina liittyä kielikoodi.
@@ -177,7 +177,7 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 		</xs:sequence>
 		<xs:attribute ref="tos:id" use="required"/>
 	</xs:complexType>
-	
+
 	<!--Asiakirjatiedot-->
 	<!--
 	Asiakirjatiedon käyttörajoitus-, salassapito- ja säilytysaikatietojen oletusarvot voidaan periyttää Käsittelyprosessi-tasolta.
@@ -207,7 +207,7 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 		</xs:sequence>
 		<xs:attribute ref="tos:id" use="required"/>
 	</xs:complexType>
-	
+
 	<!--Käsittelysäännöt-->
 	<xs:element name="Kasittelysaannot" type="tos:kasittelysaannotTyyppi"/>
 	<xs:complexType name="kasittelysaannotTyyppi">
@@ -237,8 +237,8 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
-	
-	<!--Säilytysaikatiedot-->	
+
+	<!--Säilytysaikatiedot-->
 	<xs:element name="Sailytysaikatiedot" type="tos:sailytysaikaTiedotTyyppi"/>
 	<xs:complexType name="sailytysaikaTiedotTyyppi">
 		<xs:sequence>
@@ -248,5 +248,5 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
-	
+
 	</xs:schema>

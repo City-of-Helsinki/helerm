@@ -8,15 +8,15 @@ Muutoshistoria:
 02.10.2013: ensimmäinen julkinen luonnos, palautekierrokselle julkaistava versio
 xx.04.2014: palautekierrosten perusteella muokattu versio
 14.01.2015: Julkaisua varten laadittu versio
-******************************************************************** 
+********************************************************************
 -->
 <xs:schema xmlns:jhs="http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19" xmlns:tos="http://skeemat.jhs-suositukset.fi/tos/2015/01/15" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://skeemat.jhs-suositukset.fi/tos/2015/01/15" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xs:import namespace="http://skeemat.jhs-suositukset.fi/yhteiset/2009/10/19" schemaLocation="JHSydin20091019.xsd"/>
 
-	<!--~~~~~~~~~~~-->	
-	<!--Attribuutit-->	
 	<!--~~~~~~~~~~~-->
-	
+	<!--Attribuutit-->
+	<!--~~~~~~~~~~~-->
+
 	<xs:attribute name="id" type="tos:idTyyppi"/>
 	<xs:simpleType name="idTyyppi">
 			<xs:annotation>
@@ -32,11 +32,11 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			</xs:annotation>
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
-	
+
 	<!--~~~~~~~~~-->
 	<!--Elementit-->
 	<!--~~~~~~~~~-->
-	
+
 	<xs:element name="TilaKoodi" type="tos:tilaKoodiTyyppi"/>
 	<xs:simpleType name="tilaKoodiTyyppi">
 		<xs:restriction base="xs:integer">
@@ -67,13 +67,13 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<xs:element name="TosVersio" type="tos:versioTyyppi"/>
 	<xs:element name="OsaVersio" type="tos:versioTyyppi"/>
 	<xs:simpleType name="versioTyyppi">
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
-	
+
 	<xs:element name="Luokitustunnus" type="tos:luokitustunnusTyyppi"/>
 	<xs:simpleType name="luokitustunnusTyyppi">
 			<xs:annotation>
@@ -81,24 +81,24 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			</xs:annotation>
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
-	
+
 	<xs:element name="NimekeTeksti" type="tos:nimekeTekstiTyyppi"/>
 	<xs:simpleType name="nimekeTekstiTyyppi">
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
-	
+
 	<xs:element name="ToimenpiteenKuvausTeksti" type="tos:kuvausTekstiTyyppi"/>
 	<xs:element name="LuokitusKuvausTeksti" type="tos:kuvausTekstiTyyppi"/>
 	<xs:element name="KuvausTeksti" type="tos:kuvausTekstiTyyppi"/>
 	<xs:simpleType name="kuvausTekstiTyyppi">
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
-	
+
 	<xs:element name="LisatiedotTeksti" type="tos:lisatiedotTekstiTyyppi"/>
 	<xs:simpleType name="lisatiedotTekstiTyyppi">
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
-	
+
 	<xs:element name="JulkisuusluokkaKoodi" type="tos:julkisuusluokkaKoodiTyyppi"/>
 	<xs:simpleType name="julkisuusluokkaKoodiTyyppi">
 		<xs:restriction base="xs:integer">
@@ -269,7 +269,7 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 		</xs:annotation>
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
-	
+
 	<xs:element name="KasittelyprosessinTilaTeksti" type="tos:kasittelyprosessinTilaTekstiTyyppi"/>
 	<xs:simpleType name="kasittelyprosessinTilaTekstiTyyppi">
 		<xs:annotation>
@@ -279,7 +279,7 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 		</xs:annotation>
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
-	
+
 	<xs:element name="OrganisaatioNimi" type="xs:string"/>
 	<xs:element name="TietojarjestelmaNimi" type="xs:string"/>
 	<xs:element name="LaatijaNimi" type="jhs:NimiTyyppi"/>
@@ -297,20 +297,20 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 	<xs:element name="ProsessinOmistajaNimi" type="jhs:NimiTyyppi"/>
 	<xs:element name="KokoavanProsessitunnuksenLahdeTeksti" type="xs:string"/>
 	<xs:element name="AsiakirjaluokkaTarkenneTeksti" type="xs:string"/>
-	
+
 	<xs:element name="JulkisuusluokkaMuutosTeksti" type="xs:string">
 		<xs:annotation>
 			<xs:documentation>Esimerkiksi: Asian päättäminen, Päätöksenteko (toimenpide), Päätöksen allekirjoitus (toimenpide).</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	
+
 	<xs:element name="AiempienVersioidenPoistoTeksti" type="xs:string">
 		<xs:annotation>
 			<xs:documentation>Suositeltavat: Asian ratkaisu, Tietty aika asian ratkaisusta, Asiakirjan hävittäminen.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	
+
 	<xs:element name="TallennuspaikkaTeksti" type="xs:string"/>
 	<xs:element name="SailytyspaikkaTeksti" type="xs:string"/>
-	
+
 </xs:schema>
