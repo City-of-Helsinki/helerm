@@ -3,7 +3,7 @@ line-length = 88 # Black's default value
 target-version = ["py39"]
 
 [tool.isort]
-extend_skip_glob = ["*migrations*", "metarecord/binding"]
+extend_skip_glob = ["metarecord/binding"]
 profile = "black"
 atomic = true
 order_by_type = false
