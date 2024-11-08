@@ -158,12 +158,12 @@ def test_tos_attr_returns_prefixed_attribute():
 
 def test_create_wrapped_element():
     """Test that create_wrapped_element creates a wrapped element correctly."""
-    FOO = jhs.bindings.E.Foo
-    WRAPPED_FOO = jhs.bindings.create_wrapped_element(FOO)
+    foo_el = jhs.bindings.E.Foo
+    wrapped_foo_el = jhs.bindings.create_wrapped_element(foo_el)
 
-    wrapped_foo = WRAPPED_FOO({"{http://test}foo": "foo"}, bar="bar")
+    wrapped_foo = wrapped_foo_el({"{http://test}foo": "foo"}, bar="bar")
 
-    assert WRAPPED_FOO().tag == FOO().tag
+    assert wrapped_foo_el().tag == foo_el().tag
     # Should prefix un-prefixed attributes with the namespace
     assert wrapped_foo.get(jhs.bindings.tos_attr("bar")) == "bar"
     # Should not prefix already prefixed attributes
