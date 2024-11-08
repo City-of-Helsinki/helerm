@@ -5,10 +5,9 @@ from rest_framework import serializers
 from metarecord.models import Function
 from metarecord.views.base import (
     ClassificationRelationSerializer,
-    HexRelatedField,
     StructuralElementSerializer,
 )
-from metarecord.views.function import FunctionListSerializer, PhaseSerializer
+from metarecord.views.function import PhaseSerializer
 
 
 def set_permissions(api_client, permissions):
@@ -18,7 +17,7 @@ def set_permissions(api_client, permissions):
     Just setting the permissions for the user isn't enough because then
     Django will use cached permissions in views.
     """
-    if type(permissions) == str:
+    if isinstance(permissions, str):
         permissions = [permissions]
 
     codenames = [perm.split(".")[1] for perm in permissions]

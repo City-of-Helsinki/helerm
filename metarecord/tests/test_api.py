@@ -1849,8 +1849,8 @@ def test_classification_version_history(user_api_client, classification):
 
     last_version = version_history[1]
     assert last_version["state"] == Classification.SENT_FOR_REVIEW
-    assert type(last_version["valid_to"]) == datetime.date
-    assert type(last_version["valid_from"]) == datetime.date
+    assert isinstance(last_version["valid_to"], datetime.date)
+    assert isinstance(last_version["valid_from"], datetime.date)
     assert last_version["version"] == 2
 
 
@@ -2383,12 +2383,12 @@ def test_function_post_new_when_existing_function(
 
     response = user_api_client.post(FUNCTION_LIST_URL, data=post_data)
 
-    class view:
+    class View:
         action = "create"
 
     dummy_request = rf.get(get_function_detail_url(function))
     dummy_request.user = user_api_client.user
-    dummy_context = {"view": view(), "request": dummy_request}
+    dummy_context = {"view": View(), "request": dummy_request}
     function_data = FunctionTestDetailSerializer(function, context=dummy_context).data
     response_data_json = response.json()
     for attr in ["modified_at", "created_at", "actions", "id"]:
@@ -2660,7 +2660,9 @@ def test_classification_modified_by(classification, user_api_client, user):
 
 
 @pytest.mark.django_db
-def test_function_anonymous_cannot_view_modified_by(classification, api_client, user):
+def test_classification_anonymous_cannot_view_modified_by(
+    classification, api_client, user
+):
     classification.state = Function.APPROVED
     classification.modified_by = user
     classification.save()
@@ -2748,7 +2750,7 @@ def test_bulk_update_change_permission(bulk_update, user_api_client, permission)
 
     if not permission:
         assert response.status_code == 403
-        assert bulk_update.modified_by == None
+        assert bulk_update.modified_by is None
     else:
         assert response.status_code == 200
         assert bulk_update.modified_by == user_api_client.user
@@ -2777,11 +2779,11 @@ def test_bulk_update_approve_permission(
 
     if not permission:
         assert response.status_code == 403
-        assert bulk_update.is_approved == False
-        assert bulk_update.approved_by == None
+        assert bulk_update.is_approved is False
+        assert bulk_update.approved_by is None
     else:
         assert response.status_code == 200
-        assert bulk_update.is_approved == True
+        assert bulk_update.is_approved is True
         assert bulk_update.approved_by == user_api_client.user
 
 

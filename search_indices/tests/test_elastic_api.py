@@ -66,7 +66,7 @@ def test_action_filter_attribute_exact(user_api_client, action):
 
 @pytest.mark.django_db
 def test_classification_filter_title_exact(user_api_client, classification):
-    url = CLASSIFICATION_LIST_URL + f"?title=testisana"
+    url = CLASSIFICATION_LIST_URL + "?title=testisana"
     response = user_api_client.get(url)
     assert response.status_code == 200
 

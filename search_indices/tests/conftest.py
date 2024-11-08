@@ -19,7 +19,7 @@ from search_indices.documents import (
 )
 
 # The tests rely on elasticsearch.helpers.test, which was removed in elasticsearch-py 8.0.
-# Copied from https://github.com/elastic/elasticsearch-py/commit/3a44a501b4dbc9fed897a7fd1c70aad881d6944f#diff-fbe7638e315bad1693000e7e7c7a22f19b14e9a709d39996bac8fc8ae26916d8L33-L58
+# Copied from https://github.com/elastic/elasticsearch-py/commit/3a44a501b4dbc9fed897a7fd1c70aad881d6944f#diff-fbe7638e315bad1693000e7e7c7a22f19b14e9a709d39996bac8fc8ae26916d8L33-L58  # noqa: E501
 
 CA_CERTS = join(dirname(dirname(dirname(abspath(__file__)))), ".ci/certs/ca.pem")
 

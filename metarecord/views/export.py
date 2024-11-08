@@ -81,8 +81,8 @@ class JHSExportViewSet(ViewSet):
             xml = create_saved_jhs_xml()
 
         response = HttpResponse(xml, content_type="application/xml")
-        response["Content-Disposition"] = (
-            'attachment; filename="helerm-jhs191-export.xml"'
-        )
+        response[
+            "Content-Disposition"
+        ] = 'attachment; filename="helerm-jhs191-export.xml"'
 
         return response
