@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.0.2...helerm-v1.0.3) (2024-11-08)
+
+
+### Dependencies
+
+* Bump cryptography from 42.0.8 to 43.0.1 ([#407](https://github.com/City-of-Helsinki/helerm/issues/407)) ([a79d37a](https://github.com/City-of-Helsinki/helerm/commit/a79d37ac2044ade0e19686c9ed589ac86b70be9b))
+* Bump django from 4.2.15 to 4.2.16 ([d5679e8](https://github.com/City-of-Helsinki/helerm/commit/d5679e8aa99109210f822efda13e752372991757))
+* Bump django-cors-headers from 4.3.1 to 4.4.0 ([7149807](https://github.com/City-of-Helsinki/helerm/commit/714980729ade7d672ad59facdeb84be5cd52dc19))
+* Bump django-filter from 24.2 to 24.3 ([74567fe](https://github.com/City-of-Helsinki/helerm/commit/74567feca1304a42151ce612fa2377af66318043))
+* Bump flake8-bugbear from 24.4.26 to 24.8.19 ([1458e76](https://github.com/City-of-Helsinki/helerm/commit/1458e769bf2d149453b22f0a4d71d60479fe46ce))
+* Bump pytest from 8.2.2 to 8.3.2 ([761cb48](https://github.com/City-of-Helsinki/helerm/commit/761cb4894e0cbfc1a5ea93b5487cffb9b0515dd2))
+* Bump sentry-sdk from 2.4.0 to 2.13.0 ([3328bbd](https://github.com/City-of-Helsinki/helerm/commit/3328bbdd1e375aa091d239689ef715bf67b96035))
+
 ## [1.0.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.0.1...helerm-v1.0.2) (2024-08-08)
 
 
