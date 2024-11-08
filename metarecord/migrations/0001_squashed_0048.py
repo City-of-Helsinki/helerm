@@ -5,7 +5,8 @@ import uuid
 import django.utils.timezone
 from django.conf import settings
 from django.db import migrations, models
-from django.db.models import OuterRef, Subquery, Value as V
+from django.db.models import OuterRef, Subquery
+from django.db.models import Value as V
 from django.db.models.functions import Concat, Trim
 
 
