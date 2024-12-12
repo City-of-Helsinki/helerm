@@ -111,7 +111,7 @@ class ClassificationSerializer(serializers.ModelSerializer):
         if function:
             phases = function.phases.all()
 
-        serializer = PhaseSerializer(phases, many=True)
+        serializer = PhaseSerializer(phases, many=True, context=self.context)
 
         return serializer.data
 
@@ -155,6 +155,8 @@ class ClassificationSerializer(serializers.ModelSerializer):
             if not request.user.is_authenticated:
                 data.pop("description_internal", None)
                 data.pop("additional_information", None)
+                if "function_attributes" in data and data["function_attributes"]:
+                    data["function_attributes"].pop("InformationSystem", None)
 
         return data
 

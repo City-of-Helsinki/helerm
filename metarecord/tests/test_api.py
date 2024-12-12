@@ -2197,15 +2197,23 @@ def test_function_classification_code_filtering(
 
 
 @pytest.mark.django_db
-def test_function_information_system_filtering(api_client, classification):
+def test_function_information_system_filtering(
+    api_client, user_api_client, classification, classification_2
+):
+    third_classification = Classification.objects.create(
+        title="testification",
+        code="00 100",
+        state=Classification.APPROVED,
+        function_allowed=True,
+    )
     function = Function.objects.create(
         classification=classification, state=Function.APPROVED
     )
     function_2 = Function.objects.create(
-        classification=classification, state=Function.APPROVED
+        classification=classification_2, state=Function.APPROVED
     )
     function_3 = Function.objects.create(
-        classification=classification, state=Function.APPROVED
+        classification=third_classification, state=Function.APPROVED
     )
 
     phase = Phase.objects.create(
@@ -2238,11 +2246,101 @@ def test_function_information_system_filtering(api_client, classification):
         attributes={"NotAnInformationSystem": "xyz"}, action=action_3, index=1
     )
 
+    # Dummy check that the functions differ.
+    assert function.uuid.hex != function_2.uuid.hex
+    assert function.uuid.hex != function_3.uuid.hex
+
     response = api_client.get(FUNCTION_LIST_URL + "?information_system=xyz")
     assert response.status_code == 200
     results = response.data["results"]
     assert len(results) == 1
     assert results[0]["id"] == function.uuid.hex
+
+
+@pytest.mark.django_db
+def test_function_detail_shows_record_information_system_for_authenticated_user(
+    user_api_client, classification
+):
+    function = Function.objects.create(
+        classification=classification, state=Function.APPROVED
+    )
+
+    phase = Phase.objects.create(
+        attributes={"TypeSpecifier": "test phase"}, function=function, index=1
+    )
+    action = Action.objects.create(
+        attributes={"TypeSpecifier": "test action"}, phase=phase, index=1
+    )
+    Record.objects.create(
+        attributes={"InformationSystem": "xyz"}, action=action, index=1
+    )
+
+    response = user_api_client.get(get_function_detail_url(function))
+    assert response.status_code == 200
+    assert (
+        response.data["phases"][0]["actions"][0]["records"][0]["attributes"][
+            "InformationSystem"
+        ]
+        == "xyz"
+    )
+
+
+@pytest.mark.django_db
+def test_function_detail_does_not_show_record_information_system_for_unauthenticated_user(
+    api_client, classification
+):
+    function = Function.objects.create(
+        classification=classification, state=Function.APPROVED
+    )
+
+    phase = Phase.objects.create(
+        attributes={"TypeSpecifier": "test phase"}, function=function, index=1
+    )
+    action = Action.objects.create(
+        attributes={"TypeSpecifier": "test action"}, phase=phase, index=1
+    )
+    Record.objects.create(
+        attributes={"InformationSystem": "xyz"}, action=action, index=1
+    )
+
+    response = api_client.get(get_function_detail_url(function))
+    assert response.status_code == 200
+    assert (
+        response.data["phases"][0]["actions"][0]["records"][0]["attributes"].get(
+            "InformationSystem"
+        )
+        is None
+    )
+
+
+@pytest.mark.django_db
+def test_function_list_shows_information_system_for_authenticated_user(
+    user_api_client, classification
+):
+    Function.objects.create(
+        classification=classification,
+        state=Function.APPROVED,
+        attributes={"InformationSystem": "xyz"},
+    )
+
+    response = user_api_client.get(FUNCTION_LIST_URL)
+    assert response.status_code == 200
+    assert response.data["results"][0]["attributes"]["InformationSystem"] == "xyz"
+
+
+@pytest.mark.django_db
+def test_function_list_does_not_show_information_system_for_unauthenticated_user(
+    api_client, classification
+):
+    Function.objects.create(
+        classification=classification,
+        state=Function.APPROVED,
+        attributes={"InformationSystem": "xyz"},
+    )
+
+    response = api_client.get(FUNCTION_LIST_URL)
+    assert response.status_code == 200
+    assert response.data["results"][0]["attributes"].get("InformationSystem") is None
 
 
 @pytest.mark.parametrize("authenticated", (False, True))
@@ -2448,6 +2546,36 @@ def test_classification_fields_visibility(
     else:
         assert "description_internal" not in response.data
         assert "additional_information" not in response.data
+
+
+@pytest.mark.django_db
+def test_classification_function_information_system_is_visible_for_authenticated_user(
+    user_api_client, classification
+):
+    Function.objects.create(
+        classification=classification,
+        state=Function.APPROVED,
+        attributes={"InformationSystem": "xyz"},
+    )
+
+    response = user_api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert response.data["function_attributes"]["InformationSystem"] == "xyz"
+
+
+@pytest.mark.django_db
+def test_classification_function_information_system_is_not_visible_for_unauthenticated_user(
+    api_client, classification
+):
+    Function.objects.create(
+        classification=classification,
+        state=Function.APPROVED,
+        attributes={"InformationSystem": "xyz"},
+    )
+
+    response = api_client.get(get_classification_detail_url(classification))
+    assert response.status_code == 200
+    assert response.data["function_attributes"] == {}
 
 
 @pytest.mark.parametrize("has_permission", (False, True))
@@ -2948,3 +3076,26 @@ def test_record_modified_by_display(record, user_api_client, permission):
         assert "modified_by" not in response_data.keys()
     else:
         assert response_data["modified_by"] == "John Rambo"
+
+
+@pytest.mark.django_db
+def test_record_shows_information_system_for_authenticated_user(
+    record, user_api_client
+):
+    record.attributes = {"TypeSpecifier": "test record", "InformationSystem": "xyz"}
+    record.save()
+
+    response = user_api_client.get(get_record_detail_url(record))
+    assert response.status_code == 200
+    assert response.json()["attributes"]["InformationSystem"] == "xyz"
+
+
+@pytest.mark.django_db
+def test_record_does_not_show_information_system_for_unauthenticated_user(
+    record, api_client
+):
+    record.attributes = {"TypeSpecifier": "test record", "InformationSystem": "xyz"}
+    record.save()
+    response = api_client.get(get_record_detail_url(record))
+    assert response.status_code == 200
+    assert response.json()["attributes"].get("InformationSystem") is None
