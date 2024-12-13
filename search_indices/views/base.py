@@ -67,3 +67,11 @@ class BaseSearchDocumentViewSet(BaseDocumentViewSet):
         "type",
         "_score",
     )
+
+    def filter_queryset(self, queryset):
+        # Restrict querying information system queries to authenticated users.
+        # The information system field contents are not public.
+        if not self.request.user.is_authenticated:
+            self.filter_fields.pop("record_InformationSystem", None)
+
+        return super().filter_queryset(queryset)
