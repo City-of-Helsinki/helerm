@@ -32,6 +32,18 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         ordering = ("index",)
         exclude = ("uuid", "created_by", "_created_by", "_modified_by")
 
+    def to_representation(self, obj):
+        ret = super().to_representation(obj)
+        user = self.context["request"].user
+        if (
+            not user.is_authenticated
+            and (attributes := ret.get("attributes", {}))
+            and "InformationSystem" in attributes
+        ):
+            attributes.pop("InformationSystem", None)
+
+        return ret
+
     def get_fields(self):
         fields = super().get_fields()
 
