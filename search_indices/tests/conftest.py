@@ -90,6 +90,13 @@ def action(phase):
 
 
 @fixture
+def action_2(phase_2):
+    return Action.objects.create(
+        attributes={"AdditionalInformation": "testisana"}, phase=phase_2, index=1
+    )
+
+
+@fixture
 def classification():
     return Classification.objects.create(
         title="testisana",
@@ -100,7 +107,7 @@ def classification():
 
 
 @fixture
-def classification2():
+def classification_2():
     return Classification.objects.create(
         title="testisana ja toinen testisana",
         code="00 00",
@@ -118,6 +125,14 @@ def function(classification):
 
 
 @fixture
+def function_2(classification_2):
+    return Function.objects.create(
+        attributes={"AdditionalInformation": "testword"},
+        classification=classification_2,
+    )
+
+
+@fixture
 def phase(function):
     return Phase.objects.create(
         attributes={"AdditionalInformation": "testisana"}, function=function, index=1
@@ -125,7 +140,28 @@ def phase(function):
 
 
 @fixture
+def phase_2(function_2):
+    return Phase.objects.create(
+        attributes={"AdditionalInformation": "testword"}, function=function_2, index=1
+    )
+
+
+@fixture
 def record(action):
     return Record.objects.create(
         attributes={"AdditionalInformation": "testisana"}, action=action, index=1
+    )
+
+
+@fixture
+def record_with_information_system(action):
+    return Record.objects.create(
+        attributes={"InformationSystem": "xyz"}, action=action, index=1
+    )
+
+
+@fixture
+def record_2(action_2):
+    return Record.objects.create(
+        attributes={"AdditionalInformation": "testword"}, action=action_2, index=1
     )

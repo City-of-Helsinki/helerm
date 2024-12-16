@@ -418,6 +418,15 @@ class FunctionFilterSet(django_filters.FilterSet):
         lookup_expr="icontains",
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Restrict querying information system queries to authenticated users.
+        # The information system field contents are not public.
+        user = getattr(self.request, "user", None)
+        if not user or not user.is_authenticated:
+            self.filters.pop("information_system", None)
+
     def filter_valid_at(self, queryset, name, value):
         # if neither date is set the function is considered not valid
         queryset = queryset.exclude(

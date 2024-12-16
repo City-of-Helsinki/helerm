@@ -2198,7 +2198,7 @@ def test_function_classification_code_filtering(
 
 @pytest.mark.django_db
 def test_function_information_system_filtering(
-    api_client, user_api_client, classification, classification_2
+    user_api_client, classification, classification_2
 ):
     third_classification = Classification.objects.create(
         title="testification",
@@ -2250,11 +2250,48 @@ def test_function_information_system_filtering(
     assert function.uuid.hex != function_2.uuid.hex
     assert function.uuid.hex != function_3.uuid.hex
 
-    response = api_client.get(FUNCTION_LIST_URL + "?information_system=xyz")
+    response = user_api_client.get(FUNCTION_LIST_URL + "?information_system=xyz")
     assert response.status_code == 200
     results = response.data["results"]
     assert len(results) == 1
     assert results[0]["id"] == function.uuid.hex
+
+
+@pytest.mark.django_db
+def test_function_information_system_filtering_for_unauthenticated_user(
+    api_client, classification, classification_2
+):
+    """Filtering by information system as an unauthenticated user should not have any effect"""
+    third_classification = Classification.objects.create(
+        title="testification",
+        code="00 100",
+        state=Classification.APPROVED,
+        function_allowed=True,
+    )
+    function = Function.objects.create(
+        classification=classification, state=Function.APPROVED
+    )
+    Function.objects.create(classification=classification_2, state=Function.APPROVED)
+    Function.objects.create(
+        classification=third_classification, state=Function.APPROVED
+    )
+
+    phase = Phase.objects.create(
+        attributes={"TypeSpecifier": "test phase"}, function=function, index=1
+    )
+
+    action = Action.objects.create(
+        attributes={"TypeSpecifier": "test action"}, phase=phase, index=1
+    )
+
+    Record.objects.create(
+        attributes={"InformationSystem": "xyz"}, action=action, index=1
+    )
+
+    response = api_client.get(FUNCTION_LIST_URL + "?information_system=xyz")
+    assert response.status_code == 200
+    results = response.data["results"]
+    assert len(results) == 3
 
 
 @pytest.mark.django_db
