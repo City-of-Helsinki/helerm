@@ -30,5 +30,10 @@ class BaseSearchSerializer(DocumentSerializer):
     def get_score(self, obj: Hit) -> int:
         return obj.meta.score
 
+    @property
+    def is_authenticated(self):
+        request = self.context.get("request")
+        return bool(request and request.user.is_authenticated)
+
     def get_attributes(self, obj: Hit) -> Optional[dict]:
-        return get_attributes(obj, "attributes")
+        return get_attributes(obj, "attributes", self.is_authenticated)

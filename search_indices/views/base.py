@@ -8,6 +8,7 @@ from django_elasticsearch_dsl_drf.viewsets import BaseDocumentViewSet
 
 from metarecord.pagination import ESRecordPagination
 from search_indices.backends.faceted_attribute_backend import FacetedAttributeBackend
+from search_indices.serializers.utils import attributes_for_authenticated
 from search_indices.views.utils import populate_filter_fields_with_attributes
 
 
@@ -68,10 +69,21 @@ class BaseSearchDocumentViewSet(BaseDocumentViewSet):
         "_score",
     )
 
-    def filter_queryset(self, queryset):
-        # Restrict querying information system queries to authenticated users.
-        # The information system field contents are not public.
-        if not self.request.user.is_authenticated:
-            self.filter_fields.pop("record_InformationSystem", None)
+    def _filter_search_fields_for_unauthenticated(self):
+        search_fields = []
+        for field in self.search_fields:
+            if "InformationSystem" in field:
+                continue
+            search_fields.append(field)
+        self.search_fields = tuple(search_fields)
 
-        return super().filter_queryset(queryset)
+        for attribute in attributes_for_authenticated:
+            self.filter_fields.pop(attribute, None)
+
+    def initial(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            # Restrict querying information system queries to authenticated users.
+            # The information system field contents are not public.
+            self._filter_search_fields_for_unauthenticated()
+
+        super().initial(request, *args, **kwargs)

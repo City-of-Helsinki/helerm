@@ -7,6 +7,7 @@ from django.conf import settings
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl.connections import add_connection
 from pytest import fixture
+from rest_framework.test import APIClient
 
 from metarecord.models import Action, Classification, Function, Phase, Record
 from metarecord.tests.conftest import user, user_api_client  # noqa
@@ -57,7 +58,7 @@ def destroy_indices():
     RecordDocument._index.delete(ignore=[400, 404])
 
 
-@fixture(scope="session", autouse=True)
+@fixture(scope="class", autouse=True)
 def create_indices():
     """
     Initialize all indices with the custom analyzers.
@@ -83,9 +84,21 @@ def es_connection():
 
 
 @fixture
+def api_client():
+    return APIClient()
+
+
+@fixture
 def action(phase):
     return Action.objects.create(
         attributes={"AdditionalInformation": "testisana"}, phase=phase, index=1
+    )
+
+
+@fixture
+def action_with_information_system(phase):
+    return Action.objects.create(
+        attributes={"InformationSystem": "xyz"}, phase=phase, index=1
     )
 
 
@@ -125,6 +138,13 @@ def function(classification):
 
 
 @fixture
+def function_with_information_system(classification_2):
+    return Function.objects.create(
+        attributes={"InformationSystem": "xyz"}, classification=classification_2
+    )
+
+
+@fixture
 def function_2(classification_2):
     return Function.objects.create(
         attributes={"AdditionalInformation": "testword"},
@@ -136,6 +156,13 @@ def function_2(classification_2):
 def phase(function):
     return Phase.objects.create(
         attributes={"AdditionalInformation": "testisana"}, function=function, index=1
+    )
+
+
+@fixture
+def phase_with_information_system(function):
+    return Phase.objects.create(
+        attributes={"InformationSystem": "xyz"}, function=function, index=1
     )
 
 
