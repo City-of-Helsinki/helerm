@@ -1,5 +1,3 @@
-from typing import List, Type
-
 from django_elasticsearch_dsl import Document
 from django_elasticsearch_dsl_drf.filter_backends.mixins import FilterBackendMixin
 from elasticsearch_dsl.search import Search
@@ -28,13 +26,28 @@ class FacetedAttributeBackend(BaseFilterBackend, FilterBackendMixin):
     faceted_search_param = "facet_attribute"
 
     @staticmethod
-    def get_attributes(documents: List[Type[Document]] = None) -> list:
+    def get_attributes(
+        documents: list[type[Document]] = None, *, exclude_information_system=False
+    ) -> list:
         if not documents:
             documents = DOCUMENT_TYPES
         attrs = []
         for document in documents:
             model = document.Django.model
             attributes = getattr(model, "_attribute_validations", None)
+
+            if exclude_information_system and attributes:
+                attributes["allowed"] = tuple(
+                    attr
+                    for attr in attributes["allowed"]
+                    if attr.lower() != "informationsystem"
+                )
+                attributes["allow_values_outside_choices"] = tuple(
+                    attr
+                    for attr in attributes["allow_values_outside_choices"]
+                    if attr.lower() != "informationsystem"
+                )
+
             if attributes:
                 attrs += map(
                     lambda x, model=model: f"{str(model._meta.verbose_name)}_{x}",
@@ -43,7 +56,7 @@ class FacetedAttributeBackend(BaseFilterBackend, FilterBackendMixin):
         return attrs
 
     def filter_queryset(
-        self, request: Request, queryset: Search, view: Type[ReadOnlyModelViewSet]
+        self, request: Request, queryset: Search, view: type[ReadOnlyModelViewSet]
     ) -> Search:
         """Filter the queryset.
         :param request: Django REST framework request.

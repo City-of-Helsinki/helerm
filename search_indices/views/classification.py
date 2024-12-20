@@ -15,7 +15,7 @@ class ClassificationSearchDocumentViewSet(BaseSearchDocumentViewSet):
         "additional_information": "additional_information",
     }
 
-    search_fields = (
+    base_search_fields = (
         "title",
         "description",
         "related_classification",
