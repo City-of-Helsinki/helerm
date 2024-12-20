@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.0.3...helerm-v1.1.0) (2024-12-20)
+
+
+### Features
+
+* Hide information_system from unauthenticated users ([#413](https://github.com/City-of-Helsinki/helerm/issues/413)) ([5b24268](https://github.com/City-of-Helsinki/helerm/commit/5b242687d570f82b14ac111db5b77e69de173de1))
+* Restrict filtering for information system for unauth users ([#414](https://github.com/City-of-Helsinki/helerm/issues/414)) ([2e38472](https://github.com/City-of-Helsinki/helerm/commit/2e384720b853559acca8b7204ee3bbe6fb36db5e))
+
+
+### Dependencies
+
+* Bump django from 4.2.16 to 4.2.17 ([7ba5dd7](https://github.com/City-of-Helsinki/helerm/commit/7ba5dd74d47981d200518fed404a2e449211e8f3))
+
 ## [1.0.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.0.2...helerm-v1.0.3) (2024-11-08)
 
 
