@@ -107,7 +107,7 @@ typing-extensions==4.12.1
     # via
     #   -c requirements.txt
     #   black
-virtualenv==20.26.2
+virtualenv==20.26.6
     # via pre-commit
 wheel==0.43.0
     # via pip-tools
