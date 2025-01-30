@@ -461,3 +461,38 @@ class TestInformationSystemAttributeListUrls:
         assert response.status_code == 200
         assert phase_with_information_system.uuid.hex in uuids
         assert phase_2.uuid.hex in uuids
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "list_url",
+    [
+        PHASE_LIST_URL,
+        ACTION_LIST_URL,
+        RECORD_LIST_URL,
+        FUNCTION_LIST_URL,
+        ALL_LIST_URL,
+    ],
+)
+class TestInformationSystemInFacets:
+    def test_list_for_authenticated(
+        self,
+        user_api_client,
+        list_url,
+    ):
+        response = user_api_client.get(list_url)
+        facets = response.data["facets"] if "facets" in response.data else response.data
+
+        assert response.status_code == 200
+        assert "informationsystem" in "".join([key.lower() for key in facets])
+
+    def test_list_for_unauthenticated(
+        self,
+        api_client,
+        list_url,
+    ):
+        response = api_client.get(list_url)
+        facets = response.data["facets"] if "facets" in response.data else response.data
+
+        assert response.status_code == 200
+        assert "informationsystem" not in "".join([key.lower() for key in facets])

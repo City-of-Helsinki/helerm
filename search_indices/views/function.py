@@ -10,7 +10,9 @@ class FunctionSearchDocumentViewSet(BaseSearchDocumentViewSet):
     serializer_class = FunctionSearchSerializer
 
     filter_fields = {}
-    attributes = FacetedAttributeBackend.get_attributes([FunctionDocument])
-    populate_filter_fields_with_attributes(filter_fields, attributes)
+    base_attributes = FacetedAttributeBackend.get_attributes([FunctionDocument])
+    populate_filter_fields_with_attributes(filter_fields, base_attributes)
 
-    search_fields = tuple(f"attributes.{attribute}" for attribute in attributes)
+    base_search_fields = tuple(
+        f"attributes.{attribute}" for attribute in base_attributes
+    )

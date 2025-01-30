@@ -10,7 +10,9 @@ class PhaseSearchDocumentViewSet(BaseSearchDocumentViewSet):
     serializer_class = PhaseSearchSerializer
 
     filter_fields = {}
-    attributes = FacetedAttributeBackend.get_attributes([PhaseDocument])
-    populate_filter_fields_with_attributes(filter_fields, attributes)
+    base_attributes = FacetedAttributeBackend.get_attributes([PhaseDocument])
+    populate_filter_fields_with_attributes(filter_fields, base_attributes)
 
-    search_fields = tuple(f"attributes.phase_{attribute}" for attribute in attributes)
+    base_search_fields = tuple(
+        f"attributes.phase_{attribute}" for attribute in base_attributes
+    )
