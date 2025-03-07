@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.1.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.0.3...helerm-v1.1.0) (2025-03-07)
+
+
+### Features
+
+* Hide all information_system attributes from es search ([#415](https://github.com/City-of-Helsinki/helerm/issues/415)) ([5035c8f](https://github.com/City-of-Helsinki/helerm/commit/5035c8f2a51c7102eecb99896859c0b8f8dfd29a))
+* Hide information_system from unauthenticated users ([#413](https://github.com/City-of-Helsinki/helerm/issues/413)) ([5b24268](https://github.com/City-of-Helsinki/helerm/commit/5b242687d570f82b14ac111db5b77e69de173de1))
+* Restrict filtering for information system for unauth users ([#414](https://github.com/City-of-Helsinki/helerm/issues/414)) ([2e38472](https://github.com/City-of-Helsinki/helerm/commit/2e384720b853559acca8b7204ee3bbe6fb36db5e))
+* Restrict information_system from facets for unauthenticated ([#416](https://github.com/City-of-Helsinki/helerm/issues/416)) ([70b0448](https://github.com/City-of-Helsinki/helerm/commit/70b0448fca1cd642255f515cacc65bf75aaf4a38))
+
+
+### Dependencies
+
+* Bump cryptography from 43.0.1 to 44.0.1 ([#419](https://github.com/City-of-Helsinki/helerm/issues/419)) ([145463d](https://github.com/City-of-Helsinki/helerm/commit/145463d5fae5032347f77f97dc198f8eb419f45f))
+* Bump django from 4.2.16 to 4.2.17 ([7ba5dd7](https://github.com/City-of-Helsinki/helerm/commit/7ba5dd74d47981d200518fed404a2e449211e8f3))
+* Bump django from 4.2.17 to 4.2.18 ([0d9d673](https://github.com/City-of-Helsinki/helerm/commit/0d9d67308a17cdd2b84713fbb4b8f309e176e057))
+* Bump python-jose from 3.3.0 to 3.4.0 ([0ddcb3d](https://github.com/City-of-Helsinki/helerm/commit/0ddcb3dec91dd314c0e959d8aa391576d33e107a))
+* Bump virtualenv from 20.26.2 to 20.26.6 ([a91d884](https://github.com/City-of-Helsinki/helerm/commit/a91d8841763e99f2d94da46ecb6bb84a55446797))
+
 ## [1.0.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.0.2...helerm-v1.0.3) (2024-11-08)
 
 
