@@ -182,7 +182,7 @@ typing-extensions==4.12.1
     # via
     #   asgiref
     #   ipython
-urllib3==2.2.2
+urllib3==2.5.0
     # via
     #   elastic-transport
     #   requests
