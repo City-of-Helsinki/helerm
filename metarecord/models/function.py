@@ -185,7 +185,8 @@ class Function(StructuralElement):
             raise ValueError("Approved function must have approved classification")
 
         if not self.id:
-            # lock Function table to prevent possible race condition when adding the new latest version number
+            # lock Function table to prevent possible race condition when adding the new
+            # latest version number
             with connection.cursor() as cursor:
                 cursor.execute("LOCK TABLE %s" % self._meta.db_table)
             try:
@@ -200,13 +201,15 @@ class Function(StructuralElement):
         super().save(*args, **kwargs)
 
         if self.state == Function.APPROVED:
-            # Delete old non-approved versions leading to current version if newly saved version is approved.
+            # Delete old non-approved versions leading to current version if newly saved
+            # version is approved.
             self.delete_old_non_approved_versions()
 
     def delete_old_non_approved_versions(self):
         if self.state != Function.APPROVED:
             raise ValueError(
-                "Function must be approved before old non-approved versions can be deleted."
+                "Function must be approved before old non-approved versions can be"
+                " deleted."
             )
 
         Function.objects.previous_versions(self).non_approved().delete()
@@ -230,7 +233,8 @@ class Function(StructuralElement):
 
 class MetadataVersion(models.Model):
     """
-    Stores history of Function's "internal" meta data ie. information not meant for an operational system.
+    Stores history of Function's "internal" metadata i.e. information not meant for an
+    operational system.
     """
 
     function = models.ForeignKey(

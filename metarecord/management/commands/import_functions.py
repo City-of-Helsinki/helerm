@@ -18,7 +18,7 @@ class Command(BaseCommand):
         try:
             function_importer = FunctionImporter(filename)
         except Exception as e:
-            print("Cannot open file '%s': %s" % (filename, e))
+            print("Cannot open file '%s': %s" % (filename, e))  # noqa: T201
             return
 
         with transaction.atomic():

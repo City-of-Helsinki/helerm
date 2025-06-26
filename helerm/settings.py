@@ -98,7 +98,7 @@ SITE_TYPE = env("HEL_SITE_TYPE")
 env_file_path = os.path.join(BASE_DIR, CONFIG_FILE_NAME)
 if os.path.exists(env_file_path):
     # Logging configuration is not available at this point
-    print(f"Reading config from {env_file_path}")
+    print(f"Reading config from {env_file_path}")  # noqa: T201
     environ.Env.read_env(env_file_path)
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -215,7 +215,7 @@ LOGGING = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa: E501
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",

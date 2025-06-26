@@ -20,7 +20,7 @@ class ClassificationImporter:
         return code[:-3]
 
     def import_classifications(self):
-        print("Importing classifications...")
+        print("Importing classifications...")  # noqa: T201
 
         count = 0
         classifications = []
@@ -28,8 +28,8 @@ class ClassificationImporter:
             row = clean_row(row)
             count += 1
             if len(row) < 2 or not re.match(r"^\d\d(?:\s\d\d)*$", row[0]):
-                print("Skipping row number {}".format(count))
-                print("Newline cleaned content was:\n{}".format(row).encode("utf-8"))
+                print("Skipping row number {}".format(count))  # noqa: T201
+                print("Newline cleaned content was:\n{}".format(row).encode("utf-8"))  # noqa: T201
                 continue
 
             code = row[0]
@@ -62,9 +62,9 @@ class ClassificationImporter:
                 code=code, defaults=defaults
             )
 
-            print(obj)
+            print(obj)  # noqa: T201
             classifications.append(obj)
 
         update_function_allowed(classifications)
 
-        print("Done.")
+        print("Done.")  # noqa: T201

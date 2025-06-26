@@ -72,7 +72,12 @@ class FacetedAttributeBackend(BaseFilterBackend, FilterBackendMixin):
         if attribute_validations:
             for attribute in attribute_validations:
                 attribute_replaced = attribute.replace(".", "+")
-                # Example ("_attribute_Subject.Scheme", "terms", "attributes.Subject+Scheme.keyword")
+                # Example
+                # (
+                #     "_attribute_Subject.Scheme",
+                #     "terms",
+                #     "attributes.Subject+Scheme.keyword"
+                # )
                 queryset.aggs.bucket(
                     f"_attribute_{attribute}",
                     "terms",

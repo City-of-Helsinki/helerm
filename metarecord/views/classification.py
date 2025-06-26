@@ -261,7 +261,8 @@ class ClassificationSerializer(serializers.ModelSerializer):
         ):
             raise exceptions.ValidationError(
                 _(
-                    'Cannot edit while in state "sent_for_review" or "waiting_for_approval"'
+                    'Cannot edit while in state "sent_for_review"'
+                    ' or "waiting_for_approval"'
                 )
             )
 

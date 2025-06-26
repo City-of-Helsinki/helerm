@@ -19,7 +19,7 @@ class Command(BaseCommand):
             tos_importer = TOSImporter(options)
             tos_importer.open(filename)
         except Exception as e:
-            print("Cannot open file '%s': %s" % (filename, e))
+            print("Cannot open file '%s': %s" % (filename, e))  # noqa: T201
             return
 
         with transaction.atomic():

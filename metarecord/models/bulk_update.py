@@ -11,7 +11,8 @@ from .function import Function
 
 
 class BulkUpdate(TimeStampedModel, UUIDPrimaryKeyModel):
-    # Add, change, and delete are Django default permissions. Approve is project specific.
+    # Add, change, and delete are Django default permissions. Approve is project
+    # specific.
     CAN_ADD = "metarecord.add_bulkupdate"
     CAN_CHANGE = "metarecord.change_bulkupdate"
     CAN_DELETE = "metarecord.delete_bulkupdate"

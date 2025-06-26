@@ -1,0 +1,14 @@
+# style: apply ruff format and fix
+f98cda51e1934a3dbc04ab0916a42d51b9749d42
+
+# style: add noqa to print statements
+68317999397690b733811388bfd88c6f188afd1b
+
+# style: add noqa to N818
+57c916f188ceb5642f6403541b69da59ff2c4487
+
+# refactor: resolve N817
+a5804572a9ce0ac7560494653aeba4de61343306
+
+# style: apply manual E501 fixes
+75528c187a5d6cae6df382feaded26c6ed8064cc

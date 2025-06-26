@@ -12,7 +12,7 @@ from .builder import build_tos_document
 logger = logging.getLogger(__name__)
 
 
-class JHSExporterException(Exception):
+class JHSExporterException(Exception):  # noqa: N818
     pass
 
 

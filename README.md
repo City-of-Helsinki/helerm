@@ -204,3 +204,29 @@ SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT=http://tunnistamo-backend:8000/openid
 OIDC_API_TOKEN_AUTH_AUDIENCE=https://api.hel.fi/auth/helerm
 OIDC_API_TOKEN_AUTH_ISSUER=http://tunnistamo-backend:8000/openid
 ```
+
+## Code format
+
+This project uses [Ruff](https://docs.astral.sh/ruff/) for code formatting and quality checking.
+
+Basic `ruff` commands:
+
+* lint: `ruff check`
+* apply safe lint fixes: `ruff check --fix`
+* check formatting: `ruff format --check`
+* format: `ruff format`
+
+[`pre-commit`](https://pre-commit.com/) can be used to install and
+run all the formatting tools as git hooks automatically before a
+commit.
+
+## Git blame ignore refs
+
+Project includes a `.git-blame-ignore-revs` file for ignoring certain commits from `git blame`.
+This can be useful for ignoring e.g. formatting commits, so that it is more clear from `git blame`
+where the actual code change came from. Configure your git to use it for this project with the
+following command:
+
+```shell
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+```
