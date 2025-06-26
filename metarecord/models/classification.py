@@ -146,13 +146,15 @@ class Classification(TimeStampedModel):
         super().save(*args, **kwargs)
 
         if self.state == Classification.APPROVED:
-            # Delete old non-approved versions leading to current version if newly saved version is approved.
+            # Delete old non-approved versions leading to current version if newly saved
+            # version is approved.
             self.delete_old_non_approved_versions()
 
     def delete_old_non_approved_versions(self):
         if self.state != Classification.APPROVED:
             raise ValueError(
-                "Function must be approved before old non-approved versions can be deleted."
+                "Function must be approved before old non-approved versions can be"
+                " deleted."
             )
 
         Classification.objects.previous_versions(self).non_approved().delete()

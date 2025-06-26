@@ -82,9 +82,11 @@ class StructuralElementSerializer(serializers.ModelSerializer):
 
     def get_attribute_validation_errors(self, instance, recursive=True):  # noqa: C901
         """
-        Check allowed and required attributes, and verify choice attributes have valid values.
+        Check allowed and required attributes, and verify choice attributes have valid
+        values.
 
-        With recursive=True get validation errors from all child StructuralElement objects as well.
+        With recursive=True get validation errors from all child StructuralElement
+        objects as well.
 
         :return: validation error dict
         """

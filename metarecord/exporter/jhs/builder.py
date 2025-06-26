@@ -104,7 +104,7 @@ def _build_restriction_info(obj):
             bindings.HENKILOTIETOLUONNE_KOODI: "PersonalData",
             bindings.SALASSAPITO_AIKA_ARVO: "SecurityPeriod",
             bindings.SALASSAPITO_PERUSTE_TEKSTI: "SecurityReason",
-            bindings.SALASSAPIDON_LASKENTAPERUSTE_TEKSTI: "Restriction.SecurityPeriodStart",
+            bindings.SALASSAPIDON_LASKENTAPERUSTE_TEKSTI: "Restriction.SecurityPeriodStart",  # noqa: E501
         },
     )
     return bindings.KAYTTORAJOITUSTIEDOT(*sub_elements)

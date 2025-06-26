@@ -61,9 +61,11 @@ class StructuralElement(TimeStampedModel):
     def get_attribute_validations(cls):
         """
         Returns the attribute validation rules with the priority:
-        1. Type specific attribute validation rules, combined with the general attribute validation rules.
+        1. Type specific attribute validation rules, combined with the general attribute
+           validation rules.
         2. General attribute validation rules if the type specific do not exist.
-        3. Hard coded `_attribute_validations` if neither type specific or general attribute validation rules exist.
+        3. Hard coded `_attribute_validations` if neither type specific nor general
+           attribute validation rules exist.
         """
         content_type = ContentType.objects.get_for_model(cls)
         general_content_type = ContentType.objects.get_for_model(
@@ -81,7 +83,8 @@ class StructuralElement(TimeStampedModel):
             attr_validations = attr_validation_rule.validation_json
             general_attr_validations = general_attr_validation_rule.validation_json
 
-            # Combine type specific attribute validation rules with the general validation rules.
+            # Combine type specific attribute validation rules with the general
+            # validation rules.
             for attr_key in StructuralElement._attribute_validations.keys():
                 attr_validations[attr_key] += general_attr_validations[attr_key]
 
@@ -325,8 +328,9 @@ def refactor_conditional_validation(
     attr_validations, refactored_validations, cond_type
 ):
     """
-    Refactor the conditional (conditionally_required, conditionally_disallowed) validation rules from the JSON schema
-    of the Django admin to the schema supported by the rest of the application. This needs to be done because the
+    Refactor the conditional (conditionally_required, conditionally_disallowed)
+    validation rules from the JSON schema of the Django admin to the schema supported
+    by the rest of the application. This needs to be done because the
     django-admin-json-editor schema does not support the existing validation schema.
 
     Example:
@@ -350,7 +354,9 @@ def refactor_conditional_validation(
     ->
 
     'conditionally_required': {
-        'SecurityPeriod': {'PublicityClass': ['Salassa pidettävä', 'Osittain salassa pidettävä']},
+        'SecurityPeriod': {
+            'PublicityClass': ['Salassa pidettävä', 'Osittain salassa pidettävä']
+        },
     },
     """
     refactored_validations[cond_type] = {}

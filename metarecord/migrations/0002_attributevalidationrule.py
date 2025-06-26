@@ -41,7 +41,12 @@ class Migration(migrations.Migration):
                 (
                     "content_type",
                     models.OneToOneField(
-                        help_text="Relation to the chosen type: Action (Toimenpide) / Function (Käsittelyprosessi) / Phase (Käsittelyvaihe) / Record (Asiakirja). Relation to 'Attribute validation rule' is applied for each of the types.",
+                        help_text=(
+                            "Relation to the chosen type: Action (Toimenpide) /"
+                            " Function (Käsittelyprosessi) / Phase (Käsittelyvaihe) /"
+                            " Record (Asiakirja). Relation to 'Attribute validation"
+                            " rule' is applied for each of the types."
+                        ),
                         limit_choices_to=models.Q(
                             ("model", "action"),
                             ("model", "function"),
