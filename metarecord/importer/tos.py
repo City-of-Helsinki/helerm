@@ -179,8 +179,8 @@ class TOSImporter:
                 value = str(value).strip()
             classification_codes.append(value)
 
-        # find the last index before none (or the last one in the list if none doesn't exist)
-        # that is the index of this function's id
+        # find the last index before none (or the last one in the list if none doesn't
+        # exist) that is the index of this function's id
         index = len(classification_codes) - 1
         while classification_codes[index] is None and index > 0:
             index -= 1
@@ -250,13 +250,14 @@ class TOSImporter:
     def _save_structural_element(self, model, parent, data, index, parent_record=None):
         model_attributes = {}  # model specific attributes
 
-        # attribute and value describing name. most commonly the attribute is TypeSpecifier,
-        # but it might be PhaseType for Phase or ActionType for action
+        # attribute and value describing name. most commonly the attribute is
+        # TypeSpecifier, but it might be PhaseType for Phase or ActionType for action
         name_attribute = {"TypeSpecifier": data["name"]}
 
         if model == Phase:
             parent_field_name = "function"
-            # if the value is a valid PhaseType attribute value then PhaseType attribute is used for name,
+            # if the value is a valid PhaseType attribute value then PhaseType
+            # attribute is used for name,
             # otherwise TypeSpecifier
             is_phase_type = AttributeValue.objects.filter(
                 attribute__identifier="PhaseType", value=data["name"]
@@ -265,7 +266,8 @@ class TOSImporter:
                 name_attribute = {"PhaseType": data["name"]}
         elif model == Action:
             parent_field_name = "phase"
-            # if the value is a valid ActionType attribute value then ActionType attribute is used for name,
+            # if the value is a valid ActionType attribute value then ActionType
+            # attribute is used for name,
             # otherwise TypeSpecifier
             is_action_type = AttributeValue.objects.filter(
                 attribute__identifier="ActionType", value=data["name"]
@@ -434,7 +436,8 @@ class TOSImporter:
             sheet = self.wb["Koodistot"]
         except KeyError:
             self.logger.info(
-                'Cannot import attributes, the workbook does not contain sheet "Koodistot".'
+                "Cannot import attributes, the workbook does not contain sheet"
+                ' "Koodistot".'
             )
             return
 

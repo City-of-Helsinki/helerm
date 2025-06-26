@@ -17,9 +17,9 @@ class AttributeValidationRule(TimeStampedModel, UUIDPrimaryKeyModel):
         | Q(model="record")
         | Q(model="attributevalidationrule"),
         help_text=_(
-            "Relation to the chosen type: Action (Toimenpide) / Function (Käsittelyprosessi) / "
-            "Phase (Käsittelyvaihe) / Record (Asiakirja). "
-            "Relation to 'Attribute validation rule' is applied for each of the types."
+            "Relation to the chosen type: Action (Toimenpide) / Function"
+            " (Käsittelyprosessi) / Phase (Käsittelyvaihe) / Record (Asiakirja)."
+            " Relation to 'Attribute validation rule' is applied for each of the types."
         ),
     )
     validation_json = models.JSONField()

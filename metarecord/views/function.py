@@ -63,7 +63,8 @@ class FunctionListSerializer(StructuralElementSerializer):
     # NOTE: these three are here to maintain backwards compatibility,
     # should be removed as soon as the UI doesn't need these anymore
     function_id = serializers.ReadOnlyField(source="get_classification_code")
-    # there is also Function.name field which should be hidden for other than templates when this is removed
+    # there is also Function.name field which should be hidden for other than templates
+    # when this is removed
     name = serializers.ReadOnlyField(source="get_name")
     parent = serializers.SerializerMethodField()
 
@@ -297,7 +298,8 @@ class FunctionDetailSerializer(FunctionListSerializer):
             if classification.uuid != self.instance.classification.uuid:
                 raise exceptions.ValidationError(
                     _(
-                        "Changing classification is not allowed. Only version can be changed."
+                        "Changing classification is not allowed."
+                        " Only version can be changed."
                     )
                 )
 
@@ -331,7 +333,8 @@ class FunctionDetailSerializer(FunctionListSerializer):
         if instance.state in (Function.SENT_FOR_REVIEW, Function.WAITING_FOR_APPROVAL):
             raise exceptions.ValidationError(
                 _(
-                    'Cannot edit while in state "sent_for_review" or "waiting_for_approval"'
+                    'Cannot edit while in state "sent_for_review"'
+                    ' or "waiting_for_approval"'
                 )
             )
 
@@ -485,10 +488,11 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
 
             qs = Function.objects.filter(**filter_kwargs)
 
-            # When unauthenticated user is requesting object, the get_object will filter out functions
-            # that are not approved. Here we are checking is there requested function with any state
-            # in the database, if there are we return not authenticated. This was requested feature by
-            # users and product owner to notify users that they should log in.
+            # When unauthenticated user is requesting object, the get_object will filter
+            # out functions that are not approved. Here we are checking is there
+            # requested function with any state in the database, if there are we return
+            # not authenticated. This was requested feature by users and product owner
+            # to notify users that they should log in.
             if qs.exists():
                 raise exceptions.NotAuthenticated
 
