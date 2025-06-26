@@ -14,7 +14,7 @@ class FunctionImporter:
         return function_id[:-3]
 
     def import_functions(self):
-        print("Importing functions...")
+        print("Importing functions...")  # noqa: T201
         for row in self.csv_data:
             function_id = row[0]
             parent_function_id = self._get_parent_function_id(function_id)
@@ -28,5 +28,5 @@ class FunctionImporter:
             obj, created = Function.objects.latest_version().get_or_create(
                 function_id=function_id, defaults=defaults
             )
-            print(obj)
-        print("Done.")
+            print(obj)  # noqa: T201
+        print("Done.")  # noqa: T201

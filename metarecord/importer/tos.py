@@ -207,7 +207,7 @@ class TOSImporter:
         Function.objects.filter(classification=classification).delete()
 
         if not classification.function_allowed:
-            print(
+            print(  # noqa: T201
                 "Skipping, classification %s does not allow function creation."
                 % classification_code
             )

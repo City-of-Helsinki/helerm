@@ -14,4 +14,4 @@ class Command(BaseCommand):
             for function in approved_functions:
                 function.delete_old_non_approved_versions()
 
-        print("Successfully deleted old non approved functions!")
+        print("Successfully deleted old non approved functions!")  # noqa: T201
