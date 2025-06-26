@@ -226,9 +226,9 @@ def get_attribute_json_schema(**kwargs):  # noqa: C901
     multivalued = kwargs.get("multivalued") or set()
     allow_values_outside_choices = kwargs.get("allow_values_outside_choices") or set()
 
-    assert set(allowed).issuperset(
-        set(required)
-    ), '"required" contains value(s) not found in "allowed"'
+    assert set(allowed).issuperset(set(required)), (
+        '"required" contains value(s) not found in "allowed"'
+    )
 
     properties = {}
 
