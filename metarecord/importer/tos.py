@@ -15,7 +15,7 @@ from metarecord.models import (
 )
 
 
-class TOSImporterException(Exception):
+class TOSImporterException(Exception):  # noqa: N818
     def __init__(self, message, row_num=None):
         self.message = message
         self.row_num = row_num
