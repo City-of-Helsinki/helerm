@@ -1,5 +1,0 @@
-[flake8]
-exclude = migrations, tests, metarecord/binding
-max-line-length = 120
-max-complexity = 10
-extend-ignore = E203
