@@ -1,13 +1,10 @@
 -c requirements.txt
 
-black
-flake8
-flake8-bugbear
 freezegun
-isort
 pep8-naming
 pip-tools
 pre-commit
 pytest
 pytest-cov
 pytest-django
+ruff
