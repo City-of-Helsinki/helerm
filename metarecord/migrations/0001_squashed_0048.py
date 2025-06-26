@@ -5,8 +5,7 @@ import uuid
 import django.utils.timezone
 from django.conf import settings
 from django.db import migrations, models
-from django.db.models import OuterRef, Subquery
-from django.db.models import Value as V
+from django.db.models import OuterRef, Subquery, Value
 from django.db.models.functions import Concat, Trim
 
 
@@ -108,7 +107,7 @@ def populate_user_name_field(apps, field_name, model_class):
 
     full_name = (
         User.objects.filter(pk=OuterRef(field_name))
-        .annotate(full_name=Trim(Concat("first_name", V(" "), "last_name")))
+        .annotate(full_name=Trim(Concat("first_name", Value(" "), "last_name")))
         .values_list("full_name")[:1]
     )
 
