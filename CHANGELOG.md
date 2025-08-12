@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.4](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.1.3...helerm-v1.1.4) (2025-08-12)
+
+
+### Dependencies
+
+* Bump urllib3 from 2.2.2 to 2.5.0 ([71f8959](https://github.com/City-of-Helsinki/helerm/commit/71f89597049b4a5c3bd93bdd19e076b47de57cac))
+* Replace black, flake8, isort with ruff ([b9b317f](https://github.com/City-of-Helsinki/helerm/commit/b9b317fc7cead46518a515688d2749c0d28952bd))
+
+
+### Documentation
+
+* Ruff and pre-commit ([22b32f6](https://github.com/City-of-Helsinki/helerm/commit/22b32f6655d6aa34834cd473ee5f855375f63292))
+
 ## [1.1.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.1.2...helerm-v1.1.3) (2025-06-13)
 
 
