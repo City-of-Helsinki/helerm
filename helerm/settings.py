@@ -343,12 +343,6 @@ OIDC_API_TOKEN_AUTH = {
     ),
 }
 
-# by default drf-oidc-auth allows tokens to be at most 10 minutes old
-# extend that to one hour. Likely the behaviour of the underlying
-# drf-oidc-auth library will change at some point:
-# https://github.com/ByteInternet/drf-oidc-auth/issues/49
-OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
-
 # Elasticsearch configuration
 ELASTICSEARCH_DSL = {
     "default": {
