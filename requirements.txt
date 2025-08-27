@@ -14,10 +14,6 @@ asttokens==3.0.0 \
     --hash=sha256:0dcd8baa8d62b0c1d118b399b2ddba3c4aff271d0d7a9e0d4c1681c79035bbc7 \
     --hash=sha256:e3078351a059199dd5138cb1c706e6430c05eff2ff136af5eb4790f9d28932e2
     # via stack-data
-authlib==1.6.3 \
-    --hash=sha256:7ea0f082edd95a03b7b72edac65ec7f8f68d703017d7e37573aee4fc603f2a48 \
-    --hash=sha256:9f7a982cc395de719e4c2215c5707e7ea690ecf84f1ab126f28c053f4219e610
-    # via drf-oidc-auth
 cachetools==6.2.0 \
     --hash=sha256:1c76a8960c0041fcc21097e357f882197c79da0dbff766e7317890a65d7d8ba6 \
     --hash=sha256:38b328c0889450f05f5e120f56ab68c8abaf424e1275522b138ffc93253f7e32
@@ -217,10 +213,7 @@ cryptography==45.0.6 \
     --hash=sha256:f4028f29a9f38a2025abedb2e409973709c660d44319c61762202206ed577c42 \
     --hash=sha256:f68f833a9d445cc49f01097d95c83a850795921b3f7cc6488731e69bde3288da \
     --hash=sha256:fc022c1fa5acff6def2fc6d7819bbbd31ccddfe67d075331a65d9cfb28a20983
-    # via
-    #   authlib
-    #   drf-oidc-auth
-    #   social-auth-core
+    # via social-auth-core
 decorator==5.2.1 \
     --hash=sha256:65f266143752f734b0a7cc83c46f4618af75b8c5911b00ccb61d0ac9b6da0360 \
     --hash=sha256:d316bb415a2d9e2d2b3abcc4084c6502fc09240e292cd76a76afc106a1c8e04a
@@ -248,7 +241,6 @@ django==5.2.5 \
     #   django-helusers
     #   django-nine
     #   djangorestframework
-    #   drf-oidc-auth
     #   social-auth-app-django
 django-admin-json-editor==0.2.3 \
     --hash=sha256:12cf9dd1288f83f5ec83fbe2a39668e79a85e33bfbeb08157a6f5c7c4e480e20
@@ -291,14 +283,9 @@ djangorestframework==3.16.1 \
     # via
     #   -r requirements.in
     #   django-elasticsearch-dsl-drf
-    #   drf-oidc-auth
 djangorestframework-xml==2.0.0 \
     --hash=sha256:35f6c811d0ab8c8466b26db234e16a2ed32d76381715257aebf4c7be2c202ca1 \
     --hash=sha256:975955fbb0d49ac44a90bdeb33b7923d95b79884d283f983e116c80a936ef4d0
-    # via -r requirements.in
-drf-oidc-auth==3.0.0 \
-    --hash=sha256:243b44ffaf9bbb4a26445370616ab6b666a541479649e6bd3319ede502ea723b \
-    --hash=sha256:9b3ee051e86709f2bb8bb9a7e9bb975b7d9a1cf2c55cadcdd5b6889454f99075
     # via -r requirements.in
 ecdsa==0.19.1 \
     --hash=sha256:30638e27cf77b7e15c4c4cc1973720149e1033827cfd00661ca5c8cc0cdb24c3 \
@@ -559,7 +546,6 @@ requests==2.32.5 \
     --hash=sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf
     # via
     #   django-helusers
-    #   drf-oidc-auth
     #   requests-oauthlib
     #   social-auth-core
 requests-oauthlib==2.0.0 \
