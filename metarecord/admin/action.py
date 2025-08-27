@@ -20,22 +20,18 @@ class ActionAdmin(admin.ModelAdmin):
     raw_id_fields = ("phase",)
     readonly_fields = ("get_name",)
 
+    @admin.display(description=_("code"))
     def get_classification_code(self, obj):
         return obj.phase.function.get_classification_code()
 
-    get_classification_code.short_description = _("code")
-
+    @admin.display(description=_("function"))
     def get_function_name(self, obj):
         return obj.phase.function.get_name()
 
-    get_function_name.short_description = _("function")
-
+    @admin.display(description=_("phase"))
     def get_phase_name(self, obj):
         return obj.phase.get_name()
 
-    get_phase_name.short_description = _("phase")
-
+    @admin.display(description=_("name"))
     def get_name(self, obj):
         return obj.get_name()
-
-    get_name.short_description = _("name")
