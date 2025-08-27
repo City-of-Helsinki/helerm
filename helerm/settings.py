@@ -381,24 +381,6 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# If a secret key was not supplied elsewhere, generate a random one and log
-# a warning (note that logging is not configured yet). This means that any
-# functionality expecting SECRET_KEY to stay same will break upon restart.
-# Should not be a problem for development.
-if not SECRET_KEY:
-    logger.warning(
-        "SECRET_KEY was not defined in configuration. Generating an ephemeral key."
-    )
-    import random
-
-    system_random = random.SystemRandom()
-    SECRET_KEY = "".join(
-        [
-            system_random.choice("abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)")
-            for _ in range(64)
-        ]
-    )
-
 # local_settings.py is useful for overriding settings not available
 # through environment and when developing new stuff
 local_settings_path = os.path.join(BASE_DIR, "local_settings.py")
