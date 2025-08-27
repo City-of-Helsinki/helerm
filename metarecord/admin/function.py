@@ -22,10 +22,9 @@ class MetadataVersionInline(admin.TabularInline):
     )
     exclude = ("modified_by", "_modified_by")
 
+    @admin.display(description=_("modified by"))
     def get_modified_by(self, obj):
         return obj.get_modified_by_display()
-
-    get_modified_by.short_description = _("modified by")
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -48,6 +47,7 @@ class FunctionAdmin(admin.ModelAdmin):
     )
     inlines = (MetadataVersionInline,)
 
+    @admin.display(description=_("classification code"))
     def get_classification_code(self, obj):
         return (
             obj.get_classification_code()
@@ -55,12 +55,9 @@ class FunctionAdmin(admin.ModelAdmin):
             else str(_("template")).upper()
         )
 
-    get_classification_code.short_description = _("classification code")
-
+    @admin.display(description=_("name"))
     def get_name(self, obj):
         return obj.get_name()
-
-    get_name.short_description = _("name")
 
     def tos_import_context(self, request):
         context = dict(

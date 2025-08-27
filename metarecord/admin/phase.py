@@ -15,17 +15,14 @@ class PhaseAdmin(admin.ModelAdmin):
     raw_id_fields = ("function",)
     readonly_fields = ("get_name",)
 
+    @admin.display(description=_("code"))
     def get_classification_code(self, obj):
         return obj.function.get_classification_code()
 
-    get_classification_code.short_description = _("code")
-
+    @admin.display(description=_("function"))
     def get_function_name(self, obj):
         return obj.function.get_name()
 
-    get_function_name.short_description = _("function")
-
+    @admin.display(description=_("name"))
     def get_name(self, obj):
         return obj.get_name()
-
-    get_name.short_description = _("name")
