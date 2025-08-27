@@ -1,11 +1,11 @@
 import datetime
 import json
 import uuid
+from datetime import timezone
 from unittest import mock
 
 import freezegun
 import pytest
-import pytz
 from django.utils.translation import gettext_lazy as _
 from rest_framework.reverse import reverse
 
@@ -1585,20 +1585,20 @@ def test_function_validation_modified_at_filtering(
         for code in ("00", "01", "02", "03", "04")
     ]
     modified_at_values = [
-        pytz.utc.localize(
-            datetime.datetime(year=1970, month=1, day=1, hour=12, minute=0, second=0)
+        datetime.datetime(
+            year=1970, month=1, day=1, hour=12, minute=0, second=0, tzinfo=timezone.utc
         ),
-        pytz.utc.localize(
-            datetime.datetime(year=2000, month=5, day=5, hour=12, minute=0, second=0)
+        datetime.datetime(
+            year=2000, month=5, day=5, hour=12, minute=0, second=0, tzinfo=timezone.utc
         ),
-        pytz.utc.localize(
-            datetime.datetime(year=2002, month=5, day=5, hour=12, minute=0, second=0)
+        datetime.datetime(
+            year=2002, month=5, day=5, hour=12, minute=0, second=0, tzinfo=timezone.utc
         ),
-        pytz.utc.localize(
-            datetime.datetime(year=2003, month=5, day=5, hour=12, minute=0, second=0)
+        datetime.datetime(
+            year=2003, month=5, day=5, hour=12, minute=0, second=0, tzinfo=timezone.utc
         ),
-        pytz.utc.localize(
-            datetime.datetime(year=2006, month=5, day=5, hour=12, minute=0, second=0)
+        datetime.datetime(
+            year=2006, month=5, day=5, hour=12, minute=0, second=0, tzinfo=timezone.utc
         ),
     ]
     functions = []
@@ -2976,10 +2976,10 @@ def test_bulk_update_create(function, super_user_api_client):
     assert bulk_update.state == Function.APPROVED
     assert bulk_update.changes == post_data["changes"]
     assert bulk_update.created_at == datetime.datetime(
-        2019, 4, 1, 12, 0, tzinfo=pytz.UTC
+        2019, 4, 1, 12, 0, tzinfo=timezone.utc
     )
     assert bulk_update.modified_at == datetime.datetime(
-        2019, 4, 1, 12, 0, tzinfo=pytz.UTC
+        2019, 4, 1, 12, 0, tzinfo=timezone.utc
     )
     assert bulk_update.modified_by == super_user_api_client.user
 
