@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.2.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.1.4...helerm-v1.2.0) (2025-09-01)
+
+
+### Features
+
+* Use TunnistamoOIDCSerializer ([283227e](https://github.com/City-of-Helsinki/helerm/commit/283227ea196be000f38eabbf5c771debc1d988eb))
+
+
+### Dependencies
+
+* Generate hashes for requirements ([dd6087a](https://github.com/City-of-Helsinki/helerm/commit/dd6087a530812dab8939ea180f49462fc8371f6a))
+* Remove drf-oidc-auth ([06272ae](https://github.com/City-of-Helsinki/helerm/commit/06272ae69b9a871acb2e4953874296378ea707e5))
+* Remove pytz ([f86ab39](https://github.com/City-of-Helsinki/helerm/commit/f86ab39520ccc35381fbd50c66ca38f9ab043bb7))
+* Replace psycopg2 with psycopg ([778c814](https://github.com/City-of-Helsinki/helerm/commit/778c814d0127c37f5bab1ffb933dbbd53b03de04))
+* Upgrade dependencies ([ecc8627](https://github.com/City-of-Helsinki/helerm/commit/ecc8627b9208b98b4d898ce21abb93b8d456f7a1))
+* Upgrade dev dependencies ([5d864d4](https://github.com/City-of-Helsinki/helerm/commit/5d864d426c9fa8c419df594821722af4bc2f52b7))
+* Upgrade pip-tools to 7.5.0 ([fbd9faa](https://github.com/City-of-Helsinki/helerm/commit/fbd9faa15dcc77cbc3a3ea3a731d9b72831ce5c1))
+* Upgrade to django 5.2 ([c9ccab0](https://github.com/City-of-Helsinki/helerm/commit/c9ccab02d6f1dfa6cc309e7565e77a6f5ef63aaf))
+* Upgrade to python 3.12 ([52b6958](https://github.com/City-of-Helsinki/helerm/commit/52b6958bd5eff35207a371681f31497ab92fd95d))
+
 ## [1.1.4](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.1.3...helerm-v1.1.4) (2025-08-12)
 
 
