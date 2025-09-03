@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.2.0...helerm-v1.2.1) (2025-09-03)
+
+
+### Dependencies
+
+* Use psycopg with c dependency ([e6959fa](https://github.com/City-of-Helsinki/helerm/commit/e6959fa640f8d476e7b797ee3beaa5be0fd36b60))
+
 ## [1.2.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.1.4...helerm-v1.2.0) (2025-09-01)
 
 
