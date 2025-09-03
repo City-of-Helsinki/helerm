@@ -5,7 +5,7 @@ django-helusers
 elasticsearch-dsl>=8.0.0,<8.13.0
 elasticsearch<8.14  # Confirmed version to pass tests
 elastic-transport<8.14  # Confirmed version to pass tests
-psycopg
+psycopg[c]
 openpyxl
 djangorestframework
 django-cors-headers
