@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.2.2...helerm-v1.3.0) (2025-10-09)
+
+
+### Features
+
+* **sentry:** Update sentry configuration ([714557e](https://github.com/City-of-Helsinki/helerm/commit/714557ef8d1f0ec6a736fe6e98a13da6b03d039c))
+
+
+### Dependencies
+
+* Bump django from 5.2.6 to 5.2.7 ([97d1e67](https://github.com/City-of-Helsinki/helerm/commit/97d1e6778284c1311e3ec6a050a87786438794ad))
+* Bump sentry-sdk from 2.35.1 to 2.40.0 ([1827e11](https://github.com/City-of-Helsinki/helerm/commit/1827e11ec74e464a7d6514989914c29bb5fafce4))
+
 ## [1.2.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.2.1...helerm-v1.2.2) (2025-09-10)
 
 
