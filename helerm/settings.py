@@ -8,6 +8,7 @@ import subprocess
 
 import environ
 import sentry_sdk
+from corsheaders.defaults import default_headers
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.types import SamplingContext
@@ -286,6 +287,11 @@ USE_X_FORWARDED_HOST = env("TRUST_X_FORWARDED_HOST")
 # HelERM is a very public API
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "baggage",
+    "sentry-trace",
+)
 
 CSRF_COOKIE_NAME = "{}-csrftoken".format(env("COOKIE_PREFIX"))
 CSRF_COOKIE_PATH = env("PATH_PREFIX")
