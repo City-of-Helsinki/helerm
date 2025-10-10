@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.3.0...helerm-v1.3.1) (2025-10-10)
+
+
+### Bug Fixes
+
+* Add missing cors headers for sentry ([57296ca](https://github.com/City-of-Helsinki/helerm/commit/57296ca19a04a89a20c9ff4c5f9466992877546e))
+
 ## [1.3.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.2.2...helerm-v1.3.0) (2025-10-09)
 
 
