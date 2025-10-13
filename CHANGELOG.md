@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.3.1...helerm-v1.3.2) (2025-10-13)
+
+
+### Dependencies
+
+* Bump social-auth-app-django from 5.5.1 to 5.6.0 ([9c919af](https://github.com/City-of-Helsinki/helerm/commit/9c919af098ba3149e2f13db5f6a525838a2dfb84))
+
 ## [1.3.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.3.0...helerm-v1.3.1) (2025-10-10)
 
 
