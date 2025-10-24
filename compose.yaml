@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:14.7
+    image: postgres:17-alpine
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
