@@ -5,8 +5,8 @@
 ### Manual setup
 
 - Make sure you have the following prerequisites installed:
-  - Python 3.9
-  - PostgreSQL 14.x
+  - Python 3.12
+  - PostgreSQL 17.x
 
 - Setup and activate a virtualenv, for example using the built in venv
 ```bash
@@ -28,7 +28,7 @@ pip install -r requirements-dev.txt
 
 ```
 sudo -u postgres createuser -L -R -S helerm
-sudo -u postgres createdb -Ohelerm helerm
+sudo -u postgres createdb -O helerm helerm
 ```
 
 - Create database tables etc.
