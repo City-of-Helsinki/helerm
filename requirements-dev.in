@@ -3,8 +3,6 @@
 freezegun
 pep8-naming
 pip-tools
-pre-commit
 pytest
 pytest-cov
 pytest-django
-ruff==0.12.10  # sync with .pre-commit-config.yaml
