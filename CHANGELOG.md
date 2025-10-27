@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.3.2...helerm-v1.3.3) (2025-10-27)
+
+
+### Bug Fixes
+
+* Update uwsgi-config for Sentry ([fff11f6](https://github.com/City-of-Helsinki/helerm/commit/fff11f6e28f90d4dc3dede8d2893f3a10f188cb7))
+
 ## [1.3.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.3.1...helerm-v1.3.2) (2025-10-13)
 
 
