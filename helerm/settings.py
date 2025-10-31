@@ -69,6 +69,7 @@ env = environ.Env(
     SENTRY_PROFILE_SESSION_SAMPLE_RATE=(float, None),
     SENTRY_RELEASE=(str, None),
     SENTRY_TRACES_SAMPLE_RATE=(float, None),
+    SENTRY_TRACES_IGNORE_PATHS=(list, ["/healthz", "/readiness"]),
     COOKIE_SECURE=(bool, True),
     COOKIE_PREFIX=(str, "helerm"),
     PATH_PREFIX=(str, "/"),
@@ -140,6 +141,7 @@ INSTALLED_APPS = [
 ]
 
 SENTRY_TRACES_SAMPLE_RATE = env.float("SENTRY_TRACES_SAMPLE_RATE")
+SENTRY_TRACES_IGNORE_PATHS = env("SENTRY_TRACES_IGNORE_PATHS")
 
 
 def sentry_traces_sampler(sampling_context: SamplingContext) -> float:
@@ -149,7 +151,7 @@ def sentry_traces_sampler(sampling_context: SamplingContext) -> float:
 
     # Exclude health check endpoints from tracing
     path = sampling_context.get("wsgi_environ", {}).get("PATH_INFO", "")
-    if path.rstrip("/") in ["/healthz", "/readiness"]:
+    if path.rstrip("/") in SENTRY_TRACES_IGNORE_PATHS:
         return 0
 
     # Use configured sample rate for all other requests
