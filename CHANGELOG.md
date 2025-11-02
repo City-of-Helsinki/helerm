@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.3.3...helerm-v1.4.0) (2025-11-02)
+
+
+### Features
+
+* Allow dynamic sentry trace ignore paths ([9882452](https://github.com/City-of-Helsinki/helerm/commit/98824521774a95c4fe0b4adffa41860c7fa31ed0))
+* Enable sentry logging for uWSGI ([911a23f](https://github.com/City-of-Helsinki/helerm/commit/911a23f2507b397fe1ab9ce9877fcea985265bed))
+
 ## [1.3.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.3.2...helerm-v1.3.3) (2025-10-27)
 
 
