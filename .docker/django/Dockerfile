@@ -1,5 +1,5 @@
 # ==============================
-FROM registry.access.redhat.com/ubi9/python-312 as appbase
+FROM registry.access.redhat.com/ubi9/python-312 AS appbase
 # ==============================
 
 ENV PYTHONDONTWRITEBYTECODE 1
