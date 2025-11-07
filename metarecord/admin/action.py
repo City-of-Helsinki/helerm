@@ -15,10 +15,10 @@ class ActionAdmin(admin.ModelAdmin):
     list_filter = ("phase__function__classification__code",)
     search_fields = ("attributes",)
 
-    fields = ("get_name", "phase", "attributes")
+    fields = ("uuid", "get_name", "phase", "attributes")
     ordering = ("phase__function__classification__code", "index")
     raw_id_fields = ("phase",)
-    readonly_fields = ("get_name",)
+    readonly_fields = ("get_name", "uuid")
 
     @admin.display(description=_("code"))
     def get_classification_code(self, obj):
