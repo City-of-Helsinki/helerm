@@ -137,9 +137,6 @@ def _build_record(record):
             "TypeSpecifier",
             default="None",
         ),
-        _create_element_or_none_from_obj_attr(
-            record, bindings.TIETOJARJESTELMA_NIMI, "InformationSystem"
-        ),
         id=str(record.uuid),
     )
 
@@ -184,9 +181,6 @@ def _build_function(function: Function):
         bindings.KASITTELYPROSESSI_TIEDOT(
             _build_restriction_info(function),
             _build_retention_info(function),
-            _create_element_or_none_from_obj_attr(
-                function, bindings.TIETOJARJESTELMA_NIMI, "InformationSystem"
-            ),
             *phases,
             id=str(uuid.uuid4()),
         ),
