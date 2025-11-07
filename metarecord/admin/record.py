@@ -16,10 +16,10 @@ class RecordAdmin(admin.ModelAdmin):
     list_filter = ("action__phase__function__classification__code",)
     search_fields = ("attributes",)
 
-    fields = ("get_name", "action", "parent", "attributes")
+    fields = ("uuid", "get_name", "action", "parent", "attributes")
     ordering = ("action__phase__function__classification__code", "index")
     raw_id_fields = ("action", "parent")
-    readonly_fields = ("get_name",)
+    readonly_fields = ("get_name", "uuid")
 
     @admin.display(description=_("code"))
     def get_classification_code(self, obj):

@@ -10,10 +10,10 @@ class PhaseAdmin(admin.ModelAdmin):
     list_filter = ("function__classification__code",)
     search_fields = ("attributes",)
 
-    fields = ("get_name", "function", "attributes")
+    fields = ("uuid", "get_name", "function", "attributes")
     ordering = ("function__classification__code", "index")
     raw_id_fields = ("function",)
-    readonly_fields = ("get_name",)
+    readonly_fields = ("get_name", "uuid")
 
     @admin.display(description=_("code"))
     def get_classification_code(self, obj):

@@ -17,6 +17,7 @@ class ClassificationAdmin(admin.ModelAdmin):
     search_fields = ("code", "title")
     ordering = ("code", "version")
     list_filter = ("state", "code")
+    readonly_fields = ("uuid",)
 
     def get_urls(self):
         urls = super().get_urls()

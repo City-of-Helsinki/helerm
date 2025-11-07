@@ -38,6 +38,7 @@ class FunctionAdmin(admin.ModelAdmin):
 
     ordering = ("classification__code", "version")
     fields = (
+        "uuid",
         "state",
         "is_template",
         "error_count",
@@ -45,6 +46,7 @@ class FunctionAdmin(admin.ModelAdmin):
         "valid_to",
         "attributes",
     )
+    readonly_fields = ("uuid",)
     inlines = (MetadataVersionInline,)
 
     @admin.display(description=_("classification code"))
