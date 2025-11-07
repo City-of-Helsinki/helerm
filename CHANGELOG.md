@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.4.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.3.3...helerm-v1.4.0) (2025-11-07)
+
+
+### Features
+
+* Allow dynamic sentry trace ignore paths ([9882452](https://github.com/City-of-Helsinki/helerm/commit/98824521774a95c4fe0b4adffa41860c7fa31ed0))
+* Enable sentry logging for uWSGI ([911a23f](https://github.com/City-of-Helsinki/helerm/commit/911a23f2507b397fe1ab9ce9877fcea985265bed))
+
+
+### Bug Fixes
+
+* **dockerfile:** Resolve casing warning ([8ebf65d](https://github.com/City-of-Helsinki/helerm/commit/8ebf65de7cb5cdb2ec176409d9a9dd07b095103d))
+* Remove InformatioSystem from JHS191 export ([3c4f9d7](https://github.com/City-of-Helsinki/helerm/commit/3c4f9d73fbb85331faa1f6917e882e43d772945b))
+
+
+### Dependencies
+
+* Bump django from 5.2.7 to 5.2.8 ([8cc9585](https://github.com/City-of-Helsinki/helerm/commit/8cc958563cfe54185d07f346521093d3fcc8f55c))
+* Bump pip from 25.2 to 25.3 ([606a6ad](https://github.com/City-of-Helsinki/helerm/commit/606a6ad03d7cd5fe2ff9000eefda44b26f5e5118))
+
 ## [1.3.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.3.2...helerm-v1.3.3) (2025-10-27)
 
 
