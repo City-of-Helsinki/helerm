@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.4.0...helerm-v1.5.0) (2025-11-12)
+
+
+### Features
+
+* Show uuid on Django admin ([bba2690](https://github.com/City-of-Helsinki/helerm/commit/bba26905f0d5bde1fea667828bfe4a408db94038))
+
 ## [1.4.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.3.3...helerm-v1.4.0) (2025-11-07)
 
 
