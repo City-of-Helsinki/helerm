@@ -8,7 +8,7 @@ from metarecord.models.phase import Phase
 class PhaseAdmin(admin.ModelAdmin):
     list_display = ("get_classification_code", "get_function_name", "get_name")
     list_filter = ("function__classification__code",)
-    search_fields = ("attributes",)
+    search_fields = ("attributes", "uuid")
 
     fields = ("uuid", "get_name", "function", "attributes")
     ordering = ("function__classification__code", "index")

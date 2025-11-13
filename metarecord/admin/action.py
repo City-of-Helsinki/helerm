@@ -13,7 +13,7 @@ class ActionAdmin(admin.ModelAdmin):
         "get_name",
     )
     list_filter = ("phase__function__classification__code",)
-    search_fields = ("attributes",)
+    search_fields = ("attributes", "uuid")
 
     fields = ("uuid", "get_name", "phase", "attributes")
     ordering = ("phase__function__classification__code", "index")

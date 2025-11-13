@@ -14,7 +14,7 @@ class RecordAdmin(admin.ModelAdmin):
         "get_name",
     )
     list_filter = ("action__phase__function__classification__code",)
-    search_fields = ("attributes",)
+    search_fields = ("attributes", "uuid")
 
     fields = ("uuid", "get_name", "action", "parent", "attributes")
     ordering = ("action__phase__function__classification__code", "index")
