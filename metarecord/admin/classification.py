@@ -14,7 +14,7 @@ from metarecord.models.classification import Classification
 class ClassificationAdmin(admin.ModelAdmin):
     change_form_template = "admin/metarecord/classification/change_form.html"
     list_display = ("code", "version", "state", "title", "function_allowed")
-    search_fields = ("code", "title")
+    search_fields = ("code", "title", "uuid")
     ordering = ("code", "version")
     list_filter = ("state", "code")
     readonly_fields = ("uuid",)

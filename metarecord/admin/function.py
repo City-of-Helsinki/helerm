@@ -34,7 +34,7 @@ class MetadataVersionInline(admin.TabularInline):
 class FunctionAdmin(admin.ModelAdmin):
     list_display = ("get_classification_code", "get_name", "state", "version")
     list_filter = ("state", "classification__code")
-    search_fields = ("classification__code", "classification__title")
+    search_fields = ("classification__code", "classification__title", "uuid")
 
     ordering = ("classification__code", "version")
     fields = (
