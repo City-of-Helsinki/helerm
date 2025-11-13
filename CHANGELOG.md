@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.5.0...helerm-v1.6.0) (2025-11-13)
+
+
+### Features
+
+* Add uuid in searchable fields in django admin ([f855139](https://github.com/City-of-Helsinki/helerm/commit/f855139dc95f9e43bc44e433d96218e7506fbfcc))
+
 ## [1.5.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.4.0...helerm-v1.5.0) (2025-11-12)
 
 
