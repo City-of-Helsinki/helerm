@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.7.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.6.1...helerm-v1.7.0) (2025-12-11)
+
+
+### Features
+
+* Allow Sentry uWSGI-plugin to be optional ([0648097](https://github.com/City-of-Helsinki/helerm/commit/0648097137866830b0449c523cccbe44cf581d73))
+
+
+### Dependencies
+
+* Bump urllib3 from 2.5.0 to 2.6.0 ([31e9c9c](https://github.com/City-of-Helsinki/helerm/commit/31e9c9c41e2abe8c012e63db180141d0d797b260))
+
 ## [1.6.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.6.0...helerm-v1.6.1) (2025-12-04)
 
 
