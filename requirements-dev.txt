@@ -125,6 +125,7 @@ packaging==25.0 \
     #   -c requirements.txt
     #   build
     #   pytest
+    #   wheel
 pep8-naming==0.15.1 \
     --hash=sha256:eb63925e7fd9e028c7f7ee7b1e413ec03d1ee5de0e627012102ee0222c273c86 \
     --hash=sha256:f6f4a499aba2deeda93c1f26ccc02f3da32b035c8b2db9696b730ef2c9639d29
@@ -186,9 +187,9 @@ six==1.17.0 \
     # via
     #   -c requirements.txt
     #   python-dateutil
-wheel==0.45.1 \
-    --hash=sha256:661e1abd9198507b1409a20c02106d9670b2576e916d58f520316666abca6729 \
-    --hash=sha256:708e7481cc80179af0e556bbf0cc00b8444c7321e2700b8d8580231d13017248
+wheel==0.46.2 \
+    --hash=sha256:33ae60725d69eaa249bc1982e739943c23b34b58d51f1cb6253453773aca6e65 \
+    --hash=sha256:3d79e48fde9847618a5a181f3cc35764c349c752e2fe911e65fa17faab9809b0
     # via pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:
