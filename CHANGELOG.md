@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.1...helerm-v1.7.2) (2026-01-28)
+
+
+### Dependencies
+
+* Bump pyasn1 from 0.6.1 to 0.6.2 ([608f7dd](https://github.com/City-of-Helsinki/helerm/commit/608f7dd035d1173c08a5f978174cc5a0d962b63c))
+* Bump wheel from 0.45.1 to 0.46.2 ([3b58117](https://github.com/City-of-Helsinki/helerm/commit/3b5811797b7f55babb9a7e67e05b86d69eb58dc5))
+
 ## [1.7.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.0...helerm-v1.7.1) (2026-01-08)
 
 
