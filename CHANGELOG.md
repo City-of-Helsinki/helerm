@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.4](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.3...helerm-v1.7.4) (2026-02-11)
+
+
+### Dependencies
+
+* Bump cryptography from 45.0.6 to 46.0.5 ([d871fe2](https://github.com/City-of-Helsinki/helerm/commit/d871fe232cc3996f89a4f7f585ccfbf098676032))
+
 ## [1.7.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.2...helerm-v1.7.3) (2026-02-05)
 
 
