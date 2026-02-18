@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.5](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.4...helerm-v1.7.5) (2026-02-18)
+
+
+### Dependencies
+
+* Bump sqlparse from 0.5.3 to 0.5.4 ([8b820f5](https://github.com/City-of-Helsinki/helerm/commit/8b820f53e49871c527923c847abae01642f9610b))
+
 ## [1.7.4](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.3...helerm-v1.7.4) (2026-02-11)
 
 
