@@ -1,3 +1,8 @@
+[project]
+name = "helerm"
+requires-python = ">=3.12, <3.13"
+version = "1.7.5"
+
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "helerm.test_settings"
 
