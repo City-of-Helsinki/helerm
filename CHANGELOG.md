@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.6](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.5...helerm-v1.7.6) (2026-03-09)
+
+
+### Dependencies
+
+* Bump django from 5.2.11 to 5.2.12 ([cd71c57](https://github.com/City-of-Helsinki/helerm/commit/cd71c57f1bd47bcbb3dc52bdf16ad191f18f3d96))
+
 ## [1.7.5](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.4...helerm-v1.7.5) (2026-02-18)
 
 
