@@ -77,6 +77,7 @@ env = environ.Env(
     HELERM_JHS191_EXPORT_DESCRIPTION=(str, "exported from undefined environment"),
     HELERM_JHS191_EXPORT_VALIDATION_ENABLED=(bool, True),
     HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=(bool, True),
+    HELUSERS_PASSWORD_LOGIN_DISABLED=(bool, False),
     ELASTICSEARCH_HOST=(str, "helerm_elasticsearch:9200"),
     ELASTICSEARCH_USERNAME=(str, ""),
     ELASTICSEARCH_PASSWORD=(str, ""),
@@ -306,7 +307,7 @@ CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 AUTH_USER_MODEL = "users.User"
 
 AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend",
+    "helusers.auth.HelusersModelBackend",
     "helusers.tunnistamo_oidc.TunnistamoOIDCAuth",
 )
 
@@ -359,6 +360,7 @@ SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT = env("SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = env("SOCIAL_AUTH_REDIRECT_IS_HTTPS")
 
 HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED = env("HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED")
+HELUSERS_PASSWORD_LOGIN_DISABLED = env("HELUSERS_PASSWORD_LOGIN_DISABLED")
 
 OIDC_API_TOKEN_AUTH = {
     # Audience that must be present in the token for the request to be
