@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.6...helerm-v1.8.0) (2026-03-14)
+
+
+### Features
+
+* Disable django admin password login ([ea47080](https://github.com/City-of-Helsinki/helerm/commit/ea47080e35a2ed698c458ed2cbf0180331fed713))
+
 ## [1.7.6](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.5...helerm-v1.7.6) (2026-03-09)
 
 
