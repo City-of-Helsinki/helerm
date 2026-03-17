@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.8.0...helerm-v1.8.1) (2026-03-17)
+
+
+### Bug Fixes
+
+* Pipelines refactor ([#485](https://github.com/City-of-Helsinki/helerm/issues/485)) ([9e75886](https://github.com/City-of-Helsinki/helerm/commit/9e7588691809b41e07dad1f629ca6172511c8b91))
+
 ## [1.8.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.7.6...helerm-v1.8.0) (2026-03-16)
 
 
