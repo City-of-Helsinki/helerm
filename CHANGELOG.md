@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.8.1...helerm-v1.8.2) (2026-03-18)
+
+
+### Dependencies
+
+* Bump pyasn1 from 0.6.2 to 0.6.3 ([1ae0204](https://github.com/City-of-Helsinki/helerm/commit/1ae020489bcbbd41232732505f01b2da604a143f))
+
 ## [1.8.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.8.0...helerm-v1.8.1) (2026-03-17)
 
 
