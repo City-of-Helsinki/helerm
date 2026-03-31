@@ -1,8 +1,5 @@
 from django.contrib import admin
-from django.http import HttpResponse
 from django.urls import include, path
-from django.views.decorators.cache import never_cache
-from django.views.decorators.http import require_safe
 from django.views.generic import RedirectView
 from rest_framework.routers import DefaultRouter
 
@@ -49,28 +46,12 @@ router.register(r"record-search", RecordSearchDocumentViewSet, basename="record_
 router.register(r"all-search", AllSearchDocumentViewSet, basename="all_search")
 
 
-#
-# Kubernetes liveness & readiness probes
-#
-@require_safe
-@never_cache
-def healthz(*_, **__):
-    return HttpResponse(status=200)
-
-
-@require_safe
-@never_cache
-def readiness(*_, **__):
-    return HttpResponse(status=200)
-
-
 urlpatterns = [
-    path("healthz", healthz),
-    path("readiness", readiness),
     path("v1/", include(router.urls)),
     path("admin/", admin.site.urls),
     path("pysocial/", include("social_django.urls", namespace="social")),
     path("helauth/", include("helusers.urls")),
     path("export/", ExportView.as_view(), name="export"),
     path("", RedirectView.as_view(url="v1/")),
+    path("", include("helsinki_health_endpoints.urls")),
 ]

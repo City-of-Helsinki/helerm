@@ -12,6 +12,7 @@ django-cors-headers
 django-filter
 django-admin-json-editor
 django-admin-sortable2
+django-helsinki-health-endpoints
 djangorestframework-xml
 ipython
 lxml

@@ -20,3 +20,4 @@
 !LICENSE
 !manage.py
 !requirements*.txt
+!pyproject.toml
