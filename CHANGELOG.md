@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.9.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.8.2...helerm-v1.9.0) (2026-04-12)
+
+
+### Features
+
+* Use django-helsinki-health-endpoints for readiness and healthz ([8ee9bbd](https://github.com/City-of-Helsinki/helerm/commit/8ee9bbd073290f509861a53e2c4bcc92a9010968))
+
+
+### Dependencies
+
+* Bump cryptography from 46.0.5 to 46.0.6 ([99860ee](https://github.com/City-of-Helsinki/helerm/commit/99860eeba68c44ac0de8db6f2d7da576291f071b))
+* Bump ecdsa from 0.19.1 to 0.19.2 ([07d45e6](https://github.com/City-of-Helsinki/helerm/commit/07d45e6265655253bfc5b64458401ffc7fee6eba))
+* Bump pygments ([f170fa0](https://github.com/City-of-Helsinki/helerm/commit/f170fa0567f5306497d803137efe7cd3c9c122a8))
+* Bump requests from 2.32.5 to 2.33.0 ([816afc2](https://github.com/City-of-Helsinki/helerm/commit/816afc2ab8f966903faa1c5ab6f0480b857141f1))
+
 ## [1.8.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.8.1...helerm-v1.8.2) (2026-03-18)
 
 
