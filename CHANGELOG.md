@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.0...helerm-v1.9.1) (2026-04-22)
+
+
+### Dependencies
+
+* Bump lxml from 6.0.1 to 6.1.0 ([cc84c40](https://github.com/City-of-Helsinki/helerm/commit/cc84c40d2fece00baf12099ed9b6c5579d8ce60f))
+
 ## [1.9.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.8.2...helerm-v1.9.0) (2026-04-14)
 
 
