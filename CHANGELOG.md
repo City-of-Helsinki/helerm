@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.9.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.1...helerm-v1.9.2) (2026-05-11)
+
+
+### Dependencies
+
+* Bump django from 5.2.13 to 5.2.14 ([75531bb](https://github.com/City-of-Helsinki/helerm/commit/75531bb156f06815a80e71fb35c48d0fdc1e481b))
+* Bump pip from 26.0 to 26.1 ([304e2a5](https://github.com/City-of-Helsinki/helerm/commit/304e2a5228950998a1a30bed92121e1455fc81e1))
+
 ## [1.9.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.0...helerm-v1.9.1) (2026-04-22)
 
 
