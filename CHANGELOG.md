@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.2...helerm-v1.9.3) (2026-05-17)
+
+
+### Dependencies
+
+* Bump urllib3 from 2.6.3 to 2.7.0 ([b627ef2](https://github.com/City-of-Helsinki/helerm/commit/b627ef2a786b58e70206d11abdd78168bcc4f90d))
+
 ## [1.9.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.1...helerm-v1.9.2) (2026-05-11)
 
 
