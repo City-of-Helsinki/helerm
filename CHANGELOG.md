@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.4](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.3...helerm-v1.9.4) (2026-05-20)
+
+
+### Dependencies
+
+* Bump idna from 3.10 to 3.15 ([0b83c0a](https://github.com/City-of-Helsinki/helerm/commit/0b83c0a5605288ecd2008eac8be433d90af04134))
+
 ## [1.9.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.2...helerm-v1.9.3) (2026-05-19)
 
 
