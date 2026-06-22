@@ -7,17 +7,19 @@
 - Make sure you have the following prerequisites installed:
   - Python 3.12
   - PostgreSQL 17.x
+  - [uv](https://docs.astral.sh/uv/) for dependency management
 
-- Setup and activate a virtualenv, for example using the built in venv
+- Install the dependencies and create the virtualenv. `uv` automatically
+  creates a `.venv` based on `pyproject.toml` and `uv.lock`.
+
 ```bash
-python -m venv venv
-source venv/bin/activate
+uv sync
 ```
-- Install required Python packages
+
+- Activate the virtualenv (optional, you can also prefix commands with `uv run`)
 
 ```bash
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
+source .venv/bin/activate
 ```
 
 - Copy `config_dev.env.example` to `config_dev.env` and edit according
@@ -80,11 +82,29 @@ docker compose exec django python manage.py migrate
 
 ## Development
 
-- [pip-tools](https://github.com/nvie/pip-tools) is used to ease requirement handling.
-  To install development packages, run
+- [uv](https://docs.astral.sh/uv/) is used for dependency management.
+  Production dependencies are defined in `[project].dependencies`, development
+  dependencies in `[dependency-groups].dev` and the uWSGI production server
+  dependencies in `[dependency-groups].prod` in `pyproject.toml`. The
+  `uv.lock` file pins the exact resolved versions.
+
+- To install / sync all development dependencies, run
 
 ```
-pip-sync requirements.txt requirements-dev.txt
+uv sync
+```
+
+- To add a new dependency, run (this updates `pyproject.toml` and `uv.lock`)
+
+```
+uv add <package>
+uv add --dev <package>   # development dependency
+```
+
+- To upgrade the locked dependencies, run
+
+```
+uv lock --upgrade
 ```
 
 - To start the development server, run
