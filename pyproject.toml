@@ -2,6 +2,47 @@
 name = "helerm"
 requires-python = ">=3.12, <3.13"
 version = "1.9.4"
+dependencies = [
+    "Django~=5.2",
+    "django-elasticsearch-dsl-drf",
+    "django-environ",
+    "django-helusers",
+    "elasticsearch-dsl>=8.0.0,<8.13.0",
+    "elasticsearch<8.14",      # Confirmed version to pass tests
+    "elastic-transport<8.14",  # Confirmed version to pass tests
+    "psycopg[c]",
+    "openpyxl",
+    "djangorestframework",
+    "django-cors-headers",
+    "django-filter",
+    "django-admin-json-editor",
+    "django-admin-sortable2",
+    "django-helsinki-health-endpoints",
+    "djangorestframework-xml",
+    "ipython",
+    "lxml",
+    "sentry-sdk",
+    "social-auth-app-django",
+    "social-auth-core",
+    "setuptools>=82.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "freezegun",
+    "pep8-naming",
+    "pytest",
+    "pytest-cov",
+    "pytest-django",
+]
+prod = [
+    "uwsgi",
+    "uwsgitop",
+]
+
+[tool.uv]
+package = false
+exclude-newer = "P3D"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "helerm.test_settings"
@@ -28,8 +69,3 @@ select = [
     "T20",
 ]
 extend-per-file-ignores = { "*/migrations/*" = ["E501"], "*/tests/*" = ["E501"] }
-
-[tool.pip-tools.compile]
-generate-hashes = true
-strip-extras = true
-allow-unsafe = true
