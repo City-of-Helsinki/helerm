@@ -14,6 +14,11 @@ if [[ "$APPLY_MIGRATIONS" = "True" ]]; then
     ./manage.py migrate --noinput
 fi
 
+if [[ "$COLLECT_STATIC" = "True" ]]; then
+    echo "Collecting static files..."
+    ./manage.py collectstatic --noinput
+fi
+
 # Create admin user. Generate password if there isn't one in the environment variables
 if [[ "$CREATE_SUPERUSER" = "True" ]]; then
     if [[ "$ADMIN_USER_PASSWORD" ]]; then
