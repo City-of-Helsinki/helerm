@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.9.5](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.4...helerm-v1.9.5) (2026-06-23)
+
+
+### Dependencies
+
+* Bump cryptography from 46.0.7 to 48.0.1 ([1a1a66f](https://github.com/City-of-Helsinki/helerm/commit/1a1a66f66b428cf022b44807d41e2e76f5cafa4a))
+* Bump pyjwt from 2.12.0 to 2.13.0 ([ecc2923](https://github.com/City-of-Helsinki/helerm/commit/ecc29239e73983aaad6429ce71bb0948233acd71))
+
 ## [1.9.4](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.3...helerm-v1.9.4) (2026-05-20)
 
 
