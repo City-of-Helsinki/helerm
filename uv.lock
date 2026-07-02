@@ -450,7 +450,7 @@ wheels = [
 
 [[package]]
 name = "helerm"
-version = "1.9.4"
+version = "1.9.6"
 source = { virtual = "." }
 dependencies = [
     { name = "django" },
