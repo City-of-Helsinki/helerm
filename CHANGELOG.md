@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.6](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.5...helerm-v1.9.6) (2026-07-02)
+
+
+### Bug Fixes
+
+* **release-please:** Update uv.lock TOML JSONPath ([41985b5](https://github.com/City-of-Helsinki/helerm/commit/41985b50ac415cc408efbbddcdacb936d2cdca32))
+
 ## [1.9.5](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.4...helerm-v1.9.5) (2026-06-23)
 
 
