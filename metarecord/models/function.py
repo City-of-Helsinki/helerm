@@ -127,7 +127,7 @@ class Function(StructuralElement):
         "conditionally_disallowed": {
             "RetentionPeriodStart": {"RetentionPeriod": ("-1",)}
         },
-        "multivalued": ("InformationSystem", "Subject"),
+        "multivalued": ("InformationSystem", "SecurityReason", "Subject"),
         "allow_values_outside_choices": ("InformationSystem", "Subject"),
     }
 

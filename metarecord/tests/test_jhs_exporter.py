@@ -4,7 +4,7 @@ from unittest import mock
 
 import freezegun
 import pytest
-from lxml import etree
+from lxml import etree, objectify
 from rest_framework.test import APIClient
 
 import metarecord.exporter.jhs as jhs
@@ -200,3 +200,60 @@ def test_exporter_create_xml_error_during_build():
 def test_fix_xml_declaration(xml_declaration, expected):
     """Test that fix_xml_declaration fixes the XML declaration."""
     assert jhs.exporter.fix_xml_declaration_single_quotes(xml_declaration) == expected
+
+
+def _get_tag(element):
+    return etree.QName(element.tag).localname
+
+
+def test_create_element_or_none_returns_list_of_elements_for_list_value():
+    """Test that a list attribute value produces a list of elements."""
+    obj = mock.Mock(attributes={"SecurityReason": ["JulkL 24.1 § 1 k", "JulkL 24.1 § 3 k"]})
+    result = jhs.builder._create_element_or_none_from_obj_attr(
+        obj, jhs.bindings.SALASSAPITO_PERUSTE_TEKSTI, "SecurityReason"
+    )
+    assert isinstance(result, list)
+    assert len(result) == 2
+    assert all(_get_tag(el) == "SalassapitoPerusteTeksti" for el in result)
+    assert result[0].text == "JulkL 24.1 § 1 k"
+    assert result[1].text == "JulkL 24.1 § 3 k"
+
+
+def test_create_element_or_none_returns_single_element_for_string_value():
+    """Test that a string attribute value still produces a single element."""
+    obj = mock.Mock(attributes={"SecurityReason": "JulkL 24.1 § 1 k"})
+    result = jhs.builder._create_element_or_none_from_obj_attr(
+        obj, jhs.bindings.SALASSAPITO_PERUSTE_TEKSTI, "SecurityReason"
+    )
+    assert not isinstance(result, list)
+    assert _get_tag(result) == "SalassapitoPerusteTeksti"
+    assert result.text == "JulkL 24.1 § 1 k"
+
+
+def test_build_restriction_info_produces_multiple_security_reason_elements():
+    """Test that a list SecurityReason produces one element per value in the XML."""
+    obj = mock.Mock(
+        attributes={
+            "SecurityReason": ["JulkL 24.1 § 1 k", "JulkL 24.1 § 3 k"],
+        }
+    )
+    restriction = jhs.builder._build_restriction_info(obj)
+    security_reason_elements = [
+        el for el in restriction.iterchildren()
+        if _get_tag(el) == "SalassapitoPerusteTeksti"
+    ]
+    assert len(security_reason_elements) == 2
+    assert security_reason_elements[0].text == "JulkL 24.1 § 1 k"
+    assert security_reason_elements[1].text == "JulkL 24.1 § 3 k"
+
+
+def test_build_restriction_info_single_security_reason_still_works():
+    """Test that a single string SecurityReason still produces one element."""
+    obj = mock.Mock(attributes={"SecurityReason": "JulkL 24.1 § 1 k"})
+    restriction = jhs.builder._build_restriction_info(obj)
+    security_reason_elements = [
+        el for el in restriction.iterchildren()
+        if _get_tag(el) == "SalassapitoPerusteTeksti"
+    ]
+    assert len(security_reason_elements) == 1
+    assert security_reason_elements[0].text == "JulkL 24.1 § 1 k"

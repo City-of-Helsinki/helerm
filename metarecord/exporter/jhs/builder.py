@@ -69,31 +69,38 @@ def _create_element_or_none_from_obj_attr(obj, element, attr: str):
     """
     Create an element from the given attribute of the given object.
     If the attribute is None, return None instead.
+    If the attribute is a list, return a list of elements.
 
     :param obj: The object to get the attribute from
     :param element: The element to create
     :param attr: The attribute to get the value from
-    :return: The created element or None
+    :return: The created element, a list of elements, or None
     """
     value = _get_attribute_value(obj, attr)
     if value is None:
         return None
+    if isinstance(value, list):
+        return [element(v) for v in value]
     return element(value)
 
 
 def _generate_elements_from_obj(obj, element_to_attribute: dict):
     """
     Generate elements from the given attributes of the given object.
+    If an attribute value is a list, a separate element is created for each item.
 
     :param obj: The object to get the attributes from
     :param element_to_attribute: A dictionary mapping elements to attributes
     :return: A list of elements
     """
-    elements = [
-        _create_element_or_none_from_obj_attr(obj, elem, attr)
-        for elem, attr in element_to_attribute.items()
-    ]
-    return elements
+    result = []
+    for element, attribute in element_to_attribute.items():
+        value = _create_element_or_none_from_obj_attr(obj, element, attribute)
+        if isinstance(value, list):
+            result.extend(value)
+        else:
+            result.append(value)
+    return result
 
 
 def _build_restriction_info(obj):
