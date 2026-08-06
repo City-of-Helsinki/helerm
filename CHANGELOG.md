@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.9.6](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.5...helerm-v1.9.6) (2026-08-06)
+
+
+### Bug Fixes
+
+* **release-please:** Update uv.lock TOML JSONPath ([41985b5](https://github.com/City-of-Helsinki/helerm/commit/41985b50ac415cc408efbbddcdacb936d2cdca32))
+
+
+### Dependencies
+
+* Bump cryptography from 49.0.0 to 50.0.0 ([1d33a65](https://github.com/City-of-Helsinki/helerm/commit/1d33a65de4a1aee7b1a70bc179e7cd4fe2d8172a))
+* Bump pyasn1 from 0.6.3 to 0.6.4 ([1609fe5](https://github.com/City-of-Helsinki/helerm/commit/1609fe51e8b0c806deeb1dc5ba8a8597cfa2e485))
+* Bump setuptools from 82.0.1 to 83.0.0 ([9a2deae](https://github.com/City-of-Helsinki/helerm/commit/9a2deae04e748b6cf159e1a5639086218d6fd683))
+
 ## [1.9.5](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.4...helerm-v1.9.5) (2026-06-23)
 
 
