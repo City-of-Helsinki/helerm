@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.10.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.6...helerm-v1.10.0) (2026-08-11)
+
+
+### Features
+
+* Allow multiple SecurityReason values ([3b51c17](https://github.com/City-of-Helsinki/helerm/commit/3b51c174bac92c1481f804f340cfd6a753b36f07))
+
+
+### Dependencies
+
+* Bump django from 5.2.15 to 5.2.16 ([0c53e41](https://github.com/City-of-Helsinki/helerm/commit/0c53e415ab5b37f66b44aefc9a281e7fbbb933c2))
+
 ## [1.9.6](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.9.5...helerm-v1.9.6) (2026-08-06)
 
 
