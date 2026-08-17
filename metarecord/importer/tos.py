@@ -300,9 +300,9 @@ class TOSImporter:
 
         for idx, phase in enumerate(function["phases"], 1):
             phase_obj = self._save_structural_element(Phase, function_obj, phase, idx)
-            for idx, action in enumerate(phase["actions"], 1):
+            for action_idx, action in enumerate(phase["actions"], 1):
                 action_obj = self._save_structural_element(
-                    Action, phase_obj, action, idx
+                    Action, phase_obj, action, action_idx
                 )
                 record_idx = 0
                 for record in action["records"]:
