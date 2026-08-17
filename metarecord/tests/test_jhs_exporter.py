@@ -4,7 +4,7 @@ from unittest import mock
 
 import freezegun
 import pytest
-from lxml import etree, objectify
+from lxml import etree
 from rest_framework.test import APIClient
 
 import metarecord.exporter.jhs as jhs
@@ -208,7 +208,9 @@ def _get_tag(element):
 
 def test_create_element_or_none_returns_list_of_elements_for_list_value():
     """Test that a list attribute value produces a list of elements."""
-    obj = mock.Mock(attributes={"SecurityReason": ["JulkL 24.1 § 1 k", "JulkL 24.1 § 3 k"]})
+    obj = mock.Mock(
+        attributes={"SecurityReason": ["JulkL 24.1 § 1 k", "JulkL 24.1 § 3 k"]}
+    )
     result = jhs.builder._create_element_or_none_from_obj_attr(
         obj, jhs.bindings.SALASSAPITO_PERUSTE_TEKSTI, "SecurityReason"
     )
@@ -239,7 +241,8 @@ def test_build_restriction_info_produces_multiple_security_reason_elements():
     )
     restriction = jhs.builder._build_restriction_info(obj)
     security_reason_elements = [
-        el for el in restriction.iterchildren()
+        el
+        for el in restriction.iterchildren()
         if _get_tag(el) == "SalassapitoPerusteTeksti"
     ]
     assert len(security_reason_elements) == 2
@@ -252,7 +255,8 @@ def test_build_restriction_info_single_security_reason_still_works():
     obj = mock.Mock(attributes={"SecurityReason": "JulkL 24.1 § 1 k"})
     restriction = jhs.builder._build_restriction_info(obj)
     security_reason_elements = [
-        el for el in restriction.iterchildren()
+        el
+        for el in restriction.iterchildren()
         if _get_tag(el) == "SalassapitoPerusteTeksti"
     ]
     assert len(security_reason_elements) == 1
