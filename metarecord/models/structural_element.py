@@ -1,4 +1,5 @@
 import uuid
+from collections import defaultdict
 from collections.abc import Iterable
 from copy import deepcopy
 
@@ -7,7 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .attribute import Attribute
+from .attribute import Attribute, AttributeValue
 from .attribute_validation import AttributeValidationRule
 from .base import TimeStampedModel
 
@@ -222,6 +223,12 @@ def get_attribute_json_schema(**kwargs):  # noqa: C901
     else:
         allowed_attributes = Attribute.objects.filter(identifier__in=kwargs["allowed"])
 
+    values_by_attribute = defaultdict(list)
+    for attribute_id, value in AttributeValue.objects.filter(
+        attribute__in=allowed_attributes
+    ).values_list("attribute_id", "value"):
+        values_by_attribute[attribute_id].append(value)
+
     allowed = {attr.identifier for attr in allowed_attributes}
     required = kwargs.get("required") or set()
     conditionally_required = kwargs.get("conditionally_required") or {}
@@ -236,7 +243,7 @@ def get_attribute_json_schema(**kwargs):  # noqa: C901
     properties = {}
 
     for attribute in allowed_attributes:
-        values = attribute.values.values_list("value", flat=True)  # lots of values here
+        values = values_by_attribute[attribute.id]
         attribute_type = {"enum": values} if values else {"type": "string"}
 
         if not multivalued or attribute.identifier not in multivalued:
@@ -301,7 +308,7 @@ def get_attribute_json_schema(**kwargs):  # noqa: C901
         except StopIteration:
             continue
 
-        not_values = set(attribute.values.values_list("value", flat=True)) - set(values)
+        not_values = set(values_by_attribute[attribute.id]) - set(values)
         all_of.append(
             _get_conditionally_required_schema(
                 [required_attribute], condition_attribute, not_values
