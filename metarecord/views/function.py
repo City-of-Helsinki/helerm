@@ -459,6 +459,10 @@ class FunctionViewSet(DetailSerializerMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = self.queryset.filter_for_user(self.request.user)
 
+        # The detail serializer nests phases -> actions -> records
+        if self.action in ("retrieve", "update", "partial_update"):
+            queryset = queryset.prefetch_related("phases__actions__records")
+
         if "version" in self.request.query_params:
             return queryset
 
