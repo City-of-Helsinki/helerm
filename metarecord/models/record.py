@@ -74,7 +74,7 @@ class Record(StructuralElement):
         "conditionally_disallowed": {
             "RetentionPeriodStart": {"RetentionPeriod": ("-1",)}
         },
-        "multivalued": ("InformationSystem", "SecurityReason", "Subject"),
+        "multivalued": ("InformationSystem", "Subject"),
         "allow_values_outside_choices": ("InformationSystem", "Subject"),
     }
 

@@ -232,7 +232,7 @@ xx.04.2014: palautekierrosten perusteella muokattu versio
 			<xs:element ref="tos:TurvallisuusluokkaKoodi" minOccurs="0"/>
 			<xs:element ref="tos:HenkilotietoluonneKoodi" minOccurs="0"/>
 			<xs:element ref="tos:SalassapitoAikaArvo" minOccurs="0"/>
-			<xs:element ref="tos:SalassapitoPerusteTeksti" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tos:SalassapitoPerusteTeksti" minOccurs="0"/>
 			<xs:element ref="tos:SalassapidonLaskentaperusteTeksti" minOccurs="0"/>
 			<xs:element ref="tos:Laajennos" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
