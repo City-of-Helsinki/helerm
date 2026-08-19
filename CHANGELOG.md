@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.10.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.10.1...helerm-v1.10.2) (2026-08-19)
+
+
+### Bug Fixes
+
+* Add missing input label ([78e716a](https://github.com/City-of-Helsinki/helerm/commit/78e716a19705291b26d38901789cae3adc400e12))
+* Rename loop variable due to outer loop shadowing ([d7beb7c](https://github.com/City-of-Helsinki/helerm/commit/d7beb7c982b2b5a900ead27a97c60ce247c7621e))
+
+
+### Dependencies
+
+* Bump sqlparse from 0.5.5 to 0.6.0 ([59136f7](https://github.com/City-of-Helsinki/helerm/commit/59136f73cb9fbe8431a6c4661cf5bee176e139b7))
+
+
+### Reverts
+
+* "feat: allow multiple SecurityReason values" ([77f4b52](https://github.com/City-of-Helsinki/helerm/commit/77f4b520695f84e31f998773e36c376be29658e7))
+
 ## [1.10.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.10.0...helerm-v1.10.1) (2026-08-14)
 
 
