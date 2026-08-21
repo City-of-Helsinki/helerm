@@ -32,10 +32,10 @@ body.loading .loading-modal {
 }
 
 .log-warning {
-    color: red;
+    color: #b00020;
 }
 
 .log-error {
     color: white;
-    background-color: red;
+    background-color: #b00020;
 }
