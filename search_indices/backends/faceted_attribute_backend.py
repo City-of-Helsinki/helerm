@@ -49,10 +49,10 @@ class FacetedAttributeBackend(BaseFilterBackend, FilterBackendMixin):
                 )
 
             if attributes:
-                attrs += map(
-                    lambda x, model=model: f"{str(model._meta.verbose_name)}_{x}",
-                    attributes["allowed"],
-                )
+                attrs += [
+                    f"{model._meta.verbose_name!s}_{attribute}"
+                    for attribute in attributes["allowed"]
+                ]
         return attrs
 
     def filter_queryset(
