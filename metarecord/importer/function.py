@@ -25,7 +25,7 @@ class FunctionImporter:
             else:
                 parent = None
             defaults = {"name": row[1], "parent": parent}
-            obj, created = Function.objects.latest_version().get_or_create(
+            obj, _ = Function.objects.latest_version().get_or_create(
                 function_id=function_id, defaults=defaults
             )
             print(obj)  # noqa: T201

@@ -472,7 +472,7 @@ class TOSImporter:
                     cleaned_value = self._clean_attribute_value(value)
                     if not cleaned_value:
                         raise ValueError('Invalid value: "%s"' % value)
-                    obj, created = AttributeValue.objects.get_or_create(
+                    _, created = AttributeValue.objects.get_or_create(
                         attribute=attribute_obj, value=cleaned_value
                     )
                 except ValueError as e:

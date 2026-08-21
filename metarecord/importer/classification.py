@@ -58,7 +58,7 @@ class ClassificationImporter:
                 except IndexError:
                     pass
 
-            obj, created = Classification.objects.update_or_create(
+            obj, _ = Classification.objects.update_or_create(
                 code=code, defaults=defaults
             )
 
