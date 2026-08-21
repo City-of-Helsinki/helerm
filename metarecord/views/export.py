@@ -23,7 +23,7 @@ def create_saved_jhs_xml():
         return xml
 
     except JHSExporterException as e:
-        logger.error("Exception while creating a cached JHS191 XML export: %s" % e)
+        logger.exception("Exception while creating a cached JHS191 XML export: %s", e)
         raise APIException("Could not create an XML export.")
 
 
@@ -57,7 +57,7 @@ class ExportView(APIView):
         try:
             xml = exporter.create_xml(queryset=queryset)
         except JHSExporterException as e:
-            logger.error("Exception while creating a XML export: %s" % e)
+            logger.exception("Exception while creating a XML export: %s", e)
             raise APIException("Could not create an XML export.")
 
         response = HttpResponse(xml, content_type="application/xml")

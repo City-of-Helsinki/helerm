@@ -44,7 +44,7 @@ class JHSExporter:
         try:
             tos_root = build_tos_document(queryset)
         except Exception as e:
-            logger.error("ERROR building XML: %s" % e)
+            logger.exception("ERROR building XML: %s", e)
             raise JHSExporterException(e) from e
 
         xml = etree.tostring(
@@ -71,7 +71,7 @@ class JHSExporter:
         try:
             objectify.fromstring(xml, parser)
         except Exception as e:
-            logger.error("ERROR validating XML: %s" % e)
+            logger.exception("ERROR validating XML: %s", e)
             raise JHSExporterException(e) from e
 
     def export_data(self, filename):
@@ -84,5 +84,5 @@ class JHSExporter:
                 f.write(xml)
                 logger.info("File written")
         except Exception as e:
-            logger.error("ERROR writing to the file: %s" % e)
+            logger.exception("ERROR writing to the file: %s", e)
             raise JHSExporterException(e) from e
