@@ -5,6 +5,8 @@ from django.utils.translation import gettext_lazy as _
 from .classification import Classification
 from .structural_element import StructuralElement
 
+RESTRICTED_PUBLICITY_CLASSES = ("Salassa pidettävä", "Osittain salassa pidettävä")
+
 
 class FunctionQuerySet(models.QuerySet):
     def latest_version(self):
@@ -114,15 +116,11 @@ class Function(StructuralElement):
             "SocialSecurityNumber",
         ),
         "conditionally_required": {
-            "SecurityPeriod": {
-                "PublicityClass": ("Salassa pidettävä", "Osittain salassa pidettävä")
-            },
+            "SecurityPeriod": {"PublicityClass": RESTRICTED_PUBLICITY_CLASSES},
             "Restriction.SecurityPeriodStart": {
-                "PublicityClass": ("Salassa pidettävä", "Osittain salassa pidettävä")
+                "PublicityClass": RESTRICTED_PUBLICITY_CLASSES
             },
-            "SecurityReason": {
-                "PublicityClass": ("Salassa pidettävä", "Osittain salassa pidettävä")
-            },
+            "SecurityReason": {"PublicityClass": RESTRICTED_PUBLICITY_CLASSES},
         },
         "conditionally_disallowed": {
             "RetentionPeriodStart": {"RetentionPeriod": ("-1",)}
