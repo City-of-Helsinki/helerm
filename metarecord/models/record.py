@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from .action import Action
 from .structural_element import StructuralElement
 
+RESTRICTED_PUBLICITY_CLASSES = ("Salassa pidettävä", "Osittain salassa pidettävä")
+
 
 class Record(StructuralElement):
     action = models.ForeignKey(
@@ -61,15 +63,11 @@ class Record(StructuralElement):
             "SocialSecurityNumber",
         ),
         "conditionally_required": {
-            "SecurityPeriod": {
-                "PublicityClass": ("Salassa pidettävä", "Osittain salassa pidettävä")
-            },
+            "SecurityPeriod": {"PublicityClass": RESTRICTED_PUBLICITY_CLASSES},
             "Restriction.SecurityPeriodStart": {
-                "PublicityClass": ("Salassa pidettävä", "Osittain salassa pidettävä")
+                "PublicityClass": RESTRICTED_PUBLICITY_CLASSES
             },
-            "SecurityReason": {
-                "PublicityClass": ("Salassa pidettävä", "Osittain salassa pidettävä")
-            },
+            "SecurityReason": {"PublicityClass": RESTRICTED_PUBLICITY_CLASSES},
         },
         "conditionally_disallowed": {
             "RetentionPeriodStart": {"RetentionPeriod": ("-1",)}

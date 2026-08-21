@@ -13,7 +13,7 @@ class Command(BaseCommand):
         print("Creating initial functions...")  # noqa: T201
 
         for classification in Classification.objects.all():
-            obj, created = Function.objects.get_or_create(classification=classification)
+            _, created = Function.objects.get_or_create(classification=classification)
             if created:
                 print(classification)  # noqa: T201
 

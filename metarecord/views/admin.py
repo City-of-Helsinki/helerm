@@ -43,11 +43,11 @@ def tos_import_view(request, context: dict = None):
                 messages.INFO,
                 _('File "%s" was imported successfully!') % filename,
             )
-        except Exception as e:
+        except Exception:
             messages.add_message(
                 request, messages.ERROR, _('Error importing file "%s"') % filename
             )
-            logger.error(e)
+            logger.exception("Error importing file %s", filename)
 
         context["logs"] = handler.log_records
 
