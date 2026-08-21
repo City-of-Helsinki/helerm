@@ -6,6 +6,8 @@ from rest_framework import exceptions, serializers
 
 from metarecord.models import Attribute, Classification, StructuralElement
 
+REQUIRED_ATTRIBUTE_ERROR_MESSAGE = _("This attribute is required.")
+
 
 class BaseModelSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True, format="hex")
@@ -140,7 +142,7 @@ class StructuralElementSerializer(serializers.ModelSerializer):
 
         for attribute in required_attributes:
             if attribute not in instance.attributes.keys():
-                attribute_errors[attribute].append(_("This attribute is required."))
+                attribute_errors[attribute].append(REQUIRED_ATTRIBUTE_ERROR_MESSAGE)
 
         for attribute, value in instance.attributes.items():
             if attribute not in valid_attribute_dict:
@@ -181,11 +183,11 @@ class StructuralElementSerializer(serializers.ModelSerializer):
         for all_or_none in instance.get_all_or_none_attributes():
             for missing_attribute in all_or_none - instance.attributes.keys():
                 if (
-                    _("This attribute is required.")
+                    REQUIRED_ATTRIBUTE_ERROR_MESSAGE
                     not in attribute_errors[missing_attribute]
                 ):
                     attribute_errors[missing_attribute].append(
-                        _("This attribute is required.")
+                        REQUIRED_ATTRIBUTE_ERROR_MESSAGE
                     )
 
         if attribute_errors:
