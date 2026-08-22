@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.10.2...helerm-v1.10.3) (2026-08-22)
+
+
+### Bug Fixes
+
+* N+1 query problem in attribute schemas ([2c429e3](https://github.com/City-of-Helsinki/helerm/commit/2c429e3b8f6e3a5b4f7737fefe0a01131f17c79e))
+* N+1 query problem in function action ([f92c4fb](https://github.com/City-of-Helsinki/helerm/commit/f92c4fba24153a083f10e08fc3d0b71f5b7da652))
+
 ## [1.10.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.10.1...helerm-v1.10.2) (2026-08-19)
 
 
