@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.10.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.10.2...helerm-v1.10.3) (2026-08-26)
+
+
+### Bug Fixes
+
+* Improve import log contrast ([6c9b0e1](https://github.com/City-of-Helsinki/helerm/commit/6c9b0e14daaced60414bac0c28e7e2ccf03a1b04))
+* N+1 query problem in attribute schemas ([2c429e3](https://github.com/City-of-Helsinki/helerm/commit/2c429e3b8f6e3a5b4f7737fefe0a01131f17c79e))
+* N+1 query problem in function action ([f92c4fb](https://github.com/City-of-Helsinki/helerm/commit/f92c4fba24153a083f10e08fc3d0b71f5b7da652))
+* Preserve exception tracebacks in logs ([199d696](https://github.com/City-of-Helsinki/helerm/commit/199d696a448d4877be90df287be2dacd7f1f946c))
+
 ## [1.10.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.10.1...helerm-v1.10.2) (2026-08-19)
 
 
