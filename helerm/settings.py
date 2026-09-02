@@ -140,6 +140,7 @@ INSTALLED_APPS = [
     "search_indices",
     "users",
     "helsinki_health_endpoints",
+    "logger_extra",
 ]
 
 # Django helsinki health endpoitns
@@ -176,6 +177,7 @@ if env("SENTRY_DSN"):
 
 
 MIDDLEWARE = [
+    "logger_extra.middleware.XRequestIdMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -219,25 +221,44 @@ if env("DATABASE_PASSWORD"):
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "filters": {
+        "context": {
+            "()": "logger_extra.filter.LoggerContextFilter",
+        }
+    },
     "formatters": {
-        "timestamped_named": {
-            "format": "%(asctime)s %(name)s %(levelname)s: %(message)s",
+        "json": {
+            "()": "logger_extra.formatter.JSONFormatter",
         },
     },
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
-            "formatter": "timestamped_named",
-        },
-        # Just for reference, not used
-        "blackhole": {
-            "class": "logging.NullHandler",
+            "formatter": "json",
+            "filters": ["context"],
         },
     },
     "loggers": {
+        "": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+        },
         "django": {
             "handlers": ["console"],
             "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": False,
+        },
+        "django.server": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": False,
+        },
+        # Special configuration for elasticsearch, as INFO level prints
+        # out every single call to elasticsearch
+        "elasticsearch": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False,
         },
     },
 }
