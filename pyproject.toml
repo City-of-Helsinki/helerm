@@ -25,6 +25,7 @@ dependencies = [
     "social-auth-app-django",
     "social-auth-core",
     "setuptools>=83.0.0",
+    "django-logger-extra",
 ]
 
 [dependency-groups]
