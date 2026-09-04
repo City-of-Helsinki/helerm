@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.11.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.10.3...helerm-v1.11.0) (2026-09-04)
+
+
+### Features
+
+* Add structured JSON application logging ([4b27a1d](https://github.com/City-of-Helsinki/helerm/commit/4b27a1d177b6930690669becb24036c9b99f6b40))
+
+
+### Dependencies
+
+* Bump djangorestframework from 3.17.1 to 3.17.2 ([1f018af](https://github.com/City-of-Helsinki/helerm/commit/1f018af0b798ae7f06c5999cbb6cff5252ab2cb8))
+
 ## [1.10.3](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.10.2...helerm-v1.10.3) (2026-08-26)
 
 
