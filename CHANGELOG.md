@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.11.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.11.0...helerm-v1.11.1) (2026-10-02)
+
+
+### Dependencies
+
+* Bump oauthlib from 3.3.1 to 4.0.0 ([4ba48c7](https://github.com/City-of-Helsinki/helerm/commit/4ba48c7fc83b0a0501164219a0b9579b1accd980))
+* Bump pyjwt from 2.13.0 to 2.15.0 ([5954ba3](https://github.com/City-of-Helsinki/helerm/commit/5954ba30129d9188e4bab745adb356ac3b1ea5d2))
+* Bump social-auth-core from 4.9.1 to 5.0.0 ([6ff892c](https://github.com/City-of-Helsinki/helerm/commit/6ff892c87d7310d1101de828112b1f5a7620d3a2))
+* Bump urllib3 from 2.7.0 to 2.8.0 ([3e008dd](https://github.com/City-of-Helsinki/helerm/commit/3e008dd688a8ee642d580c9873da21898332ec14))
+
 ## [1.11.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.10.3...helerm-v1.11.0) (2026-09-04)
 
 
