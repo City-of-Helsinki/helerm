@@ -24,7 +24,7 @@ dependencies = [
     "sentry-sdk",
     "social-auth-app-django",
     "social-auth-core",
-    "setuptools>=83.0.0",
+    "setuptools",
     "django-logger-extra",
 ]
 
