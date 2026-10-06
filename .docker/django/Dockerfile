@@ -6,7 +6,7 @@ FROM registry.access.redhat.com/ubi9/python-312 AS appbase
 ARG UWSGI_COMMON_REF=1a9d30d172c2c1ca00d5025a4464e98e00565c44
 
 # Install uv
-COPY --from=ghcr.io/astral-sh/uv:0.11.23@sha256:d0a0a753ab981624b49c97abc98821c1c09f4ca69d1ef5cee69c501be3d88479 /uv /uvx /usr/local/bin/
+COPY --from=ghcr.io/astral-sh/uv:0.12.23@sha256:61d393e44e249f2e4b526b6c7ddcecce245946826e608e11c93ad4f5bba55b21 /uv /uvx /usr/local/bin/
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
