@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.11.1...helerm-v1.11.2) (2026-10-06)
+
+
+### Dependencies
+
+* Bump django-helusers ([9b75067](https://github.com/City-of-Helsinki/helerm/commit/9b75067ac15cabf1069d03a03d80d00d5be60223))
+
 ## [1.11.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.11.0...helerm-v1.11.1) (2026-10-02)
 
 
