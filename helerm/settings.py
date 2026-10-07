@@ -90,6 +90,12 @@ env = environ.Env(
     OIDC_API_TOKEN_AUTH_ISSUER=(list, ["https://api.hel.fi/sso"]),
     OIDC_API_AUTHORIZATION_FIELD=(list, ["https://api.hel.fi/auth"]),
     OIDC_REQUIRE_API_SCOPE_FOR_AUTHENTICATION=(bool, False),
+    # Resilient logger config
+    AUDIT_LOG_ENV=(str, ""),
+    AUDIT_LOG_ES_URL=(str, ""),
+    AUDIT_LOG_ES_INDEX=(str, ""),
+    AUDIT_LOG_ES_USERNAME=(str, ""),
+    AUDIT_LOG_ES_PASSWORD=(str, ""),
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -141,6 +147,7 @@ INSTALLED_APPS = [
     "users",
     "helsinki_health_endpoints",
     "logger_extra",
+    "resilient_logger",
 ]
 
 # Django helsinki health endpoitns
@@ -261,6 +268,31 @@ LOGGING = {
             "propagate": False,
         },
     },
+}
+
+RESILIENT_LOGGER = {
+    "origin": "tiedonohjaus-api",
+    "environment": env("AUDIT_LOG_ENV"),
+    "sources": [
+        {
+            "class": "resilient_logger.sources.ResilientLogSource",
+        },
+    ],
+    "targets": [
+        {
+            "class": "resilient_logger.targets.ElasticsearchLogTarget",
+            "es_url": env("AUDIT_LOG_ES_URL"),
+            "es_username": env("AUDIT_LOG_ES_USERNAME"),
+            "es_password": env("AUDIT_LOG_ES_PASSWORD"),
+            "es_index": env("AUDIT_LOG_ES_INDEX"),
+            "es_compress": False,
+            "required": True,
+        }
+    ],
+    "batch_limit": 5000,
+    "chunk_size": 500,
+    "submit_unsent_entries": True,
+    "clear_sent_entries": True,
 }
 
 # Password validation

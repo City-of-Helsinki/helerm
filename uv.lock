@@ -344,6 +344,19 @@ wheels = [
 ]
 
 [[package]]
+name = "django-resilient-logger"
+version = "3.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "elasticsearch8" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c0/a9/ae8034664263373d813a4bef626574129771989754b7377c00014c579c10/django_resilient_logger-3.1.0.tar.gz", hash = "sha256:e770d4e58c7db7cda9f6268624069f41ae31bb0487a76cb555584b1246b93044", size = 31477, upload-time = "2026-10-01T11:45:26.532Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/dd/ca/9c0cbb63293f5a5006b946bad7c3ba09ed48f091176861712248939061c6/django_resilient_logger-3.1.0-py2.py3-none-any.whl", hash = "sha256:46369fbea1dee66b3a05f29b44a56c7c689654f97feb3b57a1e0a53491c86595", size = 29356, upload-time = "2026-10-01T11:45:25.192Z" },
+]
+
+[[package]]
 name = "djangorestframework"
 version = "3.17.2"
 source = { registry = "https://pypi.org/simple" }
@@ -406,6 +419,18 @@ wheels = [
 ]
 
 [[package]]
+name = "elasticsearch8"
+version = "8.15.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "elastic-transport" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f6/09/120a360b7d3445416bf875269536bca00e1b6dea6fa64d7c1d1f9f7e0a1a/elasticsearch8-8.15.1.tar.gz", hash = "sha256:0cbc4db80db9850e69d48d904abae92e277a108ff4866685fb3158135a52d921", size = 414777, upload-time = "2024-09-10T09:13:13.955Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/23/8f/5bce4793e79477618c3cec3b4249b22ac6fa1a19688b5990fb4cbaf6bc7b/elasticsearch8-8.15.1-py3-none-any.whl", hash = "sha256:2863bc791f7be44b8cb19d42795a830a1bec200e7b2e9c444a2e9187d004d64a", size = 524892, upload-time = "2024-09-10T09:13:09.652Z" },
+]
+
+[[package]]
 name = "et-xmlfile"
 version = "2.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -464,6 +489,7 @@ dependencies = [
     { name = "django-helsinki-health-endpoints" },
     { name = "django-helusers" },
     { name = "django-logger-extra" },
+    { name = "django-resilient-logger" },
     { name = "djangorestframework" },
     { name = "djangorestframework-xml" },
     { name = "elastic-transport" },
@@ -504,6 +530,7 @@ requires-dist = [
     { name = "django-helsinki-health-endpoints" },
     { name = "django-helusers" },
     { name = "django-logger-extra" },
+    { name = "django-resilient-logger" },
     { name = "djangorestframework" },
     { name = "djangorestframework-xml" },
     { name = "elastic-transport", specifier = "<8.14" },

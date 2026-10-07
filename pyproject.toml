@@ -26,6 +26,7 @@ dependencies = [
     "social-auth-core",
     "setuptools",
     "django-logger-extra",
+    "django-resilient-logger",
 ]
 
 [dependency-groups]
