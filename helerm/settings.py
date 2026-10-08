@@ -148,6 +148,7 @@ INSTALLED_APPS = [
     "helsinki_health_endpoints",
     "logger_extra",
     "resilient_logger",
+    "auditlog",
 ]
 
 # Django helsinki health endpoitns
@@ -194,6 +195,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "auditlog.middleware.AuditlogMiddleware",
 ]
 
 ROOT_URLCONF = "helerm.urls"
@@ -274,9 +276,7 @@ RESILIENT_LOGGER = {
     "origin": "tiedonohjaus-api",
     "environment": env("AUDIT_LOG_ENV"),
     "sources": [
-        {
-            "class": "resilient_logger.sources.ResilientLogSource",
-        },
+        {"class": "resilient_logger.sources.DjangoAuditLogSource"},
     ],
     "targets": [
         {
