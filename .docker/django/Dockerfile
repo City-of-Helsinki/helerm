@@ -28,7 +28,7 @@ COPY pyproject.toml uv.lock ./
 
 RUN dnf update -y && dnf install -y \
     gettext \
-    && uv sync --frozen --no-dev --group prod --no-install-project \
+    && uv sync --locked --no-dev --group prod --no-install-project \
     && uwsgi --build-plugin https://github.com/City-of-Helsinki/uwsgi-sentry \
     && mkdir -p /usr/local/lib/uwsgi/plugins \
     && mv sentry_plugin.so /usr/local/lib/uwsgi/plugins/ \
@@ -49,7 +49,7 @@ ENTRYPOINT ["/app/.docker/django/docker-entrypoint.sh"]
 FROM appbase AS development
 # ==============================
 
-RUN uv sync --frozen --group dev --group prod --no-install-project
+RUN uv sync --locked --group dev --group prod --no-install-project
 
 ENV DEV_SERVER=True
 
