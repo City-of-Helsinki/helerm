@@ -27,6 +27,7 @@ dependencies = [
     "setuptools",
     "django-logger-extra",
     "django-resilient-logger",
+    "django-auditlog",
 ]
 
 [dependency-groups]
