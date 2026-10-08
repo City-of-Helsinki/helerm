@@ -226,6 +226,19 @@ wheels = [
 ]
 
 [[package]]
+name = "django-auditlog"
+version = "3.4.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "python-dateutil" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/70/e5/2beb2b256775c4fc041ed60cb44f5d77acb6cde307f01567dcf2756721a7/django_auditlog-3.4.1.tar.gz", hash = "sha256:ad07b9db452d5fa8303822cccd78cd3fcb2c2863aeb6abe039ec45739b4d7e33", size = 91611, upload-time = "2025-12-18T08:56:35.378Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/91/37/3239143dddb34a3f64582c43f56587a80c9ac136cbd34fc215077f83beb9/django_auditlog-3.4.1-py3-none-any.whl", hash = "sha256:29958ecacfee00144127214f3ccef3f0c203c3659bcb6dd404a0f3d5551a10a5", size = 49541, upload-time = "2025-12-18T08:56:23.483Z" },
+]
+
+[[package]]
 name = "django-cors-headers"
 version = "4.9.0"
 source = { registry = "https://pypi.org/simple" }
@@ -482,6 +495,7 @@ dependencies = [
     { name = "django" },
     { name = "django-admin-json-editor" },
     { name = "django-admin-sortable2" },
+    { name = "django-auditlog" },
     { name = "django-cors-headers" },
     { name = "django-elasticsearch-dsl-drf" },
     { name = "django-environ" },
@@ -523,6 +537,7 @@ requires-dist = [
     { name = "django", specifier = "~=5.2" },
     { name = "django-admin-json-editor" },
     { name = "django-admin-sortable2" },
+    { name = "django-auditlog" },
     { name = "django-cors-headers" },
     { name = "django-elasticsearch-dsl-drf" },
     { name = "django-environ" },
