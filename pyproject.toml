@@ -28,6 +28,7 @@ dependencies = [
     "django-logger-extra",
     "django-resilient-logger",
     "django-auditlog",
+    "django-auditlog-extra @ https://github.com/City-of-Helsinki/django-auditlog-extra/archive/64476c69a68023f78e423be466ac16723b1c8b92.zip",
 ]
 
 [dependency-groups]
