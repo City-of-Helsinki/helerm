@@ -239,6 +239,27 @@ wheels = [
 ]
 
 [[package]]
+name = "django-auditlog-extra"
+version = "0.1.0"
+source = { url = "https://github.com/City-of-Helsinki/django-auditlog-extra/archive/64476c69a68023f78e423be466ac16723b1c8b92.zip" }
+dependencies = [
+    { name = "django" },
+    { name = "django-auditlog" },
+]
+sdist = { hash = "sha256:da2d90ab52ad1c4b26264eb3addf50f60318bf52e41ae98cea4bd1ff152ca9e8" }
+
+[package.metadata]
+requires-dist = [
+    { name = "coverage", marker = "extra == 'test'" },
+    { name = "django", specifier = ">=5.2" },
+    { name = "django-auditlog", specifier = ">=3.0.0" },
+    { name = "django-auditlog-extra", extras = ["test"], marker = "extra == 'all'" },
+    { name = "pytest", marker = "extra == 'test'" },
+    { name = "pytest-django", marker = "extra == 'test'" },
+]
+provides-extras = ["test", "all"]
+
+[[package]]
 name = "django-cors-headers"
 version = "4.9.0"
 source = { registry = "https://pypi.org/simple" }
@@ -496,6 +517,7 @@ dependencies = [
     { name = "django-admin-json-editor" },
     { name = "django-admin-sortable2" },
     { name = "django-auditlog" },
+    { name = "django-auditlog-extra" },
     { name = "django-cors-headers" },
     { name = "django-elasticsearch-dsl-drf" },
     { name = "django-environ" },
@@ -538,6 +560,7 @@ requires-dist = [
     { name = "django-admin-json-editor" },
     { name = "django-admin-sortable2" },
     { name = "django-auditlog" },
+    { name = "django-auditlog-extra", url = "https://github.com/City-of-Helsinki/django-auditlog-extra/archive/64476c69a68023f78e423be466ac16723b1c8b92.zip" },
     { name = "django-cors-headers" },
     { name = "django-elasticsearch-dsl-drf" },
     { name = "django-environ" },

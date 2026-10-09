@@ -147,8 +147,10 @@ INSTALLED_APPS = [
     "users",
     "helsinki_health_endpoints",
     "logger_extra",
-    "resilient_logger",
     "auditlog",
+    "auditlog_extra",
+    "resilient_logger",
+    "helerm",
 ]
 
 # Django helsinki health endpoitns
@@ -195,7 +197,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "auditlog.middleware.AuditlogMiddleware",
+    "auditlog_extra.middleware.AuditlogMiddleware",
 ]
 
 ROOT_URLCONF = "helerm.urls"
