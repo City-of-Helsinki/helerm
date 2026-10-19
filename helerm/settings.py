@@ -13,6 +13,8 @@ from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.types import SamplingContext
 
+from helerm import auditlog_settings
+
 CONFIG_FILE_NAME = "config_dev.env"
 
 # This will get default settings, as Django has not yet initialized
@@ -296,6 +298,14 @@ RESILIENT_LOGGER = {
     "submit_unsent_entries": True,
     "clear_sent_entries": True,
 }
+
+# Load auditlog settings
+AUDITLOG_INCLUDE_ALL_MODELS = auditlog_settings.AUDITLOG_INCLUDE_ALL_MODELS
+AUDITLOG_DISABLE_REMOTE_ADDR = auditlog_settings.AUDITLOG_DISABLE_REMOTE_ADDR
+AUDITLOG_DISABLE_ON_RAW_SAVE = auditlog_settings.AUDITLOG_DISABLE_ON_RAW_SAVE
+AUDITLOG_EXCLUDE_TRACKING_MODELS = auditlog_settings.AUDITLOG_EXCLUDE_TRACKING_MODELS
+AUDITLOG_INCLUDE_TRACKING_MODELS = auditlog_settings.AUDITLOG_INCLUDE_TRACKING_MODELS
+AUDITLOG_MASK_CALLABLE = auditlog_settings.AUDITLOG_MASK_CALLABLE
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
