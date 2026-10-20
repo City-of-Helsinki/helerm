@@ -297,6 +297,9 @@ RESILIENT_LOGGER = {
     "chunk_size": 500,
     "submit_unsent_entries": True,
     "clear_sent_entries": True,
+    "actor_resolver": (
+        "logger_extra.extras.resilient_logger.resolve_actor_with_masked_email"
+    ),
 }
 # Patch django-auditlog to include less PII when an instance is stringified.
 RESILIENT_LOGGER_PATCH_DJANGO_AUDITLOG = True
