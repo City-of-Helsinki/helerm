@@ -298,6 +298,8 @@ RESILIENT_LOGGER = {
     "submit_unsent_entries": True,
     "clear_sent_entries": True,
 }
+# Patch django-auditlog to include less PII when an instance is stringified.
+RESILIENT_LOGGER_PATCH_DJANGO_AUDITLOG = True
 
 # Load auditlog settings
 AUDITLOG_INCLUDE_ALL_MODELS = auditlog_settings.AUDITLOG_INCLUDE_ALL_MODELS
