@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.12.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.11.2...helerm-v1.12.0) (2026-10-23)
+
+
+### Features
+
+* Add and use django-auditlog ([1bcd518](https://github.com/City-of-Helsinki/helerm/commit/1bcd51841c305957a4277a6e0f2a1e597fa38368))
+* Add django-auditlog-extra ([7b21dd5](https://github.com/City-of-Helsinki/helerm/commit/7b21dd53fd0c28aad0a6e8de2ad5113f76ccbe0a))
+* Configure models for audit logging ([c3fd2e8](https://github.com/City-of-Helsinki/helerm/commit/c3fd2e8e75bbfd3a4471c1ffbd7af8bf4ea0a7d0))
+* Mask audit log actor email ([6192a8d](https://github.com/City-of-Helsinki/helerm/commit/6192a8dd0edf6a1460a617540f39d0d528e0f134))
+* Patch audit log to include less PII ([ce31284](https://github.com/City-of-Helsinki/helerm/commit/ce31284627ab1ba98c71dd3a28929970c15ff35c))
+
+
+### Bug Fixes
+
+* Bump uv version to 0.13.5 ([ba15e28](https://github.com/City-of-Helsinki/helerm/commit/ba15e28196aa805066b7121bdaf7a8298947b30e))
+
+
+### Dependencies
+
+* Add django-resilient-logger ([9fb73dc](https://github.com/City-of-Helsinki/helerm/commit/9fb73dca5edfd66eb7a5cd5ad185c7bd1723a840))
+* Bump certifi from 2026.5.20 to 2026.10.19 ([0b5a384](https://github.com/City-of-Helsinki/helerm/commit/0b5a384f082ac350e24a35345c4f5df62951b2ca))
+* Bump social-auth-core from 5.0.0 to 5.0.2 ([7550f1e](https://github.com/City-of-Helsinki/helerm/commit/7550f1e154a9ab54d4b6d30d0842d20656fbc9f8))
+
 ## [1.11.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.11.1...helerm-v1.11.2) (2026-10-06)
 
 
