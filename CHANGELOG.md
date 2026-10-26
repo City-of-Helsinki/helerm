@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.12.0...helerm-v1.12.1) (2026-10-26)
+
+
+### Dependencies
+
+* Bump setuptools from 83.0.0 to 84.1.0 ([09bfcda](https://github.com/City-of-Helsinki/helerm/commit/09bfcdaf7e6536292f60b59781e23db5e9dfb425))
+
 ## [1.12.0](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.11.2...helerm-v1.12.0) (2026-10-23)
 
 
