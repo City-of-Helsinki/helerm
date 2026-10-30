@@ -80,6 +80,17 @@ You can run `manage.py` commands in the container. E.g. to perform database migr
 docker compose exec django python manage.py migrate
 ```
 
+If you set `DEV_SERVER=False` in `.docker/django/.env` to run uWSGI locally,
+collect static files before starting the Django service:
+
+```bash
+docker compose run --rm django python manage.py collectstatic --noinput
+```
+
+Repeat this command when static assets change. The default development server
+does not need this step, and the production image collects static files during
+the image build.
+
 ## Development
 
 - [uv](https://docs.astral.sh/uv/) is used for dependency management.
