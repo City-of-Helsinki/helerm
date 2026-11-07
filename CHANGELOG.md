@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.12.1...helerm-v1.12.2) (2026-11-07)
+
+
+### Dependencies
+
+* Bump oauthlib from 4.0.0 to 4.0.1 ([98c2fe5](https://github.com/City-of-Helsinki/helerm/commit/98c2fe5bf74df17ed1529e52b15cfd428e26d243))
+
 ## [1.12.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.12.0...helerm-v1.12.1) (2026-10-26)
 
 
