@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.12.2](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.12.1...helerm-v1.12.2) (2026-11-10)
+
+
+### Dependencies
+
+* Bump django-helusers from 1.3.0 to 1.3.2 ([f357c6f](https://github.com/City-of-Helsinki/helerm/commit/f357c6fb8d60acbdac9219d14e7311c04d375d82))
+* Bump oauthlib from 4.0.0 to 4.0.1 ([98c2fe5](https://github.com/City-of-Helsinki/helerm/commit/98c2fe5bf74df17ed1529e52b15cfd428e26d243))
+* Bump social-auth-core from 5.0.2 to 6.2.0 ([1991b56](https://github.com/City-of-Helsinki/helerm/commit/1991b56f630dd55659d6961ee633c0db3941803b))
+
 ## [1.12.1](https://github.com/City-of-Helsinki/helerm/compare/helerm-v1.12.0...helerm-v1.12.1) (2026-10-26)
 
 
